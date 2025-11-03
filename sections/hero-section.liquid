@@ -6,7 +6,7 @@
       "type": "text",
       "id": "title",
       "label": "Title",
-      "default": "Welcome to Voyage By HYPE"
+      "default": "A WELLNESS EXPERIENCE."
     },
     {
       "type": "textarea",
@@ -18,7 +18,7 @@
       "type": "text",
       "id": "button_text",
       "label": "Button Text",
-      "default": "Start Booking Now"
+      "default": "BOOK YOUR GLOW"
     },
     {
       "type": "url",
@@ -26,10 +26,19 @@
       "label": "Button Link"
     },
     {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
       "type": "select",
       "id": "variation",
       "label": "Hero Style",
       "options": [
+        {
+          "value": "glow",
+          "label": "Glow Deck Style"
+        },
         {
           "value": "style1",
           "label": "Style 1 - Classic"
@@ -51,7 +60,7 @@
           "label": "Style 5 - Minimal"
         }
       ],
-      "default": "style1"
+      "default": "glow"
     }
   ],
   "presets": [
@@ -62,7 +71,17 @@
 }
 {% endschema %}
 
-{% if section.settings.variation == 'style1' %}
+{% if section.settings.variation == 'glow' %}
+  <section class="hero-section hero-glow" style="{% if section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | img_url: '1920x1080' }}');{% endif %}">
+    <div class="hero-glow-content">
+      <h1 class="hero-glow-title">{{ section.settings.title }}</h1>
+      {% if section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="btn-glow-cta">{{ section.settings.button_text }}</a>
+      {% endif %}
+    </div>
+  </section>
+
+{% elsif section.settings.variation == 'style1' %}
   <section class="hero-section" id="hero_main" style="{{section.settings.hero_main}}">
   
     <div class="container">

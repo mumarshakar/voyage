@@ -4,6 +4,8 @@
   --light-orange: #FF8C61;
   --cream: #FFF8E7;
   --white: #FFFFFF;
+  --warm-brown: #8B6F47;
+  --warm-brown-dark: #6B5735;
 }
 
 body {
@@ -24,15 +26,43 @@ body {
   color: var(--primary-orange) !important;
 }
 
+.logo-two-line {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+.logo-line1,
+.logo-line2 {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.logo-line1 {
+  margin-bottom: 0;
+}
+
+.logo-line2 {
+  margin-top: 0;
+}
+
 .nav-link {
   color: #333 !important;
   font-weight: 500;
   margin: 0 0.5rem;
   transition: color 0.3s;
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  text-transform: capitalize;
 }
 
-.nav-link:hover {
-  color: var(--primary-orange) !important;
+.nav-link:hover,
+.nav-link.active {
+  color: var(--warm-brown) !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .dropdown-menu {
@@ -71,6 +101,72 @@ body {
 
 .hero-style4 {
   background: linear-gradient(rgba(255, 107, 53, 0.9), rgba(255, 140, 97, 0.9));
+}
+
+/* Glow Deck Hero Style */
+.hero-glow {
+  position: relative;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding: 120px 20px 80px;
+}
+
+.hero-glow-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 0;
+}
+
+.hero-glow-title {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--warm-brown);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+  margin-top: 8vh;
+  text-align: center;
+  position: relative;
+}
+
+.btn-glow-cta {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--warm-brown);
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 14px 32px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+  border: none;
+  margin-top: auto;
+  margin-bottom: 10vh;
+}
+
+.btn-glow-cta:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--warm-brown-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .hero-title {
@@ -192,6 +288,15 @@ footer {
 @media (max-width: 768px) {
   .hero-title {
     font-size: 2.5rem;
+  }
+  
+  .hero-glow-title {
+    font-size: 2rem;
+  }
+  
+  .hero-glow-content {
+    margin-top: 5vh;
+    gap: 30vh;
   }
   
   .page-title {

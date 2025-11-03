@@ -14,18 +14,21 @@
   endcomment
   if header_settings == blank
     assign logo_text = shop.name
+    assign logo_line1 = 'GLOW'
+    assign logo_line2 = 'DECK'
+    assign two_line_logo = false
     assign logo_image = blank
     assign logo_width = 200
     assign logo_max_height = 60
     assign logo_font_size = 24
-    assign logo_color = '#FF6B35'
+    assign logo_color = '#8B6F47'
     assign menu = 'main-menu'
     assign menu_alignment = 'right'
     assign menu_font_size = 16
     assign menu_font_weight = '500'
     assign menu_link_spacing = 8
-    assign menu_link_color = '#333333'
-    assign menu_link_hover_color = '#FF6B35'
+    assign menu_link_color = '#8B6F47'
+    assign menu_link_hover_color = '#8B6F47'
     assign dropdown_bg_color = '#FFFFFF'
     assign dropdown_link_color = '#333333'
     assign dropdown_hover_bg_color = '#FFF8E7'
@@ -42,18 +45,21 @@
     assign mobile_menu_icon_color = '#333333'
   else
     assign logo_text = header_settings.logo_text | default: shop.name
+    assign logo_line1 = header_settings.logo_line1 | default: 'GLOW'
+    assign logo_line2 = header_settings.logo_line2 | default: 'DECK'
+    assign two_line_logo = header_settings.two_line_logo | default: false
     assign logo_image = header_settings.logo_image
     assign logo_width = header_settings.logo_width | default: 200
     assign logo_max_height = header_settings.logo_max_height | default: 60
     assign logo_font_size = header_settings.logo_font_size | default: 24
-    assign logo_color = header_settings.logo_color | default: '#FF6B35'
+    assign logo_color = header_settings.logo_color | default: '#8B6F47'
     assign menu = header_settings.menu | default: 'main-menu'
     assign menu_alignment = header_settings.menu_alignment | default: 'right'
     assign menu_font_size = header_settings.menu_font_size | default: 16
     assign menu_font_weight = header_settings.menu_font_weight | default: '500'
     assign menu_link_spacing = header_settings.menu_link_spacing | default: 8
-    assign menu_link_color = header_settings.menu_link_color | default: '#333333'
-    assign menu_link_hover_color = header_settings.menu_link_hover_color | default: '#FF6B35'
+    assign menu_link_color = header_settings.menu_link_color | default: '#8B6F47'
+    assign menu_link_hover_color = header_settings.menu_link_hover_color | default: '#8B6F47'
     assign dropdown_bg_color = header_settings.dropdown_bg_color | default: '#FFFFFF'
     assign dropdown_link_color = header_settings.dropdown_link_color | default: '#333333'
     assign dropdown_hover_bg_color = header_settings.dropdown_hover_bg_color | default: '#FFF8E7'
@@ -83,6 +89,11 @@
              alt="{{ logo_text }}" 
              class="logo-image"
              style="max-height: {{ logo_max_height }}px; width: auto;">
+      {% elsif two_line_logo %}
+        <div class="logo-two-line">
+          <span class="logo-line1">{{ logo_line1 }}</span>
+          <span class="logo-line2">{{ logo_line2 }}</span>
+        </div>
       {% else %}
         {{ logo_text }}
       {% endif %}
@@ -120,7 +131,7 @@
               </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link" 
+                <a class="nav-link {% if link.active or request.page_type == 'index' and link.title == 'Home' %}active{% endif %}" 
                    href="{{ link.url }}"
                    style="color: {{ menu_link_color }} !important; 
                           font-size: {{ menu_font_size }}px;
