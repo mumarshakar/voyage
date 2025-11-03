@@ -36,6 +36,7 @@
     assign header_bg_color = '#FFFFFF'
     assign header_shadow = true
     assign header_style = 'fixed'
+    assign make_header_transparent = false
     assign transparent_on_homepage = false
     assign header_padding_top = 16
     assign header_padding_bottom = 16
@@ -67,6 +68,7 @@
     assign header_bg_color = header_settings.header_bg_color | default: '#FFFFFF'
     assign header_shadow = header_settings.header_shadow | default: true
     assign header_style = header_settings.header_style | default: 'fixed'
+    assign make_header_transparent = header_settings.make_header_transparent | default: false
     assign transparent_on_homepage = header_settings.transparent_on_homepage | default: false
     assign header_padding_top = header_settings.header_padding_top | default: 16
     assign header_padding_bottom = header_settings.header_padding_bottom | default: 16
@@ -77,11 +79,11 @@
   endif
 -%}
 
-<nav class="navbar navbar-expand-lg {% if header_style == 'sticky' %}navbar-sticky{% elsif header_style == 'fixed' %}fixed-top{% endif %} {% if transparent_on_homepage and template.name == 'index' %}navbar-transparent{% endif %}" 
-     style="background-color: {% if transparent_on_homepage and template.name == 'index' %}transparent{% else %}{{ header_bg_color }}{% endif %}; 
+<nav class="navbar navbar-expand-lg {% if header_style == 'sticky' %}navbar-sticky{% elsif header_style == 'fixed' %}fixed-top{% endif %} {% if make_header_transparent or transparent_on_homepage and template.name == 'index' %}navbar-transparent{% endif %}" 
+     style="background-color: {% if make_header_transparent %}transparent{% elsif transparent_on_homepage and template.name == 'index' %}transparent{% else %}{{ header_bg_color }}{% endif %}; 
             padding-top: {{ header_padding_top }}px; 
             padding-bottom: {{ header_padding_bottom }}px;
-            {% if header_shadow %}{% if transparent_on_homepage and template.name == 'index' %}box-shadow: none;{% else %}box-shadow: 0 2px 10px rgba(0,0,0,0.1);{% endif %}{% else %}box-shadow: none;{% endif %}">
+            {% if header_shadow %}{% if make_header_transparent or transparent_on_homepage and template.name == 'index' %}box-shadow: none;{% else %}box-shadow: 0 2px 10px rgba(0,0,0,0.1);{% endif %}{% else %}box-shadow: none;{% endif %}">
   <div class="container">
     <a class="navbar-brand" href="{{ routes.root_url }}" style="font-size: {{ logo_font_size }}px; color: {{ logo_color }} !important;">
       {% if logo_image != blank %}
@@ -192,6 +194,12 @@
     background-color: transparent !important;
     box-shadow: none !important;
   }
+  
+  {% if make_header_transparent or transparent_on_homepage and template.name == 'index' %}
+  .navbar-transparent .nav-link {
+    color: {{ menu_link_color }} !important;
+  }
+  {% endif %}
   
   .nav-link:hover {
     color: {{ menu_link_hover_color }} !important;
