@@ -63,7 +63,7 @@
 {% endschema %}
 
 {% if section.settings.variation == 'style1' %}
-  <section class="hero-section">
+  <section class="hero-section" id="hero_main" style="{{section.settings.hero_main}}">
     <div class="container">
       <h1 class="hero-title">{{ section.settings.title }}</h1>
       <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
