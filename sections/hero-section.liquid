@@ -1,0 +1,122 @@
+{% schema %}
+{
+  "name": "Hero Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Welcome to Voyage By HYPE"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Your perfect journey starts here. Book your next adventure with ease."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Start Booking Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "select",
+      "id": "variation",
+      "label": "Hero Style",
+      "options": [
+        {
+          "value": "style1",
+          "label": "Style 1 - Classic"
+        },
+        {
+          "value": "style2",
+          "label": "Style 2 - Orange Gradient"
+        },
+        {
+          "value": "style3",
+          "label": "Style 3 - Cream Background"
+        },
+        {
+          "value": "style4",
+          "label": "Style 4 - Bold Gradient"
+        },
+        {
+          "value": "style5",
+          "label": "Style 5 - Minimal"
+        }
+      ],
+      "default": "style1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Section"
+    }
+  ]
+}
+{% endschema %}
+
+{% if section.settings.variation == 'style1' %}
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="hero-title">{{ section.settings.title }}</h1>
+      <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+      {% if section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="btn btn-primary btn-lg px-5 py-3">{{ section.settings.button_text }}</a>
+      {% endif %}
+    </div>
+  </section>
+
+{% elsif section.settings.variation == 'style2' %}
+  <section class="hero-section hero-style2" style="margin-top: 76px;">
+    <div class="container">
+      <h1 class="hero-title text-white">{{ section.settings.title }}</h1>
+      <p class="hero-subtitle text-white">{{ section.settings.subtitle }}</p>
+      {% if section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="btn btn-light btn-lg px-5 py-3">{{ section.settings.button_text }}</a>
+      {% endif %}
+    </div>
+  </section>
+
+{% elsif section.settings.variation == 'style3' %}
+  <section class="hero-section" style="margin-top: 76px;">
+    <div class="container">
+      <h1 class="hero-title">{{ section.settings.title }}</h1>
+      <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+      {% if section.settings.button_link != blank %}
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="{{ section.settings.button_link }}" class="btn btn-primary btn-lg px-5 py-3">{{ section.settings.button_text }}</a>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+{% elsif section.settings.variation == 'style4' %}
+  <section class="hero-section hero-style4" style="margin-top: 76px;">
+    <div class="container">
+      <h1 class="hero-title text-white">{{ section.settings.title }}</h1>
+      <p class="hero-subtitle text-white">{{ section.settings.subtitle }}</p>
+      {% if section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="btn btn-light btn-lg px-5 py-3">{{ section.settings.button_text }}</a>
+      {% endif %}
+    </div>
+  </section>
+
+{% else %}
+  <section class="hero-section" style="margin-top: 76px;">
+    <div class="container">
+      <h1 class="hero-title">{{ section.settings.title }}</h1>
+      <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+      {% if section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="btn btn-primary btn-lg px-5 py-3">{{ section.settings.button_text }}</a>
+      {% endif %}
+    </div>
+  </section>
+{% endif %}
+

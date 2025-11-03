@@ -1,0 +1,37 @@
+{
+  "general": {
+    "meta": {
+      "tags": "Tags",
+      "tag": "Tag",
+      "page": "Page",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "404": {
+      "title": "404 Page Not Found",
+      "subtext": "The page you were looking for does not exist."
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "close": "Close"
+    }
+  },
+  "sections": {
+    "header": {
+      "cart": "Cart",
+      "cart_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      }
+    },
+    "footer": {
+      "social_platform": "{{ name }} on {{ platform }}",
+      "copyright": "Copyright"
+    }
+  }
+}
+

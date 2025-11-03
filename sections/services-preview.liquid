@@ -1,0 +1,112 @@
+{% schema %}
+{
+  "name": "Services Preview",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Our Services"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "View All Services"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon Class",
+          "default": "bi-airplane"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Service Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Services Preview",
+      "blocks": [
+        {
+          "type": "service",
+          "settings": {
+            "icon": "bi-airplane",
+            "title": "Flight Booking",
+            "description": "Book flights worldwide"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "icon": "bi-building",
+            "title": "Hotel Reservations",
+            "description": "Find perfect stays"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "icon": "bi-car-front",
+            "title": "Car Rental",
+            "description": "Rent a car easily"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "icon": "bi-map",
+            "title": "Travel Packages",
+            "description": "Complete packages"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<section class="feature-section" style="background-color: var(--cream);">
+  <div class="container">
+    <h2 class="section-title">{{ section.settings.title }}</h2>
+    <div class="row">
+      {% for block in section.blocks %}
+        <div class="col-md-6 col-lg-3 mb-4">
+          <div class="card h-100 text-center border-0 shadow-sm">
+            <div class="card-body">
+              <i class="bi {{ block.settings.icon }} feature-icon"></i>
+              <h5>{{ block.settings.title }}</h5>
+              <p>{{ block.settings.description }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.button_link != blank %}
+      <div class="text-center mt-4">
+        <a href="{{ section.settings.button_link }}" class="btn btn-primary btn-lg">{{ section.settings.button_text }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+

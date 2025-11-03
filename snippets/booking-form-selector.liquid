@@ -1,0 +1,117 @@
+<div class="service-selector">
+  <h2 class="text-center mb-4" style="font-size: 2.5rem; font-weight: bold; color: #333;">What would you like to book?</h2>
+  <div class="row">
+    <div class="col-md-3 mb-3">
+      <div class="service-card active" data-service="flight">
+        <i class="bi bi-airplane service-icon"></i>
+        <h4>Flights</h4>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="service-card" data-service="hotel">
+        <i class="bi bi-building service-icon"></i>
+        <h4>Hotels</h4>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="service-card" data-service="car">
+        <i class="bi bi-car-front service-icon"></i>
+        <h4>Car Rental</h4>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="service-card" data-service="package">
+        <i class="bi bi-briefcase service-icon"></i>
+        <h4>Packages</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="booking-form-card">
+  <h3 class="mb-4 text-center">Flight Booking Details</h3>
+  <form action="/contact" method="post">
+    <input type="hidden" name="form_type" value="contact">
+    <input type="hidden" name="utf8" value="✓">
+    <input type="hidden" name="contact[subject]" value="Flight Booking Request">
+    
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <label for="departure" class="form-label">Departure City</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+          <input type="text" class="form-control" id="departure" name="contact[from]" placeholder="From" required>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <label for="arrival" class="form-label">Destination City</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
+          <input type="text" class="form-control" id="arrival" name="contact[to]" placeholder="To" required>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <label for="depart" class="form-label">Departure Date</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+          <input type="date" class="form-control" id="depart" name="contact[depart_date]" required>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <label for="return" class="form-label">Return Date <span class="text-muted">(Optional)</span></label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+          <input type="date" class="form-control" id="return" name="contact[return_date]">
+        </div>
+      </div>
+    </div>
+    <div class="mb-4">
+      <label for="booking_email" class="form-label">Your Email</label>
+      <input type="email" class="form-control" id="booking_email" name="contact[email]" required>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-lg px-5 py-3">Search & Book</button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .service-card {
+    background-color: var(--white);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 3px solid transparent;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    height: 100%;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary-orange);
+    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.3);
+  }
+  
+  .service-card.active {
+    border-color: var(--primary-orange);
+    background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%);
+  }
+  
+  .service-icon {
+    font-size: 4rem;
+    color: var(--primary-orange);
+    margin-bottom: 1.5rem;
+  }
+  
+  .booking-form-card {
+    background: linear-gradient(135deg, var(--white) 0%, var(--cream) 100%);
+    border-radius: 25px;
+    padding: 3rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  }
+</style>
+

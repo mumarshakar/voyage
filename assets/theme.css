@@ -1,0 +1,210 @@
+/* Voyage Theme Styles */
+:root {
+  --primary-orange: #FF6B35;
+  --light-orange: #FF8C61;
+  --cream: #FFF8E7;
+  --white: #FFFFFF;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--white);
+}
+
+/* Navigation Styles */
+.navbar {
+  background-color: var(--white) !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 1rem 0;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-orange) !important;
+}
+
+.nav-link {
+  color: #333 !important;
+  font-weight: 500;
+  margin: 0 0.5rem;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--primary-orange) !important;
+}
+
+.dropdown-menu {
+  background-color: var(--white);
+}
+
+.dropdown-item {
+  color: #333 !important;
+}
+
+.dropdown-item:hover {
+  background-color: var(--cream);
+  color: var(--primary-orange) !important;
+}
+
+.btn-primary {
+  background-color: var(--primary-orange);
+  border-color: var(--primary-orange);
+}
+
+.btn-primary:hover {
+  background-color: var(--light-orange);
+  border-color: var(--light-orange);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%);
+  padding: 100px 0;
+  text-align: center;
+}
+
+.hero-style2 {
+  background: linear-gradient(135deg, var(--primary-orange) 0%, var(--light-orange) 100%);
+}
+
+.hero-style4 {
+  background: linear-gradient(rgba(255, 107, 53, 0.9), rgba(255, 140, 97, 0.9));
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+/* Feature Section */
+.feature-section {
+  padding: 80px 0;
+  background-color: var(--white);
+}
+
+.feature-card {
+  background-color: var(--cream);
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: none;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: var(--primary-orange);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+/* Page Header */
+.page-header {
+  background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%);
+  padding: 120px 0 60px;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.page-subtitle {
+  font-size: 1.3rem;
+  color: #666;
+}
+
+/* Booking Section */
+.booking-section {
+  padding: 80px 0;
+}
+
+.booking-tabs {
+  border-bottom: 2px solid var(--cream);
+  margin-bottom: 3rem;
+}
+
+.booking-tabs .nav-link {
+  color: #666;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 1rem 2rem;
+  font-weight: 600;
+}
+
+.booking-tabs .nav-link.active {
+  color: var(--primary-orange);
+  border-bottom-color: var(--primary-orange);
+  background-color: transparent;
+}
+
+.booking-form {
+  background-color: var(--cream);
+  border-radius: 15px;
+  padding: 3rem;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-orange);
+  box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+}
+
+/* Footer */
+footer {
+  background-color: #333;
+  color: var(--white);
+  padding: 3rem 0 1rem;
+}
+
+.footer-title {
+  color: var(--primary-orange);
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+.logo-image {
+  max-height: 50px;
+  width: auto;
+}
+

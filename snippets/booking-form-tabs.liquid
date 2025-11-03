@@ -1,0 +1,161 @@
+<ul class="nav booking-tabs" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-bs-toggle="tab" href="#flights">Flights</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="tab" href="#hotels">Hotels</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="tab" href="#cars">Car Rental</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="tab" href="#packages">Packages</a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="flights">
+    <div class="booking-form">
+      <h3 class="mb-4">Search Flights</h3>
+      <form action="/contact" method="post">
+        <input type="hidden" name="form_type" value="contact">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="contact[subject]" value="Flight Booking Request">
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="from" class="form-label">From</label>
+            <input type="text" class="form-control" name="contact[from]" id="from" placeholder="Departure city" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="to" class="form-label">To</label>
+            <input type="text" class="form-control" name="contact[to]" id="to" placeholder="Destination city" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="departDate" class="form-label">Departure Date</label>
+            <input type="date" class="form-control" name="contact[depart_date]" id="departDate" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="returnDate" class="form-label">Return Date</label>
+            <input type="date" class="form-control" name="contact[return_date]" id="returnDate">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="passengers" class="form-label">Passengers</label>
+            <select class="form-select" name="contact[passengers]" id="passengers">
+              <option value="1">1 Passenger</option>
+              <option value="2" selected>2 Passengers</option>
+              <option value="3">3 Passengers</option>
+              <option value="4">4+ Passengers</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Your Email</label>
+          <input type="email" class="form-control" name="contact[email]" id="email" required>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-lg px-5">Search Flights</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div class="tab-pane fade" id="hotels">
+    <div class="booking-form">
+      <h3 class="mb-4">Search Hotels</h3>
+      <form action="/contact" method="post">
+        <input type="hidden" name="form_type" value="contact">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="contact[subject]" value="Hotel Booking Request">
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="hotelLocation" class="form-label">Destination</label>
+            <input type="text" class="form-control" name="contact[location]" id="hotelLocation" placeholder="City or hotel name" required>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="checkIn" class="form-label">Check-in</label>
+            <input type="date" class="form-control" name="contact[check_in]" id="checkIn" required>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="checkOut" class="form-label">Check-out</label>
+            <input type="date" class="form-control" name="contact[check_out]" id="checkOut" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="hotel_email" class="form-label">Your Email</label>
+          <input type="email" class="form-control" name="contact[email]" id="hotel_email" required>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-lg px-5">Search Hotels</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div class="tab-pane fade" id="cars">
+    <div class="booking-form">
+      <h3 class="mb-4">Rent a Car</h3>
+      <form action="/contact" method="post">
+        <input type="hidden" name="form_type" value="contact">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="contact[subject]" value="Car Rental Request">
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="pickupLocation" class="form-label">Pick-up Location</label>
+            <input type="text" class="form-control" name="contact[pickup_location]" id="pickupLocation" placeholder="City or airport" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="dropoffLocation" class="form-label">Drop-off Location</label>
+            <input type="text" class="form-control" name="contact[dropoff_location]" id="dropoffLocation" placeholder="Same as pick-up">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="car_email" class="form-label">Your Email</label>
+          <input type="email" class="form-control" name="contact[email]" id="car_email" required>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-lg px-5">Search Cars</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div class="tab-pane fade" id="packages">
+    <div class="booking-form">
+      <h3 class="mb-4">Travel Packages</h3>
+      <form action="/contact" method="post">
+        <input type="hidden" name="form_type" value="contact">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="contact[subject]" value="Travel Package Request">
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="packageDestination" class="form-label">Destination</label>
+            <input type="text" class="form-control" name="contact[destination]" id="packageDestination" placeholder="Where do you want to go?" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="packageDuration" class="form-label">Duration</label>
+            <select class="form-select" name="contact[duration]" id="packageDuration">
+              <option value="3">3 Days</option>
+              <option value="5">5 Days</option>
+              <option value="7" selected>7 Days</option>
+              <option value="10">10 Days</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="package_email" class="form-label">Your Email</label>
+          <input type="email" class="form-control" name="contact[email]" id="package_email" required>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-lg px-5">Search Packages</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

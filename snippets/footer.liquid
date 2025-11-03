@@ -1,0 +1,32 @@
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <h5 class="footer-title">{{ shop.name }}</h5>
+        <p>{{ settings.footer_description }}</p>
+      </div>
+      <div class="col-md-4 mb-4">
+        <h5 class="footer-title">Quick Links</h5>
+        <ul class="list-unstyled">
+          {% for link in linklists.footer.links %}
+            <li><a href="{{ link.url }}" class="text-white-50 text-decoration-none">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-4 mb-4">
+        <h5 class="footer-title">Contact Info</h5>
+        {% if settings.footer_email != blank %}
+          <p class="text-white-50 mb-1"><i class="bi bi-envelope"></i> {{ settings.footer_email }}</p>
+        {% endif %}
+        {% if settings.footer_phone != blank %}
+          <p class="text-white-50 mb-1"><i class="bi bi-telephone"></i> {{ settings.footer_phone }}</p>
+        {% endif %}
+      </div>
+    </div>
+    <hr class="bg-white-50">
+    <div class="text-center text-white-50">
+      <p>&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+

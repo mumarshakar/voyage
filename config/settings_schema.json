@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Theme Information",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Theme Settings"
+      },
+      {
+        "type": "paragraph",
+        "content": "Voyage - A modern booking theme for Shopify by Muhammad Umar"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary_orange",
+        "label": "Primary Orange",
+        "default": "#FF6B35"
+      },
+      {
+        "type": "color",
+        "id": "color_light_orange",
+        "label": "Light Orange",
+        "default": "#FF8C61"
+      },
+      {
+        "type": "color",
+        "id": "color_cream",
+        "label": "Cream",
+        "default": "#FFF8E7"
+      },
+      {
+        "type": "color",
+        "id": "color_white",
+        "label": "White",
+        "default": "#FFFFFF"
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "text",
+        "id": "footer_email",
+        "label": "Email Address",
+        "default": "info@voyagebyhype.com"
+      },
+      {
+        "type": "text",
+        "id": "footer_phone",
+        "label": "Phone Number",
+        "default": "+1 (555) 123-4567"
+      },
+      {
+        "type": "textarea",
+        "id": "footer_description",
+        "label": "Footer Description",
+        "default": "Your trusted partner for all your travel booking needs. Experience seamless booking with us."
+      }
+    ]
+  }
+]
+

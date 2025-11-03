@@ -1,0 +1,203 @@
+{%- liquid
+  if section.id
+    assign header_settings = section.settings
+  else
+    if sections['header'].id
+      assign header_settings = sections['header'].settings
+    elsif sections.header.id
+      assign header_settings = sections.header.settings
+    endif
+  endif
+
+  comment
+    Set default values if header_settings is not available
+  endcomment
+  if header_settings == blank
+    assign logo_text = shop.name
+    assign logo_image = blank
+    assign logo_width = 200
+    assign logo_max_height = 60
+    assign logo_font_size = 24
+    assign logo_color = '#FF6B35'
+    assign menu = 'main-menu'
+    assign menu_alignment = 'right'
+    assign menu_font_size = 16
+    assign menu_font_weight = '500'
+    assign menu_link_spacing = 8
+    assign menu_link_color = '#333333'
+    assign menu_link_hover_color = '#FF6B35'
+    assign dropdown_bg_color = '#FFFFFF'
+    assign dropdown_link_color = '#333333'
+    assign dropdown_hover_bg_color = '#FFF8E7'
+    assign dropdown_hover_color = '#FF6B35'
+    assign header_bg_color = '#FFFFFF'
+    assign header_shadow = true
+    assign header_style = 'fixed'
+    assign transparent_on_homepage = false
+    assign header_padding_top = 16
+    assign header_padding_bottom = 16
+    assign show_search = true
+    assign show_cart = true
+    assign icon_size = 20
+    assign mobile_menu_icon_color = '#333333'
+  else
+    assign logo_text = header_settings.logo_text | default: shop.name
+    assign logo_image = header_settings.logo_image
+    assign logo_width = header_settings.logo_width | default: 200
+    assign logo_max_height = header_settings.logo_max_height | default: 60
+    assign logo_font_size = header_settings.logo_font_size | default: 24
+    assign logo_color = header_settings.logo_color | default: '#FF6B35'
+    assign menu = header_settings.menu | default: 'main-menu'
+    assign menu_alignment = header_settings.menu_alignment | default: 'right'
+    assign menu_font_size = header_settings.menu_font_size | default: 16
+    assign menu_font_weight = header_settings.menu_font_weight | default: '500'
+    assign menu_link_spacing = header_settings.menu_link_spacing | default: 8
+    assign menu_link_color = header_settings.menu_link_color | default: '#333333'
+    assign menu_link_hover_color = header_settings.menu_link_hover_color | default: '#FF6B35'
+    assign dropdown_bg_color = header_settings.dropdown_bg_color | default: '#FFFFFF'
+    assign dropdown_link_color = header_settings.dropdown_link_color | default: '#333333'
+    assign dropdown_hover_bg_color = header_settings.dropdown_hover_bg_color | default: '#FFF8E7'
+    assign dropdown_hover_color = header_settings.dropdown_hover_color | default: '#FF6B35'
+    assign header_bg_color = header_settings.header_bg_color | default: '#FFFFFF'
+    assign header_shadow = header_settings.header_shadow | default: true
+    assign header_style = header_settings.header_style | default: 'fixed'
+    assign transparent_on_homepage = header_settings.transparent_on_homepage | default: false
+    assign header_padding_top = header_settings.header_padding_top | default: 16
+    assign header_padding_bottom = header_settings.header_padding_bottom | default: 16
+    assign show_search = header_settings.show_search | default: true
+    assign show_cart = header_settings.show_cart | default: true
+    assign icon_size = header_settings.icon_size | default: 20
+    assign mobile_menu_icon_color = header_settings.mobile_menu_icon_color | default: '#333333'
+  endif
+-%}
+
+<nav class="navbar navbar-expand-lg {% if header_style == 'sticky' %}navbar-sticky{% elsif header_style == 'fixed' %}fixed-top{% endif %} {% if transparent_on_homepage and template.name == 'index' %}navbar-transparent{% endif %}" 
+     style="background-color: {% if transparent_on_homepage and template.name == 'index' %}transparent{% else %}{{ header_bg_color }}{% endif %}; 
+            padding-top: {{ header_padding_top }}px; 
+            padding-bottom: {{ header_padding_bottom }}px;
+            {% if header_shadow %}{% if transparent_on_homepage and template.name == 'index' %}box-shadow: none;{% else %}box-shadow: 0 2px 10px rgba(0,0,0,0.1);{% endif %}{% else %}box-shadow: none;{% endif %}">
+  <div class="container">
+    <a class="navbar-brand" href="{{ routes.root_url }}" style="font-size: {{ logo_font_size }}px; color: {{ logo_color }} !important;">
+      {% if logo_image != blank %}
+        <img src="{{ logo_image | img_url: logo_width | append: 'x' }}" 
+             alt="{{ logo_text }}" 
+             class="logo-image"
+             style="max-height: {{ logo_max_height }}px; width: auto;">
+      {% else %}
+        {{ logo_text }}
+      {% endif %}
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            style="border-color: {{ mobile_menu_icon_color }};">
+      <span class="navbar-toggler-icon" style="background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='{{ mobile_menu_icon_color | url_encode }}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e\");"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav {% if menu_alignment == 'left' %}me-auto{% elsif menu_alignment == 'right' %}ms-auto{% else %}mx-auto{% endif %}">
+        {% if menu != blank %}
+          {% for link in linklists[menu].links %}
+            {% if link.links != blank %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" 
+                   href="{{ link.url }}" 
+                   role="button" 
+                   data-bs-toggle="dropdown"
+                   style="color: {{ menu_link_color }} !important; 
+                          font-size: {{ menu_font_size }}px;
+                          font-weight: {{ menu_font_weight }};">
+                  {{ link.title }}
+                </a>
+                <ul class="dropdown-menu" style="background-color: {{ dropdown_bg_color }};">
+                  {% for childlink in link.links %}
+                    <li>
+                      <a class="dropdown-item" 
+                         href="{{ childlink.url }}"
+                         style="color: {{ dropdown_link_color }} !important;">
+                        {{ childlink.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" 
+                   href="{{ link.url }}"
+                   style="color: {{ menu_link_color }} !important; 
+                          font-size: {{ menu_font_size }}px;
+                          font-weight: {{ menu_font_weight }};
+                          margin: 0 {{ menu_link_spacing }}px;">
+                  {{ link.title }}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </ul>
+      
+      {% if show_search or show_cart %}
+        <div class="header-icons d-flex align-items-center ms-3">
+          {% if show_search %}
+            <a href="{{ routes.search_url }}" class="header-icon me-3" style="color: {{ menu_link_color }};">
+              <i class="bi bi-search" style="font-size: {{ icon_size }}px;"></i>
+            </a>
+          {% endif %}
+          {% if show_cart %}
+            <a href="{{ routes.cart_url }}" class="header-icon position-relative" style="color: {{ menu_link_color }};">
+              <i class="bi bi-bag" style="font-size: {{ icon_size }}px;"></i>
+              {% if cart.item_count > 0 %}
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                  {{ cart.item_count }}
+                </span>
+              {% endif %}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .navbar.fixed-top {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+  }
+  
+  {% if header_style == 'fixed' %}
+  body {
+    padding-top: calc({{ header_padding_top }}px + {{ header_padding_bottom }}px + 1.5rem);
+  }
+  {% endif %}
+  
+  .navbar-transparent {
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+  
+  .nav-link:hover {
+    color: {{ menu_link_hover_color }} !important;
+  }
+  
+  .dropdown-item:hover {
+    background-color: {{ dropdown_hover_bg_color }};
+    color: {{ dropdown_hover_color }} !important;
+  }
+  
+  .header-icon {
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .header-icon:hover {
+    color: {{ menu_link_hover_color }} !important;
+  }
+</style>
+

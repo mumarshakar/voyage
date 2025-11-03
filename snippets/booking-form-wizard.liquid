@@ -1,0 +1,246 @@
+<div class="step-indicator">
+  <div class="step">
+    <div class="step-circle" id="stepCircle1">1</div>
+  </div>
+  <div class="step-line" id="stepLine1"></div>
+  <div class="step">
+    <div class="step-circle" id="stepCircle2">2</div>
+  </div>
+  <div class="step-line" id="stepLine2"></div>
+  <div class="step">
+    <div class="step-circle" id="stepCircle3">3</div>
+  </div>
+</div>
+
+<div class="booking-wizard">
+  <div class="wizard-step active" id="step1">
+    <h2 class="text-center mb-4">Choose a Service</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="service-button active" data-service="flight">
+          <i class="bi bi-airplane service-icon-large"></i>
+          <h4>Flight Booking</h4>
+          <p class="text-muted">Book domestic and international flights</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="service-button" data-service="hotel">
+          <i class="bi bi-building service-icon-large"></i>
+          <h4>Hotel Booking</h4>
+          <p class="text-muted">Find and book perfect accommodations</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="service-button" data-service="car">
+          <i class="bi bi-car-front service-icon-large"></i>
+          <h4>Car Rental</h4>
+          <p class="text-muted">Rent a car for your journey</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="service-button" data-service="package">
+          <i class="bi bi-briefcase service-icon-large"></i>
+          <h4>Travel Package</h4>
+          <p class="text-muted">Complete travel packages with deals</p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <button class="btn btn-primary btn-lg" onclick="nextWizardStep()" id="nextBtn1">Continue</button>
+    </div>
+  </div>
+  
+  <div class="wizard-step" id="step2">
+    <h2 class="text-center mb-4">Enter Your Details</h2>
+    <form id="bookingWizardForm">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">From</label>
+          <input type="text" class="form-control" name="from" placeholder="Departure location" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">To</label>
+          <input type="text" class="form-control" name="to" placeholder="Destination" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Departure Date</label>
+          <input type="date" class="form-control" name="depart_date" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Return Date</label>
+          <input type="date" class="form-control" name="return_date">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Your Email</label>
+        <input type="email" class="form-control" name="email" required>
+      </div>
+    </form>
+    <div class="text-center mt-4">
+      <button class="btn btn-outline-secondary btn-lg me-3" onclick="prevWizardStep()">Back</button>
+      <button class="btn btn-primary btn-lg" onclick="nextWizardStep()">Continue</button>
+    </div>
+  </div>
+  
+  <div class="wizard-step" id="step3">
+    <h2 class="text-center mb-4">Review & Confirm</h2>
+    <div class="alert alert-info">
+      <h5>Your Booking Summary</h5>
+      <p>Service: <strong id="selectedService">-</strong></p>
+      <p>Route: <strong id="bookingRoute">-</strong></p>
+      <p>Dates: <strong id="bookingDates">-</strong></p>
+    </div>
+    <form action="/contact" method="post" id="finalBookingForm">
+      <input type="hidden" name="form_type" value="contact">
+      <input type="hidden" name="utf8" value="✓">
+      <input type="hidden" name="contact[subject]" id="bookingSubject" value="Booking Request">
+      <input type="hidden" name="contact[body]" id="bookingBody">
+      <input type="hidden" name="contact[email]" id="bookingEmail">
+      <div class="text-center mt-4">
+        <button type="button" class="btn btn-outline-secondary btn-lg me-3" onclick="prevWizardStep()">Back</button>
+        <button type="submit" class="btn btn-primary btn-lg px-5">Confirm Booking</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  .step-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+  
+  .step {
+    display: flex;
+    align-items: center;
+    margin: 0 1rem;
+  }
+  
+  .step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-orange);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .step-line {
+    width: 100px;
+    height: 3px;
+    background-color: var(--primary-orange);
+    margin: 0 1rem;
+  }
+  
+  .booking-wizard {
+    background: linear-gradient(135deg, var(--white) 0%, var(--cream) 100%);
+    border-radius: 25px;
+    padding: 3rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  }
+  
+  .wizard-step {
+    display: none;
+  }
+  
+  .wizard-step.active {
+    display: block;
+  }
+  
+  .service-button {
+    background-color: var(--white);
+    border: 3px solid var(--cream);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 1.5rem;
+  }
+  
+  .service-button:hover {
+    border-color: var(--primary-orange);
+    transform: scale(1.05);
+  }
+  
+  .service-button.selected {
+    border-color: var(--primary-orange);
+    background-color: var(--cream);
+  }
+  
+  .service-icon-large {
+    font-size: 4rem;
+    color: var(--primary-orange);
+    margin-bottom: 1rem;
+  }
+</style>
+
+<script>
+  let wizardStep = 1;
+  let selectedWizardService = 'flight';
+  
+  document.querySelectorAll('.service-button').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.service-button').forEach(b => b.classList.remove('selected', 'active'));
+      this.classList.add('selected', 'active');
+      selectedWizardService = this.dataset.service;
+      document.getElementById('nextBtn1').disabled = false;
+    });
+  });
+  
+  function nextWizardStep() {
+    if (wizardStep === 2) {
+      const form = document.getElementById('bookingWizardForm');
+      const formData = new FormData(form);
+      document.getElementById('selectedService').textContent = selectedWizardService.charAt(0).toUpperCase() + selectedWizardService.slice(1);
+      document.getElementById('bookingRoute').textContent = formData.get('from') + ' → ' + formData.get('to');
+      document.getElementById('bookingDates').textContent = formData.get('depart_date') + (formData.get('return_date') ? ' to ' + formData.get('return_date') : '');
+      document.getElementById('bookingEmail').value = formData.get('email');
+      document.getElementById('bookingSubject').value = selectedWizardService.charAt(0).toUpperCase() + selectedWizardService.slice(1) + ' Booking Request';
+      document.getElementById('bookingBody').value = 'Service: ' + selectedWizardService + '\nFrom: ' + formData.get('from') + '\nTo: ' + formData.get('to') + '\nDeparture: ' + formData.get('depart_date') + '\nReturn: ' + formData.get('return_date');
+    }
+    
+    if (wizardStep < 3) {
+      document.getElementById('step' + wizardStep).classList.remove('active');
+      wizardStep++;
+      document.getElementById('step' + wizardStep).classList.add('active');
+      updateWizardIndicator();
+    }
+  }
+  
+  function prevWizardStep() {
+    if (wizardStep > 1) {
+      document.getElementById('step' + wizardStep).classList.remove('active');
+      wizardStep--;
+      document.getElementById('step' + wizardStep).classList.add('active');
+      updateWizardIndicator();
+    }
+  }
+  
+  function updateWizardIndicator() {
+    for (let i = 1; i <= 3; i++) {
+      const circle = document.getElementById('stepCircle' + i);
+      const line = document.getElementById('stepLine' + (i - 1));
+      if (i <= wizardStep) {
+        circle.style.backgroundColor = 'var(--primary-orange)';
+        circle.style.color = 'var(--white)';
+      } else {
+        circle.style.backgroundColor = '#ddd';
+        circle.style.color = '#666';
+      }
+      if (line && i < wizardStep) {
+        line.style.backgroundColor = 'var(--primary-orange)';
+      } else if (line) {
+        line.style.backgroundColor = '#ddd';
+      }
+    }
+  }
+</script>
+

@@ -1,0 +1,104 @@
+{% schema %}
+{
+  "name": "About Mission",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Our Mission, Vision & Values"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mission",
+      "name": "Mission Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon Class",
+          "default": "bi-bullseye"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Mission",
+      "blocks": [
+        {
+          "type": "mission",
+          "settings": {
+            "icon": "bi-bullseye",
+            "title": "Our Mission",
+            "description": "To provide exceptional travel booking experiences"
+          }
+        },
+        {
+          "type": "mission",
+          "settings": {
+            "icon": "bi-eye",
+            "title": "Our Vision",
+            "description": "To become the world's most trusted booking platform"
+          }
+        },
+        {
+          "type": "mission",
+          "settings": {
+            "icon": "bi-heart",
+            "title": "Our Values",
+            "description": "We are committed to integrity and excellence"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<section class="mission-section" style="background-color: var(--cream); padding: 80px 0;">
+  <div class="container">
+    <h2 class="text-center mb-5" style="font-size: 2.5rem; font-weight: bold; color: #333;">{{ section.settings.title }}</h2>
+    <div class="row">
+      {% for block in section.blocks %}
+        <div class="col-md-4">
+          <div class="mission-card">
+            <i class="bi {{ block.settings.icon }} mission-icon"></i>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .mission-card {
+    background-color: var(--white);
+    border-radius: 15px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    height: 100%;
+  }
+  
+  .mission-icon {
+    font-size: 3.5rem;
+    color: var(--primary-orange);
+    margin-bottom: 1.5rem;
+  }
+</style>
+
