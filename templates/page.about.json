@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "page_header": {
+      "type": "page-header"
+    },
+    "about_mission": {
+      "type": "about-mission"
+    },
+    "about_values": {
+      "type": "about-values"
+    }
+  },
+  "order": [
+    "page_header",
+    "about_mission",
+    "about_values"
+  ]
+}
+
