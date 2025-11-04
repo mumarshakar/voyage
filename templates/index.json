@@ -1,12 +1,10 @@
 {
   "sections": {
     "hero_section": {
-      "type": "hero-section",
-      "settings": {}
+      "type": "hero-section"
     },
     "follow_us_section": {
-      "type": "follow-us-section",
-      "settings": {}
+      "type": "follow-us-section"
     }
   },
   "order": [
