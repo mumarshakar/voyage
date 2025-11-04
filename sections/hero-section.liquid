@@ -26,9 +26,56 @@
       "label": "Button Link"
     },
     {
+      "type": "header",
+      "content": "Background Media"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "Background Type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+    {
       "type": "image_picker",
       "id": "background_image",
-      "label": "Background Image"
+      "label": "Background Image",
+      "info": "Used when background type is Image"
+    },
+    {
+      "type": "video",
+      "id": "background_video_desktop",
+      "label": "Desktop Background Video",
+      "info": "Video for desktop viewport (recommended: MP4 format)"
+    },
+    {
+      "type": "video",
+      "id": "background_video_mobile",
+      "label": "Mobile Background Video",
+      "info": "Video for mobile viewport (optional, falls back to desktop video if not set)"
+    },
+    {
+      "type": "checkbox",
+      "id": "video_autoplay",
+      "label": "Autoplay Video",
+      "default": true,
+      "info": "Video will autoplay and loop"
+    },
+    {
+      "type": "checkbox",
+      "id": "video_muted",
+      "label": "Mute Video",
+      "default": true,
+      "info": "Video will be muted (required for autoplay in most browsers)"
     },
     {
       "type": "select",
@@ -346,6 +393,9 @@
     assign padding_horizontal = section.settings.padding_horizontal | default: 20
     assign margin_top = section.settings.margin_top | default: 0
     assign margin_bottom = section.settings.margin_bottom | default: 0
+    assign background_type = section.settings.background_type | default: 'image'
+    assign video_autoplay = section.settings.video_autoplay | default: true
+    assign video_muted = section.settings.video_muted | default: true
     
     if button_opacity > 0
       assign button_opacity_decimal = button_opacity | divided_by: 100.0
@@ -361,7 +411,7 @@
   
   <section class="hero-section hero-glow" 
            style="min-height: {{ hero_height }}vh;
-                  {% if section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | img_url: '1920x1080' }}');{% endif %}
+                  {% if background_type == 'image' and section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | img_url: '1920x1080' }}');{% endif %}
                   background-position: {{ bg_position }};
                   background-size: {{ bg_size }};
                   padding-top: {{ padding_top }}px;
@@ -370,7 +420,34 @@
                   padding-right: {{ padding_horizontal }}px;
                   margin-top: {{ margin_top }}px;
                   margin-bottom: {{ margin_bottom }}px;
-                  position: relative;">
+                  position: relative;
+                  overflow: hidden;">
+    {% if background_type == 'video' and section.settings.background_video_desktop != blank %}
+      <div class="hero-video-container">
+        {% if section.settings.background_video_mobile != blank %}
+          <video class="hero-video hero-video-mobile" 
+                 playsinline 
+                 {% if video_autoplay %}autoplay{% endif %} 
+                 {% if video_muted %}muted{% endif %} 
+                 loop 
+                 preload="metadata">
+            {% for source in section.settings.background_video_mobile.sources %}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {% endfor %}
+          </video>
+        {% endif %}
+        <video class="hero-video hero-video-desktop" 
+               playsinline 
+               {% if video_autoplay %}autoplay{% endif %} 
+               {% if video_muted %}muted{% endif %} 
+               loop 
+               preload="metadata">
+          {% for source in section.settings.background_video_desktop.sources %}
+            <source src="{{ source.url }}" type="{{ source.mime_type }}">
+          {% endfor %}
+        </video>
+      </div>
+    {% endif %}
     {% if overlay_opacity > 0 %}
       <div class="hero-overlay" style="background-color: {{ overlay_color }}; opacity: {{ overlay_opacity_decimal }};"></div>
     {% endif %}
