@@ -1,0 +1,280 @@
+{% schema %}
+{
+  "name": "Follow Us Section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading Text",
+      "default": "Follow us on instagram!"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL",
+      "info": "Link to your Instagram profile"
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#EAE7E1"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "select",
+      "id": "font_family",
+      "label": "Font Family",
+      "options": [
+        {
+          "value": "serif",
+          "label": "Serif (Playfair Display)"
+        },
+        {
+          "value": "sans-serif",
+          "label": "Sans-serif (Default)"
+        }
+      ],
+      "default": "serif"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font Size (px)",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_underline",
+      "label": "Show Underline",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text Transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding (px)",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding (px)",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Horizontal Padding (px)",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Top Margin (px)",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Bottom Margin (px)",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Follow Us Section"
+    }
+  ]
+}
+{% endschema %}
+
+{%- liquid
+  assign background_color = section.settings.background_color | default: '#EAE7E1'
+  assign text_color = section.settings.text_color | default: '#333333'
+  assign font_family = section.settings.font_family | default: 'serif'
+  assign font_size = section.settings.font_size | default: 20
+  assign font_weight = section.settings.font_weight | default: '400'
+  assign show_underline = section.settings.show_underline | default: true
+  assign text_alignment = section.settings.text_alignment | default: 'center'
+  assign text_transform = section.settings.text_transform | default: 'none'
+  assign padding_top = section.settings.padding_top | default: 60
+  assign padding_bottom = section.settings.padding_bottom | default: 60
+  assign padding_horizontal = section.settings.padding_horizontal | default: 20
+  assign margin_top = section.settings.margin_top | default: 0
+  assign margin_bottom = section.settings.margin_bottom | default: 0
+  assign heading_text = section.settings.heading_text | default: 'Follow us on instagram!'
+  assign instagram_url = section.settings.instagram_url
+  
+  if font_family == 'serif'
+    assign font_family_value = "'Playfair Display', 'Times New Roman', serif"
+  else
+    assign font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+  endif
+-%}
+
+<section class="follow-us-section" 
+         style="background-color: {{ background_color }};
+                padding-top: {{ padding_top }}px;
+                padding-bottom: {{ padding_bottom }}px;
+                padding-left: {{ padding_horizontal }}px;
+                padding-right: {{ padding_horizontal }}px;
+                margin-top: {{ margin_top }}px;
+                margin-bottom: {{ margin_bottom }}px;
+                text-align: {{ text_alignment }};
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100px;">
+  {% if instagram_url != blank %}
+    <a href="{{ instagram_url }}" 
+       class="follow-us-link"
+       style="color: {{ text_color }};
+              font-family: {{ font_family_value }};
+              font-size: {{ font_size }}px;
+              font-weight: {{ font_weight }};
+              text-transform: {{ text_transform }};
+              text-decoration: {% if show_underline %}underline{% else %}none{% endif %};
+              text-underline-offset: 4px;
+              text-decoration-thickness: 1px;
+              transition: opacity 0.3s ease;
+              {% unless show_underline %}text-decoration: none;{% endunless %}">
+      {{ heading_text }}
+    </a>
+  {% else %}
+    <span class="follow-us-text"
+          style="color: {{ text_color }};
+                 font-family: {{ font_family_value }};
+                 font-size: {{ font_size }}px;
+                 font-weight: {{ font_weight }};
+                 text-transform: {{ text_transform }};
+                 text-decoration: {% if show_underline %}underline{% else %}none{% endif %};
+                 text-underline-offset: 4px;
+                 text-decoration-thickness: 1px;
+                 {% unless show_underline %}text-decoration: none;{% endunless %}">
+      {{ heading_text }}
+    </span>
+  {% endif %}
+</section>
+
+<style>
+  .follow-us-link {
+    cursor: pointer;
+  }
+  
+  .follow-us-link:hover {
+    opacity: 0.7;
+  }
+</style>
