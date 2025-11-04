@@ -55,8 +55,8 @@
       "settings": {
         "heading_text": "Follow us on instagram!",
         "instagram_url": "https://instagram.com/hype",
-        "background_color": "#eae7e1",
-        "text_color": "#333333",
+        "background_color": "#FF6B35",
+        "text_color": "#FFFFFF",
         "font_family": "serif",
         "font_size": 20,
         "font_weight": "400",
