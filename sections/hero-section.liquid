@@ -293,6 +293,26 @@
       "step": 5,
       "default": 20,
       "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Top Margin (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Bottom Margin (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
     }
   ],
   "presets": [
@@ -324,6 +344,8 @@
     assign padding_top = section.settings.padding_top | default: 120
     assign padding_bottom = section.settings.padding_bottom | default: 80
     assign padding_horizontal = section.settings.padding_horizontal | default: 20
+    assign margin_top = section.settings.margin_top | default: 0
+    assign margin_bottom = section.settings.margin_bottom | default: 0
     
     if button_opacity > 0
       assign button_opacity_decimal = button_opacity | divided_by: 100.0
@@ -346,6 +368,8 @@
                   padding-bottom: {{ padding_bottom }}px;
                   padding-left: {{ padding_horizontal }}px;
                   padding-right: {{ padding_horizontal }}px;
+                  margin-top: {{ margin_top }}px;
+                  margin-bottom: {{ margin_bottom }}px;
                   position: relative;">
     {% if overlay_opacity > 0 %}
       <div class="hero-overlay" style="background-color: {{ overlay_color }}; opacity: {{ overlay_opacity_decimal }};"></div>
@@ -373,7 +397,11 @@
   </section>
 
 {% elsif section.settings.variation == 'style1' %}
-  <section class="hero-section" id="hero_main" style="{{section.settings.hero_main}}">
+  {%- liquid
+    assign margin_top = section.settings.margin_top | default: 0
+    assign margin_bottom = section.settings.margin_bottom | default: 0
+  -%}
+  <section class="hero-section" id="hero_main" style="{{section.settings.hero_main}}; margin-top: {{ margin_top }}px; margin-bottom: {{ margin_bottom }}px;">
   
     <div class="container">
       <h1 class="hero-title">{{ section.settings.title }}</h1>
@@ -386,7 +414,11 @@
   </section>
 
 {% elsif section.settings.variation == 'style2' %}
-  <section class="hero-section hero-style2" style="margin-top: 76px;">
+  {%- liquid
+    assign margin_top = section.settings.margin_top | default: 0
+    assign margin_bottom = section.settings.margin_bottom | default: 0
+  -%}
+  <section class="hero-section hero-style2" style="margin-top: {{ margin_top }}px; margin-bottom: {{ margin_bottom }}px;">
     <div class="container">
       <h1 class="hero-title text-white">{{ section.settings.title }}</h1>
       <p class="hero-subtitle text-white">{{ section.settings.subtitle }}</p>
@@ -397,7 +429,11 @@
   </section>
 
 {% elsif section.settings.variation == 'style3' %}
-  <section class="hero-section" style="margin-top: 76px;">
+  {%- liquid
+    assign margin_top = section.settings.margin_top | default: 0
+    assign margin_bottom = section.settings.margin_bottom | default: 0
+  -%}
+  <section class="hero-section" style="margin-top: {{ margin_top }}px; margin-bottom: {{ margin_bottom }}px;">
     <div class="container">
       <h1 class="hero-title">{{ section.settings.title }}</h1>
       <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
@@ -410,7 +446,11 @@
   </section>
 
 {% elsif section.settings.variation == 'style4' %}
-  <section class="hero-section hero-style4" style="margin-top: 76px;">
+  {%- liquid
+    assign margin_top = section.settings.margin_top | default: 0
+    assign margin_bottom = section.settings.margin_bottom | default: 0
+  -%}
+  <section class="hero-section hero-style4" style="margin-top: {{ margin_top }}px; margin-bottom: {{ margin_bottom }}px;">
     <div class="container">
       <h1 class="hero-title text-white">{{ section.settings.title }}</h1>
       <p class="hero-subtitle text-white">{{ section.settings.subtitle }}</p>
@@ -421,7 +461,11 @@
   </section>
 
 {% else %}
-  <section class="hero-section" style="margin-top: 76px;">
+  {%- liquid
+    assign margin_top = section.settings.margin_top | default: 0
+    assign margin_bottom = section.settings.margin_bottom | default: 0
+  -%}
+  <section class="hero-section" style="margin-top: {{ margin_top }}px; margin-bottom: {{ margin_bottom }}px;">
     <div class="container">
       <h1 class="hero-title">{{ section.settings.title }}</h1>
       <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
