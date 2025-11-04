@@ -1,10 +1,74 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_section": {
-      "type": "hero-section"
+      "type": "hero-section",
+      "custom_css": [
+        ".hero-glow{margin-top:-35px !important;}"
+      ],
+      "settings": {
+        "title": "A WELLNESS EXPERIENCE.",
+        "subtitle": "Your perfect journey starts here. Book your next adventure with ease.",
+        "button_text": "BOOK YOUR GLOW",
+        "button_link": "",
+        "background_type": "video",
+        "video_source_type": "upload",
+        "background_video_desktop": "shopify://files/videos/voyage hy hype.mp4",
+        "background_video_desktop_url": "",
+        "background_video_mobile_url": "",
+        "video_autoplay": true,
+        "video_muted": true,
+        "variation": "glow",
+        "hero_height": 100,
+        "background_position": "center",
+        "background_size": "cover",
+        "title_color": "#8b6f47",
+        "title_font_size": 40,
+        "title_position_top": 20,
+        "text_alignment": "center",
+        "button_text_color": "#8b6f47",
+        "button_bg_color": "#ffffff",
+        "button_opacity": 70,
+        "button_position_bottom": 15,
+        "button_font_size": 16,
+        "button_padding_horizontal": 32,
+        "button_padding_vertical": 14,
+        "overlay_color": "#000000",
+        "overlay_opacity": 0,
+        "padding_top": 120,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
     },
     "follow_us_section": {
-      "type": "follow-us-section"
+      "type": "follow-us-section",
+      "settings": {
+        "heading_text": "Follow us on instagram!",
+        "instagram_url": "",
+        "background_color": "#eae7e1",
+        "text_color": "#333333",
+        "font_family": "serif",
+        "font_size": 20,
+        "font_weight": "400",
+        "show_underline": true,
+        "text_alignment": "center",
+        "text_transform": "none",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
     }
   },
   "order": [
@@ -12,4 +76,3 @@
     "follow_us_section"
   ]
 }
-
