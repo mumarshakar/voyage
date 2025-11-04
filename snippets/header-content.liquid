@@ -51,7 +51,16 @@
     assign show_search = true
     assign show_cart = true
     assign icon_size = 20
+    assign show_mobile_menu = true
     assign mobile_menu_icon_color = '#333333'
+    assign mobile_menu_icon_size = 24
+    assign mobile_menu_border_color = '#333333'
+    assign mobile_menu_border_width = 1
+    assign mobile_menu_border_radius = 4
+    assign mobile_menu_bg_transparent = true
+    assign mobile_menu_bg_color = '#FFFFFF'
+    assign mobile_menu_padding = 8
+    assign mobile_menu_stroke_width = 2
   else
     assign logo_text = header_settings.logo_text | default: shop.name
     assign logo_line1 = header_settings.logo_line1 | default: 'GLOW'
@@ -91,7 +100,16 @@
     assign show_search = header_settings.show_search | default: true
     assign show_cart = header_settings.show_cart | default: true
     assign icon_size = header_settings.icon_size | default: 20
+    assign show_mobile_menu = header_settings.show_mobile_menu | default: true
     assign mobile_menu_icon_color = header_settings.mobile_menu_icon_color | default: '#333333'
+    assign mobile_menu_icon_size = header_settings.mobile_menu_icon_size | default: 24
+    assign mobile_menu_border_color = header_settings.mobile_menu_border_color | default: '#333333'
+    assign mobile_menu_border_width = header_settings.mobile_menu_border_width | default: 1
+    assign mobile_menu_border_radius = header_settings.mobile_menu_border_radius | default: 4
+    assign mobile_menu_bg_transparent = header_settings.mobile_menu_bg_transparent | default: true
+    assign mobile_menu_bg_color = header_settings.mobile_menu_bg_color | default: '#FFFFFF'
+    assign mobile_menu_padding = header_settings.mobile_menu_padding | default: 8
+    assign mobile_menu_stroke_width = header_settings.mobile_menu_stroke_width | default: 2
   endif
 -%}
 
@@ -125,10 +143,18 @@
         {{ logo_text }}
       {% endif %}
     </a>
+    {% if show_mobile_menu %}
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-            style="border-color: {{ mobile_menu_icon_color }};">
-      <span class="navbar-toggler-icon" style="background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='{{ mobile_menu_icon_color | url_encode }}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e\");"></span>
+            style="border-color: {{ mobile_menu_border_color }};
+                   border-width: {{ mobile_menu_border_width }}px;
+                   border-radius: {{ mobile_menu_border_radius }}px;
+                   background-color: {% if mobile_menu_bg_transparent %}transparent{% else %}{{ mobile_menu_bg_color }}{% endif %};
+                   padding: {{ mobile_menu_padding }}px;
+                   width: {{ mobile_menu_icon_size | plus: mobile_menu_padding | times: 2 }}px;
+                   height: {{ mobile_menu_icon_size | plus: mobile_menu_padding | times: 2 }}px;">
+      <span class="navbar-toggler-icon" style="background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='{{ mobile_menu_icon_color | url_encode }}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='{{ mobile_menu_stroke_width }}' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e\"); width: {{ mobile_menu_icon_size }}px; height: {{ mobile_menu_icon_size }}px; background-size: {{ mobile_menu_icon_size }}px {{ mobile_menu_icon_size }}px;"></span>
     </button>
+    {% endif %}
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav {% if menu_alignment == 'left' %}me-auto{% elsif menu_alignment == 'right' %}ms-auto{% else %}mx-auto{% endif %}">
         {% if menu != blank %}
