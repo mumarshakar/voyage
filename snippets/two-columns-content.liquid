@@ -7,7 +7,7 @@
     assign bg_image = section.settings.column1_bg_image
     assign bg_size = section.settings.column1_bg_size | default: 'cover'
     assign bg_overlay_opacity = section.settings.column1_bg_overlay_opacity | default: 0
-    assign padding = section.settings.column1_padding | default: 40
+    assign padding = section.settings.column1_padding | default: 0
     
     if content_type == 'image'
       assign image = section.settings.column1_image
@@ -39,7 +39,7 @@
     assign bg_image = section.settings.column2_bg_image
     assign bg_size = section.settings.column2_bg_size | default: 'cover'
     assign bg_overlay_opacity = section.settings.column2_bg_overlay_opacity | default: 0
-    assign padding = section.settings.column2_padding | default: 40
+    assign padding = section.settings.column2_padding | default: 0
     
     if content_type == 'image'
       assign image = section.settings.column2_image
@@ -81,7 +81,7 @@
             background-size: {{ bg_size }};
             background-position: center;
             background-repeat: no-repeat;
-            padding: {{ padding }}px;
+            {% if content_type == 'text' and padding > 0 %}padding: {{ padding }}px;{% endif %}
             position: relative;
             min-height: 100%;">
   
