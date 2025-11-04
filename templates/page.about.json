@@ -12,7 +12,7 @@
     "hero_section_KcAnbM": {
       "type": "hero-section",
       "custom_css": [
-        ".hero-section{margin-top:-35px !important;}"
+        ".hero-section {margin-top: -35px !important;}"
       ],
       "name": "Hero Section",
       "settings": {
@@ -31,7 +31,7 @@
         "hero_height": 70,
         "background_position": "center",
         "background_size": "cover",
-        "title_color": "#8B6F47",
+        "title_color": "#FFFFFF",
         "title_font_size": 40,
         "title_position_top": 20,
         "text_alignment": "center",
