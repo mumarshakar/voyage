@@ -118,6 +118,16 @@ body {
   padding: 120px 20px 80px;
 }
 
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .hero-glow-content {
   position: relative;
   z-index: 2;
@@ -151,7 +161,6 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--warm-brown);
-  background-color: rgba(255, 255, 255, 0.7);
   padding: 14px 32px;
   border-radius: 50px;
   text-decoration: none;
@@ -160,10 +169,30 @@ body {
   border: none;
   margin-top: auto;
   margin-bottom: 10vh;
+  position: relative;
+  background-color: transparent;
+  z-index: 1;
+}
+
+/* Dynamic button background with opacity */
+.btn-glow-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--btn-bg-color, #FFFFFF);
+  opacity: var(--btn-opacity, 0.7);
+  border-radius: 50px;
+  z-index: -1;
+}
+
+.btn-glow-cta:hover::before {
+  opacity: calc(var(--btn-opacity, 0.7) + 0.2);
 }
 
 .btn-glow-cta:hover {
-  background-color: rgba(255, 255, 255, 0.9);
   color: var(--warm-brown-dark);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);

@@ -61,6 +61,238 @@
         }
       ],
       "default": "glow"
+    },
+    {
+      "type": "header",
+      "content": "Hero Section Layout"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "label": "Hero Height (vh)",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "default": 100,
+      "unit": "vh"
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background Image Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "background_size",
+      "label": "Background Image Size",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "auto",
+          "label": "Auto"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "header",
+      "content": "Title Settings"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#8B6F47"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title Font Size (px)",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "title_position_top",
+      "label": "Title Position from Top (%)",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "default": 20,
+      "unit": "%"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#8B6F47"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "button_opacity",
+      "label": "Button Background Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 70,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "button_position_bottom",
+      "label": "Button Position from Bottom (%)",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "default": 15,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button Font Size (px)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Button Horizontal Padding (px)",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Button Vertical Padding (px)",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Overlay Settings"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 120,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Horizontal Padding (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
     }
   ],
   "presets": [
@@ -72,11 +304,70 @@
 {% endschema %}
 
 {% if section.settings.variation == 'glow' %}
-  <section class="hero-section hero-glow" style="{% if section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | img_url: '1920x1080' }}');{% endif %}">
-    <div class="hero-glow-content">
-      <h1 class="hero-glow-title">{{ section.settings.title }}</h1>
+  {%- liquid
+    assign hero_height = section.settings.hero_height | default: 100
+    assign bg_position = section.settings.background_position | default: 'center'
+    assign bg_size = section.settings.background_size | default: 'cover'
+    assign title_color = section.settings.title_color | default: '#8B6F47'
+    assign title_font_size = section.settings.title_font_size | default: 40
+    assign title_position_top = section.settings.title_position_top | default: 20
+    assign text_align = section.settings.text_alignment | default: 'center'
+    assign button_text_color = section.settings.button_text_color | default: '#8B6F47'
+    assign button_bg_color = section.settings.button_bg_color | default: '#FFFFFF'
+    assign button_opacity = section.settings.button_opacity | default: 70
+    assign button_position_bottom = section.settings.button_position_bottom | default: 15
+    assign button_font_size = section.settings.button_font_size | default: 16
+    assign button_padding_h = section.settings.button_padding_horizontal | default: 32
+    assign button_padding_v = section.settings.button_padding_vertical | default: 14
+    assign overlay_color = section.settings.overlay_color | default: '#000000'
+    assign overlay_opacity = section.settings.overlay_opacity | default: 0
+    assign padding_top = section.settings.padding_top | default: 120
+    assign padding_bottom = section.settings.padding_bottom | default: 80
+    assign padding_horizontal = section.settings.padding_horizontal | default: 20
+    
+    if button_opacity > 0
+      assign button_opacity_decimal = button_opacity | divided_by: 100.0
+    else
+      assign button_opacity_decimal = 0
+    endif
+    if overlay_opacity > 0
+      assign overlay_opacity_decimal = overlay_opacity | divided_by: 100.0
+    else
+      assign overlay_opacity_decimal = 0
+    endif
+  -%}
+  
+  <section class="hero-section hero-glow" 
+           style="min-height: {{ hero_height }}vh;
+                  {% if section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | img_url: '1920x1080' }}');{% endif %}
+                  background-position: {{ bg_position }};
+                  background-size: {{ bg_size }};
+                  padding-top: {{ padding_top }}px;
+                  padding-bottom: {{ padding_bottom }}px;
+                  padding-left: {{ padding_horizontal }}px;
+                  padding-right: {{ padding_horizontal }}px;
+                  position: relative;">
+    {% if overlay_opacity > 0 %}
+      <div class="hero-overlay" style="background-color: {{ overlay_color }}; opacity: {{ overlay_opacity_decimal }};"></div>
+    {% endif %}
+    <div class="hero-glow-content" style="text-align: {{ text_align }};">
+      <h1 class="hero-glow-title" 
+          style="color: {{ title_color }};
+                 font-size: {{ title_font_size }}px;
+                 margin-top: {{ title_position_top }}%;">
+        {{ section.settings.title }}
+      </h1>
       {% if section.settings.button_link != blank %}
-        <a href="{{ section.settings.button_link }}" class="btn-glow-cta">{{ section.settings.button_text }}</a>
+        <a href="{{ section.settings.button_link }}" 
+           class="btn-glow-cta"
+           style="color: {{ button_text_color }};
+                  --btn-bg-color: {{ button_bg_color }};
+                  --btn-opacity: {{ button_opacity_decimal }};
+                  font-size: {{ button_font_size }}px;
+                  padding: {{ button_padding_v }}px {{ button_padding_h }}px;
+                  margin-bottom: {{ button_position_bottom }}%;">
+          {{ section.settings.button_text }}
+        </a>
       {% endif %}
     </div>
   </section>
