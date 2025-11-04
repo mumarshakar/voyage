@@ -1,0 +1,778 @@
+{% schema %}
+{
+  "name": "Two Columns",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "swap_columns",
+      "label": "Swap Columns Order",
+      "default": false,
+      "info": "Column 2 will appear first, Column 1 will appear second"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_on_mobile",
+      "label": "Stack Columns on Mobile",
+      "default": true,
+      "info": "When enabled, columns will stack vertically on mobile devices"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Gap Between Columns (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical Alignment",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Column 1 Settings"
+    },
+    {
+      "type": "select",
+      "id": "column1_content_type",
+      "label": "Column 1 Content Type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        },
+        {
+          "value": "text",
+          "label": "Text"
+        }
+      ],
+      "default": "text"
+    },
+    {
+      "type": "header",
+      "content": "Column 1 - Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "column1_image",
+      "label": "Column 1 Image",
+      "info": "Used when Column 1 content type is Image"
+    },
+    {
+      "type": "text",
+      "id": "column1_image_alt",
+      "label": "Image Alt Text"
+    },
+    {
+      "type": "url",
+      "id": "column1_image_link",
+      "label": "Image Link URL",
+      "info": "Optional: Make image clickable"
+    },
+    {
+      "type": "select",
+      "id": "column1_image_fit",
+      "label": "Image Fit",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "fill",
+          "label": "Fill"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "header",
+      "content": "Column 1 - Video Settings"
+    },
+    {
+      "type": "select",
+      "id": "column1_video_source",
+      "label": "Video Source",
+      "options": [
+        {
+          "value": "upload",
+          "label": "Upload to Shopify"
+        },
+        {
+          "value": "url",
+          "label": "External URL"
+        }
+      ],
+      "default": "upload",
+      "info": "Used when Column 1 content type is Video"
+    },
+    {
+      "type": "video",
+      "id": "column1_video",
+      "label": "Column 1 Desktop Video",
+      "info": "Used when video source is Upload"
+    },
+    {
+      "type": "video",
+      "id": "column1_video_mobile",
+      "label": "Column 1 Mobile Video (Optional)",
+      "info": "If not provided, desktop video will be used on mobile"
+    },
+    {
+      "type": "text",
+      "id": "column1_video_url",
+      "label": "Column 1 Video URL",
+      "info": "YouTube, Vimeo, or direct video URL. Used when video source is External URL"
+    },
+    {
+      "type": "text",
+      "id": "column1_video_url_mobile",
+      "label": "Column 1 Mobile Video URL (Optional)"
+    },
+    {
+      "type": "checkbox",
+      "id": "column1_video_autoplay",
+      "label": "Autoplay Video",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "column1_video_muted",
+      "label": "Muted",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "column1_video_loop",
+      "label": "Loop Video",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "column1_video_controls",
+      "label": "Show Video Controls",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Column 1 - Text Settings"
+    },
+    {
+      "type": "text",
+      "id": "column1_heading",
+      "label": "Column 1 Heading",
+      "info": "Used when Column 1 content type is Text"
+    },
+    {
+      "type": "text",
+      "id": "column1_subheading",
+      "label": "Column 1 Subheading"
+    },
+    {
+      "type": "richtext",
+      "id": "column1_text",
+      "label": "Column 1 Text Content",
+      "info": "Supports HTML and rich text formatting"
+    },
+    {
+      "type": "text",
+      "id": "column1_button_text",
+      "label": "Column 1 Button Text",
+      "info": "Optional button"
+    },
+    {
+      "type": "url",
+      "id": "column1_button_link",
+      "label": "Column 1 Button Link"
+    },
+    {
+      "type": "select",
+      "id": "column1_text_alignment",
+      "label": "Column 1 Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "column1_text_color",
+      "label": "Column 1 Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "column1_heading_size",
+      "label": "Column 1 Heading Font Size (px)",
+      "min": 20,
+      "max": 72,
+      "step": 2,
+      "default": 36,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Column 1 - Background Settings"
+    },
+    {
+      "type": "color",
+      "id": "column1_bg_color",
+      "label": "Column 1 Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "image_picker",
+      "id": "column1_bg_image",
+      "label": "Column 1 Background Image",
+      "info": "Optional background image"
+    },
+    {
+      "type": "select",
+      "id": "column1_bg_size",
+      "label": "Background Image Size",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "auto",
+          "label": "Auto"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "column1_bg_overlay_opacity",
+      "label": "Background Overlay Opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "default": 0,
+      "unit": "%",
+      "info": "Dark overlay on background image"
+    },
+    {
+      "type": "range",
+      "id": "column1_padding",
+      "label": "Column 1 Padding (px)",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Column 2 Settings"
+    },
+    {
+      "type": "select",
+      "id": "column2_content_type",
+      "label": "Column 2 Content Type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        },
+        {
+          "value": "text",
+          "label": "Text"
+        }
+      ],
+      "default": "text"
+    },
+    {
+      "type": "header",
+      "content": "Column 2 - Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "column2_image",
+      "label": "Column 2 Image",
+      "info": "Used when Column 2 content type is Image"
+    },
+    {
+      "type": "text",
+      "id": "column2_image_alt",
+      "label": "Image Alt Text"
+    },
+    {
+      "type": "url",
+      "id": "column2_image_link",
+      "label": "Image Link URL",
+      "info": "Optional: Make image clickable"
+    },
+    {
+      "type": "select",
+      "id": "column2_image_fit",
+      "label": "Image Fit",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "fill",
+          "label": "Fill"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "header",
+      "content": "Column 2 - Video Settings"
+    },
+    {
+      "type": "select",
+      "id": "column2_video_source",
+      "label": "Video Source",
+      "options": [
+        {
+          "value": "upload",
+          "label": "Upload to Shopify"
+        },
+        {
+          "value": "url",
+          "label": "External URL"
+        }
+      ],
+      "default": "upload",
+      "info": "Used when Column 2 content type is Video"
+    },
+    {
+      "type": "video",
+      "id": "column2_video",
+      "label": "Column 2 Desktop Video",
+      "info": "Used when video source is Upload"
+    },
+    {
+      "type": "video",
+      "id": "column2_video_mobile",
+      "label": "Column 2 Mobile Video (Optional)",
+      "info": "If not provided, desktop video will be used on mobile"
+    },
+    {
+      "type": "text",
+      "id": "column2_video_url",
+      "label": "Column 2 Video URL",
+      "info": "YouTube, Vimeo, or direct video URL. Used when video source is External URL"
+    },
+    {
+      "type": "text",
+      "id": "column2_video_url_mobile",
+      "label": "Column 2 Mobile Video URL (Optional)"
+    },
+    {
+      "type": "checkbox",
+      "id": "column2_video_autoplay",
+      "label": "Autoplay Video",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "column2_video_muted",
+      "label": "Muted",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "column2_video_loop",
+      "label": "Loop Video",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "column2_video_controls",
+      "label": "Show Video Controls",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Column 2 - Text Settings"
+    },
+    {
+      "type": "text",
+      "id": "column2_heading",
+      "label": "Column 2 Heading",
+      "info": "Used when Column 2 content type is Text"
+    },
+    {
+      "type": "text",
+      "id": "column2_subheading",
+      "label": "Column 2 Subheading"
+    },
+    {
+      "type": "richtext",
+      "id": "column2_text",
+      "label": "Column 2 Text Content",
+      "info": "Supports HTML and rich text formatting"
+    },
+    {
+      "type": "text",
+      "id": "column2_button_text",
+      "label": "Column 2 Button Text",
+      "info": "Optional button"
+    },
+    {
+      "type": "url",
+      "id": "column2_button_link",
+      "label": "Column 2 Button Link"
+    },
+    {
+      "type": "select",
+      "id": "column2_text_alignment",
+      "label": "Column 2 Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "column2_text_color",
+      "label": "Column 2 Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "column2_heading_size",
+      "label": "Column 2 Heading Font Size (px)",
+      "min": 20,
+      "max": 72,
+      "step": 2,
+      "default": 36,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Column 2 - Background Settings"
+    },
+    {
+      "type": "color",
+      "id": "column2_bg_color",
+      "label": "Column 2 Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "image_picker",
+      "id": "column2_bg_image",
+      "label": "Column 2 Background Image",
+      "info": "Optional background image"
+    },
+    {
+      "type": "select",
+      "id": "column2_bg_size",
+      "label": "Background Image Size",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "auto",
+          "label": "Auto"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "column2_bg_overlay_opacity",
+      "label": "Background Overlay Opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "default": 0,
+      "unit": "%",
+      "info": "Dark overlay on background image"
+    },
+    {
+      "type": "range",
+      "id": "column2_padding",
+      "label": "Column 2 Padding (px)",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Section Top Padding (px)",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Section Bottom Padding (px)",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_horizontal",
+      "label": "Section Horizontal Padding (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_min_height",
+      "label": "Minimum Section Height (px)",
+      "min": 200,
+      "max": 1000,
+      "step": 50,
+      "default": 400,
+      "unit": "px",
+      "info": "Minimum height of the section"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width Section",
+      "default": false,
+      "info": "When enabled, section extends to full browser width"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two Columns"
+    }
+  ]
+}
+{% endschema %}
+
+{%- liquid
+  assign swap_columns = section.settings.swap_columns
+  assign stack_on_mobile = section.settings.stack_on_mobile
+  assign column_gap = section.settings.column_gap | default: 30
+  assign vertical_alignment = section.settings.vertical_alignment | default: 'center'
+  
+  assign column1_content_type = section.settings.column1_content_type | default: 'text'
+  assign column2_content_type = section.settings.column2_content_type | default: 'text'
+  
+  assign section_bg_color = section.settings.section_bg_color | default: '#FFFFFF'
+  assign section_padding_top = section.settings.section_padding_top | default: 80
+  assign section_padding_bottom = section.settings.section_padding_bottom | default: 80
+  assign section_padding_horizontal = section.settings.section_padding_horizontal | default: 20
+  assign section_min_height = section.settings.section_min_height | default: 400
+  assign full_width = section.settings.full_width
+  
+  if vertical_alignment == 'top'
+    assign align_class = 'align-items-start'
+  elsif vertical_alignment == 'bottom'
+    assign align_class = 'align-items-end'
+  else
+    assign align_class = 'align-items-center'
+  endif
+-%}
+
+<section class="two-columns-section" 
+         style="background-color: {{ section_bg_color }};
+                padding-top: {{ section_padding_top }}px;
+                padding-bottom: {{ section_padding_bottom }}px;
+                padding-left: {{ section_padding_horizontal }}px;
+                padding-right: {{ section_padding_horizontal }}px;
+                min-height: {{ section_min_height }}px;">
+  
+  <div class="{% if full_width %}container-fluid{% else %}container{% endif %}">
+    <div class="two-columns-wrapper row g-0" 
+         style="gap: {{ column_gap }}px;"
+         data-swap="{{ swap_columns }}"
+         data-stack-mobile="{{ stack_on_mobile }}">
+      
+      {% comment %} Column 1 {% endcomment %}
+      <div class="two-column two-column-1 col-md-6 {% if stack_on_mobile %}col-12{% else %}col-6{% endif %}" 
+           style="order: {% if swap_columns %}2{% else %}1{% endif %};">
+        {% render 'two-columns-content', 
+           column: '1',
+           content_type: column1_content_type,
+           section: section %}
+      </div>
+      
+      {% comment %} Column 2 {% endcomment %}
+      <div class="two-column two-column-2 col-md-6 {% if stack_on_mobile %}col-12{% else %}col-6{% endif %}" 
+           style="order: {% if swap_columns %}1{% else %}2{% endif %};">
+        {% render 'two-columns-content', 
+           column: '2',
+           content_type: column2_content_type,
+           section: section %}
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<style>
+  .two-columns-section {
+    position: relative;
+  }
+  
+  .two-columns-wrapper {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+  
+  .two-column {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .two-column-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .two-column-image,
+  .two-column-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .two-column-video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .two-column-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .two-column-text {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .two-column-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .two-column-text-content {
+    position: relative;
+    z-index: 2;
+  }
+  
+  @media (max-width: 767px) {
+    .two-columns-wrapper[data-stack-mobile="true"] {
+      flex-direction: column;
+    }
+    
+    .two-columns-wrapper[data-stack-mobile="true"] .two-column {
+      width: 100% !important;
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+    }
+  }
+</style>
+

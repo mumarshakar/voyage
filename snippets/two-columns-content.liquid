@@ -1,0 +1,289 @@
+{%- liquid
+  assign column_num = column
+  assign content_type = content_type
+  
+  if column_num == '1'
+    assign bg_color = section.settings.column1_bg_color | default: '#FFFFFF'
+    assign bg_image = section.settings.column1_bg_image
+    assign bg_size = section.settings.column1_bg_size | default: 'cover'
+    assign bg_overlay_opacity = section.settings.column1_bg_overlay_opacity | default: 0
+    assign padding = section.settings.column1_padding | default: 40
+    
+    if content_type == 'image'
+      assign image = section.settings.column1_image
+      assign image_alt = section.settings.column1_image_alt
+      assign image_link = section.settings.column1_image_link
+      assign image_fit = section.settings.column1_image_fit | default: 'cover'
+    elsif content_type == 'video'
+      assign video_source = section.settings.column1_video_source | default: 'upload'
+      assign video = section.settings.column1_video
+      assign video_mobile = section.settings.column1_video_mobile
+      assign video_url = section.settings.column1_video_url
+      assign video_url_mobile = section.settings.column1_video_url_mobile
+      assign video_autoplay = section.settings.column1_video_autoplay
+      assign video_muted = section.settings.column1_video_muted
+      assign video_loop = section.settings.column1_video_loop
+      assign video_controls = section.settings.column1_video_controls
+    elsif content_type == 'text'
+      assign heading = section.settings.column1_heading
+      assign subheading = section.settings.column1_subheading
+      assign text = section.settings.column1_text
+      assign button_text = section.settings.column1_button_text
+      assign button_link = section.settings.column1_button_link
+      assign text_alignment = section.settings.column1_text_alignment | default: 'left'
+      assign text_color = section.settings.column1_text_color | default: '#333333'
+      assign heading_size = section.settings.column1_heading_size | default: 36
+    endif
+  else
+    assign bg_color = section.settings.column2_bg_color | default: '#FFFFFF'
+    assign bg_image = section.settings.column2_bg_image
+    assign bg_size = section.settings.column2_bg_size | default: 'cover'
+    assign bg_overlay_opacity = section.settings.column2_bg_overlay_opacity | default: 0
+    assign padding = section.settings.column2_padding | default: 40
+    
+    if content_type == 'image'
+      assign image = section.settings.column2_image
+      assign image_alt = section.settings.column2_image_alt
+      assign image_link = section.settings.column2_image_link
+      assign image_fit = section.settings.column2_image_fit | default: 'cover'
+    elsif content_type == 'video'
+      assign video_source = section.settings.column2_video_source | default: 'upload'
+      assign video = section.settings.column2_video
+      assign video_mobile = section.settings.column2_video_mobile
+      assign video_url = section.settings.column2_video_url
+      assign video_url_mobile = section.settings.column2_video_url_mobile
+      assign video_autoplay = section.settings.column2_video_autoplay
+      assign video_muted = section.settings.column2_video_muted
+      assign video_loop = section.settings.column2_video_loop
+      assign video_controls = section.settings.column2_video_controls
+    elsif content_type == 'text'
+      assign heading = section.settings.column2_heading
+      assign subheading = section.settings.column2_subheading
+      assign text = section.settings.column2_text
+      assign button_text = section.settings.column2_button_text
+      assign button_link = section.settings.column2_button_link
+      assign text_alignment = section.settings.column2_text_alignment | default: 'left'
+      assign text_color = section.settings.column2_text_color | default: '#333333'
+      assign heading_size = section.settings.column2_heading_size | default: 36
+    endif
+  endif
+  
+  if bg_overlay_opacity > 0
+    assign overlay_opacity_decimal = bg_overlay_opacity | divided_by: 100.0
+  else
+    assign overlay_opacity_decimal = 0
+  endif
+-%}
+
+<div class="two-column-content" 
+     style="background-color: {{ bg_color }};
+            {% if bg_image != blank %}background-image: url('{{ bg_image | img_url: '1920x1080' }}');{% endif %}
+            background-size: {{ bg_size }};
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: {{ padding }}px;
+            position: relative;
+            min-height: 100%;">
+  
+  {% if bg_image != blank and bg_overlay_opacity > 0 %}
+    <div class="two-column-overlay" style="background-color: #000000; opacity: {{ overlay_opacity_decimal }};"></div>
+  {% endif %}
+  
+  {% if content_type == 'image' %}
+    <div class="two-column-image-wrapper" style="width: 100%; height: 100%;">
+      {% if image != blank %}
+        {% if image_link != blank %}
+          <a href="{{ image_link }}" style="display: block; width: 100%; height: 100%;">
+        {% endif %}
+        <img src="{{ image | img_url: '1200x1200' }}" 
+             alt="{{ image_alt | escape }}"
+             class="two-column-image"
+             style="width: 100%;
+                    height: 100%;
+                    object-fit: {{ image_fit }};
+                    display: block;">
+        {% if image_link != blank %}
+          </a>
+        {% endif %}
+      {% endif %}
+    </div>
+  
+  {% elsif content_type == 'video' %}
+    <div class="two-column-video-container">
+      {% if video_source == 'upload' %}
+        {% if video != blank %}
+          <video class="two-column-video two-column-video-desktop"
+                 {% if video_autoplay %}autoplay{% endif %}
+                 {% if video_muted %}muted{% endif %}
+                 {% if video_loop %}loop{% endif %}
+                 {% unless video_controls %}controlslist="nodownload nofullscreen noremoteplayback"{% endunless %}
+                 {% if video_controls %}controls{% endif %}
+                 playsinline
+                 preload="auto">
+            {% for source in video.sources %}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {% endfor %}
+          </video>
+          
+          {% if video_mobile != blank %}
+            <video class="two-column-video two-column-video-mobile"
+                   {% if video_autoplay %}autoplay{% endif %}
+                   {% if video_muted %}muted{% endif %}
+                   {% if video_loop %}loop{% endif %}
+                   {% unless video_controls %}controlslist="nodownload nofullscreen noremoteplayback"{% endunless %}
+                   {% if video_controls %}controls{% endif %}
+                   playsinline
+                   preload="auto">
+              {% for source in video_mobile.sources %}
+                <source src="{{ source.url }}" type="{{ source.mime_type }}">
+              {% endfor %}
+            </video>
+          {% endif %}
+        {% endif %}
+      {% else %}
+        {% if video_url != blank %}
+          <div class="two-column-video-embed">
+            {% if video_url contains 'youtube.com' or video_url contains 'youtu.be' %}
+              {% assign video_id = video_url | split: 'v=' | last | split: '&' | first %}
+              {% if video_id == blank %}
+                {% assign video_id = video_url | split: '/' | last %}
+              {% endif %}
+              <iframe src="https://www.youtube.com/embed/{{ video_id }}?autoplay={% if video_autoplay %}1{% else %}0{% endif %}&mute={% if video_muted %}1{% else %}0{% endif %}&loop={% if video_loop %}1{% else %}0{% endif %}&controls={% if video_controls %}1{% else %}0{% endif %}" 
+                      frameborder="0" 
+                      allow="autoplay; encrypted-media" 
+                      allowfullscreen
+                      style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+              </iframe>
+            {% elsif video_url contains 'vimeo.com' %}
+              {% assign video_id = video_url | split: '/' | last | split: '?' | first %}
+              <iframe src="https://player.vimeo.com/video/{{ video_id }}?autoplay={% if video_autoplay %}1{% else %}0{% endif %}&muted={% if video_muted %}1{% else %}0{% endif %}&loop={% if video_loop %}1{% else %}0{% endif %}&controls={% if video_controls %}1{% else %}0{% endif %}" 
+                      frameborder="0" 
+                      allow="autoplay; encrypted-media" 
+                      allowfullscreen
+                      style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+              </iframe>
+            {% else %}
+              <video class="two-column-video two-column-video-desktop"
+                     src="{{ video_url }}"
+                     {% if video_autoplay %}autoplay{% endif %}
+                     {% if video_muted %}muted{% endif %}
+                     {% if video_loop %}loop{% endif %}
+                     {% if video_controls %}controls{% endif %}
+                     playsinline
+                     preload="auto">
+              </video>
+              {% if video_url_mobile != blank %}
+                <video class="two-column-video two-column-video-mobile"
+                       src="{{ video_url_mobile }}"
+                       {% if video_autoplay %}autoplay{% endif %}
+                       {% if video_muted %}muted{% endif %}
+                       {% if video_loop %}loop{% endif %}
+                       {% if video_controls %}controls{% endif %}
+                       playsinline
+                       preload="auto">
+                </video>
+              {% endif %}
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+  
+  {% elsif content_type == 'text' %}
+    <div class="two-column-text two-column-text-content" style="color: {{ text_color }}; text-align: {{ text_alignment }};">
+      {% if heading != blank %}
+        <h2 class="two-column-heading" 
+            style="font-size: {{ heading_size }}px;
+                   color: {{ text_color }};
+                   margin-bottom: 1rem;
+                   margin-top: 0;">
+          {{ heading }}
+        </h2>
+      {% endif %}
+      
+      {% if subheading != blank %}
+        <h3 class="two-column-subheading" 
+            style="font-size: 1.25rem;
+                   color: {{ text_color }};
+                   opacity: 0.8;
+                   margin-bottom: 1rem;
+                   margin-top: 0;">
+          {{ subheading }}
+        </h3>
+      {% endif %}
+      
+      {% if text != blank %}
+        <div class="two-column-body" style="color: {{ text_color }}; line-height: 1.6;">
+          {{ text }}
+        </div>
+      {% endif %}
+      
+      {% if button_text != blank and button_link != blank %}
+        <div class="two-column-button-wrapper" style="margin-top: 1.5rem;">
+          <a href="{{ button_link }}" 
+             class="btn btn-primary two-column-button"
+             style="display: inline-block;
+                    padding: 12px 30px;
+                    background-color: {{ text_color }};
+                    color: {{ bg_color }};
+                    text-decoration: none;
+                    border-radius: 4px;
+                    transition: opacity 0.3s;">
+            {{ button_text }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<style>
+  .two-column-video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    overflow: hidden;
+  }
+  
+  .two-column-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .two-column-video-mobile {
+    display: none;
+  }
+  
+  .two-column-video-embed {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  }
+  
+  .two-column-video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  @media (max-width: 767px) {
+    .two-column-video-desktop {
+      display: none;
+    }
+    
+    .two-column-video-mobile {
+      display: block;
+    }
+  }
+  
+  .two-column-button:hover {
+    opacity: 0.9;
+  }
+</style>
+
