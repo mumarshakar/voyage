@@ -8,12 +8,16 @@
     },
     "about_values": {
       "type": "about-values"
+    },
+    "custom_text": {
+      "type": "custom-text"
     }
   },
   "order": [
     "page_header",
     "about_mission",
-    "about_values"
+    "about_values",
+    "custom_text"
   ]
 }
 
