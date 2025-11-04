@@ -36,10 +36,18 @@
     assign header_bg_color = '#FFFFFF'
     assign header_shadow = true
     assign header_style = 'fixed'
+    assign fixed_position = 'top'
+    assign position_top = 0
+    assign position_bottom = 0
+    assign position_left = 0
+    assign position_right = 0
+    assign header_z_index = 1000
     assign make_header_transparent = false
     assign transparent_on_homepage = false
     assign header_padding_top = 16
     assign header_padding_bottom = 16
+    assign header_margin_top = 0
+    assign header_margin_bottom = 0
     assign show_search = true
     assign show_cart = true
     assign icon_size = 20
@@ -68,10 +76,18 @@
     assign header_bg_color = header_settings.header_bg_color | default: '#FFFFFF'
     assign header_shadow = header_settings.header_shadow | default: true
     assign header_style = header_settings.header_style | default: 'fixed'
+    assign fixed_position = header_settings.fixed_position | default: 'top'
+    assign position_top = header_settings.position_top | default: 0
+    assign position_bottom = header_settings.position_bottom | default: 0
+    assign position_left = header_settings.position_left | default: 0
+    assign position_right = header_settings.position_right | default: 0
+    assign header_z_index = header_settings.header_z_index | default: 1000
     assign make_header_transparent = header_settings.make_header_transparent | default: false
     assign transparent_on_homepage = header_settings.transparent_on_homepage | default: false
     assign header_padding_top = header_settings.header_padding_top | default: 16
     assign header_padding_bottom = header_settings.header_padding_bottom | default: 16
+    assign header_margin_top = header_settings.header_margin_top | default: 0
+    assign header_margin_bottom = header_settings.header_margin_bottom | default: 0
     assign show_search = header_settings.show_search | default: true
     assign show_cart = header_settings.show_cart | default: true
     assign icon_size = header_settings.icon_size | default: 20
@@ -79,10 +95,19 @@
   endif
 -%}
 
-<nav class="navbar navbar-expand-lg {% if header_style == 'sticky' %}navbar-sticky{% elsif header_style == 'fixed' %}fixed-top{% endif %} {% if make_header_transparent or transparent_on_homepage and template.name == 'index' %}navbar-transparent{% endif %}" 
+<nav class="navbar navbar-expand-lg {% if header_style == 'sticky' %}navbar-sticky{% elsif header_style == 'fixed' %}{% if fixed_position == 'bottom' %}fixed-bottom{% else %}fixed-top{% endif %}{% elsif header_style == 'absolute' %}navbar-absolute{% endif %} {% if make_header_transparent or transparent_on_homepage and template.name == 'index' %}navbar-transparent{% endif %}" 
      style="background-color: {% if make_header_transparent %}transparent{% elsif transparent_on_homepage and template.name == 'index' %}transparent{% else %}{{ header_bg_color }}{% endif %}; 
             padding-top: {{ header_padding_top }}px; 
             padding-bottom: {{ header_padding_bottom }}px;
+            margin-top: {{ header_margin_top }}px;
+            margin-bottom: {{ header_margin_bottom }}px;
+            z-index: {{ header_z_index }};
+            {% if header_style == 'absolute' or header_style == 'fixed' %}
+            {% if position_top > 0 %}top: {{ position_top }}px;{% endif %}
+            {% if position_bottom > 0 %}bottom: {{ position_bottom }}px;{% endif %}
+            {% if position_left > 0 %}left: {{ position_left }}px;{% endif %}
+            {% if position_right > 0 %}right: {{ position_right }}px;{% endif %}
+            {% endif %}
             {% if header_shadow %}{% if make_header_transparent or transparent_on_homepage and template.name == 'index' %}box-shadow: none;{% else %}box-shadow: 0 2px 10px rgba(0,0,0,0.1);{% endif %}{% else %}box-shadow: none;{% endif %}">
   <div class="container">
     <a class="navbar-brand" href="{{ routes.root_url }}" style="font-size: {{ logo_font_size }}px; color: {{ logo_color }} !important;">
@@ -180,13 +205,27 @@
   .navbar.fixed-top {
     position: fixed;
     top: 0;
-    z-index: 1000;
     width: 100%;
   }
   
-  {% if header_style == 'fixed' %}
+  .navbar.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .navbar-absolute {
+    position: absolute;
+    width: 100%;
+  }
+  
+  {% if header_style == 'fixed' and fixed_position == 'top' %}
   body {
-    padding-top: calc({{ header_padding_top }}px + {{ header_padding_bottom }}px + 1.5rem);
+    padding-top: calc({{ position_top }}px + {{ header_margin_top }}px + {{ header_padding_top }}px + {{ header_padding_bottom }}px + 1.5rem);
+  }
+  {% elsif header_style == 'fixed' and fixed_position == 'bottom' %}
+  body {
+    padding-bottom: calc({{ position_bottom }}px + {{ header_margin_top }}px + {{ header_padding_top }}px + {{ header_padding_bottom }}px + 1.5rem);
   }
   {% endif %}
   

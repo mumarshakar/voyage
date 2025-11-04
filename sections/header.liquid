@@ -215,9 +215,85 @@
         {
           "value": "fixed",
           "label": "Fixed"
+        },
+        {
+          "value": "absolute",
+          "label": "Absolute"
         }
       ],
       "default": "fixed"
+    },
+    {
+      "type": "select",
+      "id": "fixed_position",
+      "label": "Fixed Position Placement",
+      "info": "When header is fixed, choose where to position it",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "range",
+      "id": "position_top",
+      "label": "Position from Top (px)",
+      "info": "Offset from top edge (for fixed/absolute positioning)",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "position_bottom",
+      "label": "Position from Bottom (px)",
+      "info": "Offset from bottom edge (for fixed/absolute positioning)",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "position_left",
+      "label": "Position from Left (px)",
+      "info": "Offset from left edge (for absolute positioning)",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "position_right",
+      "label": "Position from Right (px)",
+      "info": "Offset from right edge (for absolute positioning)",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "header_z_index",
+      "label": "Z-Index",
+      "info": "Controls stacking order (higher values appear on top)",
+      "min": 0,
+      "max": 9999,
+      "step": 10,
+      "default": 1000,
+      "unit": ""
     },
     {
       "type": "checkbox",
@@ -248,6 +324,26 @@
       "max": 50,
       "step": 1,
       "default": 16
+    },
+    {
+      "type": "range",
+      "id": "header_margin_top",
+      "label": "Header Top Margin (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "header_margin_bottom",
+      "label": "Header Bottom Margin (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
     },
     {
       "type": "header",
