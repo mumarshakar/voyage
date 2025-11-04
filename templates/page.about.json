@@ -33,7 +33,7 @@
         "background_size": "cover",
         "title_color": "#FFFFFF",
         "title_font_size": 40,
-        "title_position_top": 20,
+        "title_position_top": 5,
         "text_alignment": "center",
         "button_text_color": "#8B6F47",
         "button_bg_color": "#FFFFFF",
