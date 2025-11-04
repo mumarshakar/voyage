@@ -75,12 +75,32 @@
     },
     {
       "type": "range",
+      "id": "images_per_view",
+      "label": "Images Per View",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3,
+      "info": "Number of images visible at once"
+    },
+    {
+      "type": "range",
       "id": "image_height",
       "label": "Image Height (px)",
       "min": 300,
       "max": 1000,
       "step": 50,
       "default": 600,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "label": "Gap Between Images (px)",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "default": 15,
       "unit": "px"
     },
     {
@@ -236,8 +256,10 @@
   assign show_dots = section.settings.show_dots
   assign transition_effect = section.settings.transition_effect | default: 'slide'
   assign transition_speed = section.settings.transition_speed | default: 500
+  assign images_per_view = section.settings.images_per_view | default: 3
   assign image_height = section.settings.image_height | default: 600
   assign image_fit = section.settings.image_fit | default: 'cover'
+  assign image_gap = section.settings.image_gap | default: 15
   assign arrows_size = section.settings.arrows_size | default: 50
   assign arrows_color = section.settings.arrows_color | default: '#8B6F47'
   assign arrows_bg_color = section.settings.arrows_bg_color | default: '#FFFFFF'
@@ -267,13 +289,24 @@
          data-autoplay-speed="{{ autoplay_interval }}"
          data-loop="{{ loop }}"
          data-transition="{{ transition_effect }}"
-         data-transition-speed="{{ transition_speed }}">
+         data-transition-speed="{{ transition_speed }}"
+         data-images-per-view="{{ images_per_view }}">
       
-      <div class="image-carousel-container">
+      <div class="image-carousel-container" 
+           style="display: flex;
+                  gap: {{ image_gap }}px;
+                  overflow: hidden;
+                  position: relative;">
         {% if section.blocks.size > 0 %}
           {% for block in section.blocks %}
-            <div class="carousel-slide {% if forloop.first %}active{% endif %}" 
+            {% assign slide_width = 100 | divided_by: images_per_view | minus: 1 %}
+            <div class="carousel-slide {% if forloop.index <= images_per_view %}active{% endif %}" 
                  data-slide-index="{{ forloop.index0 }}"
+                 style="flex: 0 0 calc((100% - {{ image_gap | times: images_per_view | minus: image_gap }}px) / {{ images_per_view }});
+                        min-width: 0;
+                        transition: transform {{ transition_speed }}ms ease-in-out,
+                                   opacity {{ transition_speed }}ms ease-in-out;
+                        {% if forloop.index > images_per_view %}opacity: 0; transform: translateX(100%);{% endif %}"
                  {{ block.shopify_attributes }}>
               {% if block.settings.image != blank %}
                 {% if block.settings.image_link != blank %}
@@ -286,7 +319,8 @@
                      style="width: 100%;
                             height: {{ image_height }}px;
                             object-fit: {{ image_fit }};
-                            display: block;">
+                            display: block;
+                            border-radius: 8px;">
                 {% if block.settings.image_link != blank %}
                   </a>
                 {% endif %}
@@ -296,7 +330,7 @@
         {% endif %}
       </div>
       
-      {% if show_arrows and section.blocks.size > 1 %}
+      {% if show_arrows and section.blocks.size > images_per_view %}
         <button class="carousel-arrow carousel-arrow-prev" 
                 aria-label="Previous slide"
                 style="width: {{ arrows_size }}px;
@@ -323,12 +357,13 @@
         </button>
       {% endif %}
       
-      {% if show_dots and section.blocks.size > 1 %}
+      {% if show_dots and section.blocks.size > images_per_view %}
         <div class="carousel-dots">
-          {% for block in section.blocks %}
+          {% assign total_groups = section.blocks.size | divided_by: images_per_view | ceil %}
+          {% for i in (1..total_groups) %}
             <button class="carousel-dot {% if forloop.first %}active{% endif %}" 
                     data-dot-index="{{ forloop.index0 }}"
-                    aria-label="Go to slide {{ forloop.index }}"
+                    aria-label="Go to group {{ forloop.index }}"
                     style="background-color: {% if forloop.first %}{{ dots_color }}{% else %}{{ dots_inactive_color }}{% endif %};">
             </button>
           {% endfor %}
@@ -357,35 +392,13 @@
   }
   
   .carousel-slide {
-    display: none;
-    width: 100%;
     opacity: 0;
-    transition: opacity {{ transition_speed }}ms ease-in-out;
+    transform: translateX(100%);
   }
   
   .carousel-slide.active {
-    display: block;
     opacity: 1;
-  }
-  
-  .carousel-slide[data-transition="slide"] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: transform {{ transition_speed }}ms ease-in-out, opacity {{ transition_speed }}ms ease-in-out;
-  }
-  
-  .carousel-slide[data-transition="slide"].active {
-    position: relative;
     transform: translateX(0);
-  }
-  
-  .carousel-slide[data-transition="slide"].prev {
-    transform: translateX(-100%);
-  }
-  
-  .carousel-slide[data-transition="slide"].next {
-    transform: translateX(100%);
   }
   
   .carousel-image {
@@ -487,6 +500,7 @@
     if (!carousel) return;
     
     const wrapper = carousel.querySelector('.image-carousel-wrapper');
+    const container = carousel.querySelector('.image-carousel-container');
     const slides = carousel.querySelectorAll('.carousel-slide');
     const dots = carousel.querySelectorAll('.carousel-dot');
     const prevArrow = carousel.querySelector('.carousel-arrow-prev');
@@ -497,56 +511,67 @@
     const autoplay = wrapper.dataset.autoplay === 'true';
     const autoplaySpeed = parseInt(wrapper.dataset.autoplaySpeed) || 5000;
     const loop = wrapper.dataset.loop === 'true';
-    const transition = wrapper.dataset.transition || 'slide';
     const transitionSpeed = parseInt(wrapper.dataset.transitionSpeed) || 500;
     
-    let currentIndex = 0;
+    // Get images per view from data attribute or default to 3
+    const imagesPerView = parseInt(wrapper.dataset.imagesPerView) || 3;
+    const totalSlides = slides.length;
+    const totalGroups = Math.ceil(totalSlides / imagesPerView);
+    
+    let currentGroup = 0;
     let autoplayInterval = null;
     
-    function showSlide(index) {
+    function showGroup(groupIndex) {
+      // Calculate which slides to show
+      const startIndex = groupIndex * imagesPerView;
+      const endIndex = Math.min(startIndex + imagesPerView, totalSlides);
+      
       // Remove active classes
-      slides.forEach(slide => {
-        slide.classList.remove('active', 'prev', 'next');
+      slides.forEach((slide, index) => {
+        if (index >= startIndex && index < endIndex) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
       });
-      dots.forEach(dot => dot.classList.remove('active'));
       
-      // Update current index
-      currentIndex = index;
+      // Update dots
+      dots.forEach((dot, index) => {
+        if (index === groupIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
       
-      // Add active classes
-      if (slides[index]) {
-        slides[index].classList.add('active');
-      }
-      if (dots[index]) {
-        dots[index].classList.add('active');
-      }
+      currentGroup = groupIndex;
       
       // Update arrow states
       if (!loop) {
-        if (prevArrow) prevArrow.style.opacity = index === 0 ? '0.3' : '1';
-        if (nextArrow) nextArrow.style.opacity = index === slides.length - 1 ? '0.3' : '1';
+        if (prevArrow) prevArrow.style.opacity = groupIndex === 0 ? '0.3' : '1';
+        if (nextArrow) nextArrow.style.opacity = groupIndex >= totalGroups - 1 ? '0.3' : '1';
       }
     }
     
-    function nextSlide() {
-      if (currentIndex < slides.length - 1) {
-        showSlide(currentIndex + 1);
+    function nextGroup() {
+      if (currentGroup < totalGroups - 1) {
+        showGroup(currentGroup + 1);
       } else if (loop) {
-        showSlide(0);
+        showGroup(0);
       }
     }
     
-    function prevSlide() {
-      if (currentIndex > 0) {
-        showSlide(currentIndex - 1);
+    function prevGroup() {
+      if (currentGroup > 0) {
+        showGroup(currentGroup - 1);
       } else if (loop) {
-        showSlide(slides.length - 1);
+        showGroup(totalGroups - 1);
       }
     }
     
     function startAutoplay() {
       if (autoplay) {
-        autoplayInterval = setInterval(nextSlide, autoplaySpeed);
+        autoplayInterval = setInterval(nextGroup, autoplaySpeed);
       }
     }
     
@@ -560,7 +585,7 @@
     // Event listeners
     if (nextArrow) {
       nextArrow.addEventListener('click', () => {
-        nextSlide();
+        nextGroup();
         stopAutoplay();
         startAutoplay();
       });
@@ -568,7 +593,7 @@
     
     if (prevArrow) {
       prevArrow.addEventListener('click', () => {
-        prevSlide();
+        prevGroup();
         stopAutoplay();
         startAutoplay();
       });
@@ -576,7 +601,7 @@
     
     dots.forEach((dot, index) => {
       dot.addEventListener('click', () => {
-        showSlide(index);
+        showGroup(index);
         stopAutoplay();
         startAutoplay();
       });
@@ -605,9 +630,9 @@
       
       if (Math.abs(diff) > swipeThreshold) {
         if (diff > 0) {
-          nextSlide();
+          nextGroup();
         } else {
-          prevSlide();
+          prevGroup();
         }
         stopAutoplay();
         startAutoplay();
@@ -615,7 +640,7 @@
     }
     
     // Initialize
-    showSlide(0);
+    showGroup(0);
     startAutoplay();
   })();
 </script>
