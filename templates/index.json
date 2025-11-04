@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "hero_section": {
+      "type": "hero-section",
+      "settings": {}
+    },
+    "follow_us_section": {
+      "type": "follow-us-section",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero_section",
+    "follow_us_section"
+  ]
+}
+

@@ -236,7 +236,7 @@
                 text-align: {{ text_alignment }};
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                {% if text_alignment == 'left' %}justify-content: flex-start;{% elsif text_alignment == 'right' %}justify-content: flex-end;{% else %}justify-content: center;{% endif %}
                 min-height: 100px;">
   {% if instagram_url != blank %}
     <a href="{{ instagram_url }}" 
@@ -246,11 +246,11 @@
               font-size: {{ font_size }}px;
               font-weight: {{ font_weight }};
               text-transform: {{ text_transform }};
-              text-decoration: {% if show_underline %}underline{% else %}none{% endif %};
+              {% if show_underline %}text-decoration: underline;{% else %}text-decoration: none;{% endif %}
               text-underline-offset: 4px;
               text-decoration-thickness: 1px;
               transition: opacity 0.3s ease;
-              {% unless show_underline %}text-decoration: none;{% endunless %}">
+              display: inline-block;">
       {{ heading_text }}
     </a>
   {% else %}
@@ -260,10 +260,10 @@
                  font-size: {{ font_size }}px;
                  font-weight: {{ font_weight }};
                  text-transform: {{ text_transform }};
-                 text-decoration: {% if show_underline %}underline{% else %}none{% endif %};
+                 {% if show_underline %}text-decoration: underline;{% else %}text-decoration: none;{% endif %}
                  text-underline-offset: 4px;
                  text-decoration-thickness: 1px;
-                 {% unless show_underline %}text-decoration: none;{% endunless %}">
+                 display: inline-block;">
       {{ heading_text }}
     </span>
   {% endif %}
