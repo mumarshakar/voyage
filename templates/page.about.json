@@ -150,11 +150,97 @@
         "section_min_height": 400,
         "full_width": false
       }
+    },
+    "image_carousel_rVKCqM": {
+      "type": "image-carousel",
+      "blocks": {
+        "image_4baB4y": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/voyage.png",
+            "alt_text": "",
+            "image_link": ""
+          }
+        },
+        "image_ciaPx9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/voyage.png",
+            "alt_text": "",
+            "image_link": ""
+          }
+        },
+        "image_bTc4gd": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Main.jpg",
+            "alt_text": "",
+            "image_link": ""
+          }
+        },
+        "image_Xdi3mj": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/theme_cover_image.jpg",
+            "alt_text": "",
+            "image_link": ""
+          }
+        },
+        "image_nDJJ4w": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/voyage.png",
+            "alt_text": "",
+            "image_link": ""
+          }
+        },
+        "image_apceQw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Main_c8ff0b5d-c712-429a-be00-b29bd55cbc9d.jpg",
+            "alt_text": "",
+            "image_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_4baB4y",
+        "image_ciaPx9",
+        "image_bTc4gd",
+        "image_Xdi3mj",
+        "image_nDJJ4w",
+        "image_apceQw"
+      ],
+      "name": "Image Carousel",
+      "settings": {
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "loop": true,
+        "show_arrows": true,
+        "show_dots": true,
+        "transition_effect": "slide",
+        "transition_speed": 500,
+        "images_per_view": 3,
+        "image_height": 600,
+        "image_gap": 15,
+        "image_fit": "cover",
+        "arrows_size": 50,
+        "arrows_color": "#8B6F47",
+        "arrows_bg_color": "#FFFFFF",
+        "arrows_opacity": 90,
+        "dots_color": "#8B6F47",
+        "dots_inactive_color": "#CCCCCC",
+        "section_bg_color": "#EAE7E1",
+        "section_padding_top": 80,
+        "section_padding_bottom": 80,
+        "section_padding_horizontal": 20
+      }
     }
   },
   "order": [
     "hero_section_KcAnbM",
     "custom_text_GjMz68",
-    "two_columns_fMeVMy"
+    "two_columns_fMeVMy",
+    "image_carousel_rVKCqM"
   ]
 }
