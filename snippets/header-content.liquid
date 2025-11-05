@@ -155,7 +155,12 @@
       {%- liquid
         assign svg_color = mobile_menu_icon_color | url_encode
         assign svg_stroke = mobile_menu_stroke_width
-        assign svg_data = 'data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 30 30\'%3e%3cpath stroke=\'' | append: svg_color | append: '\' stroke-linecap=\'round\' stroke-miterlimit=\'10\' stroke-width=\'' | append: svg_stroke | append: '\' d=\'M4 7h22M4 15h22M4 23h22\'/%3e%3c/svg%3e'
+        assign svg_path = 'M4 7h22M4 15h22M4 23h22' | url_encode
+        assign svg_base = 'data:image/svg+xml,'
+        assign svg_start = '%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 30 30%27%3e'
+        assign svg_path_tag = '%3cpath stroke=%27' | append: svg_color | append: '%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 stroke-width=%27' | append: svg_stroke | append: '%27 d=%27' | append: svg_path | append: '%27/%3e'
+        assign svg_end = '%3c/svg%3e'
+        assign svg_data = svg_base | append: svg_start | append: svg_path_tag | append: svg_end
       -%}
       <span class="navbar-toggler-icon" style="background-image: url('{{ svg_data }}'); width: {{ mobile_menu_icon_size }}px; height: {{ mobile_menu_icon_size }}px; background-size: {{ mobile_menu_icon_size }}px {{ mobile_menu_icon_size }}px;"></span>
     </button>
