@@ -130,7 +130,7 @@
   <div class="container">
     <a class="navbar-brand" href="{{ routes.root_url }}" style="font-size: {{ logo_font_size }}px; color: {{ logo_color }} !important;">
       {% if logo_image != blank %}
-          <img src="{{ logo_image | img_url: logo_width | append: 'x' }}" 
+          <img src="{{ logo_image | image_url: width: logo_width }}" 
                alt="{{ logo_text }}"
                class="logo-image"
                width="{{ logo_width }}"

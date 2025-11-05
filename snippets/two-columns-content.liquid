@@ -77,7 +77,7 @@
 
 <div class="two-column-content" 
      style="background-color: {{ bg_color }};
-            {% if bg_image != blank %}background-image: url('{{ bg_image | img_url: '1920x1080' }}');{% endif %}
+            {% if bg_image != blank %}background-image: url('{{ bg_image | image_url: width: 1920 }}');{% endif %}
             background-size: {{ bg_size }};
             background-position: center;
             background-repeat: no-repeat;
@@ -95,7 +95,7 @@
         {% if image_link != blank %}
           <a href="{{ image_link }}" style="display: block; width: 100%; height: 100%;">
         {% endif %}
-        <img src="{{ image | img_url: '1200x1200' }}" 
+        <img src="{{ image | image_url: width: 1200, height: 1200 }}" 
              alt="{{ image_alt | escape }}"
              class="two-column-image"
              width="1200"

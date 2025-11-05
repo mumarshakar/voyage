@@ -621,7 +621,7 @@
 <section class="custom-text-section" 
          id="custom-text-{{ section.id }}"
          style="background-color: {{ background_color }};
-                {% if background_image != blank %}background-image: url('{{ background_image | img_url: '1920x1080' }}');{% endif %}
+                {% if background_image != blank %}background-image: url('{{ background_image | image_url: width: 1920 }}');{% endif %}
                 background-size: {{ background_size }};
                 background-position: center;
                 background-repeat: no-repeat;

@@ -441,7 +441,7 @@
   
   <section class="hero-section hero-glow" 
            style="min-height: {{ hero_height }}vh;
-                  {% if background_type == 'image' and section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | img_url: '1920x1080' }}');{% endif %}
+                  {% if background_type == 'image' and section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');{% endif %}
                   background-position: {{ bg_position }};
                   background-size: {{ bg_size }};
                   padding-top: {{ padding_top }}px;

@@ -275,7 +275,7 @@
                   {% if block.settings.image_link != blank %}
                     <a href="{{ block.settings.image_link }}" class="carousel-image-link">
                   {% endif %}
-                  <img src="{{ block.settings.image | img_url: '1920x1080' }}" 
+                  <img src="{{ block.settings.image | image_url: width: 1920 }}" 
                        alt="{{ block.settings.alt_text | escape }}"
                        class="carousel-image"
                        width="1920"

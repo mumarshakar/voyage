@@ -398,7 +398,7 @@
       
       {% if team_image != blank %}
         <div class="meet-team-image-wrapper">
-          <img src="{{ team_image | img_url: '1200x800' }}" 
+          <img src="{{ team_image | image_url: width: 1200, height: 800 }}" 
                alt="{{ heading | escape }}"
                class="meet-team-image"
                width="1200"
