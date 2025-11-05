@@ -19,11 +19,35 @@
       "default": "Your Subheading Here"
     },
     {
+      "type": "select",
+      "id": "content_type",
+      "label": "Content Type",
+      "options": [
+        {
+          "value": "richtext",
+          "label": "Rich Text Editor"
+        },
+        {
+          "value": "html",
+          "label": "Raw HTML"
+        }
+      ],
+      "default": "richtext",
+      "info": "Choose between rich text editor or raw HTML"
+    },
+    {
       "type": "richtext",
       "id": "text_content",
       "label": "Text/HTML Content",
       "default": "<p>Add your custom text content here. You can include multiple paragraphs and format your text as needed. HTML is supported.</p>",
-      "info": "Supports rich text formatting and HTML"
+      "info": "Supports rich text formatting and HTML. Use the editor to add links, format text, etc."
+    },
+    {
+      "type": "html",
+      "id": "html_content",
+      "label": "Raw HTML Content",
+      "default": "<p>Add your HTML content here. You can use any HTML tags and inline styles.</p>",
+      "info": "For advanced users: Write raw HTML code. This will be rendered as-is."
     },
     {
       "type": "header",
@@ -271,6 +295,94 @@
       "default": 1.6
     },
     {
+      "type": "range",
+      "id": "text_letter_spacing",
+      "label": "Letter Spacing (px)",
+      "min": -2,
+      "max": 5,
+      "step": 0.1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "text_word_spacing",
+      "label": "Word Spacing (px)",
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "text_decoration",
+      "label": "Text Decoration",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "underline",
+          "label": "Underline"
+        },
+        {
+          "value": "overline",
+          "label": "Overline"
+        },
+        {
+          "value": "line-through",
+          "label": "Line Through"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Link Styling"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#333333",
+      "info": "Color for links in the content"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link Hover Color",
+      "default": "#666666"
+    },
+    {
+      "type": "select",
+      "id": "link_text_decoration",
+      "label": "Link Text Decoration",
+      "options": [
+        {
+          "value": "underline",
+          "label": "Underline"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "underline"
+    },
+    {
+      "type": "header",
+      "content": "Advanced Styling"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "default": "",
+      "info": "Add custom CSS for advanced styling. Use selector: #custom-text-section-id (check HTML source for exact ID)"
+    },
+    {
       "type": "header",
       "content": "Layout & Alignment"
     },
@@ -442,7 +554,9 @@
 {%- liquid
   assign heading = section.settings.heading | default: ''
   assign subheading = section.settings.subheading | default: ''
+  assign content_type = section.settings.content_type | default: 'richtext'
   assign text_content = section.settings.text_content | default: ''
+  assign html_content = section.settings.html_content | default: ''
   assign heading_color = section.settings.heading_color | default: '#333333'
   assign heading_font_size = section.settings.heading_font_size | default: 36
   assign heading_font_weight = section.settings.heading_font_weight | default: '600'
@@ -458,6 +572,13 @@
   assign text_font_weight = section.settings.text_font_weight | default: '400'
   assign text_font_family = section.settings.text_font_family | default: 'sans-serif'
   assign text_line_height = section.settings.text_line_height | default: 1.6
+  assign text_letter_spacing = section.settings.text_letter_spacing | default: 0
+  assign text_word_spacing = section.settings.text_word_spacing | default: 0
+  assign text_decoration = section.settings.text_decoration | default: 'none'
+  assign link_color = section.settings.link_color | default: '#333333'
+  assign link_hover_color = section.settings.link_hover_color | default: '#666666'
+  assign link_text_decoration = section.settings.link_text_decoration | default: 'underline'
+  assign custom_css = section.settings.custom_css | default: ''
   assign text_alignment = section.settings.text_alignment | default: 'left'
   assign content_max_width = section.settings.content_max_width | default: 800
   assign background_color = section.settings.background_color | default: '#FFFFFF'
@@ -498,6 +619,7 @@
 -%}
 
 <section class="custom-text-section" 
+         id="custom-text-{{ section.id }}"
          style="background-color: {{ background_color }};
                 {% if background_image != blank %}background-image: url('{{ background_image | img_url: '1920x1080' }}');{% endif %}
                 background-size: {{ background_size }};
@@ -544,13 +666,29 @@
         </h3>
       {% endif %}
       
-      {% if text_content != blank %}
-        <div class="custom-text-body" 
+      {% if content_type == 'html' and html_content != blank %}
+        <div class="custom-text-body custom-text-html" 
              style="color: {{ text_color }};
                     font-size: {{ text_font_size }}px;
                     font-weight: {{ text_font_weight }};
                     font-family: {{ text_font_family_value }};
                     line-height: {{ text_line_height }};
+                    letter-spacing: {{ text_letter_spacing }}px;
+                    word-spacing: {{ text_word_spacing }}px;
+                    text-decoration: {{ text_decoration }};
+                    margin: 0;">
+          {{ html_content }}
+        </div>
+      {% elsif content_type == 'richtext' and text_content != blank %}
+        <div class="custom-text-body custom-text-richtext" 
+             style="color: {{ text_color }};
+                    font-size: {{ text_font_size }}px;
+                    font-weight: {{ text_font_weight }};
+                    font-family: {{ text_font_family_value }};
+                    line-height: {{ text_line_height }};
+                    letter-spacing: {{ text_letter_spacing }}px;
+                    word-spacing: {{ text_word_spacing }}px;
+                    text-decoration: {{ text_decoration }};
                     margin: 0;">
           {{ text_content }}
         </div>
@@ -630,12 +768,14 @@
   }
   
   .custom-text-body a {
-    color: inherit;
-    text-decoration: underline;
+    color: {{ link_color }};
+    text-decoration: {{ link_text_decoration }};
+    transition: color 0.3s ease;
   }
   
   .custom-text-body a:hover {
-    opacity: 0.8;
+    color: {{ link_hover_color }};
+    opacity: 1;
   }
   
   .custom-text-body strong,
@@ -660,5 +800,18 @@
     height: auto;
     margin: 1.5rem 0;
   }
+  
+  .custom-text-html {
+    /* Allow HTML content to render with full styling */
+  }
+  
+  .custom-text-html * {
+    /* Reset can be overridden by custom CSS */
+  }
+  
+  {% if custom_css != blank %}
+    /* Custom CSS */
+    {{ custom_css }}
+  {% endif %}
 </style>
 
