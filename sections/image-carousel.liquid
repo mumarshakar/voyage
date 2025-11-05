@@ -297,32 +297,6 @@
                 {% endif %}
               </div>
             {% endfor %}
-            {% comment %} Duplicate slides for seamless infinite scroll {% endcomment %}
-            {% for block in section.blocks %}
-              <div class="carousel-slide carousel-slide-duplicate" 
-                   data-slide-index="{{ forloop.index0 }}"
-                   style="flex: 0 0 calc((100% - {{ image_gap | times: images_per_view | minus: image_gap }}px) / {{ images_per_view }});
-                          min-width: 0;"
-                   {{ block.shopify_attributes }}>
-                {% if block.settings.image != blank %}
-                  {% if block.settings.image_link != blank %}
-                    <a href="{{ block.settings.image_link }}" class="carousel-image-link">
-                  {% endif %}
-                  <img src="{{ block.settings.image | img_url: '1920x1080' }}" 
-                       alt="{{ block.settings.alt_text | escape }}"
-                       class="carousel-image"
-                       loading="lazy"
-                       style="width: 100%;
-                              height: {{ image_height }}px;
-                              object-fit: {{ image_fit }};
-                              display: block;
-                              border-radius: 8px;">
-                  {% if block.settings.image_link != blank %}
-                    </a>
-                  {% endif %}
-                {% endif %}
-              </div>
-            {% endfor %}
           </div>
         {% endif %}
       </div>
@@ -389,20 +363,11 @@
   }
   
   .carousel-track {
-    animation: scroll-left linear infinite;
+    transition: transform 0.6s ease-in-out;
   }
   
   .carousel-track.paused {
-    animation-play-state: paused;
-  }
-  
-  @keyframes scroll-left {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
+    transition: none;
   }
   
   .carousel-image {
@@ -509,19 +474,11 @@
     .carousel-slide {
       flex: 0 0 calc(100% - 10px) !important;
     }
-    
-    .carousel-slide-duplicate {
-      flex: 0 0 calc(100% - 10px) !important;
-    }
   }
   
   @media (min-width: 768px) and (max-width: 1023px) {
     /* Show 2 images per view on tablet */
     .carousel-slide {
-      flex: 0 0 calc((100% - 15px) / 2) !important;
-    }
-    
-    .carousel-slide-duplicate {
       flex: 0 0 calc((100% - 15px) / 2) !important;
     }
   }
@@ -535,7 +492,7 @@
     const wrapper = carousel.querySelector('.image-carousel-wrapper');
     const container = carousel.querySelector('.image-carousel-container');
     const track = carousel.querySelector('.carousel-track');
-    const slides = carousel.querySelectorAll('.carousel-slide:not(.carousel-slide-duplicate)');
+    const slides = carousel.querySelectorAll('.carousel-slide');
     const pauseDot = carousel.querySelector('.carousel-dot-pause');
     const prevArrow = carousel.querySelector('.carousel-arrow-prev');
     const nextArrow = carousel.querySelector('.carousel-arrow-next');
@@ -543,25 +500,95 @@
     if (!track || slides.length === 0) return;
     
     const autoplay = wrapper.dataset.autoplay === 'true';
-    const scrollSpeed = parseInt(wrapper.dataset.scrollSpeed) || 5000;
     const imagesPerView = parseInt(wrapper.dataset.imagesPerView) || 3;
-    
-    // Calculate animation duration for continuous scroll
-    // Animation moves from 0% to -50% (half the track, which is all original slides)
-    // We want it to take (scrollSpeed * totalSlides / imagesPerView) ms to complete one cycle
     const totalSlides = slides.length;
-    // Time to scroll through all original slides (one complete cycle)
-    const animationDuration = (scrollSpeed * totalSlides) / imagesPerView;
+    const totalViews = Math.ceil(totalSlides / imagesPerView);
     
+    // Pause duration at each view (3 seconds)
+    const PAUSE_DURATION = 3000; // 3 seconds
+    const SCROLL_DURATION = 600; // 0.6 seconds for smooth transition
+    
+    let currentView = 0;
     let isPaused = false;
-    let currentSpeed = animationDuration;
+    let autoplayInterval = null;
+    let scrollTimeout = null;
     
-    // Set initial animation duration
-    track.style.animationDuration = currentSpeed + 'ms';
+    // Calculate the width of each slide (including gap)
+    const containerWidth = container.offsetWidth;
+    const slideWidth = containerWidth / imagesPerView;
     
-    if (!autoplay) {
-      track.classList.add('paused');
-      isPaused = true;
+    // Function to scroll to a specific view
+    function scrollToView(viewIndex) {
+      if (isPaused) return;
+      
+      // Reset if we've reached the end (seamlessly loop back)
+      if (viewIndex >= totalViews) {
+        viewIndex = 0;
+        // Reset position immediately (no transition) for seamless loop
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0)';
+        // Force reflow
+        track.offsetHeight;
+        // Restore transition
+        track.style.transition = 'transform ' + SCROLL_DURATION + 'ms ease-in-out';
+      }
+      
+      // Calculate the translateX value
+      const translateX = -(viewIndex * slideWidth);
+      track.style.transform = `translateX(${translateX}px)`;
+      currentView = viewIndex;
+    }
+    
+    // Function to move to next view
+    function nextView() {
+      if (isPaused) return;
+      scrollToView(currentView + 1);
+    }
+    
+    // Function to move to previous view
+    function prevView() {
+      if (isPaused) return;
+      const prevIndex = currentView - 1;
+      if (prevIndex < 0) {
+        scrollToView(totalViews - 1);
+      } else {
+        scrollToView(prevIndex);
+      }
+    }
+    
+    // Start autoplay with pauses
+    function startAutoplay() {
+      if (!autoplay || isPaused) return;
+      
+      function advanceToNext() {
+        if (isPaused) return;
+        
+        // Scroll to next view
+        nextView();
+        
+        // Wait for scroll animation to complete, then pause
+        setTimeout(() => {
+          if (!isPaused) {
+            // Pause for 3 seconds at this view
+            scrollTimeout = setTimeout(() => {
+              if (!isPaused) {
+                advanceToNext();
+              }
+            }, PAUSE_DURATION);
+          }
+        }, SCROLL_DURATION);
+      }
+      
+      // Start the cycle
+      advanceToNext();
+    }
+    
+    // Stop autoplay
+    function stopAutoplay() {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = null;
+      }
     }
     
     // Pause/Play functionality
@@ -569,17 +596,11 @@
       isPaused = !isPaused;
       if (isPaused) {
         track.classList.add('paused');
+        stopAutoplay();
       } else {
         track.classList.remove('paused');
+        startAutoplay();
       }
-    }
-    
-    // Speed control
-    function changeSpeed(multiplier) {
-      currentSpeed = currentSpeed * multiplier;
-      // Clamp between 2s and 60s
-      currentSpeed = Math.max(2000, Math.min(60000, currentSpeed));
-      track.style.animationDuration = currentSpeed + 'ms';
     }
     
     // Event listeners
@@ -589,13 +610,21 @@
     
     if (prevArrow) {
       prevArrow.addEventListener('click', () => {
-        changeSpeed(1.2); // Slow down
+        stopAutoplay();
+        prevView();
+        if (autoplay && !isPaused) {
+          setTimeout(startAutoplay, PAUSE_DURATION + SCROLL_DURATION);
+        }
       });
     }
     
     if (nextArrow) {
       nextArrow.addEventListener('click', () => {
-        changeSpeed(0.8); // Speed up
+        stopAutoplay();
+        nextView();
+        if (autoplay && !isPaused) {
+          setTimeout(startAutoplay, PAUSE_DURATION + SCROLL_DURATION);
+        }
       });
     }
     
@@ -604,20 +633,39 @@
       wrapper.addEventListener('mouseenter', () => {
         if (!isPaused) {
           track.classList.add('paused');
+          stopAutoplay();
         }
       });
       
       wrapper.addEventListener('mouseleave', () => {
         if (!isPaused) {
           track.classList.remove('paused');
+          startAutoplay();
         }
       });
     }
     
-    // Reset animation when it completes (infinite loop)
-    track.addEventListener('animationiteration', () => {
-      // Animation automatically loops seamlessly
+    // Handle window resize to recalculate positions
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const newContainerWidth = container.offsetWidth;
+        const newSlideWidth = newContainerWidth / imagesPerView;
+        const translateX = -(currentView * newSlideWidth);
+        track.style.transform = `translateX(${translateX}px)`;
+      }, 250);
     });
+    
+    // Initialize
+    scrollToView(0);
+    if (autoplay) {
+      // Start after initial pause
+      setTimeout(startAutoplay, PAUSE_DURATION);
+    } else {
+      isPaused = true;
+      track.classList.add('paused');
+    }
   })();
 </script>
 
