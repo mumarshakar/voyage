@@ -31,24 +31,93 @@
         "hero_height": 75,
         "background_position": "center",
         "background_size": "cover",
-        "title_color": "#8B6F47",
+        "title_color": "#8b6f47",
         "title_font_size": 40,
         "title_position_top": 20,
         "text_alignment": "center",
-        "button_text_color": "#8B6F47",
-        "button_bg_color": "#FFFFFF",
+        "button_text_color": "#8b6f47",
+        "button_bg_color": "#ffffff",
         "button_opacity": 70,
         "button_position_bottom": 15,
         "button_font_size": 16,
         "button_padding_horizontal": 32,
         "button_padding_vertical": 14,
-        "overlay_color": "#FF8C61",
+        "overlay_color": "#ff8c61",
         "overlay_opacity": 30,
         "padding_top": 120,
         "padding_bottom": 80,
         "padding_horizontal": 20,
         "margin_top": 0,
         "margin_bottom": 0
+      }
+    },
+    "booking_calendar_tNwzTR": {
+      "type": "booking-calendar",
+      "blocks": {
+        "event_gx4LN6": {
+          "type": "event",
+          "settings": {
+            "event_day": 10,
+            "event_image": "shopify://shop_images/Meat_the_team.jpg",
+            "event_title": "Yoga Class",
+            "event_link": ""
+          }
+        },
+        "event_LHBhLx": {
+          "type": "event",
+          "settings": {
+            "event_day": 5,
+            "event_title": "Pilates Session",
+            "event_link": ""
+          }
+        },
+        "event_GjdhYP": {
+          "type": "event",
+          "settings": {
+            "event_day": 9,
+            "event_title": "Pilates Class",
+            "event_link": ""
+          }
+        },
+        "event_6KbCiY": {
+          "type": "event",
+          "settings": {
+            "event_day": 15,
+            "event_title": "Yoga Class",
+            "event_link": ""
+          }
+        },
+        "event_JPCamm": {
+          "type": "event",
+          "settings": {
+            "event_day": 22,
+            "event_title": "Pilates Class",
+            "event_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "event_gx4LN6",
+        "event_LHBhLx",
+        "event_GjdhYP",
+        "event_6KbCiY",
+        "event_JPCamm"
+      ],
+      "name": "Booking Calendar",
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "background_color": "#F8F7F5",
+        "month_display": "November 2025",
+        "initial_month": "2025-11-01",
+        "heading_color": "#8B6F47",
+        "heading_font_family": "Playfair Display, serif",
+        "weekday_color": "#8B6F47",
+        "weekday_font_family": "Playfair Display, serif",
+        "day_number_color": "#333333"
       }
     },
     "custom_text_JNzLJm": {
@@ -58,24 +127,24 @@
         "heading": "Contact Us",
         "subheading": "Contact us any time with questions, private/corporate event enquiries or just some feedback!Gift cards are available, please contact us to purchase.",
         "text_content": "<p>Phone or WhatsApp: <a href=\"https://wa.me/971585312526\" target=\"_blank\">+971585312526</a></p><p>Email: <a href=\"mailto:gaby@glowdeckme.com?\" target=\"_blank\">gaby@glowdeckme.com</a> OR <a href=\"mailto:nicole@glowdeckme.com?\" target=\"_blank\">nicole@glowdeckme.com</a></p><p></p><p></p><h3>To secure your Glow Social ticket, please select an event below:</h3>",
-        "heading_color": "#FF6B35",
+        "heading_color": "#ff6b35",
         "heading_font_size": 48,
         "heading_font_weight": "600",
         "heading_font_family": "serif",
         "heading_text_transform": "uppercase",
-        "subheading_color": "#FF6B35",
+        "subheading_color": "#ff6b35",
         "subheading_font_size": 24,
         "subheading_font_weight": "500",
         "subheading_font_family": "serif",
         "subheading_text_transform": "capitalize",
-        "text_color": "#FF6B35",
+        "text_color": "#ff6b35",
         "text_font_size": 16,
         "text_font_weight": "400",
         "text_font_family": "serif",
         "text_line_height": 2.4,
         "text_alignment": "center",
         "content_max_width": 900,
-        "background_color": "#FFFFFF",
+        "background_color": "#ffffff",
         "background_size": "cover",
         "background_overlay_opacity": 0,
         "padding_top": 200,
@@ -90,6 +159,7 @@
   },
   "order": [
     "hero_section_mJUjfe",
+    "booking_calendar_tNwzTR",
     "custom_text_JNzLJm"
   ]
 }
