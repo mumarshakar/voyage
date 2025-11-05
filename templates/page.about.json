@@ -72,7 +72,7 @@
         "text_font_size": 16,
         "text_font_weight": "400",
         "text_font_family": "sans-serif",
-        "text_line_height": 1.6,
+        "text_line_height": 2.5,
         "text_alignment": "left",
         "content_max_width": 800,
         "background_color": "#ffffff",
