@@ -649,13 +649,6 @@
   assign section_min_height = section.settings.section_min_height | default: 400
   assign full_width = section.settings.full_width
   
-  if vertical_alignment == 'top'
-    assign align_class = 'align-items-start'
-  elsif vertical_alignment == 'bottom'
-    assign align_class = 'align-items-end'
-  else
-    assign align_class = 'align-items-center'
-  endif
 -%}
 
 <section class="two-columns-section" 

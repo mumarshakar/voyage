@@ -125,12 +125,6 @@
       "default": "#8B6F47"
     },
     {
-      "type": "color",
-      "id": "dots_inactive_color",
-      "label": "Dots Inactive Color",
-      "default": "#CCCCCC"
-    },
-    {
       "type": "header",
       "content": "Section Settings"
     },
@@ -238,7 +232,6 @@
   assign arrows_bg_color = section.settings.arrows_bg_color | default: '#FFFFFF'
   assign arrows_opacity = section.settings.arrows_opacity | default: 90
   assign dots_color = section.settings.dots_color | default: '#8B6F47'
-  assign dots_inactive_color = section.settings.dots_inactive_color | default: '#CCCCCC'
   assign section_bg_color = section.settings.section_bg_color | default: '#EAE7E1'
   assign section_padding_top = section.settings.section_padding_top | default: 80
   assign section_padding_bottom = section.settings.section_padding_bottom | default: 80
@@ -285,6 +278,8 @@
                   <img src="{{ block.settings.image | img_url: '1920x1080' }}" 
                        alt="{{ block.settings.alt_text | escape }}"
                        class="carousel-image"
+                       width="1920"
+                       height="{{ image_height }}"
                        loading="lazy"
                        style="width: 100%;
                               height: {{ image_height }}px;
