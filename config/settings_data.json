@@ -113,8 +113,8 @@
           "footer_link_color": "#ffffff80",
           "footer_link_hover_color": "#ffffff",
           "footer_padding_top": 50,
-          "footer_padding_bottom": 15,
-          "footer_title_font_size": 18,
+          "footer_padding_bottom": 25,
+          "footer_title_font_size": 22,
           "footer_text_font_size": 14
         }
       }
