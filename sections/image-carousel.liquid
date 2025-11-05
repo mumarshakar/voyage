@@ -21,14 +21,7 @@
       "step": 1,
       "default": 5,
       "unit": "s",
-      "info": "Time between slides when autoplay is enabled"
-    },
-    {
-      "type": "checkbox",
-      "id": "loop",
-      "label": "Loop Carousel",
-      "default": true,
-      "info": "When enabled, carousel will loop from last to first slide"
+      "info": "Controls scroll speed - lower values = faster scrolling"
     },
     {
       "type": "checkbox",
@@ -42,32 +35,6 @@
       "label": "Show Dot Indicators",
       "default": true,
       "info": "Show dots below carousel to indicate current slide"
-    },
-    {
-      "type": "select",
-      "id": "transition_effect",
-      "label": "Transition Effect",
-      "options": [
-        {
-          "value": "slide",
-          "label": "Slide"
-        },
-        {
-          "value": "fade",
-          "label": "Fade"
-        }
-      ],
-      "default": "slide"
-    },
-    {
-      "type": "range",
-      "id": "transition_speed",
-      "label": "Transition Speed (ms)",
-      "min": 300,
-      "max": 1000,
-      "step": 100,
-      "default": 500,
-      "unit": "ms"
     },
     {
       "type": "header",
@@ -260,11 +227,8 @@
 {%- liquid
   assign autoplay = section.settings.autoplay
   assign autoplay_speed = section.settings.autoplay_speed | default: 5
-  assign loop = section.settings.loop
   assign show_arrows = section.settings.show_arrows
   assign show_dots = section.settings.show_dots
-  assign transition_effect = section.settings.transition_effect | default: 'slide'
-  assign transition_speed = section.settings.transition_speed | default: 500
   assign images_per_view = section.settings.images_per_view | default: 3
   assign image_height = section.settings.image_height | default: 600
   assign image_fit = section.settings.image_fit | default: 'cover'
@@ -295,53 +259,77 @@
   <div class="container">
     <div class="image-carousel-wrapper" 
          data-autoplay="{{ autoplay }}"
-         data-autoplay-speed="{{ autoplay_interval }}"
-         data-loop="{{ loop }}"
-         data-transition="{{ transition_effect }}"
-         data-transition-speed="{{ transition_speed }}"
+         data-scroll-speed="{{ autoplay_interval }}"
          data-images-per-view="{{ images_per_view }}">
       
       <div class="image-carousel-container" 
-           style="display: flex;
-                  gap: {{ image_gap }}px;
-                  overflow: hidden;
+           style="overflow: hidden;
                   position: relative;">
         {% if section.blocks.size > 0 %}
-          {% for block in section.blocks %}
-            {% assign slide_width = 100 | divided_by: images_per_view | minus: 1 %}
-            <div class="carousel-slide {% if forloop.index <= images_per_view %}active{% endif %}" 
-                 data-slide-index="{{ forloop.index0 }}"
-                 style="flex: 0 0 calc((100% - {{ image_gap | times: images_per_view | minus: image_gap }}px) / {{ images_per_view }});
-                        min-width: 0;
-                        transition: transform {{ transition_speed }}ms ease-in-out,
-                                   opacity {{ transition_speed }}ms ease-in-out;
-                        {% if forloop.index > images_per_view %}opacity: 0; transform: translateX(100%);{% endif %}"
-                 {{ block.shopify_attributes }}>
-              {% if block.settings.image != blank %}
-                {% if block.settings.image_link != blank %}
-                  <a href="{{ block.settings.image_link }}" class="carousel-image-link">
+          <div class="carousel-track" 
+               data-autoplay="{{ autoplay }}"
+               data-scroll-speed="{{ autoplay_interval }}"
+               style="display: flex;
+                      gap: {{ image_gap }}px;
+                      will-change: transform;">
+            {% for block in section.blocks %}
+              <div class="carousel-slide" 
+                   data-slide-index="{{ forloop.index0 }}"
+                   style="flex: 0 0 calc((100% - {{ image_gap | times: images_per_view | minus: image_gap }}px) / {{ images_per_view }});
+                          min-width: 0;"
+                   {{ block.shopify_attributes }}>
+                {% if block.settings.image != blank %}
+                  {% if block.settings.image_link != blank %}
+                    <a href="{{ block.settings.image_link }}" class="carousel-image-link">
+                  {% endif %}
+                  <img src="{{ block.settings.image | img_url: '1920x1080' }}" 
+                       alt="{{ block.settings.alt_text | escape }}"
+                       class="carousel-image"
+                       loading="lazy"
+                       style="width: 100%;
+                              height: {{ image_height }}px;
+                              object-fit: {{ image_fit }};
+                              display: block;
+                              border-radius: 8px;">
+                  {% if block.settings.image_link != blank %}
+                    </a>
+                  {% endif %}
                 {% endif %}
-                <img src="{{ block.settings.image | img_url: '1920x1080' }}" 
-                     alt="{{ block.settings.alt_text | escape }}"
-                     class="carousel-image"
-                     loading="lazy"
-                     style="width: 100%;
-                            height: {{ image_height }}px;
-                            object-fit: {{ image_fit }};
-                            display: block;
-                            border-radius: 8px;">
-                {% if block.settings.image_link != blank %}
-                  </a>
+              </div>
+            {% endfor %}
+            {% comment %} Duplicate slides for seamless infinite scroll {% endcomment %}
+            {% for block in section.blocks %}
+              <div class="carousel-slide carousel-slide-duplicate" 
+                   data-slide-index="{{ forloop.index0 }}"
+                   style="flex: 0 0 calc((100% - {{ image_gap | times: images_per_view | minus: image_gap }}px) / {{ images_per_view }});
+                          min-width: 0;"
+                   {{ block.shopify_attributes }}>
+                {% if block.settings.image != blank %}
+                  {% if block.settings.image_link != blank %}
+                    <a href="{{ block.settings.image_link }}" class="carousel-image-link">
+                  {% endif %}
+                  <img src="{{ block.settings.image | img_url: '1920x1080' }}" 
+                       alt="{{ block.settings.alt_text | escape }}"
+                       class="carousel-image"
+                       loading="lazy"
+                       style="width: 100%;
+                              height: {{ image_height }}px;
+                              object-fit: {{ image_fit }};
+                              display: block;
+                              border-radius: 8px;">
+                  {% if block.settings.image_link != blank %}
+                    </a>
+                  {% endif %}
                 {% endif %}
-              {% endif %}
-            </div>
-          {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
         {% endif %}
       </div>
       
-      {% if show_arrows and section.blocks.size > images_per_view %}
+      {% if show_arrows %}
         <button class="carousel-arrow carousel-arrow-prev" 
-                aria-label="Previous slide"
+                aria-label="Slow down"
                 style="width: {{ arrows_size }}px;
                        height: {{ arrows_size }}px;
                        background-color: {{ arrows_bg_color }};
@@ -353,7 +341,7 @@
           </svg>
         </button>
         <button class="carousel-arrow carousel-arrow-next" 
-                aria-label="Next slide"
+                aria-label="Speed up"
                 style="width: {{ arrows_size }}px;
                        height: {{ arrows_size }}px;
                        background-color: {{ arrows_bg_color }};
@@ -366,16 +354,16 @@
         </button>
       {% endif %}
       
-      {% if show_dots and section.blocks.size > images_per_view %}
+      {% if show_dots %}
         <div class="carousel-dots">
-          {% assign total_groups = section.blocks.size | divided_by: images_per_view | ceil %}
-          {% for i in (1..total_groups) %}
-            <button class="carousel-dot {% if forloop.first %}active{% endif %}" 
-                    data-dot-index="{{ forloop.index0 }}"
-                    aria-label="Go to group {{ forloop.index }}"
-                    style="background-color: {% if forloop.first %}{{ dots_color }}{% else %}{{ dots_inactive_color }}{% endif %};">
-            </button>
-          {% endfor %}
+          <button class="carousel-dot carousel-dot-pause" 
+                  aria-label="Pause/Play carousel"
+                  style="background-color: {{ dots_color }};"
+                  title="Pause/Play">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+            </svg>
+          </button>
         </div>
       {% endif %}
       
@@ -400,14 +388,21 @@
     border-radius: 8px;
   }
   
-  .carousel-slide {
-    opacity: 0;
-    transform: translateX(100%);
+  .carousel-track {
+    animation: scroll-left linear infinite;
   }
   
-  .carousel-slide.active {
-    opacity: 1;
-    transform: translateX(0);
+  .carousel-track.paused {
+    animation-play-state: paused;
+  }
+  
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
   }
   
   .carousel-image {
@@ -467,24 +462,28 @@
   }
   
   .carousel-dot {
-    width: 12px;
-    height: 12px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: none;
+    border: 2px solid {{ dots_color }};
     cursor: pointer;
     padding: 0;
     transition: all 0.3s ease;
-    background-color: {{ dots_inactive_color }};
-  }
-  
-  .carousel-dot.active {
-    background-color: {{ dots_color }};
-    transform: scale(1.2);
+    background-color: {{ arrows_bg_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: {{ dots_color }};
   }
   
   .carousel-dot:hover {
-    transform: scale(1.3);
-    opacity: 0.8;
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+  
+  .carousel-dot svg {
+    width: 16px;
+    height: 16px;
   }
   
   @media (max-width: 767px) {
@@ -501,8 +500,17 @@
       height: 40px !important;
     }
     
+    .carousel-dot {
+      width: 36px;
+      height: 36px;
+    }
+    
     /* Show 1 image per view on mobile */
     .carousel-slide {
+      flex: 0 0 calc(100% - 10px) !important;
+    }
+    
+    .carousel-slide-duplicate {
       flex: 0 0 calc(100% - 10px) !important;
     }
   }
@@ -510,6 +518,10 @@
   @media (min-width: 768px) and (max-width: 1023px) {
     /* Show 2 images per view on tablet */
     .carousel-slide {
+      flex: 0 0 calc((100% - 15px) / 2) !important;
+    }
+    
+    .carousel-slide-duplicate {
       flex: 0 0 calc((100% - 15px) / 2) !important;
     }
   }
@@ -522,147 +534,90 @@
     
     const wrapper = carousel.querySelector('.image-carousel-wrapper');
     const container = carousel.querySelector('.image-carousel-container');
-    const slides = carousel.querySelectorAll('.carousel-slide');
-    const dots = carousel.querySelectorAll('.carousel-dot');
+    const track = carousel.querySelector('.carousel-track');
+    const slides = carousel.querySelectorAll('.carousel-slide:not(.carousel-slide-duplicate)');
+    const pauseDot = carousel.querySelector('.carousel-dot-pause');
     const prevArrow = carousel.querySelector('.carousel-arrow-prev');
     const nextArrow = carousel.querySelector('.carousel-arrow-next');
     
-    if (slides.length <= 1) return;
+    if (!track || slides.length === 0) return;
     
     const autoplay = wrapper.dataset.autoplay === 'true';
-    const autoplaySpeed = parseInt(wrapper.dataset.autoplaySpeed) || 5000;
-    const loop = wrapper.dataset.loop === 'true';
-    const transitionSpeed = parseInt(wrapper.dataset.transitionSpeed) || 500;
-    
-    // Get images per view from data attribute or default to 3
+    const scrollSpeed = parseInt(wrapper.dataset.scrollSpeed) || 5000;
     const imagesPerView = parseInt(wrapper.dataset.imagesPerView) || 3;
+    
+    // Calculate animation duration for continuous scroll
+    // Animation moves from 0% to -50% (half the track, which is all original slides)
+    // We want it to take (scrollSpeed * totalSlides / imagesPerView) ms to complete one cycle
     const totalSlides = slides.length;
-    const totalGroups = Math.ceil(totalSlides / imagesPerView);
+    // Time to scroll through all original slides (one complete cycle)
+    const animationDuration = (scrollSpeed * totalSlides) / imagesPerView;
     
-    let currentGroup = 0;
-    let autoplayInterval = null;
+    let isPaused = false;
+    let currentSpeed = animationDuration;
     
-    function showGroup(groupIndex) {
-      // Calculate which slides to show
-      const startIndex = groupIndex * imagesPerView;
-      const endIndex = Math.min(startIndex + imagesPerView, totalSlides);
-      
-      // Remove active classes
-      slides.forEach((slide, index) => {
-        if (index >= startIndex && index < endIndex) {
-          slide.classList.add('active');
-        } else {
-          slide.classList.remove('active');
-        }
-      });
-      
-      // Update dots
-      dots.forEach((dot, index) => {
-        if (index === groupIndex) {
-          dot.classList.add('active');
-        } else {
-          dot.classList.remove('active');
-        }
-      });
-      
-      currentGroup = groupIndex;
-      
-      // Update arrow states
-      if (!loop) {
-        if (prevArrow) prevArrow.style.opacity = groupIndex === 0 ? '0.3' : '1';
-        if (nextArrow) nextArrow.style.opacity = groupIndex >= totalGroups - 1 ? '0.3' : '1';
+    // Set initial animation duration
+    track.style.animationDuration = currentSpeed + 'ms';
+    
+    if (!autoplay) {
+      track.classList.add('paused');
+      isPaused = true;
+    }
+    
+    // Pause/Play functionality
+    function togglePause() {
+      isPaused = !isPaused;
+      if (isPaused) {
+        track.classList.add('paused');
+      } else {
+        track.classList.remove('paused');
       }
     }
     
-    function nextGroup() {
-      if (currentGroup < totalGroups - 1) {
-        showGroup(currentGroup + 1);
-      } else if (loop) {
-        showGroup(0);
-      }
-    }
-    
-    function prevGroup() {
-      if (currentGroup > 0) {
-        showGroup(currentGroup - 1);
-      } else if (loop) {
-        showGroup(totalGroups - 1);
-      }
-    }
-    
-    function startAutoplay() {
-      if (autoplay) {
-        autoplayInterval = setInterval(nextGroup, autoplaySpeed);
-      }
-    }
-    
-    function stopAutoplay() {
-      if (autoplayInterval) {
-        clearInterval(autoplayInterval);
-        autoplayInterval = null;
-      }
+    // Speed control
+    function changeSpeed(multiplier) {
+      currentSpeed = currentSpeed * multiplier;
+      // Clamp between 2s and 60s
+      currentSpeed = Math.max(2000, Math.min(60000, currentSpeed));
+      track.style.animationDuration = currentSpeed + 'ms';
     }
     
     // Event listeners
-    if (nextArrow) {
-      nextArrow.addEventListener('click', () => {
-        nextGroup();
-        stopAutoplay();
-        startAutoplay();
-      });
+    if (pauseDot) {
+      pauseDot.addEventListener('click', togglePause);
     }
     
     if (prevArrow) {
       prevArrow.addEventListener('click', () => {
-        prevGroup();
-        stopAutoplay();
-        startAutoplay();
+        changeSpeed(1.2); // Slow down
       });
     }
     
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        showGroup(index);
-        stopAutoplay();
-        startAutoplay();
+    if (nextArrow) {
+      nextArrow.addEventListener('click', () => {
+        changeSpeed(0.8); // Speed up
       });
-    });
+    }
     
     // Pause on hover
-    wrapper.addEventListener('mouseenter', stopAutoplay);
-    wrapper.addEventListener('mouseleave', startAutoplay);
-    
-    // Touch/swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    wrapper.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-    
-    wrapper.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    });
-    
-    function handleSwipe() {
-      const swipeThreshold = 50;
-      const diff = touchStartX - touchEndX;
-      
-      if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-          nextGroup();
-        } else {
-          prevGroup();
+    if (autoplay) {
+      wrapper.addEventListener('mouseenter', () => {
+        if (!isPaused) {
+          track.classList.add('paused');
         }
-        stopAutoplay();
-        startAutoplay();
-      }
+      });
+      
+      wrapper.addEventListener('mouseleave', () => {
+        if (!isPaused) {
+          track.classList.remove('paused');
+        }
+      });
     }
     
-    // Initialize
-    showGroup(0);
-    startAutoplay();
+    // Reset animation when it completes (infinite loop)
+    track.addEventListener('animationiteration', () => {
+      // Animation automatically loops seamlessly
+    });
   })();
 </script>
 
