@@ -280,18 +280,8 @@ body {
   box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
 }
 
-/* Footer */
-footer {
-  background-color: #333;
-  color: var(--white);
-  padding: 3rem 0 1rem;
-}
-
-.footer-title {
-  color: var(--primary-orange);
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
+/* Footer styles are now controlled by the footer section settings */
+/* Removed hardcoded footer styles to allow section-based customization */
 
 /* Responsive */
 @media (max-width: 768px) {
