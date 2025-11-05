@@ -20,8 +20,7 @@
     assign footer_font_family = 'serif'
     assign footer_font_size = 18
     assign show_underline = true
-    assign footer_padding_top = 80
-    assign footer_padding_bottom = 80
+    assign footer_vertical_padding = 80
   else
     assign footer_text = footer_settings.footer_text | default: 'Follow us on instagram!'
     assign instagram_url = footer_settings.instagram_url | default: 'https://instagram.com'
@@ -30,8 +29,7 @@
     assign footer_font_family = footer_settings.footer_font_family | default: 'serif'
     assign footer_font_size = footer_settings.footer_font_size | default: 18
     assign show_underline = footer_settings.show_underline | default: true
-    assign footer_padding_top = footer_settings.footer_padding_top | default: 80
-    assign footer_padding_bottom = footer_settings.footer_padding_bottom | default: 80
+    assign footer_vertical_padding = footer_settings.footer_vertical_padding | default: 80
   endif
   
   if footer_font_family == 'serif'
@@ -43,8 +41,7 @@
 
 <footer style="background-color: {{ footer_bg_color }};
               color: {{ footer_text_color }};
-              padding-top: {{ footer_padding_top }}px;
-              padding-bottom: {{ footer_padding_bottom }}px;
+              padding: {{ footer_vertical_padding }}px 20px;
               display: flex;
               align-items: center;
               justify-content: center;
