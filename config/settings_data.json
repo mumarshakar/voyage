@@ -103,19 +103,14 @@
       "footer": {
         "type": "footer",
         "settings": {
-          "footer_description": "Your trusted partner for all your travel booking needs. Experience seamless booking with us.",
-          "footer_email": "info@voyagebyhype.com",
-          "footer_phone": "+1 (555) 123-4567",
-          "footer_menu": "footer",
-          "footer_bg_color": "#FFF8E7",
-          "footer_text_color": "#FF6B35",
-          "footer_title_color": "#ff6b35",
-          "footer_link_color": "#ffffff80",
-          "footer_link_hover_color": "#ffffff",
-          "footer_padding_top": 50,
-          "footer_padding_bottom": 25,
-          "footer_title_font_size": 22,
-          "footer_text_font_size": 14
+          "footer_text": "Follow us on instagram!",
+          "instagram_url": "https://instagram.com/hypewellnessclub",
+          "footer_bg_color": "#fff8e7",
+          "footer_text_color": "#ff6b35",
+          "footer_font_family": "serif",
+          "footer_font_size": 18,
+          "show_underline": true,
+          "footer_vertical_padding": 80
         }
       }
     },
