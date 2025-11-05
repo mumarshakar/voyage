@@ -151,6 +151,42 @@
         "full_width": false
       }
     },
+    "custom_text_xRqecy": {
+      "type": "custom-text",
+      "name": "Custom Text",
+      "settings": {
+        "heading": "Experience Wellness  Elements",
+        "subheading": "While no two events are exactly the same, here’s what you can usually expect — give or take a few surprises. Everything is designed to be inclusive and welcoming across all ages.",
+        "text_content": "<ul><li><strong>Sensory Experiences:</strong> Sound healing, guided visualisation, manifestation rituals, and floating meditations designed to quiet the mind and reconnect with presence.<br/></li><li><strong>Movement: </strong>Intentional sessions including pilates, sculpt-inspired flows, stretch therapy, barre, and sound-led yoga — a gentle rebellion against modern stillness.<br/></li><li><strong>Recovery & Rest:</strong> Cold plunges, breathwork, reiki, reflexology, ice facials, and infrared sauna blankets to soothe your nervous system and restore balance.<br/></li><li><strong>Nourishment:</strong> Wellness-aligned meals by private chefs using refined ingredients — from sunrise breakfasts to onboard BBQs — indulgent, intentional, and beautifully curated.<br/></li><li><strong>Indulgence:</strong> Natural face and hair masks, optional blow dries, and glow rituals that leave you radiant, grounded, and ready for the ’gram.</li></ul>",
+        "heading_color": "#333333",
+        "heading_font_size": 36,
+        "heading_font_weight": "600",
+        "heading_font_family": "sans-serif",
+        "heading_text_transform": "none",
+        "subheading_color": "#666666",
+        "subheading_font_size": 20,
+        "subheading_font_weight": "400",
+        "subheading_font_family": "sans-serif",
+        "subheading_text_transform": "none",
+        "text_color": "#333333",
+        "text_font_size": 16,
+        "text_font_weight": "400",
+        "text_font_family": "sans-serif",
+        "text_line_height": 1.6,
+        "text_alignment": "left",
+        "content_max_width": 800,
+        "background_color": "#ffffff",
+        "background_size": "cover",
+        "background_overlay_opacity": 0,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "heading_margin_bottom": 20,
+        "subheading_margin_bottom": 20
+      }
+    },
     "image_carousel_rVKCqM": {
       "type": "image-carousel",
       "blocks": {
@@ -232,49 +268,13 @@
         "section_padding_bottom": 80,
         "section_padding_horizontal": 20
       }
-    },
-    "custom_text_xRqecy": {
-      "type": "custom-text",
-      "name": "Custom Text",
-      "settings": {
-        "heading": "Experience Wellness  Elements",
-        "subheading": "While no two events are exactly the same, here’s what you can usually expect — give or take a few surprises. Everything is designed to be inclusive and welcoming across all ages.",
-        "text_content": "<ul><li><strong>Sensory Experiences:</strong> Sound healing, guided visualisation, manifestation rituals, and floating meditations designed to quiet the mind and reconnect with presence.<br/></li><li><strong>Movement: </strong>Intentional sessions including pilates, sculpt-inspired flows, stretch therapy, barre, and sound-led yoga — a gentle rebellion against modern stillness.<br/></li><li><strong>Recovery & Rest:</strong> Cold plunges, breathwork, reiki, reflexology, ice facials, and infrared sauna blankets to soothe your nervous system and restore balance.<br/></li><li><strong>Nourishment:</strong> Wellness-aligned meals by private chefs using refined ingredients — from sunrise breakfasts to onboard BBQs — indulgent, intentional, and beautifully curated.<br/></li><li><strong>Indulgence:</strong> Natural face and hair masks, optional blow dries, and glow rituals that leave you radiant, grounded, and ready for the ’gram.</li></ul>",
-        "heading_color": "#333333",
-        "heading_font_size": 36,
-        "heading_font_weight": "600",
-        "heading_font_family": "sans-serif",
-        "heading_text_transform": "none",
-        "subheading_color": "#666666",
-        "subheading_font_size": 20,
-        "subheading_font_weight": "400",
-        "subheading_font_family": "sans-serif",
-        "subheading_text_transform": "none",
-        "text_color": "#333333",
-        "text_font_size": 16,
-        "text_font_weight": "400",
-        "text_font_family": "sans-serif",
-        "text_line_height": 1.6,
-        "text_alignment": "left",
-        "content_max_width": 800,
-        "background_color": "#ffffff",
-        "background_size": "cover",
-        "background_overlay_opacity": 0,
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "padding_horizontal": 20,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "heading_margin_bottom": 20,
-        "subheading_margin_bottom": 20
-      }
     }
   },
   "order": [
     "hero_section_KcAnbM",
     "custom_text_GjMz68",
     "two_columns_fMeVMy",
-    "image_carousel_rVKCqM",
-    "custom_text_xRqecy"
+    "custom_text_xRqecy",
+    "image_carousel_rVKCqM"
   ]
 }
