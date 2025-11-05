@@ -295,7 +295,7 @@
         "quote_font_style": "italic",
         "image_fit": "cover",
         "image_border_radius": 0,
-        "section_bg_color": "#EAE7E1",
+        "section_bg_color": "#eae7e1",
         "section_padding_top": 80,
         "section_padding_bottom": 80,
         "section_padding_horizontal": 20,
