@@ -346,7 +346,7 @@
       "settings": {
         "heading": "",
         "subheading": "",
-        "text_content": "<p>Follow Us On Instagram</p>",
+        "text_content": "<p><a href=\"https://instagram.com\" title=\"https://instagram.com\">Follow Us On Instagram</a></p>",
         "heading_color": "#333333",
         "heading_font_size": 36,
         "heading_font_weight": "600",
