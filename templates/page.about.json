@@ -268,6 +268,39 @@
         "section_padding_bottom": 80,
         "section_padding_horizontal": 20
       }
+    },
+    "meet_team_YGLgdU": {
+      "type": "meet-team",
+      "name": "Meet Team",
+      "settings": {
+        "heading": "Meet the Team",
+        "team_image": "shopify://shop_images/Main.jpg",
+        "introduction_text": "<p>Add your team introduction here.</p>",
+        "quote_text": "<p><em>Add your team philosophy or quote here.</em></p>",
+        "image_position": "left",
+        "stack_on_mobile": true,
+        "heading_color": "#333333",
+        "heading_font_size": 40,
+        "heading_font_weight": "600",
+        "heading_font_family": "serif",
+        "heading_text_align": "center",
+        "text_color": "#333333",
+        "text_font_size": 16,
+        "text_font_family": "sans-serif",
+        "text_line_height": 1.6,
+        "quote_color": "#333333",
+        "quote_font_size": 18,
+        "quote_font_style": "italic",
+        "image_fit": "cover",
+        "image_border_radius": 0,
+        "section_bg_color": "#EAE7E1",
+        "section_padding_top": 80,
+        "section_padding_bottom": 80,
+        "section_padding_horizontal": 20,
+        "heading_margin_bottom": 50,
+        "column_gap": 40,
+        "text_spacing": 20
+      }
     }
   },
   "order": [
@@ -275,6 +308,7 @@
     "custom_text_GjMz68",
     "two_columns_fMeVMy",
     "custom_text_xRqecy",
-    "image_carousel_rVKCqM"
+    "image_carousel_rVKCqM",
+    "meet_team_YGLgdU"
   ]
 }
