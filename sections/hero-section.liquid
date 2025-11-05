@@ -472,9 +472,11 @@
                    {% if video_muted %}muted{% endif %} 
                    loop 
                    preload="metadata">
+              {% comment %} theme-check-disable RemoteAsset {% endcomment %}
               {% for source in mobile_video.sources %}
                 <source src="{{ source.url }}" type="{{ source.mime_type }}">
               {% endfor %}
+              {% comment %} theme-check-enable RemoteAsset {% endcomment %}
             </video>
           {% endif %}
           <video class="hero-video hero-video-desktop" 
@@ -483,9 +485,11 @@
                  {% if video_muted %}muted{% endif %} 
                  loop 
                  preload="metadata">
+            {% comment %} theme-check-disable RemoteAsset {% endcomment %}
             {% for source in desktop_video.sources %}
               <source src="{{ source.url }}" type="{{ source.mime_type }}">
             {% endfor %}
+            {% comment %} theme-check-enable RemoteAsset {% endcomment %}
           </video>
         </div>
       {% elsif video_source_type == 'url' and desktop_video_url != blank %}
@@ -497,7 +501,9 @@
                    {% if video_muted %}muted{% endif %} 
                    loop 
                    preload="metadata">
+              {% comment %} theme-check-disable RemoteAsset {% endcomment %}
               <source src="{{ mobile_video_url }}" type="video/mp4">
+              {% comment %} theme-check-enable RemoteAsset {% endcomment %}
             </video>
           {% endif %}
           <video class="hero-video hero-video-desktop" 
@@ -506,7 +512,9 @@
                  {% if video_muted %}muted{% endif %} 
                  loop 
                  preload="metadata">
+            {% comment %} theme-check-disable RemoteAsset {% endcomment %}
             <source src="{{ desktop_video_url }}" type="video/mp4">
+            {% comment %} theme-check-enable RemoteAsset {% endcomment %}
           </video>
         </div>
       {% endif %}

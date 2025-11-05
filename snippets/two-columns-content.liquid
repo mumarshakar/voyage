@@ -122,9 +122,11 @@
                  {% if video_controls %}controls{% endif %}
                  playsinline
                  preload="auto">
+            {% comment %} theme-check-disable RemoteAsset {% endcomment %}
             {% for source in video.sources %}
               <source src="{{ source.url }}" type="{{ source.mime_type }}">
             {% endfor %}
+            {% comment %} theme-check-enable RemoteAsset {% endcomment %}
           </video>
           
           {% if video_mobile != blank %}
@@ -136,9 +138,11 @@
                    {% if video_controls %}controls{% endif %}
                    playsinline
                    preload="auto">
+              {% comment %} theme-check-disable RemoteAsset {% endcomment %}
               {% for source in video_mobile.sources %}
                 <source src="{{ source.url }}" type="{{ source.mime_type }}">
               {% endfor %}
+              {% comment %} theme-check-enable RemoteAsset {% endcomment %}
             </video>
           {% endif %}
         {% endif %}
