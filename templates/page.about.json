@@ -57,7 +57,7 @@
       "settings": {
         "heading": "",
         "subheading": "",
-        "text_content": "<p>Glow Deck isn’t your typical wellness retreat — it’s wellness with a glow-up. Set on the shimmering waters of the UAE, we create elevated, wellness experiences at sea, where movement, connection, and luxury effortlessly collide.\nBorn from our belief that wellness should feel just as good as it looks, Glow Deck was created for those who value balance, beauty, and a little indulgence. \nWhether you're planning a private celebration or simply looking for a solo escape with Glow Privé, a corporate off-site with Glow Collective, or joining one of our signature community events with Glow Social — we deliver bespoke wellness with style.</p>",
+        "text_content": "<p>Glow Deck isn’t your typical wellness retreat — it’s wellness with a glow-up. Set on the shimmering waters of the UAE, we create elevated, wellness experiences at sea, where movement, connection, and luxury effortlessly collide.<br/>Born from our belief that wellness should feel just as good as it looks, Glow Deck was created for those who value <span style=\"text-decoration:underline\">balance, beauty, and a little indulgence. </span><br/>Whether you're planning a private celebration or simply looking for a solo escape with Glow Privé, a corporate off-site with Glow Collective, or joining one of our signature community events with Glow Social — we deliver bespoke wellness with style.</p>",
         "heading_color": "#333333",
         "heading_font_size": 36,
         "heading_font_weight": "600",
