@@ -1,0 +1,137 @@
+{%- liquid
+  if section.id
+    assign footer_settings = section.settings
+  else
+    if sections['footer'].id
+      assign footer_settings = sections['footer'].settings
+    elsif sections.footer.id
+      assign footer_settings = sections.footer.settings
+    endif
+  endif
+
+  comment
+    Set default values if footer_settings is not available
+  endcomment
+  if footer_settings == blank
+    assign footer_description = 'Your trusted partner for all your travel booking needs. Experience seamless booking with us.'
+    assign footer_email = 'info@voyagebyhype.com'
+    assign footer_phone = '+1 (555) 123-4567'
+    assign footer_menu = 'footer'
+    assign footer_bg_color = '#333333'
+    assign footer_text_color = '#FFFFFF'
+    assign footer_title_color = '#FF6B35'
+    assign footer_link_color = 'rgba(255, 255, 255, 0.5)'
+    assign footer_link_hover_color = '#FFFFFF'
+    assign footer_padding_top = 48
+    assign footer_padding_bottom = 16
+    assign footer_title_font_size = 18
+    assign footer_text_font_size = 14
+  else
+    assign footer_description = footer_settings.footer_description | default: 'Your trusted partner for all your travel booking needs. Experience seamless booking with us.'
+    assign footer_email = footer_settings.footer_email | default: 'info@voyagebyhype.com'
+    assign footer_phone = footer_settings.footer_phone | default: '+1 (555) 123-4567'
+    assign footer_menu = footer_settings.footer_menu | default: 'footer'
+    assign footer_bg_color = footer_settings.footer_bg_color | default: '#333333'
+    assign footer_text_color = footer_settings.footer_text_color | default: '#FFFFFF'
+    assign footer_title_color = footer_settings.footer_title_color | default: '#FF6B35'
+    assign footer_link_color = footer_settings.footer_link_color | default: 'rgba(255, 255, 255, 0.5)'
+    assign footer_link_hover_color = footer_settings.footer_link_hover_color | default: '#FFFFFF'
+    assign footer_padding_top = footer_settings.footer_padding_top | default: 48
+    assign footer_padding_bottom = footer_settings.footer_padding_bottom | default: 16
+    assign footer_title_font_size = footer_settings.footer_title_font_size | default: 18
+    assign footer_text_font_size = footer_settings.footer_text_font_size | default: 14
+  endif
+-%}
+
+<footer style="background-color: {{ footer_bg_color }};
+              color: {{ footer_text_color }};
+              padding-top: {{ footer_padding_top }}px;
+              padding-bottom: {{ footer_padding_bottom }}px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <h5 class="footer-title" style="color: {{ footer_title_color }};
+                                        font-size: {{ footer_title_font_size }}px;
+                                        font-weight: bold;
+                                        margin-bottom: 1rem;">{{ shop.name }}</h5>
+        {% if footer_description != blank %}
+          <p style="color: {{ footer_text_color }};
+                    font-size: {{ footer_text_font_size }}px;
+                    margin: 0;">{{ footer_description }}</p>
+        {% endif %}
+      </div>
+      <div class="col-md-4 mb-4">
+        <h5 class="footer-title" style="color: {{ footer_title_color }};
+                                        font-size: {{ footer_title_font_size }}px;
+                                        font-weight: bold;
+                                        margin-bottom: 1rem;">Quick Links</h5>
+        {% if linklists[footer_menu].links.size > 0 %}
+          <ul class="list-unstyled" style="margin: 0; padding: 0;">
+            {% for link in linklists[footer_menu].links %}
+              <li style="margin-bottom: 0.5rem;">
+                <a href="{{ link.url }}" 
+                   style="color: {{ footer_link_color }};
+                          text-decoration: none;
+                          font-size: {{ footer_text_font_size }}px;
+                          transition: color 0.3s ease;"
+                   onmouseover="this.style.color='{{ footer_link_hover_color }}'"
+                   onmouseout="this.style.color='{{ footer_link_color }}'">
+                  {{ link.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p style="color: {{ footer_text_color }};
+                    font-size: {{ footer_text_font_size }}px;
+                    margin: 0;">No menu items available</p>
+        {% endif %}
+      </div>
+      <div class="col-md-4 mb-4">
+        <h5 class="footer-title" style="color: {{ footer_title_color }};
+                                        font-size: {{ footer_title_font_size }}px;
+                                        font-weight: bold;
+                                        margin-bottom: 1rem;">Contact Info</h5>
+        {% if footer_email != blank %}
+          <p style="color: {{ footer_text_color }};
+                    font-size: {{ footer_text_font_size }}px;
+                    margin-bottom: 0.5rem;">
+            <i class="bi bi-envelope"></i> 
+            <a href="mailto:{{ footer_email }}" 
+               style="color: {{ footer_link_color }};
+                      text-decoration: none;
+                      transition: color 0.3s ease;"
+               onmouseover="this.style.color='{{ footer_link_hover_color }}'"
+               onmouseout="this.style.color='{{ footer_link_color }}'">
+              {{ footer_email }}
+            </a>
+          </p>
+        {% endif %}
+        {% if footer_phone != blank %}
+          <p style="color: {{ footer_text_color }};
+                    font-size: {{ footer_text_font_size }}px;
+                    margin-bottom: 0;">
+            <i class="bi bi-telephone"></i> 
+            <a href="tel:{{ footer_phone | replace: ' ', '' | replace: '(', '' | replace: ')', '' | replace: '-', '' }}" 
+               style="color: {{ footer_link_color }};
+                      text-decoration: none;
+                      transition: color 0.3s ease;"
+               onmouseover="this.style.color='{{ footer_link_hover_color }}'"
+               onmouseout="this.style.color='{{ footer_link_color }}'">
+              {{ footer_phone }}
+            </a>
+          </p>
+        {% endif %}
+      </div>
+    </div>
+    <hr style="background-color: {{ footer_link_color }};
+               border: none;
+               height: 1px;
+               margin: 2rem 0 1rem;">
+    <div class="text-center" style="color: {{ footer_link_color }};
+                                     font-size: {{ footer_text_font_size }}px;">
+      <p style="margin: 0;">&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
