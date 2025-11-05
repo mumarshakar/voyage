@@ -30,7 +30,7 @@
         "hero_height": 100,
         "background_position": "center",
         "background_size": "cover",
-        "title_color": "#FFFFFF",
+        "title_color": "#ffffff",
         "title_font_size": 40,
         "title_position_top": 20,
         "text_alignment": "center",
@@ -49,30 +49,9 @@
         "margin_top": 0,
         "margin_bottom": 0
       }
-    },
-    "follow_us_section": {
-      "type": "follow-us-section",
-      "settings": {
-        "heading_text": "Follow us on instagram!",
-        "instagram_url": "https://instagram.com/hype",
-        "background_color": "#FF6B35",
-        "text_color": "#FFFFFF",
-        "font_family": "serif",
-        "font_size": 20,
-        "font_weight": "400",
-        "show_underline": true,
-        "text_alignment": "center",
-        "text_transform": "none",
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_horizontal": 20,
-        "margin_top": 0,
-        "margin_bottom": 0
-      }
     }
   },
   "order": [
-    "hero_section",
-    "follow_us_section"
+    "hero_section"
   ]
 }
