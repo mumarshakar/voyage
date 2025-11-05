@@ -1,0 +1,449 @@
+{% comment %}
+  sections/booking-calendar.liquid
+  A custom section to display a booking calendar with event images.
+  This is for visual representation. Actual booking logic requires
+  a Shopify app or external integration.
+{% endcomment %}
+
+{%- liquid
+  assign section_bg_color = section.settings.background_color | default: '#F8F7F5'
+  assign padding_top = section.settings.padding_top | default: 60
+  assign padding_bottom = section.settings.padding_bottom | default: 60
+  assign padding_horizontal = section.settings.padding_horizontal | default: 20
+  assign margin_top = section.settings.margin_top | default: 0
+  assign margin_bottom = section.settings.margin_bottom | default: 0
+  assign heading_color = section.settings.heading_color | default: '#8B6F47'
+  assign weekday_color = section.settings.weekday_color | default: '#8B6F47'
+  assign day_number_color = section.settings.day_number_color | default: '#333333'
+  assign heading_font_family = section.settings.heading_font_family | default: 'Playfair Display, serif'
+  assign weekday_font_family = section.settings.weekday_font_family | default: 'Playfair Display, serif'
+-%}
+
+<div class="booking-calendar-section"
+     id="booking-calendar-{{ section.id }}"
+     style="background-color: {{ section_bg_color }};
+            padding-top: {{ padding_top }}px;
+            padding-bottom: {{ padding_bottom }}px;
+            padding-left: {{ padding_horizontal }}px;
+            padding-right: {{ padding_horizontal }}px;
+            margin-top: {{ margin_top }}px;
+            margin-bottom: {{ margin_bottom }}px;">
+
+  <div class="calendar-header">
+    <button class="calendar-nav-arrow prev-month" 
+            aria-label="Previous Month"
+            style="color: {{ heading_color }};"
+            type="button">
+      {% render 'icon-arrow-left' %}
+    </button>
+    <h2 class="calendar-month-year" 
+        style="color: {{ heading_color }}; 
+               font-family: {{ heading_font_family }};">
+      {{ section.settings.month_display | default: "November 2025" }}
+    </h2>
+    <button class="calendar-nav-arrow next-month" 
+            aria-label="Next Month"
+            style="color: {{ heading_color }};"
+            type="button">
+      {% render 'icon-arrow-right' %}
+    </button>
+  </div>
+
+  <div class="calendar-weekdays" 
+       style="color: {{ weekday_color }}; 
+              font-family: {{ weekday_font_family }};">
+    <span>SU</span>
+    <span>MO</span>
+    <span>TU</span>
+    <span>WE</span>
+    <span>TH</span>
+    <span>FR</span>
+    <span>SA</span>
+  </div>
+
+  <div class="calendar-grid" data-section-id="{{ section.id }}">
+    {% comment %}
+      Initial calendar days will be populated by JavaScript.
+      For fallback/SEO, we'll show a basic structure.
+    {% endcomment %}
+    {% for i in (1..35) %}
+      <div class="calendar-day" data-day-index="{{ i }}">
+        <span class="day-number" style="color: {{ day_number_color }};"></span>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% comment %} Event blocks for managing events in theme customizer {% endcomment %}
+  {% for block in section.blocks %}
+    {% if block.type == 'event' %}
+      <div class="event-data" 
+           data-event-day="{{ block.settings.event_day }}"
+           data-event-image="{{ block.settings.event_image | image_url: width: 400 }}"
+           data-event-title="{{ block.settings.event_title | escape }}"
+           data-event-link="{{ block.settings.event_link }}"
+           style="display: none;">
+      </div>
+    {% endif %}
+  {% endfor %}
+
+</div>
+
+<script>
+  (function() {
+    const sectionId = '{{ section.id }}';
+    const calendarSection = document.getElementById('booking-calendar-{{ section.id }}');
+    if (!calendarSection) return;
+
+    const calendarGrid = calendarSection.querySelector('.calendar-grid');
+    const monthYearDisplay = calendarSection.querySelector('.calendar-month-year');
+    const prevMonthBtn = calendarSection.querySelector('.prev-month');
+    const nextMonthBtn = calendarSection.querySelector('.next-month');
+    
+    // Get event data from hidden divs
+    const eventData = {};
+    const eventDivs = calendarSection.querySelectorAll('.event-data');
+    eventDivs.forEach(div => {
+      const day = parseInt(div.dataset.eventDay);
+      if (day) {
+        eventData[day] = {
+          image: div.dataset.eventImage,
+          title: div.dataset.eventTitle,
+          link: div.dataset.eventLink
+        };
+      }
+    });
+
+    let currentDate = new Date();
+    {% if section.settings.initial_month != blank %}
+      const initialDate = new Date('{{ section.settings.initial_month }}');
+      if (!isNaN(initialDate.getTime())) {
+        currentDate = initialDate;
+      }
+    {% endif %}
+
+    function renderCalendar() {
+      if (!calendarGrid || !monthYearDisplay) return;
+
+      // Clear existing days
+      calendarGrid.innerHTML = '';
+
+      // Update month/year display
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                         'July', 'August', 'September', 'October', 'November', 'December'];
+      monthYearDisplay.textContent = monthNames[currentDate.getMonth()] + ' ' + currentDate.getFullYear();
+
+      // Calculate first day of month and days in month
+      const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+      const daysInMonth = lastDayOfMonth.getDate();
+      const startDayOfWeek = firstDayOfMonth.getDay(); // 0 = Sunday, 1 = Monday, etc.
+
+      // Add empty leading days
+      for (let i = 0; i < startDayOfWeek; i++) {
+        const emptyDay = document.createElement('div');
+        emptyDay.classList.add('calendar-day', 'empty');
+        calendarGrid.appendChild(emptyDay);
+      }
+
+      // Add actual days
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayElement = document.createElement('div');
+        dayElement.classList.add('calendar-day');
+        
+        const dayNumber = document.createElement('span');
+        dayNumber.classList.add('day-number');
+        dayNumber.style.color = '{{ day_number_color }}';
+        dayNumber.textContent = day;
+        dayElement.appendChild(dayNumber);
+
+        // Check if this day has an event
+        if (eventData[day]) {
+          dayElement.classList.add('has-event');
+          const eventInfo = eventData[day];
+          
+          const imgWrapper = document.createElement('div');
+          imgWrapper.classList.add('event-image-wrapper');
+          const img = document.createElement('img');
+          img.src = eventInfo.image;
+          img.alt = eventInfo.title || 'Event';
+          img.loading = 'lazy';
+          img.width = '400';
+          img.height = '300';
+          imgWrapper.appendChild(img);
+          dayElement.appendChild(imgWrapper);
+
+          // Make clickable if link is provided
+          if (eventInfo.link) {
+            dayElement.style.cursor = 'pointer';
+            dayElement.addEventListener('click', function() {
+              window.location.href = eventInfo.link;
+            });
+          }
+        }
+
+        calendarGrid.appendChild(dayElement);
+      }
+
+      // Fill remaining empty cells to complete grid
+      const totalCells = Math.ceil((startDayOfWeek + daysInMonth) / 7) * 7;
+      const remainingCells = totalCells - (startDayOfWeek + daysInMonth);
+      for (let i = 0; i < remainingCells; i++) {
+        const emptyDay = document.createElement('div');
+        emptyDay.classList.add('calendar-day', 'empty');
+        calendarGrid.appendChild(emptyDay);
+      }
+    }
+
+    if (prevMonthBtn) {
+      prevMonthBtn.addEventListener('click', function() {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar();
+      });
+    }
+
+    if (nextMonthBtn) {
+      nextMonthBtn.addEventListener('click', function() {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar();
+      });
+    }
+
+    // Initial render
+    renderCalendar();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Booking Calendar",
+  "tag": "section",
+  "class": "section-booking-calendar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Horizontal",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#F8F7F5"
+    },
+    {
+      "type": "header",
+      "content": "Calendar Header"
+    },
+    {
+      "type": "text",
+      "id": "month_display",
+      "label": "Initial Month Display",
+      "default": "November 2025",
+      "info": "Will be updated dynamically by JavaScript"
+    },
+    {
+      "type": "text",
+      "id": "initial_month",
+      "label": "Initial Month (YYYY-MM-DD)",
+      "default": "2025-11-01",
+      "info": "Format: YYYY-MM-DD (e.g., 2025-11-01)"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#8B6F47"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Heading Font Family",
+      "options": [
+        {
+          "value": "Playfair Display, serif",
+          "label": "Playfair Display"
+        },
+        {
+          "value": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+          "label": "Segoe UI"
+        },
+        {
+          "value": "Arial, sans-serif",
+          "label": "Arial"
+        }
+      ],
+      "default": "Playfair Display, serif"
+    },
+    {
+      "type": "header",
+      "content": "Weekdays"
+    },
+    {
+      "type": "color",
+      "id": "weekday_color",
+      "label": "Weekday Text Color",
+      "default": "#8B6F47"
+    },
+    {
+      "type": "select",
+      "id": "weekday_font_family",
+      "label": "Weekday Font Family",
+      "options": [
+        {
+          "value": "Playfair Display, serif",
+          "label": "Playfair Display"
+        },
+        {
+          "value": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+          "label": "Segoe UI"
+        },
+        {
+          "value": "Arial, sans-serif",
+          "label": "Arial"
+        }
+      ],
+      "default": "Playfair Display, serif"
+    },
+    {
+      "type": "header",
+      "content": "Day Numbers"
+    },
+    {
+      "type": "color",
+      "id": "day_number_color",
+      "label": "Day Number Color",
+      "default": "#333333"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "event",
+      "name": "Event",
+      "settings": [
+        {
+          "type": "range",
+          "id": "event_day",
+          "min": 1,
+          "max": 31,
+          "step": 1,
+          "label": "Day of Month",
+          "default": 1,
+          "info": "Day number (1-31) when this event occurs"
+        },
+        {
+          "type": "image_picker",
+          "id": "event_image",
+          "label": "Event Image",
+          "info": "Image to display on this day"
+        },
+        {
+          "type": "text",
+          "id": "event_title",
+          "label": "Event Title",
+          "default": "Yoga Class",
+          "info": "Alt text for the image"
+        },
+        {
+          "type": "url",
+          "id": "event_link",
+          "label": "Event Link",
+          "info": "Optional: Link when clicking on the event day"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Booking Calendar",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "event",
+          "settings": {
+            "event_day": 1,
+            "event_title": "Yoga Class"
+          }
+        },
+        {
+          "type": "event",
+          "settings": {
+            "event_day": 5,
+            "event_title": "Pilates Session"
+          }
+        },
+        {
+          "type": "event",
+          "settings": {
+            "event_day": 9,
+            "event_title": "Pilates Class"
+          }
+        },
+        {
+          "type": "event",
+          "settings": {
+            "event_day": 15,
+            "event_title": "Yoga Class"
+          }
+        },
+        {
+          "type": "event",
+          "settings": {
+            "event_day": 22,
+            "event_title": "Pilates Class"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
