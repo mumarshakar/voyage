@@ -67,6 +67,7 @@
           "type": "event",
           "settings": {
             "event_day": 5,
+            "event_image": "shopify://shop_images/DSC05749_copy_2.jpg",
             "event_title": "Pilates Session",
             "event_link": ""
           }
@@ -75,6 +76,7 @@
           "type": "event",
           "settings": {
             "event_day": 9,
+            "event_image": "shopify://shop_images/voyage.png",
             "event_title": "Pilates Class",
             "event_link": ""
           }
