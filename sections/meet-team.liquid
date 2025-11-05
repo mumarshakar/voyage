@@ -504,18 +504,30 @@
   }
   
   @media (max-width: 767px) {
-    .meet-team-stack-mobile .meet-team-content {
+    .meet-team-content {
       flex-direction: column !important;
     }
     
-    .meet-team-stack-mobile .meet-team-image-wrapper,
-    .meet-team-stack-mobile .meet-team-text-wrapper {
-      flex: 0 0 100%;
-      max-width: 100%;
+    .meet-team-image-wrapper,
+    .meet-team-text-wrapper {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+      width: 100% !important;
     }
     
-    .meet-team-stack-mobile .meet-team-image-wrapper {
+    .meet-team-image-wrapper {
       margin-bottom: 30px;
+    }
+    
+    .meet-team-text-wrapper {
+      width: 100%;
+      display: block;
+    }
+    
+    .meet-team-intro,
+    .meet-team-quote {
+      width: 100%;
+      display: block;
     }
   }
 </style>
