@@ -130,10 +130,12 @@
   <div class="container">
     <a class="navbar-brand" href="{{ routes.root_url }}" style="font-size: {{ logo_font_size }}px; color: {{ logo_color }} !important;">
       {% if logo_image != blank %}
-        <img src="{{ logo_image | img_url: logo_width | append: 'x' }}" 
-             alt="{{ logo_text }}" 
-             class="logo-image"
-             style="max-height: {{ logo_max_height }}px; width: auto;">
+          <img src="{{ logo_image | img_url: logo_width | append: 'x' }}" 
+               alt="{{ logo_text }}"
+               class="logo-image"
+               width="{{ logo_width }}"
+               height="{{ logo_max_height }}"
+               style="max-height: {{ logo_max_height }}px; width: auto;">
       {% elsif two_line_logo %}
         <div class="logo-two-line">
           <span class="logo-line1">{{ logo_line1 }}</span>
