@@ -19,10 +19,11 @@
       "default": "Your Subheading Here"
     },
     {
-      "type": "textarea",
+      "type": "richtext",
       "id": "text_content",
-      "label": "Text Content",
-      "default": "Add your custom text content here. You can include multiple paragraphs and format your text as needed."
+      "label": "Text/HTML Content",
+      "default": "<p>Add your custom text content here. You can include multiple paragraphs and format your text as needed. HTML is supported.</p>",
+      "info": "Supports rich text formatting and HTML"
     },
     {
       "type": "header",
@@ -551,7 +552,7 @@
                     font-family: {{ text_font_family_value }};
                     line-height: {{ text_line_height }};
                     margin: 0;">
-          {{ text_content | newline_to_br }}
+          {{ text_content }}
         </div>
       {% endif %}
     </div>
@@ -588,7 +589,6 @@
   
   .custom-text-body {
     word-wrap: break-word;
-    white-space: pre-line;
   }
   
   .custom-text-body p {
@@ -597,6 +597,68 @@
   
   .custom-text-body p:last-child {
     margin-bottom: 0;
+  }
+  
+  .custom-text-body h1,
+  .custom-text-body h2,
+  .custom-text-body h3,
+  .custom-text-body h4,
+  .custom-text-body h5,
+  .custom-text-body h6 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .custom-text-body h1:first-child,
+  .custom-text-body h2:first-child,
+  .custom-text-body h3:first-child,
+  .custom-text-body h4:first-child,
+  .custom-text-body h5:first-child,
+  .custom-text-body h6:first-child {
+    margin-top: 0;
+  }
+  
+  .custom-text-body ul,
+  .custom-text-body ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+  }
+  
+  .custom-text-body li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .custom-text-body a {
+    color: inherit;
+    text-decoration: underline;
+  }
+  
+  .custom-text-body a:hover {
+    opacity: 0.8;
+  }
+  
+  .custom-text-body strong,
+  .custom-text-body b {
+    font-weight: 600;
+  }
+  
+  .custom-text-body em,
+  .custom-text-body i {
+    font-style: italic;
+  }
+  
+  .custom-text-body blockquote {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+    border-left: 3px solid currentColor;
+    opacity: 0.8;
+  }
+  
+  .custom-text-body img {
+    max-width: 100%;
+    height: auto;
+    margin: 1.5rem 0;
   }
 </style>
 
