@@ -10,29 +10,16 @@
       "content": "Footer Content"
     },
     {
-      "type": "textarea",
-      "id": "footer_description",
-      "label": "Footer Description",
-      "default": "Your trusted partner for all your travel booking needs. Experience seamless booking with us."
-    },
-    {
       "type": "text",
-      "id": "footer_email",
-      "label": "Email Address",
-      "default": "info@voyagebyhype.com"
+      "id": "footer_text",
+      "label": "Footer Text",
+      "default": "Follow us on instagram!"
     },
     {
-      "type": "text",
-      "id": "footer_phone",
-      "label": "Phone Number",
-      "default": "+1 (555) 123-4567"
-    },
-    {
-      "type": "link_list",
-      "id": "footer_menu",
-      "label": "Footer Menu",
-      "default": "footer",
-      "info": "Select a menu to display in the footer"
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL",
+      "default": "https://instagram.com"
     },
     {
       "type": "header",
@@ -42,70 +29,64 @@
       "type": "color",
       "id": "footer_bg_color",
       "label": "Background Color",
-      "default": "#333333"
+      "default": "#EAE7E0"
     },
     {
       "type": "color",
       "id": "footer_text_color",
       "label": "Text Color",
-      "default": "#FFFFFF"
+      "default": "#6B5B4F"
     },
     {
-      "type": "color",
-      "id": "footer_title_color",
-      "label": "Title Color",
-      "default": "#FF6B35"
+      "type": "select",
+      "id": "footer_font_family",
+      "label": "Font Family",
+      "options": [
+        {
+          "value": "serif",
+          "label": "Serif (Playfair Display)"
+        },
+        {
+          "value": "sans-serif",
+          "label": "Sans-serif (Default)"
+        }
+      ],
+      "default": "serif"
     },
     {
-      "type": "color",
-      "id": "footer_link_color",
-      "label": "Link Color",
-      "default": "rgba(255, 255, 255, 0.5)"
+      "type": "range",
+      "id": "footer_font_size",
+      "label": "Font Size (px)",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
     },
     {
-      "type": "color",
-      "id": "footer_link_hover_color",
-      "label": "Link Hover Color",
-      "default": "#FFFFFF"
+      "type": "checkbox",
+      "id": "show_underline",
+      "label": "Show Underline",
+      "default": true
     },
     {
       "type": "range",
       "id": "footer_padding_top",
       "label": "Top Padding (px)",
       "min": 20,
-      "max": 100,
+      "max": 200,
       "step": 10,
-      "default": 50,
+      "default": 80,
       "unit": "px"
     },
     {
       "type": "range",
       "id": "footer_padding_bottom",
       "label": "Bottom Padding (px)",
-      "min": 10,
-      "max": 50,
-      "step": 5,
-      "default": 15,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "footer_title_font_size",
-      "label": "Title Font Size (px)",
-      "min": 16,
-      "max": 32,
-      "step": 2,
-      "default": 18,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "footer_text_font_size",
-      "label": "Text Font Size (px)",
-      "min": 12,
-      "max": 18,
-      "step": 1,
-      "default": 14,
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 80,
       "unit": "px"
     }
   ]
