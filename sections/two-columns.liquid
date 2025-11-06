@@ -746,14 +746,16 @@
                 min-height: {{ section_min_height }}px;">
   
   <div class="container-fluid">
-    <div class="two-columns-wrapper row g-0" 
+    <div class="two-columns-wrapper" 
          style="gap: {{ column_gap_vertical }}px {{ column_gap_horizontal }}px;"
          data-swap="{{ swap_columns }}"
          data-stack-mobile="{{ stack_on_mobile }}">
       
       {% comment %} Column 1 {% endcomment %}
-      <div class="two-column two-column-1 col-md-6 {% if stack_on_mobile %}col-12{% else %}col-6{% endif %}" 
-           style="order: {% if swap_columns %}2{% else %}1{% endif %};">
+      <div class="two-column two-column-1" 
+           style="order: {% if swap_columns %}2{% else %}1{% endif %};
+                  flex: 0 0 calc((100% - {{ column_gap_horizontal }}px) / 2);
+                  max-width: calc((100% - {{ column_gap_horizontal }}px) / 2);">
         {% render 'two-columns-content', 
            column: '1',
            content_type: column1_content_type,
@@ -765,8 +767,10 @@
       </div>
       
       {% comment %} Column 2 {% endcomment %}
-      <div class="two-column two-column-2 col-md-6 {% if stack_on_mobile %}col-12{% else %}col-6{% endif %}" 
-           style="order: {% if swap_columns %}1{% else %}2{% endif %};">
+      <div class="two-column two-column-2" 
+           style="order: {% if swap_columns %}1{% else %}2{% endif %};
+                  flex: 0 0 calc((100% - {{ column_gap_horizontal }}px) / 2);
+                  max-width: calc((100% - {{ column_gap_horizontal }}px) / 2);">
         {% render 'two-columns-content', 
            column: '2',
            content_type: column2_content_type,
@@ -789,7 +793,8 @@
   .two-columns-wrapper {
     display: flex;
     align-items: stretch;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    width: 100%;
   }
   
   .two-column {
@@ -857,6 +862,15 @@
     
     .two-columns-wrapper[data-stack-mobile="true"] .two-column {
       width: 100% !important;
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+    }
+    
+    .two-columns-wrapper:not([data-stack-mobile="true"]) {
+      flex-wrap: wrap;
+    }
+    
+    .two-columns-wrapper:not([data-stack-mobile="true"]) .two-column {
       flex: 0 0 100% !important;
       max-width: 100% !important;
     }
