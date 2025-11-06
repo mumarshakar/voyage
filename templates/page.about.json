@@ -95,7 +95,7 @@
         "stack_on_mobile": true,
         "column_gap_horizontal": 10,
         "column_gap_vertical": 5,
-        "vertical_alignment": "top",
+        "vertical_alignment": "center",
         "column1_content_type": "video",
         "column1_image_alt": "",
         "column1_image_link": "",
@@ -108,7 +108,7 @@
         "column1_video_autoplay": true,
         "column1_video_muted": true,
         "column1_video_loop": true,
-        "column1_video_controls": false,
+        "column1_video_controls": true,
         "column1_heading": "",
         "column1_subheading": "",
         "column1_text": "",
@@ -136,7 +136,7 @@
         "column2_video_autoplay": true,
         "column2_video_muted": true,
         "column2_video_loop": true,
-        "column2_video_controls": false,
+        "column2_video_controls": true,
         "column2_heading": "",
         "column2_subheading": "",
         "column2_text": "",
@@ -156,8 +156,7 @@
         "section_padding_top": 80,
         "section_padding_bottom": 80,
         "section_padding_horizontal": 20,
-        "section_min_height": 400,
-        "full_width": false
+        "section_min_height": 400
       }
     },
     "custom_text_xRqecy": {
