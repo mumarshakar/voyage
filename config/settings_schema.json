@@ -149,6 +149,13 @@
         "unit": "px"
       },
       {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Heading Color",
+        "default": "#333333",
+        "info": "Default text color for all headings across the theme"
+      },
+      {
         "type": "header",
         "content": "Subheading Typography"
       },
@@ -251,6 +258,13 @@
         "step": 0.1,
         "default": 0,
         "unit": "px"
+      },
+      {
+        "type": "color",
+        "id": "subheading_color",
+        "label": "Subheading Color",
+        "default": "#666666",
+        "info": "Default text color for all subheadings across the theme"
       },
       {
         "type": "header",
@@ -361,6 +375,13 @@
         "step": 0.5,
         "default": 0,
         "unit": "px"
+      },
+      {
+        "type": "color",
+        "id": "body_text_color",
+        "label": "Body Text Color",
+        "default": "#333333",
+        "info": "Default text color for body text across the theme"
       }
     ]
   }

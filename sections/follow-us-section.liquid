@@ -29,36 +29,8 @@
       "default": "#EAE7E1"
     },
     {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#333333"
-    },
-    {
-      "type": "select",
-      "id": "font_family",
-      "label": "Font Family",
-      "options": [
-        {
-          "value": "serif",
-          "label": "Serif (Playfair Display)"
-        },
-        {
-          "value": "sans-serif",
-          "label": "Sans-serif (Default)"
-        }
-      ],
-      "default": "serif"
-    },
-    {
-      "type": "range",
-      "id": "font_size",
-      "label": "Font Size (px)",
-      "min": 16,
-      "max": 48,
-      "step": 2,
-      "default": 20,
-      "unit": "px"
+      "type": "paragraph",
+      "content": "Font family, font size, line height, and color are controlled from Theme Settings → Typography"
     },
     {
       "type": "select",
@@ -203,10 +175,11 @@
 
 {%- liquid
   assign background_color = section.settings.background_color | default: '#EAE7E1'
-  assign text_color = section.settings.text_color | default: '#333333'
-  assign font_family = section.settings.font_family | default: 'serif'
-  assign font_size = section.settings.font_size | default: 20
-  assign font_weight = section.settings.font_weight | default: '400'
+  # Use theme settings for typography
+  assign text_color = settings.body_text_color | default: '#333333'
+  assign font_family_key = settings.body_font_family | default: 'segoe'
+  assign font_size = settings.body_font_size | default: 20
+  assign font_weight = section.settings.font_weight | default: settings.body_font_weight | default: '400'
   assign show_underline = section.settings.show_underline | default: true
   assign text_alignment = section.settings.text_alignment | default: 'center'
   assign text_transform = section.settings.text_transform | default: 'none'
@@ -218,11 +191,25 @@
   assign heading_text = section.settings.heading_text | default: 'Follow us on instagram!'
   assign instagram_url = section.settings.instagram_url
   
-  if font_family == 'serif'
-    assign font_family_value = "'Playfair Display', 'Times New Roman', serif"
-  else
-    assign font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-  endif
+  # Get font family value from theme settings
+  case font_family_key
+    when 'playfair'
+      assign font_family_value = "'Playfair Display', 'Times New Roman', serif"
+    when 'georgia'
+      assign font_family_value = "Georgia, 'Times New Roman', serif"
+    when 'times'
+      assign font_family_value = "'Times New Roman', Times, serif"
+    when 'arial'
+      assign font_family_value = "Arial, Helvetica, sans-serif"
+    when 'helvetica'
+      assign font_family_value = "Helvetica, Arial, sans-serif"
+    when 'verdana'
+      assign font_family_value = "Verdana, Geneva, sans-serif"
+    when 'courier'
+      assign font_family_value = "'Courier New', Courier, monospace"
+    else
+      assign font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+  endcase
 -%}
 
 <section class="follow-us-section" 
