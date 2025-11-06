@@ -697,13 +697,6 @@
       "unit": "px",
       "info": "Minimum height of the section"
     },
-    {
-      "type": "checkbox",
-      "id": "full_width",
-      "label": "Full Width Section",
-      "default": false,
-      "info": "When enabled, section extends to full browser width"
-    }
   ],
   "presets": [
     {
@@ -741,7 +734,6 @@
   assign section_padding_bottom = section.settings.section_padding_bottom | default: 80
   assign section_padding_horizontal = section.settings.section_padding_horizontal | default: 20
   assign section_min_height = section.settings.section_min_height | default: 400
-  assign full_width = section.settings.full_width
   
 -%}
 
@@ -753,7 +745,7 @@
                 padding-right: {{ section_padding_horizontal }}px;
                 min-height: {{ section_min_height }}px;">
   
-  <div class="{% if full_width %}container-fluid{% else %}container{% endif %}">
+  <div class="container-fluid">
     <div class="two-columns-wrapper row g-0" 
          style="gap: {{ column_gap_vertical }}px {{ column_gap_horizontal }}px;"
          data-swap="{{ swap_columns }}"
