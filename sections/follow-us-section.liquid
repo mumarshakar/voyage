@@ -30,35 +30,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Font family, font size, line height, and color are controlled from Theme Settings → Typography"
-    },
-    {
-      "type": "select",
-      "id": "font_weight",
-      "label": "Font Weight",
-      "options": [
-        {
-          "value": "300",
-          "label": "Light"
-        },
-        {
-          "value": "400",
-          "label": "Regular"
-        },
-        {
-          "value": "500",
-          "label": "Medium"
-        },
-        {
-          "value": "600",
-          "label": "Semi Bold"
-        },
-        {
-          "value": "700",
-          "label": "Bold"
-        }
-      ],
-      "default": "400"
+      "content": "All typography settings (font family, font size, font weight, line height, and color) are controlled from Theme Settings → Typography"
     },
     {
       "type": "checkbox",
@@ -175,11 +147,11 @@
 
 {%- liquid
   assign background_color = section.settings.background_color | default: '#EAE7E1'
-  # Use theme settings for typography
+  # Use theme settings ONLY for typography (no section-level overrides)
   assign text_color = settings.body_text_color | default: '#333333'
   assign font_family_key = settings.body_font_family | default: 'segoe'
   assign font_size = settings.body_font_size | default: 20
-  assign font_weight = section.settings.font_weight | default: settings.body_font_weight | default: '400'
+  assign font_weight = settings.body_font_weight | default: '400'
   assign show_underline = section.settings.show_underline | default: true
   assign text_alignment = section.settings.text_alignment | default: 'center'
   assign text_transform = section.settings.text_transform | default: 'none'

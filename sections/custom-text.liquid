@@ -55,46 +55,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Font family, font size, line height, and color are controlled from Theme Settings → Typography"
-    },
-    {
-      "type": "select",
-      "id": "heading_font_weight",
-      "label": "Heading Font Weight",
-      "options": [
-        {
-          "value": "300",
-          "label": "Light"
-        },
-        {
-          "value": "400",
-          "label": "Regular"
-        },
-        {
-          "value": "500",
-          "label": "Medium"
-        },
-        {
-          "value": "600",
-          "label": "Semi Bold"
-        },
-        {
-          "value": "700",
-          "label": "Bold"
-        }
-      ],
-      "default": "600"
-    },
-    {
-      "type": "range",
-      "id": "heading_letter_spacing",
-      "label": "Heading Letter Spacing (px)",
-      "min": -2,
-      "max": 5,
-      "step": 0.1,
-      "default": 0,
-      "unit": "px",
-      "info": "Leave at 0 to use Theme Settings default"
+      "content": "All typography settings (font family, font size, font weight, line height, letter spacing, and color) are controlled from Theme Settings → Typography"
     },
     {
       "type": "select",
@@ -126,46 +87,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Font family, font size, line height, and color are controlled from Theme Settings → Typography"
-    },
-    {
-      "type": "select",
-      "id": "subheading_font_weight",
-      "label": "Subheading Font Weight",
-      "options": [
-        {
-          "value": "300",
-          "label": "Light"
-        },
-        {
-          "value": "400",
-          "label": "Regular"
-        },
-        {
-          "value": "500",
-          "label": "Medium"
-        },
-        {
-          "value": "600",
-          "label": "Semi Bold"
-        },
-        {
-          "value": "700",
-          "label": "Bold"
-        }
-      ],
-      "default": "400"
-    },
-    {
-      "type": "range",
-      "id": "subheading_letter_spacing",
-      "label": "Subheading Letter Spacing (px)",
-      "min": -2,
-      "max": 5,
-      "step": 0.1,
-      "default": 0,
-      "unit": "px",
-      "info": "Leave at 0 to use Theme Settings default"
+      "content": "All typography settings (font family, font size, font weight, line height, letter spacing, and color) are controlled from Theme Settings → Typography"
     },
     {
       "type": "select",
@@ -197,51 +119,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Font family, font size, line height, and color are controlled from Theme Settings → Typography"
-    },
-    {
-      "type": "select",
-      "id": "text_font_weight",
-      "label": "Text Font Weight",
-      "options": [
-        {
-          "value": "300",
-          "label": "Light"
-        },
-        {
-          "value": "400",
-          "label": "Regular"
-        },
-        {
-          "value": "500",
-          "label": "Medium"
-        },
-        {
-          "value": "600",
-          "label": "Semi Bold"
-        }
-      ],
-      "default": "400"
-    },
-    {
-      "type": "range",
-      "id": "text_letter_spacing",
-      "label": "Letter Spacing (px)",
-      "min": -2,
-      "max": 5,
-      "step": 0.1,
-      "default": 0,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "text_word_spacing",
-      "label": "Word Spacing (px)",
-      "min": 0,
-      "max": 10,
-      "step": 0.5,
-      "default": 0,
-      "unit": "px"
+      "content": "All typography settings (font family, font size, font weight, line height, letter spacing, word spacing, and color) are controlled from Theme Settings → Typography"
     },
     {
       "type": "select",
@@ -486,46 +364,30 @@
   assign content_type = section.settings.content_type | default: 'richtext'
   assign text_content = section.settings.text_content | default: ''
   assign html_content = section.settings.html_content | default: ''
-  # Use theme settings only for typography (font-family, font-size, line-height, color)
+  # Use theme settings ONLY for all typography (no section-level overrides)
   assign heading_color = settings.heading_color | default: '#333333'
   assign heading_font_size = settings.heading_font_size | default: 36
-  assign heading_font_weight = section.settings.heading_font_weight | default: settings.heading_font_weight | default: '600'
+  assign heading_font_weight = settings.heading_font_weight | default: '600'
   assign heading_font_family = settings.heading_font_family | default: 'segoe'
   assign heading_line_height = settings.heading_line_height | default: 1.2
-  if section.settings.heading_letter_spacing != blank and section.settings.heading_letter_spacing != 0
-    assign heading_letter_spacing = section.settings.heading_letter_spacing
-  else
-    assign heading_letter_spacing = settings.heading_letter_spacing | default: 0
-  endif
+  assign heading_letter_spacing = settings.heading_letter_spacing | default: 0
   assign heading_text_transform = section.settings.heading_text_transform | default: 'none'
-  # Use theme settings only for typography (font-family, font-size, line-height, color)
+  # Use theme settings ONLY for all typography (no section-level overrides)
   assign subheading_color = settings.subheading_color | default: '#666666'
   assign subheading_font_size = settings.subheading_font_size | default: 20
-  assign subheading_font_weight = section.settings.subheading_font_weight | default: settings.subheading_font_weight | default: '400'
+  assign subheading_font_weight = settings.subheading_font_weight | default: '400'
   assign subheading_font_family = settings.subheading_font_family | default: 'segoe'
   assign subheading_line_height = settings.subheading_line_height | default: 1.4
-  if section.settings.subheading_letter_spacing != blank and section.settings.subheading_letter_spacing != 0
-    assign subheading_letter_spacing = section.settings.subheading_letter_spacing
-  else
-    assign subheading_letter_spacing = settings.subheading_letter_spacing | default: 0
-  endif
+  assign subheading_letter_spacing = settings.subheading_letter_spacing | default: 0
   assign subheading_text_transform = section.settings.subheading_text_transform | default: 'none'
-  # Use theme settings only for typography (font-family, font-size, line-height, color)
+  # Use theme settings ONLY for all typography (no section-level overrides)
   assign text_color = settings.body_text_color | default: '#333333'
   assign text_font_size = settings.body_font_size | default: 16
-  assign text_font_weight = section.settings.text_font_weight | default: settings.body_font_weight | default: '400'
+  assign text_font_weight = settings.body_font_weight | default: '400'
   assign text_font_family = settings.body_font_family | default: 'segoe'
   assign text_line_height = settings.body_line_height | default: 1.6
-  if section.settings.text_letter_spacing != blank and section.settings.text_letter_spacing != 0
-    assign text_letter_spacing = section.settings.text_letter_spacing
-  else
-    assign text_letter_spacing = settings.body_letter_spacing | default: 0
-  endif
-  if section.settings.text_word_spacing != blank and section.settings.text_word_spacing != 0
-    assign text_word_spacing = section.settings.text_word_spacing
-  else
-    assign text_word_spacing = settings.body_word_spacing | default: 0
-  endif
+  assign text_letter_spacing = settings.body_letter_spacing | default: 0
+  assign text_word_spacing = settings.body_word_spacing | default: 0
   assign text_decoration = section.settings.text_decoration | default: 'none'
   assign link_color = section.settings.link_color | default: '#333333'
   assign link_hover_color = section.settings.link_hover_color | default: '#666666'

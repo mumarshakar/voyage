@@ -65,31 +65,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Font family, font size, line height, and color are controlled from Theme Settings → Typography"
-    },
-    {
-      "type": "select",
-      "id": "heading_font_weight",
-      "label": "Heading Font Weight",
-      "options": [
-        {
-          "value": "400",
-          "label": "Regular"
-        },
-        {
-          "value": "500",
-          "label": "Medium"
-        },
-        {
-          "value": "600",
-          "label": "Semi Bold"
-        },
-        {
-          "value": "700",
-          "label": "Bold"
-        }
-      ],
-      "default": "600"
+      "content": "All typography settings (font family, font size, font weight, line height, and color) are controlled from Theme Settings → Typography"
     },
     {
       "type": "select",
@@ -259,10 +235,10 @@
   assign quote_text = section.settings.quote_text
   assign image_position = section.settings.image_position | default: 'left'
   assign stack_on_mobile = section.settings.stack_on_mobile
-  # Use theme settings for typography
+  # Use theme settings ONLY for typography (no section-level overrides)
   assign heading_color = settings.heading_color | default: '#333333'
   assign heading_font_size = settings.heading_font_size | default: 40
-  assign heading_font_weight = section.settings.heading_font_weight | default: settings.heading_font_weight | default: '600'
+  assign heading_font_weight = settings.heading_font_weight | default: '600'
   assign heading_font_family_key = settings.heading_font_family | default: 'segoe'
   assign heading_text_align = section.settings.heading_text_align | default: 'center'
   assign text_color = settings.body_text_color | default: '#333333'
