@@ -64,20 +64,8 @@
       "content": "Heading Styling"
     },
     {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
-      "default": "#333333"
-    },
-    {
-      "type": "range",
-      "id": "heading_font_size",
-      "label": "Heading Font Size (px)",
-      "min": 24,
-      "max": 72,
-      "step": 2,
-      "default": 40,
-      "unit": "px"
+      "type": "paragraph",
+      "content": "Font family, font size, line height, and color are controlled from Theme Settings → Typography"
     },
     {
       "type": "select",
@@ -105,22 +93,6 @@
     },
     {
       "type": "select",
-      "id": "heading_font_family",
-      "label": "Heading Font Family",
-      "options": [
-        {
-          "value": "serif",
-          "label": "Serif (Playfair Display)"
-        },
-        {
-          "value": "sans-serif",
-          "label": "Sans-serif (Default)"
-        }
-      ],
-      "default": "serif"
-    },
-    {
-      "type": "select",
       "id": "heading_text_align",
       "label": "Heading Alignment",
       "options": [
@@ -144,65 +116,16 @@
       "content": "Text Content Styling"
     },
     {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#333333"
-    },
-    {
-      "type": "range",
-      "id": "text_font_size",
-      "label": "Text Font Size (px)",
-      "min": 14,
-      "max": 24,
-      "step": 1,
-      "default": 16,
-      "unit": "px"
-    },
-    {
-      "type": "select",
-      "id": "text_font_family",
-      "label": "Text Font Family",
-      "options": [
-        {
-          "value": "serif",
-          "label": "Serif (Playfair Display)"
-        },
-        {
-          "value": "sans-serif",
-          "label": "Sans-serif (Default)"
-        }
-      ],
-      "default": "sans-serif"
-    },
-    {
-      "type": "range",
-      "id": "text_line_height",
-      "label": "Text Line Height",
-      "min": 1.4,
-      "max": 2.2,
-      "step": 0.1,
-      "default": 1.6
+      "type": "paragraph",
+      "content": "Font family, font size, line height, and color are controlled from Theme Settings → Typography"
     },
     {
       "type": "header",
       "content": "Quote Text Styling"
     },
     {
-      "type": "color",
-      "id": "quote_color",
-      "label": "Quote Color",
-      "default": "#333333"
-    },
-    {
-      "type": "range",
-      "id": "quote_font_size",
-      "label": "Quote Font Size (px)",
-      "min": 14,
-      "max": 24,
-      "step": 1,
-      "default": 18,
-      "unit": "px"
+      "type": "paragraph",
+      "content": "Font family, font size, line height, and color are controlled from Theme Settings → Typography"
     },
     {
       "type": "select",
@@ -358,17 +281,44 @@
   assign column_gap = section.settings.column_gap | default: 40
   assign text_spacing = section.settings.text_spacing | default: 20
   
-  if heading_font_family == 'serif'
-    assign heading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
-  else
-    assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-  endif
-  
-  if text_font_family == 'serif'
-    assign text_font_family_value = "'Playfair Display', 'Times New Roman', serif"
-  else
-    assign text_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-  endif
+  # Get font family values from theme settings
+  case heading_font_family_key
+    when 'playfair'
+      assign heading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
+    when 'georgia'
+      assign heading_font_family_value = "Georgia, 'Times New Roman', serif"
+    when 'times'
+      assign heading_font_family_value = "'Times New Roman', Times, serif"
+    when 'arial'
+      assign heading_font_family_value = "Arial, Helvetica, sans-serif"
+    when 'helvetica'
+      assign heading_font_family_value = "Helvetica, Arial, sans-serif"
+    when 'verdana'
+      assign heading_font_family_value = "Verdana, Geneva, sans-serif"
+    when 'courier'
+      assign heading_font_family_value = "'Courier New', Courier, monospace"
+    else
+      assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+  endcase
+
+  case text_font_family_key
+    when 'playfair'
+      assign text_font_family_value = "'Playfair Display', 'Times New Roman', serif"
+    when 'georgia'
+      assign text_font_family_value = "Georgia, 'Times New Roman', serif"
+    when 'times'
+      assign text_font_family_value = "'Times New Roman', Times, serif"
+    when 'arial'
+      assign text_font_family_value = "Arial, Helvetica, sans-serif"
+    when 'helvetica'
+      assign text_font_family_value = "Helvetica, Arial, sans-serif"
+    when 'verdana'
+      assign text_font_family_value = "Verdana, Geneva, sans-serif"
+    when 'courier'
+      assign text_font_family_value = "'Courier New', Courier, monospace"
+    else
+      assign text_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+  endcase
 -%}
 
 <section class="meet-team-section" 
