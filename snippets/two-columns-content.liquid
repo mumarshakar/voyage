@@ -2,12 +2,28 @@
   assign column_num = column
   assign content_type = content_type
   
+  # Get padding values from passed parameters (new method) or fallback to old method
+  assign padding_top = padding_top | default: 0
+  assign padding_bottom = padding_bottom | default: 0
+  assign padding_left = padding_left | default: 0
+  assign padding_right = padding_right | default: 0
+  
   if column_num == '1'
     assign bg_color = section.settings.column1_bg_color | default: '#FFFFFF'
     assign bg_image = section.settings.column1_bg_image
     assign bg_size = section.settings.column1_bg_size | default: 'cover'
     assign bg_overlay_opacity = section.settings.column1_bg_overlay_opacity | default: 0
-    assign padding = section.settings.column1_padding | default: 0
+    
+    # Backward compatibility: if new padding values not passed, use old method
+    if padding_top == 0 and padding_bottom == 0 and padding_left == 0 and padding_right == 0
+      assign old_padding = section.settings.column1_padding | default: 0
+      if old_padding > 0
+        assign padding_top = old_padding
+        assign padding_bottom = old_padding
+        assign padding_left = old_padding
+        assign padding_right = old_padding
+      endif
+    endif
     
     if content_type == 'image'
       assign image = section.settings.column1_image
@@ -39,7 +55,17 @@
     assign bg_image = section.settings.column2_bg_image
     assign bg_size = section.settings.column2_bg_size | default: 'cover'
     assign bg_overlay_opacity = section.settings.column2_bg_overlay_opacity | default: 0
-    assign padding = section.settings.column2_padding | default: 0
+    
+    # Backward compatibility: if new padding values not passed, use old method
+    if padding_top == 0 and padding_bottom == 0 and padding_left == 0 and padding_right == 0
+      assign old_padding = section.settings.column2_padding | default: 0
+      if old_padding > 0
+        assign padding_top = old_padding
+        assign padding_bottom = old_padding
+        assign padding_left = old_padding
+        assign padding_right = old_padding
+      endif
+    endif
     
     if content_type == 'image'
       assign image = section.settings.column2_image
@@ -81,7 +107,7 @@
             background-size: {{ bg_size }};
             background-position: center;
             background-repeat: no-repeat;
-            {% if content_type == 'text' and padding > 0 %}padding: {{ padding }}px;{% endif %}
+            {% if padding_top > 0 or padding_bottom > 0 or padding_left > 0 or padding_right > 0 %}padding: {{ padding_top }}px {{ padding_right }}px {{ padding_bottom }}px {{ padding_left }}px;{% endif %}
             position: relative;
             min-height: 100%;">
   

@@ -22,13 +22,25 @@
     },
     {
       "type": "range",
-      "id": "column_gap",
+      "id": "column_gap_horizontal",
       "label": "Gap Between Columns (px)",
       "min": 0,
       "max": 100,
       "step": 5,
       "default": 30,
-      "unit": "px"
+      "unit": "px",
+      "info": "Horizontal gap between columns"
+    },
+    {
+      "type": "range",
+      "id": "column_gap_vertical",
+      "label": "Gap When Stacked (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 30,
+      "unit": "px",
+      "info": "Vertical gap when columns stack on mobile"
     },
     {
       "type": "select",
@@ -299,9 +311,43 @@
       "info": "Dark overlay on background image"
     },
     {
+      "type": "header",
+      "content": "Column 1 - Padding Settings"
+    },
+    {
       "type": "range",
-      "id": "column1_padding",
-      "label": "Column 1 Padding (px)",
+      "id": "column1_padding_top",
+      "label": "Column 1 Padding Top (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "column1_padding_bottom",
+      "label": "Column 1 Padding Bottom (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "column1_padding_left",
+      "label": "Column 1 Padding Left (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "column1_padding_right",
+      "label": "Column 1 Padding Right (px)",
       "min": 0,
       "max": 100,
       "step": 5,
@@ -557,9 +603,43 @@
       "info": "Dark overlay on background image"
     },
     {
+      "type": "header",
+      "content": "Column 2 - Padding Settings"
+    },
+    {
       "type": "range",
-      "id": "column2_padding",
-      "label": "Column 2 Padding (px)",
+      "id": "column2_padding_top",
+      "label": "Column 2 Padding Top (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "column2_padding_bottom",
+      "label": "Column 2 Padding Bottom (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "column2_padding_left",
+      "label": "Column 2 Padding Left (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "column2_padding_right",
+      "label": "Column 2 Padding Right (px)",
       "min": 0,
       "max": 100,
       "step": 5,
@@ -636,10 +716,25 @@
 {%- liquid
   assign swap_columns = section.settings.swap_columns
   assign stack_on_mobile = section.settings.stack_on_mobile
-  assign column_gap = section.settings.column_gap | default: 30
+  
+  # Enhanced gap controls with backward compatibility
+  assign column_gap_horizontal = section.settings.column_gap_horizontal | default: section.settings.column_gap | default: 30
+  assign column_gap_vertical = section.settings.column_gap_vertical | default: section.settings.column_gap | default: 30
   
   assign column1_content_type = section.settings.column1_content_type | default: 'text'
   assign column2_content_type = section.settings.column2_content_type | default: 'text'
+  
+  # Enhanced padding controls for Column 1 with backward compatibility
+  assign column1_padding_top = section.settings.column1_padding_top | default: section.settings.column1_padding | default: 0
+  assign column1_padding_bottom = section.settings.column1_padding_bottom | default: section.settings.column1_padding | default: 0
+  assign column1_padding_left = section.settings.column1_padding_left | default: section.settings.column1_padding | default: 0
+  assign column1_padding_right = section.settings.column1_padding_right | default: section.settings.column1_padding | default: 0
+  
+  # Enhanced padding controls for Column 2 with backward compatibility
+  assign column2_padding_top = section.settings.column2_padding_top | default: section.settings.column2_padding | default: 0
+  assign column2_padding_bottom = section.settings.column2_padding_bottom | default: section.settings.column2_padding | default: 0
+  assign column2_padding_left = section.settings.column2_padding_left | default: section.settings.column2_padding | default: 0
+  assign column2_padding_right = section.settings.column2_padding_right | default: section.settings.column2_padding | default: 0
   
   assign section_bg_color = section.settings.section_bg_color | default: '#FFFFFF'
   assign section_padding_top = section.settings.section_padding_top | default: 80
@@ -660,7 +755,7 @@
   
   <div class="{% if full_width %}container-fluid{% else %}container{% endif %}">
     <div class="two-columns-wrapper row g-0" 
-         style="gap: {{ column_gap }}px;"
+         style="gap: {{ column_gap_vertical }}px {{ column_gap_horizontal }}px;"
          data-swap="{{ swap_columns }}"
          data-stack-mobile="{{ stack_on_mobile }}">
       
@@ -670,7 +765,11 @@
         {% render 'two-columns-content', 
            column: '1',
            content_type: column1_content_type,
-           section: section %}
+           section: section,
+           padding_top: column1_padding_top,
+           padding_bottom: column1_padding_bottom,
+           padding_left: column1_padding_left,
+           padding_right: column1_padding_right %}
       </div>
       
       {% comment %} Column 2 {% endcomment %}
@@ -679,7 +778,11 @@
         {% render 'two-columns-content', 
            column: '2',
            content_type: column2_content_type,
-           section: section %}
+           section: section,
+           padding_top: column2_padding_top,
+           padding_bottom: column2_padding_bottom,
+           padding_left: column2_padding_left,
+           padding_right: column2_padding_right %}
       </div>
       
     </div>
