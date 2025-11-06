@@ -1,0 +1,28 @@
+{% comment %}
+  snippets/font-family-helper.liquid
+  Helper snippet to convert font family setting value to CSS font-family string
+  Usage: {% render 'font-family-helper', font_family: settings.heading_font_family %}
+  Returns: font_family_value variable
+{% endcomment %}
+
+{%- liquid
+  case font_family
+    when 'playfair'
+      assign font_family_value = "'Playfair Display', 'Times New Roman', serif"
+    when 'georgia'
+      assign font_family_value = "Georgia, 'Times New Roman', serif"
+    when 'times'
+      assign font_family_value = "'Times New Roman', Times, serif"
+    when 'arial'
+      assign font_family_value = "Arial, Helvetica, sans-serif"
+    when 'helvetica'
+      assign font_family_value = "Helvetica, Arial, sans-serif"
+    when 'verdana'
+      assign font_family_value = "Verdana, Geneva, sans-serif"
+    when 'courier'
+      assign font_family_value = "'Courier New', Courier, monospace"
+    else
+      assign font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+  endcase
+-%}
+

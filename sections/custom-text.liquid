@@ -135,7 +135,29 @@
           "label": "Courier New (Monospace)"
         }
       ],
-      "default": "segoe"
+      "default": "segoe",
+      "info": "Leave empty to use Theme Settings default"
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Heading Line Height",
+      "min": 1.0,
+      "max": 2.5,
+      "step": 0.1,
+      "default": 0,
+      "info": "Leave at 0 to use Theme Settings default"
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "label": "Heading Letter Spacing (px)",
+      "min": -2,
+      "max": 5,
+      "step": 0.1,
+      "default": 0,
+      "unit": "px",
+      "info": "Leave at 0 to use Theme Settings default"
     },
     {
       "type": "select",
@@ -247,7 +269,29 @@
           "label": "Courier New (Monospace)"
         }
       ],
-      "default": "segoe"
+      "default": "segoe",
+      "info": "Leave empty to use Theme Settings default"
+    },
+    {
+      "type": "range",
+      "id": "subheading_line_height",
+      "label": "Subheading Line Height",
+      "min": 1.0,
+      "max": 2.5,
+      "step": 0.1,
+      "default": 0,
+      "info": "Leave at 0 to use Theme Settings default"
+    },
+    {
+      "type": "range",
+      "id": "subheading_letter_spacing",
+      "label": "Subheading Letter Spacing (px)",
+      "min": -2,
+      "max": 5,
+      "step": 0.1,
+      "default": 0,
+      "unit": "px",
+      "info": "Leave at 0 to use Theme Settings default"
     },
     {
       "type": "select",
@@ -630,22 +674,29 @@
   assign text_content = section.settings.text_content | default: ''
   assign html_content = section.settings.html_content | default: ''
   assign heading_color = section.settings.heading_color | default: '#333333'
-  assign heading_font_size = section.settings.heading_font_size | default: 36
-  assign heading_font_weight = section.settings.heading_font_weight | default: '600'
-  assign heading_font_family = section.settings.heading_font_family | default: 'segoe'
+  # Use theme settings as defaults, allow section-level override
+  assign heading_font_size = section.settings.heading_font_size | default: settings.heading_font_size | default: 36
+  assign heading_font_weight = section.settings.heading_font_weight | default: settings.heading_font_weight | default: '600'
+  assign heading_font_family = section.settings.heading_font_family | default: settings.heading_font_family | default: 'segoe'
+  assign heading_line_height = section.settings.heading_line_height | default: settings.heading_line_height | default: 1.2
+  assign heading_letter_spacing = section.settings.heading_letter_spacing | default: settings.heading_letter_spacing | default: 0
   assign heading_text_transform = section.settings.heading_text_transform | default: 'none'
   assign subheading_color = section.settings.subheading_color | default: '#666666'
-  assign subheading_font_size = section.settings.subheading_font_size | default: 20
-  assign subheading_font_weight = section.settings.subheading_font_weight | default: '400'
-  assign subheading_font_family = section.settings.subheading_font_family | default: 'segoe'
+  # Use theme settings as defaults, allow section-level override
+  assign subheading_font_size = section.settings.subheading_font_size | default: settings.subheading_font_size | default: 20
+  assign subheading_font_weight = section.settings.subheading_font_weight | default: settings.subheading_font_weight | default: '400'
+  assign subheading_font_family = section.settings.subheading_font_family | default: settings.subheading_font_family | default: 'segoe'
+  assign subheading_line_height = section.settings.subheading_line_height | default: settings.subheading_line_height | default: 1.4
+  assign subheading_letter_spacing = section.settings.subheading_letter_spacing | default: settings.subheading_letter_spacing | default: 0
   assign subheading_text_transform = section.settings.subheading_text_transform | default: 'none'
   assign text_color = section.settings.text_color | default: '#333333'
-  assign text_font_size = section.settings.text_font_size | default: 16
-  assign text_font_weight = section.settings.text_font_weight | default: '400'
-  assign text_font_family = section.settings.text_font_family | default: 'segoe'
-  assign text_line_height = section.settings.text_line_height | default: 1.6
-  assign text_letter_spacing = section.settings.text_letter_spacing | default: 0
-  assign text_word_spacing = section.settings.text_word_spacing | default: 0
+  # Use theme settings as defaults, allow section-level override
+  assign text_font_size = section.settings.text_font_size | default: settings.body_font_size | default: 16
+  assign text_font_weight = section.settings.text_font_weight | default: settings.body_font_weight | default: '400'
+  assign text_font_family = section.settings.text_font_family | default: settings.body_font_family | default: 'segoe'
+  assign text_line_height = section.settings.text_line_height | default: settings.body_line_height | default: 1.6
+  assign text_letter_spacing = section.settings.text_letter_spacing | default: settings.body_letter_spacing | default: 0
+  assign text_word_spacing = section.settings.text_word_spacing | default: settings.body_word_spacing | default: 0
   assign text_decoration = section.settings.text_decoration | default: 'none'
   assign link_color = section.settings.link_color | default: '#333333'
   assign link_hover_color = section.settings.link_hover_color | default: '#666666'
@@ -757,6 +808,8 @@
                    font-size: {{ heading_font_size }}px;
                    font-weight: {{ heading_font_weight }};
                    font-family: {{ heading_font_family_value }};
+                   line-height: {{ heading_line_height }};
+                   letter-spacing: {{ heading_letter_spacing }}px;
                    text-transform: {{ heading_text_transform }};
                    margin-bottom: {{ heading_margin_bottom }}px;
                    margin-top: 0;">
@@ -770,6 +823,8 @@
                    font-size: {{ subheading_font_size }}px;
                    font-weight: {{ subheading_font_weight }};
                    font-family: {{ subheading_font_family_value }};
+                   line-height: {{ subheading_line_height }};
+                   letter-spacing: {{ subheading_letter_spacing }}px;
                    text-transform: {{ subheading_text_transform }};
                    margin-bottom: {{ subheading_margin_bottom }}px;
                    margin-top: 0;">
