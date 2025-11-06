@@ -103,15 +103,39 @@
       "label": "Heading Font Family",
       "options": [
         {
-          "value": "serif",
-          "label": "Serif (Playfair Display)"
+          "value": "playfair",
+          "label": "Playfair Display (Serif)"
         },
         {
-          "value": "sans-serif",
-          "label": "Sans-serif (Default)"
+          "value": "segoe",
+          "label": "Segoe UI (Sans-serif)"
+        },
+        {
+          "value": "arial",
+          "label": "Arial (Sans-serif)"
+        },
+        {
+          "value": "georgia",
+          "label": "Georgia (Serif)"
+        },
+        {
+          "value": "times",
+          "label": "Times New Roman (Serif)"
+        },
+        {
+          "value": "helvetica",
+          "label": "Helvetica (Sans-serif)"
+        },
+        {
+          "value": "verdana",
+          "label": "Verdana (Sans-serif)"
+        },
+        {
+          "value": "courier",
+          "label": "Courier New (Monospace)"
         }
       ],
-      "default": "sans-serif"
+      "default": "segoe"
     },
     {
       "type": "select",
@@ -191,15 +215,39 @@
       "label": "Subheading Font Family",
       "options": [
         {
-          "value": "serif",
-          "label": "Serif (Playfair Display)"
+          "value": "playfair",
+          "label": "Playfair Display (Serif)"
         },
         {
-          "value": "sans-serif",
-          "label": "Sans-serif (Default)"
+          "value": "segoe",
+          "label": "Segoe UI (Sans-serif)"
+        },
+        {
+          "value": "arial",
+          "label": "Arial (Sans-serif)"
+        },
+        {
+          "value": "georgia",
+          "label": "Georgia (Serif)"
+        },
+        {
+          "value": "times",
+          "label": "Times New Roman (Serif)"
+        },
+        {
+          "value": "helvetica",
+          "label": "Helvetica (Sans-serif)"
+        },
+        {
+          "value": "verdana",
+          "label": "Verdana (Sans-serif)"
+        },
+        {
+          "value": "courier",
+          "label": "Courier New (Monospace)"
         }
       ],
-      "default": "sans-serif"
+      "default": "segoe"
     },
     {
       "type": "select",
@@ -275,15 +323,39 @@
       "label": "Text Font Family",
       "options": [
         {
-          "value": "serif",
-          "label": "Serif (Playfair Display)"
+          "value": "playfair",
+          "label": "Playfair Display (Serif)"
         },
         {
-          "value": "sans-serif",
-          "label": "Sans-serif (Default)"
+          "value": "segoe",
+          "label": "Segoe UI (Sans-serif)"
+        },
+        {
+          "value": "arial",
+          "label": "Arial (Sans-serif)"
+        },
+        {
+          "value": "georgia",
+          "label": "Georgia (Serif)"
+        },
+        {
+          "value": "times",
+          "label": "Times New Roman (Serif)"
+        },
+        {
+          "value": "helvetica",
+          "label": "Helvetica (Sans-serif)"
+        },
+        {
+          "value": "verdana",
+          "label": "Verdana (Sans-serif)"
+        },
+        {
+          "value": "courier",
+          "label": "Courier New (Monospace)"
         }
       ],
-      "default": "sans-serif"
+      "default": "segoe"
     },
     {
       "type": "range",
@@ -560,17 +632,17 @@
   assign heading_color = section.settings.heading_color | default: '#333333'
   assign heading_font_size = section.settings.heading_font_size | default: 36
   assign heading_font_weight = section.settings.heading_font_weight | default: '600'
-  assign heading_font_family = section.settings.heading_font_family | default: 'sans-serif'
+  assign heading_font_family = section.settings.heading_font_family | default: 'segoe'
   assign heading_text_transform = section.settings.heading_text_transform | default: 'none'
   assign subheading_color = section.settings.subheading_color | default: '#666666'
   assign subheading_font_size = section.settings.subheading_font_size | default: 20
   assign subheading_font_weight = section.settings.subheading_font_weight | default: '400'
-  assign subheading_font_family = section.settings.subheading_font_family | default: 'sans-serif'
+  assign subheading_font_family = section.settings.subheading_font_family | default: 'segoe'
   assign subheading_text_transform = section.settings.subheading_text_transform | default: 'none'
   assign text_color = section.settings.text_color | default: '#333333'
   assign text_font_size = section.settings.text_font_size | default: 16
   assign text_font_weight = section.settings.text_font_weight | default: '400'
-  assign text_font_family = section.settings.text_font_family | default: 'sans-serif'
+  assign text_font_family = section.settings.text_font_family | default: 'segoe'
   assign text_line_height = section.settings.text_line_height | default: 1.6
   assign text_letter_spacing = section.settings.text_letter_spacing | default: 0
   assign text_word_spacing = section.settings.text_word_spacing | default: 0
@@ -593,23 +665,62 @@
   assign heading_margin_bottom = section.settings.heading_margin_bottom | default: 20
   assign subheading_margin_bottom = section.settings.subheading_margin_bottom | default: 20
   
-  if heading_font_family == 'serif'
-    assign heading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
-  else
-    assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-  endif
+  case heading_font_family
+    when 'playfair'
+      assign heading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
+    when 'georgia'
+      assign heading_font_family_value = "Georgia, 'Times New Roman', serif"
+    when 'times'
+      assign heading_font_family_value = "'Times New Roman', Times, serif"
+    when 'arial'
+      assign heading_font_family_value = "Arial, Helvetica, sans-serif"
+    when 'helvetica'
+      assign heading_font_family_value = "Helvetica, Arial, sans-serif"
+    when 'verdana'
+      assign heading_font_family_value = "Verdana, Geneva, sans-serif"
+    when 'courier'
+      assign heading_font_family_value = "'Courier New', Courier, monospace"
+    else
+      assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+  endcase
   
-  if subheading_font_family == 'serif'
-    assign subheading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
-  else
-    assign subheading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-  endif
+  case subheading_font_family
+    when 'playfair'
+      assign subheading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
+    when 'georgia'
+      assign subheading_font_family_value = "Georgia, 'Times New Roman', serif"
+    when 'times'
+      assign subheading_font_family_value = "'Times New Roman', Times, serif"
+    when 'arial'
+      assign subheading_font_family_value = "Arial, Helvetica, sans-serif"
+    when 'helvetica'
+      assign subheading_font_family_value = "Helvetica, Arial, sans-serif"
+    when 'verdana'
+      assign subheading_font_family_value = "Verdana, Geneva, sans-serif"
+    when 'courier'
+      assign subheading_font_family_value = "'Courier New', Courier, monospace"
+    else
+      assign subheading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+  endcase
   
-  if text_font_family == 'serif'
-    assign text_font_family_value = "'Playfair Display', 'Times New Roman', serif"
-  else
-    assign text_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-  endif
+  case text_font_family
+    when 'playfair'
+      assign text_font_family_value = "'Playfair Display', 'Times New Roman', serif"
+    when 'georgia'
+      assign text_font_family_value = "Georgia, 'Times New Roman', serif"
+    when 'times'
+      assign text_font_family_value = "'Times New Roman', Times, serif"
+    when 'arial'
+      assign text_font_family_value = "Arial, Helvetica, sans-serif"
+    when 'helvetica'
+      assign text_font_family_value = "Helvetica, Arial, sans-serif"
+    when 'verdana'
+      assign text_font_family_value = "Verdana, Geneva, sans-serif"
+    when 'courier'
+      assign text_font_family_value = "'Courier New', Courier, monospace"
+    else
+      assign text_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+  endcase
   
   if background_overlay_opacity > 0
     assign overlay_opacity_decimal = background_overlay_opacity | divided_by: 100.0
