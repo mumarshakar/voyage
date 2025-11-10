@@ -1,4 +1,4 @@
-{% render 'header-content' %}
+{% render 'header-content', section: section %}
 
 {% schema %}
 {
@@ -198,6 +198,58 @@
       "id": "header_shadow",
       "label": "Show Header Shadow",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Scroll Behavior (Sticky/Fixed Headers)"
+    },
+    {
+      "type": "paragraph",
+      "content": "These settings apply when the header is sticky or fixed and the user scrolls down"
+    },
+    {
+      "type": "color",
+      "id": "scrolled_bg_color",
+      "label": "Scrolled Background Color",
+      "default": "#FFFFFF",
+      "info": "Background color when scrolled (leave empty to use default background color)"
+    },
+    {
+      "type": "range",
+      "id": "scrolled_padding_top",
+      "label": "Scrolled Top Padding (px)",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "default": 12,
+      "info": "Reduced padding when scrolled"
+    },
+    {
+      "type": "range",
+      "id": "scrolled_padding_bottom",
+      "label": "Scrolled Bottom Padding (px)",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "default": 12,
+      "info": "Reduced padding when scrolled"
+    },
+    {
+      "type": "checkbox",
+      "id": "scrolled_shadow",
+      "label": "Show Shadow When Scrolled",
+      "default": true,
+      "info": "Add shadow effect when user scrolls down"
+    },
+    {
+      "type": "range",
+      "id": "scroll_threshold",
+      "label": "Scroll Threshold (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 50,
+      "info": "How many pixels to scroll before header changes style"
     },
     {
       "type": "select",

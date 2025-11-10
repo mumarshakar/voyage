@@ -86,6 +86,48 @@
   assign title_font_size = section.settings.title_font_size | default: 48
   assign margin_top = section.settings.margin_top | default: 0
   
+  # Get heading theme settings
+  assign heading_color = settings.heading_color | default: '#333333'
+  assign heading_font_size = settings.heading_font_size | default: 36
+  assign heading_font_weight = settings.heading_font_weight | default: '600'
+  assign heading_font_family = settings.heading_font_family | default: 'segoe'
+  assign heading_line_height = settings.heading_line_height | default: 1.2
+  assign heading_letter_spacing = settings.heading_letter_spacing | default: 0
+  
+  # Convert heading font family setting to CSS value
+  case heading_font_family
+    when 'playfair'
+      assign heading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
+    when 'georgia'
+      assign heading_font_family_value = "Georgia, 'Times New Roman', serif"
+    when 'times'
+      assign heading_font_family_value = "'Times New Roman', Times, serif"
+    when 'arial'
+      assign heading_font_family_value = "Arial, Helvetica, sans-serif"
+    when 'helvetica'
+      assign heading_font_family_value = "Helvetica, Arial, sans-serif"
+    when 'verdana'
+      assign heading_font_family_value = "Verdana, Geneva, sans-serif"
+    when 'courier'
+      assign heading_font_family_value = "'Courier New', Courier, monospace"
+    else
+      assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+  endcase
+  
+  # Use section title_color if provided, otherwise use theme heading_color
+  if title_color != blank and title_color != '#333333'
+    assign final_title_color = title_color
+  else
+    assign final_title_color = heading_color
+  endif
+  
+  # Use section title_font_size if provided, otherwise use theme heading_font_size
+  if title_font_size != blank and title_font_size != 48
+    assign final_title_font_size = title_font_size
+  else
+    assign final_title_font_size = heading_font_size
+  endif
+  
   if custom_title != blank
     assign page_title_text = custom_title
   else
@@ -99,7 +141,13 @@
                 padding-bottom: {{ padding_bottom }}px;
                 margin-top: {{ margin_top }}px;">
   <div class="container">
-    <h1 class="page-title" style="color: {{ title_color }}; font-size: {{ title_font_size }}px;">
+    <h1 class="page-title" 
+        style="color: {{ final_title_color }};
+               font-size: {{ final_title_font_size }}px;
+               font-weight: {{ heading_font_weight }};
+               font-family: {{ heading_font_family_value }};
+               line-height: {{ heading_line_height }};
+               letter-spacing: {{ heading_letter_spacing }}px;">
       {{ page_title_text }}
     </h1>
     {% if show_page_content and page.content != blank %}

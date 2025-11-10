@@ -147,14 +147,8 @@ body {
 }
 
 .hero-glow-title {
-  font-family: 'Playfair Display', 'Times New Roman', serif;
-  font-size: 2.5rem;
-  font-weight: 400;
-  color: var(--warm-brown);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  /* Typography styles are now applied via inline styles from theme settings */
   margin: 0;
-  margin-top: 8vh;
   text-align: center;
   position: relative;
 }
@@ -204,23 +198,18 @@ body {
 }
 
 .hero-title {
-  font-size: 3.5rem;
-  font-weight: bold;
-  color: #333;
+  /* Heading styles are now applied via inline styles from theme settings */
   margin-bottom: 1.5rem;
 }
 
 .hero-subtitle {
-  font-size: 1.3rem;
-  color: #666;
+  /* Subheading styles are now applied via inline styles from theme settings */
   margin-bottom: 2rem;
 }
 
 /* Section Title - Generic utility class */
 .section-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #333;
+  /* Heading styles should be applied via inline styles from theme settings */
   margin-bottom: 3rem;
   text-align: center;
 }
@@ -233,15 +222,12 @@ body {
 }
 
 .page-title {
-  font-size: 3.5rem;
-  font-weight: bold;
-  color: #333;
+  /* Heading styles are now applied via inline styles from theme settings */
   margin-bottom: 1rem;
 }
 
 .page-subtitle {
-  font-size: 1.3rem;
-  color: #666;
+  /* Subheading styles are now applied via inline styles from theme settings */
 }
 
 /* Booking Section */
@@ -285,25 +271,10 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero-title {
-    font-size: 2.5rem;
-  }
-  
-  .hero-glow-title {
-    font-size: 2rem;
-  }
-  
+  /* Typography font sizes are controlled by theme settings */
   .hero-glow-content {
     margin-top: 5vh;
     gap: 30vh;
-  }
-  
-  .page-title {
-    font-size: 2.5rem;
-  }
-  
-  .section-title {
-    font-size: 2rem;
   }
 }
 

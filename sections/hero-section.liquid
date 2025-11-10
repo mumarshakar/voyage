@@ -107,38 +107,6 @@
       "info": "Video will be muted (required for autoplay in most browsers)"
     },
     {
-      "type": "select",
-      "id": "variation",
-      "label": "Hero Style",
-      "options": [
-        {
-          "value": "glow",
-          "label": "Glow Deck Style"
-        },
-        {
-          "value": "style1",
-          "label": "Style 1 - Classic"
-        },
-        {
-          "value": "style2",
-          "label": "Style 2 - Orange Gradient"
-        },
-        {
-          "value": "style3",
-          "label": "Style 3 - Cream Background"
-        },
-        {
-          "value": "style4",
-          "label": "Style 4 - Bold Gradient"
-        },
-        {
-          "value": "style5",
-          "label": "Style 5 - Minimal"
-        }
-      ],
-      "default": "glow"
-    },
-    {
       "type": "header",
       "content": "Hero Section Layout"
     },
@@ -399,13 +367,10 @@
 }
 {% endschema %}
 
-{% if section.settings.variation == 'glow' %}
-  {%- liquid
+{%- liquid
     assign hero_height = section.settings.hero_height | default: 100
     assign bg_position = section.settings.background_position | default: 'center'
     assign bg_size = section.settings.background_size | default: 'cover'
-    assign title_color = section.settings.title_color | default: '#8B6F47'
-    assign title_font_size = section.settings.title_font_size | default: 40
     assign title_position_top = section.settings.title_position_top | default: 20
     assign text_align = section.settings.text_alignment | default: 'center'
     assign button_text_color = section.settings.button_text_color | default: '#8B6F47'
@@ -426,6 +391,50 @@
     assign video_source_type = section.settings.video_source_type | default: 'upload'
     assign video_autoplay = section.settings.video_autoplay | default: true
     assign video_muted = section.settings.video_muted | default: true
+    
+    # Get heading theme settings for typography
+    assign heading_color = settings.heading_color | default: '#333333'
+    assign heading_font_size = settings.heading_font_size | default: 36
+    assign heading_font_weight = settings.heading_font_weight | default: '600'
+    assign heading_font_family = settings.heading_font_family | default: 'segoe'
+    assign heading_line_height = settings.heading_line_height | default: 1.2
+    assign heading_letter_spacing = settings.heading_letter_spacing | default: 0
+    
+    # Use section title_color if provided, otherwise use theme heading_color
+    assign section_title_color = section.settings.title_color
+    if section_title_color != blank
+      assign title_color = section_title_color
+    else
+      assign title_color = heading_color
+    endif
+    
+    # Use section title_font_size if provided, otherwise use theme heading_font_size
+    assign section_title_font_size = section.settings.title_font_size
+    if section_title_font_size != blank and section_title_font_size > 0
+      assign title_font_size = section_title_font_size
+    else
+      assign title_font_size = heading_font_size
+    endif
+    
+    # Convert heading font family setting to CSS value
+    case heading_font_family
+      when 'playfair'
+        assign heading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
+      when 'georgia'
+        assign heading_font_family_value = "Georgia, 'Times New Roman', serif"
+      when 'times'
+        assign heading_font_family_value = "'Times New Roman', Times, serif"
+      when 'arial'
+        assign heading_font_family_value = "Arial, Helvetica, sans-serif"
+      when 'helvetica'
+        assign heading_font_family_value = "Helvetica, Arial, sans-serif"
+      when 'verdana'
+        assign heading_font_family_value = "Verdana, Geneva, sans-serif"
+      when 'courier'
+        assign heading_font_family_value = "'Courier New', Courier, monospace"
+      else
+        assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+    endcase
     
     if button_opacity > 0
       assign button_opacity_decimal = button_opacity | divided_by: 100.0
@@ -526,6 +535,10 @@
       <h1 class="hero-glow-title" 
           style="color: {{ title_color }};
                  font-size: {{ title_font_size }}px;
+                 font-weight: {{ heading_font_weight }};
+                 font-family: {{ heading_font_family_value }};
+                 line-height: {{ heading_line_height }};
+                 letter-spacing: {{ heading_letter_spacing }}px;
                  margin-top: {{ title_position_top }}%;">
         {{ section.settings.title }}
       </h1>
@@ -543,84 +556,4 @@
       {% endif %}
     </div>
   </section>
-
-{% elsif section.settings.variation == 'style1' %}
-  {%- liquid
-    assign margin_top = section.settings.margin_top | default: 0
-    assign margin_bottom = section.settings.margin_bottom | default: 0
-  -%}
-  <section class="hero-section" id="hero_main" style="{{section.settings.hero_main}}; margin-top: {{ margin_top }}px; margin-bottom: {{ margin_bottom }}px;">
-  
-    <div class="container">
-      <h1 class="hero-title">{{ section.settings.title }}</h1>
-      <h2>I am testing github pushes</h2>
-      <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
-      {% if section.settings.button_link != blank %}
-        <a href="{{ section.settings.button_link }}" class="btn btn-primary btn-lg px-5 py-3">{{ section.settings.button_text }}</a>
-      {% endif %}
-    </div>
-  </section>
-
-{% elsif section.settings.variation == 'style2' %}
-  {%- liquid
-    assign margin_top = section.settings.margin_top | default: 0
-    assign margin_bottom = section.settings.margin_bottom | default: 0
-  -%}
-  <section class="hero-section hero-style2" style="margin-top: {{ margin_top }}px; margin-bottom: {{ margin_bottom }}px;">
-    <div class="container">
-      <h1 class="hero-title text-white">{{ section.settings.title }}</h1>
-      <p class="hero-subtitle text-white">{{ section.settings.subtitle }}</p>
-      {% if section.settings.button_link != blank %}
-        <a href="{{ section.settings.button_link }}" class="btn btn-light btn-lg px-5 py-3">{{ section.settings.button_text }}</a>
-      {% endif %}
-    </div>
-  </section>
-
-{% elsif section.settings.variation == 'style3' %}
-  {%- liquid
-    assign margin_top = section.settings.margin_top | default: 0
-    assign margin_bottom = section.settings.margin_bottom | default: 0
-  -%}
-  <section class="hero-section" style="margin-top: {{ margin_top }}px; margin-bottom: {{ margin_bottom }}px;">
-    <div class="container">
-      <h1 class="hero-title">{{ section.settings.title }}</h1>
-      <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
-      {% if section.settings.button_link != blank %}
-        <div class="d-flex gap-3 justify-content-center flex-wrap">
-          <a href="{{ section.settings.button_link }}" class="btn btn-primary btn-lg px-5 py-3">{{ section.settings.button_text }}</a>
-        </div>
-      {% endif %}
-    </div>
-  </section>
-
-{% elsif section.settings.variation == 'style4' %}
-  {%- liquid
-    assign margin_top = section.settings.margin_top | default: 0
-    assign margin_bottom = section.settings.margin_bottom | default: 0
-  -%}
-  <section class="hero-section hero-style4" style="margin-top: {{ margin_top }}px; margin-bottom: {{ margin_bottom }}px;">
-    <div class="container">
-      <h1 class="hero-title text-white">{{ section.settings.title }}</h1>
-      <p class="hero-subtitle text-white">{{ section.settings.subtitle }}</p>
-      {% if section.settings.button_link != blank %}
-        <a href="{{ section.settings.button_link }}" class="btn btn-light btn-lg px-5 py-3">{{ section.settings.button_text }}</a>
-      {% endif %}
-    </div>
-  </section>
-
-{% else %}
-  {%- liquid
-    assign margin_top = section.settings.margin_top | default: 0
-    assign margin_bottom = section.settings.margin_bottom | default: 0
-  -%}
-  <section class="hero-section" style="margin-top: {{ margin_top }}px; margin-bottom: {{ margin_bottom }}px;">
-    <div class="container">
-      <h1 class="hero-title">{{ section.settings.title }}</h1>
-      <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
-      {% if section.settings.button_link != blank %}
-        <a href="{{ section.settings.button_link }}" class="btn btn-primary btn-lg px-5 py-3">{{ section.settings.button_text }}</a>
-      {% endif %}
-    </div>
-  </section>
-{% endif %}
 

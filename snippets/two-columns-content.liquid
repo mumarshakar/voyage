@@ -222,11 +222,72 @@
     </div>
   
   {% elsif content_type == 'text' %}
+    {%- liquid
+      # Get heading theme settings
+      assign heading_color = settings.heading_color | default: '#333333'
+      assign heading_font_size = settings.heading_font_size | default: 36
+      assign heading_font_weight = settings.heading_font_weight | default: '600'
+      assign heading_font_family = settings.heading_font_family | default: 'segoe'
+      assign heading_line_height = settings.heading_line_height | default: 1.2
+      assign heading_letter_spacing = settings.heading_letter_spacing | default: 0
+      
+      # Convert heading font family setting to CSS value
+      case heading_font_family
+        when 'playfair'
+          assign heading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
+        when 'georgia'
+          assign heading_font_family_value = "Georgia, 'Times New Roman', serif"
+        when 'times'
+          assign heading_font_family_value = "'Times New Roman', Times, serif"
+        when 'arial'
+          assign heading_font_family_value = "Arial, Helvetica, sans-serif"
+        when 'helvetica'
+          assign heading_font_family_value = "Helvetica, Arial, sans-serif"
+        when 'verdana'
+          assign heading_font_family_value = "Verdana, Geneva, sans-serif"
+        when 'courier'
+          assign heading_font_family_value = "'Courier New', Courier, monospace"
+        else
+          assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+      endcase
+      
+      # Get subheading theme settings
+      assign subheading_color = settings.subheading_color | default: '#666666'
+      assign subheading_font_size = settings.subheading_font_size | default: 20
+      assign subheading_font_weight = settings.subheading_font_weight | default: '400'
+      assign subheading_font_family = settings.subheading_font_family | default: 'segoe'
+      assign subheading_line_height = settings.subheading_line_height | default: 1.4
+      assign subheading_letter_spacing = settings.subheading_letter_spacing | default: 0
+      
+      # Convert subheading font family setting to CSS value
+      case subheading_font_family
+        when 'playfair'
+          assign subheading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
+        when 'georgia'
+          assign subheading_font_family_value = "Georgia, 'Times New Roman', serif"
+        when 'times'
+          assign subheading_font_family_value = "'Times New Roman', Times, serif"
+        when 'arial'
+          assign subheading_font_family_value = "Arial, Helvetica, sans-serif"
+        when 'helvetica'
+          assign subheading_font_family_value = "Helvetica, Arial, sans-serif"
+        when 'verdana'
+          assign subheading_font_family_value = "Verdana, Geneva, sans-serif"
+        when 'courier'
+          assign subheading_font_family_value = "'Courier New', Courier, monospace"
+        else
+          assign subheading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+      endcase
+    -%}
     <div class="two-column-text two-column-text-content" style="color: {{ text_color }}; text-align: {{ text_alignment }};">
       {% if heading != blank %}
         <h2 class="two-column-heading" 
-            style="font-size: {{ heading_size }}px;
-                   color: {{ text_color }};
+            style="color: {{ heading_color }};
+                   font-size: {{ heading_font_size }}px;
+                   font-weight: {{ heading_font_weight }};
+                   font-family: {{ heading_font_family_value }};
+                   line-height: {{ heading_line_height }};
+                   letter-spacing: {{ heading_letter_spacing }}px;
                    margin-bottom: 1rem;
                    margin-top: 0;">
           {{ heading }}
@@ -235,9 +296,12 @@
       
       {% if subheading != blank %}
         <h3 class="two-column-subheading" 
-            style="font-size: 1.25rem;
-                   color: {{ text_color }};
-                   opacity: 0.8;
+            style="color: {{ subheading_color }};
+                   font-size: {{ subheading_font_size }}px;
+                   font-weight: {{ subheading_font_weight }};
+                   font-family: {{ subheading_font_family_value }};
+                   line-height: {{ subheading_line_height }};
+                   letter-spacing: {{ subheading_letter_spacing }}px;
                    margin-bottom: 1rem;
                    margin-top: 0;">
           {{ subheading }}

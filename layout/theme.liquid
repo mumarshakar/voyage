@@ -20,12 +20,167 @@
   <!-- Theme CSS -->
   {{ 'theme.css' | asset_url | stylesheet_tag }}
   
+  <!-- Typography CSS - Must load last to override everything -->
   <style>
     :root {
       --primary-orange: {{ settings.color_primary_orange }};
       --light-orange: {{ settings.color_light_orange }};
       --cream: {{ settings.color_cream }};
       --white: {{ settings.color_white }};
+    }
+    
+    {%- liquid
+      # Get heading theme settings - use default filter (Shopify standard way)
+      assign heading_color = settings.heading_color | default: '#333333'
+      assign heading_font_size = settings.heading_font_size | default: 36
+      assign heading_font_weight = settings.heading_font_weight | default: '600'
+      assign heading_font_family = settings.heading_font_family | default: 'segoe'
+      assign heading_line_height = settings.heading_line_height | default: 1.2
+      assign heading_letter_spacing = settings.heading_letter_spacing | default: 0
+      
+      # Get subheading theme settings
+      assign subheading_color = settings.subheading_color | default: '#666666'
+      assign subheading_font_size = settings.subheading_font_size | default: 20
+      assign subheading_font_weight = settings.subheading_font_weight | default: '400'
+      assign subheading_font_family = settings.subheading_font_family | default: 'segoe'
+      assign subheading_line_height = settings.subheading_line_height | default: 1.4
+      assign subheading_letter_spacing = settings.subheading_letter_spacing | default: 0
+      
+      # Get body text theme settings
+      assign body_text_color = settings.body_text_color | default: '#333333'
+      assign body_font_size = settings.body_font_size | default: 16
+      assign body_font_weight = settings.body_font_weight | default: '400'
+      assign body_font_family = settings.body_font_family | default: 'segoe'
+      assign body_line_height = settings.body_line_height | default: 1.6
+      assign body_letter_spacing = settings.body_letter_spacing | default: 0
+      assign body_word_spacing = settings.body_word_spacing | default: 0
+      
+      # Convert font family settings to CSS values
+      case heading_font_family
+        when 'playfair'
+          assign heading_font_family_css = "'Playfair Display', 'Times New Roman', serif"
+        when 'georgia'
+          assign heading_font_family_css = "Georgia, 'Times New Roman', serif"
+        when 'times'
+          assign heading_font_family_css = "'Times New Roman', Times, serif"
+        when 'arial'
+          assign heading_font_family_css = "Arial, Helvetica, sans-serif"
+        when 'helvetica'
+          assign heading_font_family_css = "Helvetica, Arial, sans-serif"
+        when 'verdana'
+          assign heading_font_family_css = "Verdana, Geneva, sans-serif"
+        when 'courier'
+          assign heading_font_family_css = "'Courier New', Courier, monospace"
+        else
+          assign heading_font_family_css = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+      endcase
+      
+      case subheading_font_family
+        when 'playfair'
+          assign subheading_font_family_css = "'Playfair Display', 'Times New Roman', serif"
+        when 'georgia'
+          assign subheading_font_family_css = "Georgia, 'Times New Roman', serif"
+        when 'times'
+          assign subheading_font_family_css = "'Times New Roman', Times, serif"
+        when 'arial'
+          assign subheading_font_family_css = "Arial, Helvetica, sans-serif"
+        when 'helvetica'
+          assign subheading_font_family_css = "Helvetica, Arial, sans-serif"
+        when 'verdana'
+          assign subheading_font_family_css = "Verdana, Geneva, sans-serif"
+        when 'courier'
+          assign subheading_font_family_css = "'Courier New', Courier, monospace"
+        else
+          assign subheading_font_family_css = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+      endcase
+      
+      case body_font_family
+        when 'playfair'
+          assign body_font_family_css = "'Playfair Display', 'Times New Roman', serif"
+        when 'georgia'
+          assign body_font_family_css = "Georgia, 'Times New Roman', serif"
+        when 'times'
+          assign body_font_family_css = "'Times New Roman', Times, serif"
+        when 'arial'
+          assign body_font_family_css = "Arial, Helvetica, sans-serif"
+        when 'helvetica'
+          assign body_font_family_css = "Helvetica, Arial, sans-serif"
+        when 'verdana'
+          assign body_font_family_css = "Verdana, Geneva, sans-serif"
+        when 'courier'
+          assign body_font_family_css = "'Courier New', Courier, monospace"
+        else
+          assign body_font_family_css = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+      endcase
+    -%}
+    
+    /* Global Typography Styles from Theme Settings - Loaded AFTER theme.css to ensure priority */
+    /* Using very specific selectors to override Bootstrap and other CSS */
+    html body h1, 
+    html body h2, 
+    html body h3, 
+    html body h4, 
+    html body h5, 
+    html body h6,
+    html body .custom-text-heading,
+    html body .two-column-heading,
+    html body .hero-title,
+    html body .hero-glow-title,
+    html body .page-title,
+    html body .section-title,
+    html body main h1,
+    html body main h2,
+    html body main h3,
+    html body main h4,
+    html body main h5,
+    html body main h6,
+    html body .container h1,
+    html body .container h2,
+    html body .container h3,
+    html body .container h4,
+    html body .container h5,
+    html body .container h6 {
+      color: {{ heading_color }} !important;
+      font-size: {{ heading_font_size }}px !important;
+      font-weight: {{ heading_font_weight }} !important;
+      font-family: {{ heading_font_family_css }} !important;
+      line-height: {{ heading_line_height }} !important;
+      letter-spacing: {{ heading_letter_spacing }}px !important;
+    }
+    
+    html body .custom-text-subheading,
+    html body .two-column-subheading,
+    html body .hero-subtitle,
+    html body .page-subtitle,
+    html body main .custom-text-subheading,
+    html body main .two-column-subheading,
+    html body main .hero-subtitle,
+    html body .container .custom-text-subheading,
+    html body .container .two-column-subheading,
+    html body .container .hero-subtitle {
+      color: {{ subheading_color }} !important;
+      font-size: {{ subheading_font_size }}px !important;
+      font-weight: {{ subheading_font_weight }} !important;
+      font-family: {{ subheading_font_family_css }} !important;
+      line-height: {{ subheading_line_height }} !important;
+      letter-spacing: {{ subheading_letter_spacing }}px !important;
+    }
+    
+    html body,
+    html body .custom-text-body,
+    html body .two-column-body,
+    html body p,
+    html body main p,
+    html body .container p,
+    html body main .custom-text-body,
+    html body main .two-column-body {
+      color: {{ body_text_color }} !important;
+      font-size: {{ body_font_size }}px !important;
+      font-weight: {{ body_font_weight }} !important;
+      font-family: {{ body_font_family_css }} !important;
+      line-height: {{ body_line_height }} !important;
+      letter-spacing: {{ body_letter_spacing }}px !important;
+      word-spacing: {{ body_word_spacing }}px !important;
     }
   </style>
 </head>

@@ -1,12 +1,14 @@
 {%- liquid
-  if section.id
+  # Get settings from section - when using {% section 'header' %}, section is automatically available
+  # Try multiple ways to access section settings to ensure we get them
+  if section.settings
     assign header_settings = section.settings
+  elsif sections['header'].settings
+    assign header_settings = sections['header'].settings
+  elsif sections.header.settings
+    assign header_settings = sections.header.settings
   else
-    if sections['header'].id
-      assign header_settings = sections['header'].settings
-    elsif sections.header.id
-      assign header_settings = sections.header.settings
-    endif
+    assign header_settings = blank
   endif
 
   comment
@@ -61,6 +63,11 @@
     assign mobile_menu_bg_color = '#FFFFFF'
     assign mobile_menu_padding = 8
     assign mobile_menu_stroke_width = 2
+    assign scrolled_bg_color = '#FFFFFF'
+    assign scrolled_padding_top = 12
+    assign scrolled_padding_bottom = 12
+    assign scrolled_shadow = true
+    assign scroll_threshold = 50
   else
     assign logo_text = header_settings.logo_text | default: shop.name
     assign logo_line1 = header_settings.logo_line1 | default: 'GLOW'
@@ -97,8 +104,30 @@
     assign header_padding_bottom = header_settings.header_padding_bottom | default: 16
     assign header_margin_top = header_settings.header_margin_top | default: 0
     assign header_margin_bottom = header_settings.header_margin_bottom | default: 0
-    assign show_search = header_settings.show_search | default: true
-    assign show_cart = header_settings.show_cart | default: true
+    # Handle checkbox settings - read and process
+    # Shopify checkboxes: true when checked, false when unchecked
+    # Use direct property access and explicit boolean check
+    # Debug: Check what value we're getting
+    assign show_search_setting = header_settings.show_search
+    # Only hide if explicitly false (boolean false, not blank)
+    if show_search_setting == false
+      assign show_search = false
+    elsif show_search_setting == true
+      assign show_search = true
+    else
+      # blank/nil - use schema default (true)
+      assign show_search = true
+    endif
+    
+    assign show_cart_setting = header_settings.show_cart
+    if show_cart_setting == false
+      assign show_cart = false
+    elsif show_cart_setting == true
+      assign show_cart = true
+    else
+      # blank/nil - use schema default (true)
+      assign show_cart = true
+    endif
     assign icon_size = header_settings.icon_size | default: 20
     assign show_mobile_menu = header_settings.show_mobile_menu | default: true
     assign mobile_menu_icon_color = header_settings.mobile_menu_icon_color | default: '#333333'
@@ -110,11 +139,16 @@
     assign mobile_menu_bg_color = header_settings.mobile_menu_bg_color | default: '#FFFFFF'
     assign mobile_menu_padding = header_settings.mobile_menu_padding | default: 8
     assign mobile_menu_stroke_width = header_settings.mobile_menu_stroke_width | default: 2
+    assign scrolled_bg_color = header_settings.scrolled_bg_color | default: header_bg_color
+    assign scrolled_padding_top = header_settings.scrolled_padding_top | default: 12
+    assign scrolled_padding_bottom = header_settings.scrolled_padding_bottom | default: 12
+    assign scrolled_shadow = header_settings.scrolled_shadow | default: true
+    assign scroll_threshold = header_settings.scroll_threshold | default: 50
   endif
 -%}
 
-<nav class="navbar navbar-expand-lg {% if header_style == 'sticky' %}navbar-sticky{% elsif header_style == 'fixed' %}{% if fixed_position == 'bottom' %}fixed-bottom{% else %}fixed-top{% endif %}{% elsif header_style == 'absolute' %}navbar-absolute{% endif %} {% if make_header_transparent or transparent_on_homepage and template.name == 'index' %}navbar-transparent{% endif %}" 
-     style="background-color: {% if make_header_transparent %}transparent{% elsif transparent_on_homepage and template.name == 'index' %}transparent{% else %}{{ header_bg_color }}{% endif %}; 
+<nav class="navbar navbar-expand-lg {% if header_style == 'sticky' %}navbar-sticky{% elsif header_style == 'fixed' %}{% if fixed_position == 'bottom' %}fixed-bottom{% else %}fixed-top{% endif %}{% elsif header_style == 'absolute' %}navbar-absolute{% endif %} {% if header_style == 'sticky' or header_style == 'fixed' %}navbar-scrollable{% endif %} {% if make_header_transparent or transparent_on_homepage and template.name == 'index' %}navbar-transparent{% endif %}" 
+     style="background-color: {% if header_style == 'sticky' or header_style == 'fixed' %}transparent{% elsif make_header_transparent %}transparent{% elsif transparent_on_homepage and template.name == 'index' %}transparent{% else %}{{ header_bg_color }}{% endif %}; 
             padding-top: {{ header_padding_top }}px; 
             padding-bottom: {{ header_padding_bottom }}px;
             margin-top: {{ header_margin_top }}px;
@@ -294,5 +328,62 @@
   .header-icon:hover {
     color: {{ menu_link_hover_color }} !important;
   }
+  
+  /* Initial state for sticky/fixed headers - transparent */
+  .navbar-scrollable {
+    background-color: transparent !important;
+    transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Scrolled Header Styles - apply background when scrolled */
+  .navbar-scrollable.navbar-scrolled {
+    background-color: {% if scrolled_bg_color != blank %}{{ scrolled_bg_color }}{% else %}{{ header_bg_color }}{% endif %} !important;
+    padding-top: {{ scrolled_padding_top }}px !important;
+    padding-bottom: {{ scrolled_padding_bottom }}px !important;
+    {% if scrolled_shadow %}box-shadow: 0 2px 15px rgba(0,0,0,0.15) !important;{% else %}box-shadow: none !important;{% endif %}
+  }
+  
+  /* Ensure scrolled styles override transparent styles */
+  .navbar-scrollable.navbar-scrolled.navbar-transparent {
+    background-color: {% if scrolled_bg_color != blank %}{{ scrolled_bg_color }}{% else %}{{ header_bg_color }}{% endif %} !important;
+  }
 </style>
+
+<script>
+  (function() {
+    const navbar = document.querySelector('.navbar-sticky, .fixed-top, .fixed-bottom');
+    if (!navbar) return;
+    
+    const scrollThreshold = {{ scroll_threshold }};
+    const headerStyle = '{{ header_style }}';
+    
+    // Only apply scroll behavior for sticky or fixed headers
+    if (headerStyle !== 'sticky' && headerStyle !== 'fixed') return;
+    
+    function handleScroll() {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollY > scrollThreshold) {
+        navbar.classList.add('navbar-scrolled');
+      } else {
+        navbar.classList.remove('navbar-scrolled');
+      }
+    }
+    
+    // Check on load
+    handleScroll();
+    
+    // Listen for scroll events (throttled for performance)
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  })();
+</script>
 

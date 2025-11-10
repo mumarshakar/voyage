@@ -51,102 +51,6 @@
     },
     {
       "type": "header",
-      "content": "Heading Styling"
-    },
-    {
-      "type": "paragraph",
-      "content": "All typography settings (font family, font size, font weight, line height, letter spacing, and color) are controlled from Theme Settings → Typography"
-    },
-    {
-      "type": "select",
-      "id": "heading_text_transform",
-      "label": "Heading Text Transform",
-      "options": [
-        {
-          "value": "none",
-          "label": "None"
-        },
-        {
-          "value": "uppercase",
-          "label": "Uppercase"
-        },
-        {
-          "value": "lowercase",
-          "label": "Lowercase"
-        },
-        {
-          "value": "capitalize",
-          "label": "Capitalize"
-        }
-      ],
-      "default": "none"
-    },
-    {
-      "type": "header",
-      "content": "Subheading Styling"
-    },
-    {
-      "type": "paragraph",
-      "content": "All typography settings (font family, font size, font weight, line height, letter spacing, and color) are controlled from Theme Settings → Typography"
-    },
-    {
-      "type": "select",
-      "id": "subheading_text_transform",
-      "label": "Subheading Text Transform",
-      "options": [
-        {
-          "value": "none",
-          "label": "None"
-        },
-        {
-          "value": "uppercase",
-          "label": "Uppercase"
-        },
-        {
-          "value": "lowercase",
-          "label": "Lowercase"
-        },
-        {
-          "value": "capitalize",
-          "label": "Capitalize"
-        }
-      ],
-      "default": "none"
-    },
-    {
-      "type": "header",
-      "content": "Text Content Styling"
-    },
-    {
-      "type": "paragraph",
-      "content": "All typography settings (font family, font size, font weight, line height, letter spacing, word spacing, and color) are controlled from Theme Settings → Typography"
-    },
-    {
-      "type": "select",
-      "id": "text_decoration",
-      "label": "Text Decoration",
-      "options": [
-        {
-          "value": "none",
-          "label": "None"
-        },
-        {
-          "value": "underline",
-          "label": "Underline"
-        },
-        {
-          "value": "overline",
-          "label": "Overline"
-        },
-        {
-          "value": "line-through",
-          "label": "Line Through"
-        }
-      ],
-      "default": "none"
-    },
-    {
-      "type": "header",
       "content": "Link Styling"
     },
     {
@@ -371,16 +275,14 @@
   assign heading_font_family = settings.heading_font_family | default: 'segoe'
   assign heading_line_height = settings.heading_line_height | default: 1.2
   assign heading_letter_spacing = settings.heading_letter_spacing | default: 0
-  assign heading_text_transform = section.settings.heading_text_transform | default: 'none'
-  # Use theme settings ONLY for all typography (no section-level overrides)
+  
   assign subheading_color = settings.subheading_color | default: '#666666'
   assign subheading_font_size = settings.subheading_font_size | default: 20
   assign subheading_font_weight = settings.subheading_font_weight | default: '400'
   assign subheading_font_family = settings.subheading_font_family | default: 'segoe'
   assign subheading_line_height = settings.subheading_line_height | default: 1.4
   assign subheading_letter_spacing = settings.subheading_letter_spacing | default: 0
-  assign subheading_text_transform = section.settings.subheading_text_transform | default: 'none'
-  # Use theme settings ONLY for all typography (no section-level overrides)
+  
   assign text_color = settings.body_text_color | default: '#333333'
   assign text_font_size = settings.body_font_size | default: 16
   assign text_font_weight = settings.body_font_weight | default: '400'
@@ -388,7 +290,6 @@
   assign text_line_height = settings.body_line_height | default: 1.6
   assign text_letter_spacing = settings.body_letter_spacing | default: 0
   assign text_word_spacing = settings.body_word_spacing | default: 0
-  assign text_decoration = section.settings.text_decoration | default: 'none'
   assign link_color = section.settings.link_color | default: '#333333'
   assign link_hover_color = section.settings.link_hover_color | default: '#666666'
   assign link_text_decoration = section.settings.link_text_decoration | default: 'underline'
@@ -501,7 +402,6 @@
                    font-family: {{ heading_font_family_value }};
                    line-height: {{ heading_line_height }};
                    letter-spacing: {{ heading_letter_spacing }}px;
-                   text-transform: {{ heading_text_transform }};
                    margin-bottom: {{ heading_margin_bottom }}px;
                    margin-top: 0;">
           {{ heading }}
@@ -516,7 +416,6 @@
                    font-family: {{ subheading_font_family_value }};
                    line-height: {{ subheading_line_height }};
                    letter-spacing: {{ subheading_letter_spacing }}px;
-                   text-transform: {{ subheading_text_transform }};
                    margin-bottom: {{ subheading_margin_bottom }}px;
                    margin-top: 0;">
           {{ subheading }}
@@ -532,7 +431,6 @@
                     line-height: {{ text_line_height }};
                     letter-spacing: {{ text_letter_spacing }}px;
                     word-spacing: {{ text_word_spacing }}px;
-                    text-decoration: {{ text_decoration }};
                     margin: 0;">
           {{ html_content }}
         </div>
@@ -545,7 +443,6 @@
                     line-height: {{ text_line_height }};
                     letter-spacing: {{ text_letter_spacing }}px;
                     word-spacing: {{ text_word_spacing }}px;
-                    text-decoration: {{ text_decoration }};
                     margin: 0;">
           {{ text_content }}
         </div>
