@@ -3,9 +3,9 @@
   # Try multiple ways to access section settings to ensure we get them
   if section.settings
     assign header_settings = section.settings
-  elsif sections['header'].settings
+  elsif sections and sections['header'] and sections['header'].settings
     assign header_settings = sections['header'].settings
-  elsif sections.header.settings
+  elsif sections and sections.header and sections.header.settings
     assign header_settings = sections.header.settings
   else
     assign header_settings = blank
@@ -234,8 +234,8 @@
                    border-radius: {{ mobile_menu_border_radius }}px;
                    background-color: {% if mobile_menu_bg_transparent %}transparent{% else %}{{ mobile_menu_bg_color }}{% endif %};
                    padding: {{ mobile_menu_padding }}px;
-                   width: {{ mobile_menu_icon_size | plus: mobile_menu_padding | times: 2 }}px;
-                   height: {{ mobile_menu_icon_size | plus: mobile_menu_padding | times: 2 }}px;">
+                   width: {{ mobile_menu_icon_size | plus: mobile_menu_padding | plus: mobile_menu_padding }}px;
+                   height: {{ mobile_menu_icon_size | plus: mobile_menu_padding | plus: mobile_menu_padding }}px;">
       {%- liquid
         assign svg_color = mobile_menu_icon_color | url_encode
         assign svg_stroke = mobile_menu_stroke_width
