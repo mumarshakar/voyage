@@ -72,7 +72,12 @@
     assign logo_text = header_settings.logo_text | default: shop.name
     assign logo_line1 = header_settings.logo_line1 | default: 'GLOW'
     assign logo_line2 = header_settings.logo_line2 | default: 'DECK'
-    assign two_line_logo = header_settings.two_line_logo | default: false
+    assign two_line_logo_setting = header_settings.two_line_logo
+    if two_line_logo_setting == true
+      assign two_line_logo = true
+    else
+      assign two_line_logo = false
+    endif
     assign logo_image = header_settings.logo_image
     assign logo_width = header_settings.logo_width | default: 200
     assign logo_max_height = header_settings.logo_max_height | default: 60
@@ -90,7 +95,14 @@
     assign dropdown_hover_bg_color = header_settings.dropdown_hover_bg_color | default: '#FFF8E7'
     assign dropdown_hover_color = header_settings.dropdown_hover_color | default: '#FF6B35'
     assign header_bg_color = header_settings.header_bg_color | default: '#FFFFFF'
-    assign header_shadow = header_settings.header_shadow | default: true
+    assign header_shadow_setting = header_settings.header_shadow
+    if header_shadow_setting == false
+      assign header_shadow = false
+    elsif header_shadow_setting == true
+      assign header_shadow = true
+    else
+      assign header_shadow = true
+    endif
     assign header_style = header_settings.header_style | default: 'fixed'
     assign fixed_position = header_settings.fixed_position | default: 'top'
     assign position_top = header_settings.position_top | default: 0
@@ -98,8 +110,23 @@
     assign position_left = header_settings.position_left | default: 0
     assign position_right = header_settings.position_right | default: 0
     assign header_z_index = header_settings.header_z_index | default: 1000
-    assign make_header_transparent = header_settings.make_header_transparent | default: false
-    assign transparent_on_homepage = header_settings.transparent_on_homepage | default: false
+    assign make_header_transparent_setting = header_settings.make_header_transparent
+    if make_header_transparent_setting == true
+      assign make_header_transparent = true
+    elsif make_header_transparent_setting == false
+      assign make_header_transparent = false
+    else
+      assign make_header_transparent = false
+    endif
+
+    assign transparent_on_homepage_setting = header_settings.transparent_on_homepage
+    if transparent_on_homepage_setting == true
+      assign transparent_on_homepage = true
+    elsif transparent_on_homepage_setting == false
+      assign transparent_on_homepage = false
+    else
+      assign transparent_on_homepage = false
+    endif
     assign header_padding_top = header_settings.header_padding_top | default: 16
     assign header_padding_bottom = header_settings.header_padding_bottom | default: 16
     assign header_margin_top = header_settings.header_margin_top | default: 0
@@ -129,20 +156,41 @@
       assign show_cart = true
     endif
     assign icon_size = header_settings.icon_size | default: 20
-    assign show_mobile_menu = header_settings.show_mobile_menu | default: true
+    assign show_mobile_menu_setting = header_settings.show_mobile_menu
+    if show_mobile_menu_setting == false
+      assign show_mobile_menu = false
+    elsif show_mobile_menu_setting == true
+      assign show_mobile_menu = true
+    else
+      assign show_mobile_menu = true
+    endif
     assign mobile_menu_icon_color = header_settings.mobile_menu_icon_color | default: '#333333'
     assign mobile_menu_icon_size = header_settings.mobile_menu_icon_size | default: 24
     assign mobile_menu_border_color = header_settings.mobile_menu_border_color | default: '#333333'
     assign mobile_menu_border_width = header_settings.mobile_menu_border_width | default: 1
     assign mobile_menu_border_radius = header_settings.mobile_menu_border_radius | default: 4
-    assign mobile_menu_bg_transparent = header_settings.mobile_menu_bg_transparent | default: true
+    assign mobile_menu_bg_transparent_setting = header_settings.mobile_menu_bg_transparent
+    if mobile_menu_bg_transparent_setting == false
+      assign mobile_menu_bg_transparent = false
+    elsif mobile_menu_bg_transparent_setting == true
+      assign mobile_menu_bg_transparent = true
+    else
+      assign mobile_menu_bg_transparent = true
+    endif
     assign mobile_menu_bg_color = header_settings.mobile_menu_bg_color | default: '#FFFFFF'
     assign mobile_menu_padding = header_settings.mobile_menu_padding | default: 8
     assign mobile_menu_stroke_width = header_settings.mobile_menu_stroke_width | default: 2
     assign scrolled_bg_color = header_settings.scrolled_bg_color | default: header_bg_color
     assign scrolled_padding_top = header_settings.scrolled_padding_top | default: 12
     assign scrolled_padding_bottom = header_settings.scrolled_padding_bottom | default: 12
-    assign scrolled_shadow = header_settings.scrolled_shadow | default: true
+    assign scrolled_shadow_setting = header_settings.scrolled_shadow
+    if scrolled_shadow_setting == false
+      assign scrolled_shadow = false
+    elsif scrolled_shadow_setting == true
+      assign scrolled_shadow = true
+    else
+      assign scrolled_shadow = true
+    endif
     assign scroll_threshold = header_settings.scroll_threshold | default: 50
   endif
 -%}
