@@ -1,15 +1,7 @@
 {%- liquid
   # Get settings from section - when using {% section 'header' %}, section is automatically available
   # Try multiple ways to access section settings to ensure we get them
-  if section.settings
-    assign header_settings = section.settings
-  elsif sections and sections['header'] and sections['header'].settings
-    assign header_settings = sections['header'].settings
-  elsif sections and sections.header and sections.header.settings
-    assign header_settings = sections.header.settings
-  else
-    assign header_settings = blank
-  endif
+  assign header_settings = section.settings
 
   comment
     Set default values if header_settings is not available
