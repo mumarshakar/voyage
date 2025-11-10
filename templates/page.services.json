@@ -1,0 +1,59 @@
+{
+  "sections": {
+    "page_header_services_content": {
+      "type": "page-header",
+      "name": "Page Header with Content",
+      "settings": {
+        "custom_title": "",
+        "show_page_content": true,
+        "background_color": "#FFFFFF",
+        "title_color": "#8B6F47",
+        "padding_top": 120,
+        "padding_bottom": 60,
+        "title_font_size": 48,
+        "margin_top": 0
+      }
+    },
+    "custom_text_services": {
+      "type": "custom-text",
+      "name": "Services Additional Content",
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "text_content": "<p>Add your services content here or use the page content area above.</p>",
+        "heading_color": "#333333",
+        "heading_font_size": 36,
+        "heading_font_weight": "600",
+        "heading_font_family": "serif",
+        "heading_text_transform": "none",
+        "subheading_color": "#666666",
+        "subheading_font_size": 20,
+        "subheading_font_weight": "400",
+        "subheading_font_family": "sans-serif",
+        "subheading_text_transform": "none",
+        "text_color": "#333333",
+        "text_font_size": 16,
+        "text_font_weight": "400",
+        "text_font_family": "sans-serif",
+        "text_line_height": 1.8,
+        "text_alignment": "left",
+        "content_max_width": 900,
+        "background_color": "#FFFFFF",
+        "background_size": "cover",
+        "background_overlay_opacity": 0,
+        "padding_top": 60,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "heading_margin_bottom": 20,
+        "subheading_margin_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "page_header_services_content",
+    "custom_text_services"
+  ]
+}
+
