@@ -396,6 +396,72 @@
         "info": "Default text color for body text across the theme"
       }
     ]
+  },
+  {
+    "name": "Payment Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Telr Payment Gateway"
+      },
+      {
+        "type": "text",
+        "id": "telr_store_id",
+        "label": "Telr Store ID",
+        "info": "Your Telr store ID (obtained from Telr dashboard)"
+      },
+      {
+        "type": "text",
+        "id": "telr_auth_key",
+        "label": "Telr Authentication Key",
+        "info": "Your Telr authentication key (obtained from Telr dashboard)"
+      },
+      {
+        "type": "select",
+        "id": "telr_environment",
+        "label": "Telr Environment",
+        "options": [
+          {
+            "value": "test",
+            "label": "Test/Staging"
+          },
+          {
+            "value": "live",
+            "label": "Live/Production"
+          }
+        ],
+        "default": "test",
+        "info": "Select test for testing, live for production"
+      },
+      {
+        "type": "text",
+        "id": "telr_success_url",
+        "label": "Payment Success URL",
+        "default": "/pages/booking-success",
+        "info": "URL to redirect after successful payment"
+      },
+      {
+        "type": "text",
+        "id": "telr_cancel_url",
+        "label": "Payment Cancel URL",
+        "default": "/pages/booking-cancel",
+        "info": "URL to redirect if payment is cancelled"
+      },
+      {
+        "type": "text",
+        "id": "telr_failed_url",
+        "label": "Payment Failed URL",
+        "default": "/pages/booking-failed",
+        "info": "URL to redirect if payment fails"
+      },
+      {
+        "type": "text",
+        "id": "telr_currency",
+        "label": "Currency Code",
+        "default": "AED",
+        "info": "Currency code (e.g., AED, USD, EUR)"
+      }
+    ]
   }
 ]
 

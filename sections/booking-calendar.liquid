@@ -20,6 +20,22 @@
   assign weekday_font_family = section.settings.weekday_font_family | default: 'Playfair Display, serif'
   assign months_gap = section.settings.months_gap | default: 60
   assign show_navigation = section.settings.show_navigation | default: true
+  
+  # Telr payment settings
+  assign telr_store_id = settings.telr_store_id | default: ''
+  assign telr_auth_key = settings.telr_auth_key | default: ''
+  assign telr_environment = settings.telr_environment | default: 'test'
+  assign telr_success_url = settings.telr_success_url | default: '/pages/booking-success'
+  assign telr_cancel_url = settings.telr_cancel_url | default: '/pages/booking-cancel'
+  assign telr_failed_url = settings.telr_failed_url | default: '/pages/booking-failed'
+  assign telr_currency = settings.telr_currency | default: 'AED'
+  
+  # Telr API endpoints
+  if telr_environment == 'live'
+    assign telr_api_url = 'https://secure.telr.com/gateway/order.json'
+  else
+    assign telr_api_url = 'https://secure.telr.com/gateway/order.json'
+  endif
 -%}
 
 <div class="booking-calendar-section"
@@ -233,10 +249,86 @@
            data-event-image="{% if block.settings.event_image != blank %}{{ block.settings.event_image | image_url: width: 400 }}{% endif %}"
            data-event-title="{{ block.settings.event_title | escape }}"
            data-event-link="{{ block.settings.event_link }}"
+           data-event-price="{{ block.settings.event_price | default: '0' }}"
+           data-event-description="{{ block.settings.event_description | escape }}"
            style="display: none;">
       </div>
     {% endif %}
   {% endfor %}
+
+  {% comment %} Event Details Modal {% endcomment %}
+  <div id="event-details-modal-{{ section.id }}" class="event-details-modal" style="display: none;">
+    <div class="event-details-modal-overlay"></div>
+    <div class="event-details-modal-content">
+      <button class="event-details-modal-close" aria-label="Close modal">
+        <i class="bi bi-x-lg"></i>
+      </button>
+      <div class="event-details-content">
+        <div class="event-details-image-wrapper">
+          <img id="modal-event-image" src="" alt="" class="event-details-image">
+        </div>
+        <div class="event-details-info">
+          <h2 id="modal-event-title" class="event-details-title"></h2>
+          <p id="modal-event-date" class="event-details-date"></p>
+          <p id="modal-event-description" class="event-details-description"></p>
+          <div class="event-details-price">
+            <span class="price-label">Price:</span>
+            <span id="modal-event-price" class="price-amount"></span>
+            <span class="price-currency">{{ telr_currency }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="event-details-booking-form">
+        <h3>Booking Details</h3>
+        <form id="booking-form-{{ section.id }}" class="booking-form">
+          <div class="form-group">
+            <label for="booking-name">Full Name *</label>
+            <input type="text" id="booking-name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="booking-email">Email *</label>
+            <input type="email" id="booking-email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="booking-phone">Phone Number *</label>
+            <input type="tel" id="booking-phone" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label for="booking-notes">Additional Notes (Optional)</label>
+            <textarea id="booking-notes" name="notes" rows="3"></textarea>
+          </div>
+          <input type="hidden" id="booking-event-date" name="event_date">
+          <input type="hidden" id="booking-event-title" name="event_title">
+          <input type="hidden" id="booking-event-price" name="event_price">
+          <button type="submit" class="btn-confirm-booking">
+            Confirm Booking
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} Hidden Telr Payment Form {% endcomment %}
+  {% if telr_store_id != blank and telr_auth_key != blank %}
+    <form id="telr-payment-form-{{ section.id }}" method="post" action="{{ telr_api_url }}" style="display: none;">
+      <input type="hidden" name="ivp_method" value="create">
+      <input type="hidden" name="ivp_store" id="telr-store-id" value="{{ telr_store_id }}">
+      <input type="hidden" name="ivp_authkey" id="telr-auth-key" value="{{ telr_auth_key }}">
+      <input type="hidden" name="ivp_amount" id="telr-amount" value="">
+      <input type="hidden" name="ivp_currency" id="telr-currency" value="{{ telr_currency }}">
+      <input type="hidden" name="ivp_test" id="telr-test" value="{% if telr_environment == 'test' %}1{% else %}0{% endif %}">
+      <input type="hidden" name="ivp_desc" id="telr-description" value="">
+      <input type="hidden" name="ivp_cart" id="telr-order-id" value="">
+      <input type="hidden" name="return_auth" value="{{ shop.url }}{{ telr_success_url }}">
+      <input type="hidden" name="return_can" value="{{ shop.url }}{{ telr_cancel_url }}">
+      <input type="hidden" name="return_decl" value="{{ shop.url }}{{ telr_failed_url }}">
+      <input type="hidden" name="bill_fname" id="telr-bill-fname" value="">
+      <input type="hidden" name="bill_lname" id="telr-bill-lname" value="">
+      <input type="hidden" name="bill_email" id="telr-bill-email" value="">
+      <input type="hidden" name="bill_mobile" id="telr-bill-mobile" value="">
+      <input type="hidden" name="ivp_trx" id="telr-trx" value="">
+    </form>
+  {% endif %}
 
 </div>
 
@@ -258,7 +350,12 @@
         eventData[key] = {
           image: div.dataset.eventImage,
           title: div.dataset.eventTitle || 'Event',
-          link: div.dataset.eventLink || ''
+          link: div.dataset.eventLink || '',
+          price: div.dataset.eventPrice || '0',
+          description: div.dataset.eventDescription || '',
+          month: month,
+          year: year,
+          day: day
         };
       }
     });
@@ -266,6 +363,208 @@
     // Month names for display
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                        'July', 'August', 'September', 'October', 'November', 'December'];
+
+    // Modal elements
+    const eventModal = document.getElementById('event-details-modal-{{ section.id }}');
+    const modalCloseBtn = eventModal ? eventModal.querySelector('.event-details-modal-close') : null;
+    const modalOverlay = eventModal ? eventModal.querySelector('.event-details-modal-overlay') : null;
+    const bookingForm = document.getElementById('booking-form-{{ section.id }}');
+    const telrPaymentForm = document.getElementById('telr-payment-form-{{ section.id }}');
+
+    // Show event details modal
+    function showEventModal(eventInfo, month, day, year) {
+      if (!eventModal) return;
+      
+      const modalImage = eventModal.querySelector('#modal-event-image');
+      const modalTitle = eventModal.querySelector('#modal-event-title');
+      const modalDate = eventModal.querySelector('#modal-event-date');
+      const modalDescription = eventModal.querySelector('#modal-event-description');
+      const modalPrice = eventModal.querySelector('#modal-event-price');
+      const priceContainer = eventModal.querySelector('.event-details-price');
+      const bookingEventDate = document.getElementById('booking-event-date');
+      const bookingEventTitle = document.getElementById('booking-event-title');
+      const bookingEventPrice = document.getElementById('booking-event-price');
+      const confirmButton = eventModal.querySelector('.btn-confirm-booking');
+      
+      if (modalImage) modalImage.src = eventInfo.image;
+      if (modalImage) modalImage.alt = eventInfo.title;
+      if (modalTitle) modalTitle.textContent = eventInfo.title;
+      if (modalDate) modalDate.textContent = monthNames[month - 1] + ' ' + day + ', ' + year;
+      if (modalDescription) {
+        if (eventInfo.description && eventInfo.description.trim() !== '') {
+          modalDescription.textContent = eventInfo.description;
+          modalDescription.style.display = 'block';
+        } else {
+          modalDescription.style.display = 'none';
+        }
+      }
+      
+      const price = parseFloat(eventInfo.price) || 0;
+      if (modalPrice) {
+        modalPrice.textContent = price.toFixed(2);
+      }
+      if (priceContainer) {
+        if (price > 0) {
+          priceContainer.style.display = 'flex';
+        } else {
+          priceContainer.style.display = 'none';
+        }
+      }
+      
+      // Update button text for free events
+      if (confirmButton) {
+        if (price > 0) {
+          confirmButton.textContent = 'Confirm Booking & Pay';
+        } else {
+          confirmButton.textContent = 'Confirm Booking';
+        }
+      }
+      
+      // Set hidden form fields
+      if (bookingEventDate) {
+        bookingEventDate.value = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
+      }
+      if (bookingEventTitle) bookingEventTitle.value = eventInfo.title;
+      if (bookingEventPrice) bookingEventPrice.value = eventInfo.price || '0';
+      
+      eventModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close event details modal
+    function closeEventModal() {
+      if (!eventModal) return;
+      eventModal.style.display = 'none';
+      document.body.style.overflow = '';
+      if (bookingForm) bookingForm.reset();
+    }
+
+    // Close modal handlers
+    if (modalCloseBtn) {
+      modalCloseBtn.addEventListener('click', closeEventModal);
+    }
+    if (modalOverlay) {
+      modalOverlay.addEventListener('click', closeEventModal);
+    }
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && eventModal && eventModal.style.display === 'flex') {
+        closeEventModal();
+      }
+    });
+
+    // Handle booking form submission
+    if (bookingForm) {
+      bookingForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(bookingForm);
+        const eventPrice = formData.get('event_price');
+        const price = parseFloat(eventPrice) || 0;
+        
+        // For free events (price = 0), handle differently
+        if (price <= 0) {
+          const name = formData.get('name');
+          const email = formData.get('email');
+          const phone = formData.get('phone');
+          const eventDate = formData.get('event_date');
+          const eventTitle = formData.get('event_title');
+          
+          // Generate unique order ID
+          const orderId = 'BOOK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+          
+          // Store booking data
+          sessionStorage.setItem('booking_data', JSON.stringify({
+            orderId: orderId,
+            eventTitle: eventTitle,
+            eventDate: eventDate,
+            customerName: name,
+            customerEmail: email,
+            customerPhone: phone,
+            amount: '0',
+            currency: '{{ telr_currency }}',
+            status: 'confirmed'
+          }));
+          
+          // For free events, redirect directly to success page
+          window.location.href = '{{ shop.url }}{{ telr_success_url }}';
+          return;
+        }
+        
+        // For paid events, proceed with Telr payment
+        const telrStoreId = '{{ telr_store_id }}';
+        const telrAuthKey = '{{ telr_auth_key }}';
+        
+        if (!telrStoreId || !telrAuthKey || !telrPaymentForm) {
+          alert('Payment gateway is not configured. Please contact the store owner.');
+          return;
+        }
+        
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const phone = formData.get('phone');
+        const eventDate = formData.get('event_date');
+        const eventTitle = formData.get('event_title');
+        
+        // Validate required fields
+        if (!name || !email || !phone) {
+          alert('Please fill in all required fields.');
+          return;
+        }
+        
+        // Split name into first and last name
+        const nameParts = name.trim().split(' ');
+        const firstName = nameParts[0] || '';
+        const lastName = nameParts.slice(1).join(' ') || firstName;
+        
+        // Generate unique order ID (Telr requires unique order ID)
+        const orderId = 'BOOK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        
+        // Set Telr payment form values
+        const telrStoreIdInput = document.getElementById('telr-store-id');
+        const telrAuthKeyInput = document.getElementById('telr-auth-key');
+        const telrAmountInput = document.getElementById('telr-amount');
+        const telrCurrencyInput = document.getElementById('telr-currency');
+        const telrDescriptionInput = document.getElementById('telr-description');
+        const telrOrderIdInput = document.getElementById('telr-order-id');
+        const telrBillFnameInput = document.getElementById('telr-bill-fname');
+        const telrBillLnameInput = document.getElementById('telr-bill-lname');
+        const telrBillEmailInput = document.getElementById('telr-bill-email');
+        const telrBillMobileInput = document.getElementById('telr-bill-mobile');
+        
+        if (telrStoreIdInput) telrStoreIdInput.value = telrStoreId;
+        if (telrAuthKeyInput) telrAuthKeyInput.value = telrAuthKey;
+        if (telrAmountInput) telrAmountInput.value = price.toFixed(2);
+        if (telrCurrencyInput) telrCurrencyInput.value = '{{ telr_currency }}';
+        if (telrDescriptionInput) telrDescriptionInput.value = 'Booking: ' + eventTitle + ' - ' + eventDate;
+        if (telrOrderIdInput) telrOrderIdInput.value = orderId;
+        if (telrBillFnameInput) telrBillFnameInput.value = firstName;
+        if (telrBillLnameInput) telrBillLnameInput.value = lastName;
+        if (telrBillEmailInput) telrBillEmailInput.value = email;
+        if (telrBillMobileInput) telrBillMobileInput.value = phone;
+        
+        // Store booking data in sessionStorage for success page
+        try {
+          sessionStorage.setItem('booking_data', JSON.stringify({
+            orderId: orderId,
+            eventTitle: eventTitle,
+            eventDate: eventDate,
+            customerName: name,
+            customerEmail: email,
+            customerPhone: phone,
+            amount: eventPrice,
+            currency: '{{ telr_currency }}',
+            timestamp: new Date().toISOString()
+          }));
+        } catch (e) {
+          console.warn('Could not store booking data in sessionStorage:', e);
+        }
+        
+        // Submit payment form to Telr
+        telrPaymentForm.submit();
+      });
+    }
 
     // Render calendar for a specific month container
     function renderCalendar(monthContainer) {
@@ -336,32 +635,27 @@
           imgWrapper.appendChild(img);
           dayElement.appendChild(imgWrapper);
 
-          // Add click handler for events
-          if (eventInfo.link) {
-            dayElement.style.cursor = 'pointer';
-            dayElement.addEventListener('click', function(e) {
-              e.preventDefault();
-              window.location.href = eventInfo.link;
-            });
-          } else {
-            dayElement.style.cursor = 'pointer';
-            dayElement.addEventListener('click', function(e) {
-              e.preventDefault();
-              // Show event details or trigger booking
-              if (eventInfo.title) {
-                alert('Event: ' + eventInfo.title + '\nDate: ' + monthNames[month - 1] + ' ' + day + ', ' + year);
-              }
-            });
-          }
-        } else {
-          // Make all days clickable for booking
+          // Add click handler for events - always show modal for booking
           dayElement.style.cursor = 'pointer';
           dayElement.addEventListener('click', function(e) {
             e.preventDefault();
-            const dateStr = monthNames[month - 1] + ' ' + day + ', ' + year;
-            // Trigger booking or show date picker
-            console.log('Date selected: ' + dateStr);
+            // If event has a link, still show modal but allow external link option
+            if (eventInfo.link && eventInfo.link.trim() !== '') {
+              // Show modal with option to view details or go to link
+              showEventModal(eventInfo, month, day, year);
+            } else {
+              // Show modal for booking
+              showEventModal(eventInfo, month, day, year);
+            }
           });
+        } else {
+          // Make empty days clickable but don't show booking for dates without events
+          // You can enable this if you want to allow booking for any date
+          // dayElement.style.cursor = 'pointer';
+          // dayElement.addEventListener('click', function(e) {
+          //   e.preventDefault();
+          //   console.log('Date selected: ' + monthNames[month - 1] + ' ' + day + ', ' + year);
+          // });
         }
 
         calendarGrid.appendChild(dayElement);
@@ -550,6 +844,236 @@
   .calendar-day:not(.empty):hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Event Details Modal */
+  .event-details-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .event-details-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .event-details-modal-content {
+    position: relative;
+    background: #FFFFFF;
+    border-radius: 2px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 10001;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .event-details-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    z-index: 10002;
+    transition: background 0.3s ease;
+  }
+
+  .event-details-modal-close:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .event-details-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+  }
+
+  .event-details-image-wrapper {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .event-details-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+  }
+
+  .event-details-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .event-details-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+    color: {{ heading_color }};
+    font-family: {{ heading_font_family }};
+  }
+
+  .event-details-date {
+    font-size: 1.2rem;
+    color: #666666;
+    margin: 0;
+  }
+
+  .event-details-description {
+    font-size: 1rem;
+    color: #333333;
+    line-height: 1.6;
+    margin: 10px 0;
+  }
+
+  .event-details-price {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: {{ heading_color }};
+    margin-top: 10px;
+  }
+
+  .price-label {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .price-amount {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  .price-currency {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .event-details-booking-form {
+    padding: 30px;
+    background-color: #F8F7F5;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .event-details-booking-form h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: {{ heading_color }};
+    font-family: {{ heading_font_family }};
+  }
+
+  .booking-form .form-group {
+    margin-bottom: 20px;
+  }
+
+  .booking-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333333;
+  }
+
+  .booking-form input[type="text"],
+  .booking-form input[type="email"],
+  .booking-form input[type="tel"],
+  .booking-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+  }
+
+  .booking-form input:focus,
+  .booking-form textarea:focus {
+    outline: none;
+    border-color: {{ heading_color }};
+  }
+
+  .booking-form textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .btn-confirm-booking {
+    width: 100%;
+    padding: 16px 32px;
+    background-color: {{ heading_color }};
+    color: #FFFFFF;
+    border: none;
+    border-radius: 2px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
+  }
+
+  .btn-confirm-booking:hover {
+    background-color: #6B5B4F;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-confirm-booking:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .event-details-modal-content {
+      max-width: 100%;
+      max-height: 100vh;
+      border-radius: 0;
+    }
+
+    .event-details-content {
+      padding: 20px;
+    }
+
+    .event-details-image-wrapper {
+      height: 200px;
+    }
+
+    .event-details-title {
+      font-size: 1.5rem;
+    }
+
+    .event-details-booking-form {
+      padding: 20px;
+    }
   }
 
   @media (max-width: 768px) {
@@ -778,10 +1302,23 @@
           "info": "Title or description of the event"
         },
         {
+          "type": "textarea",
+          "id": "event_description",
+          "label": "Event Description",
+          "info": "Detailed description of the event (optional)"
+        },
+        {
+          "type": "text",
+          "id": "event_price",
+          "label": "Event Price",
+          "default": "0",
+          "info": "Price for this event (e.g., 100.00). Set to 0 for free events."
+        },
+        {
           "type": "url",
           "id": "event_link",
           "label": "Event Link",
-          "info": "Optional: Link when clicking on the event day"
+          "info": "Optional: External link for event details. If provided, users can access this link from the event modal."
         }
       ]
     }
