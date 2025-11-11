@@ -217,8 +217,12 @@
     let bookingData = null;
     try {
       const bookingDataStr = sessionStorage.getItem('booking_data');
+      console.log('Booking data from sessionStorage:', bookingDataStr);
       if (bookingDataStr) {
         bookingData = JSON.parse(bookingDataStr);
+        console.log('Parsed booking data:', bookingData);
+      } else {
+        console.warn('No booking data found in sessionStorage');
       }
     } catch (e) {
       console.error('Error parsing booking data:', e);

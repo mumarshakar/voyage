@@ -33,7 +33,12 @@
   # Booking confirmation page URL
   assign confirmation_page_url = section.settings.confirmation_page_url | default: ''
   if confirmation_page_url == blank
-    assign confirmation_page_url = routes.root_url | append: '?booking=confirm'
+    # Default to home page with query parameter
+    if routes.root_url == '/'
+      assign confirmation_page_url = '/?booking=confirm'
+    else
+      assign confirmation_page_url = routes.root_url | append: '?booking=confirm'
+    endif
   endif
   
   # Use home page as fallback if URLs are not set
@@ -82,15 +87,15 @@
            data-initial-month="{{ month_number }}"
            data-initial-year="{{ year_number }}"
            style="margin-bottom: {{ months_gap }}px;">
-        
-        <div class="calendar-header">
+
+  <div class="calendar-header">
           {% if show_navigation %}
             <button class="calendar-nav-arrow calendar-nav-prev" 
-                    aria-label="Previous Month"
-                    style="color: {{ heading_color }};"
-                    type="button">
-              {% render 'icon-arrow-left' %}
-            </button>
+            aria-label="Previous Month"
+            style="color: {{ heading_color }};"
+            type="button">
+      {% render 'icon-arrow-left' %}
+    </button>
           {% endif %}
           
           <div class="calendar-month-year-selector" style="flex: 1; display: flex; justify-content: center; align-items: center; gap: 10px;">
@@ -124,25 +129,25 @@
           
           {% if show_navigation %}
             <button class="calendar-nav-arrow calendar-nav-next" 
-                    aria-label="Next Month"
-                    style="color: {{ heading_color }};"
-                    type="button">
-              {% render 'icon-arrow-right' %}
-            </button>
+            aria-label="Next Month"
+            style="color: {{ heading_color }};"
+            type="button">
+      {% render 'icon-arrow-right' %}
+    </button>
           {% endif %}
-        </div>
+  </div>
 
-        <div class="calendar-weekdays" 
-             style="color: {{ weekday_color }}; 
-                    font-family: {{ weekday_font_family }};">
-          <span>SU</span>
-          <span>MO</span>
-          <span>TU</span>
-          <span>WE</span>
-          <span>TH</span>
-          <span>FR</span>
-          <span>SA</span>
-        </div>
+  <div class="calendar-weekdays" 
+       style="color: {{ weekday_color }}; 
+              font-family: {{ weekday_font_family }};">
+    <span>SU</span>
+    <span>MO</span>
+    <span>TU</span>
+    <span>WE</span>
+    <span>TH</span>
+    <span>FR</span>
+    <span>SA</span>
+  </div>
 
         <div class="calendar-grid" 
              data-month="{{ month_number }}" 
@@ -204,8 +209,8 @@
               <option value="{{ y }}" {% if current_year_num == y %}selected{% endif %}>{{ y }}</option>
             {% endfor %}
           </select>
-        </div>
-        
+  </div>
+
         {% if show_navigation %}
           <button class="calendar-nav-arrow calendar-nav-next" 
                   aria-label="Next Month"
@@ -544,6 +549,12 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
         const eventTitle = formData.get('event_title');
         const notes = formData.get('notes') || '';
         
+        console.log('=== Booking Form Submission ===');
+        console.log('Event Price:', eventPrice);
+        console.log('Parsed Price:', price);
+        console.log('Customer:', name, email, phone);
+        console.log('Event:', eventTitle, eventDate);
+        
         // Generate unique order ID
         const orderId = 'BOOK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
         
@@ -561,8 +572,12 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
           timestamp: new Date().toISOString()
         };
         
+        console.log('Booking Data:', bookingData);
+        console.log('Price check - Is free event?', price <= 0);
+        
         // For free events (price = 0), handle differently
         if (price <= 0) {
+          console.log('Processing FREE event - redirecting to success page');
           bookingData.status = 'confirmed';
           
           // Store booking data in sessionStorage
@@ -582,8 +597,11 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
         }
         
         // For paid events, redirect to confirmation page first
+        console.log('Processing PAID event - redirecting to confirmation page');
+        
         // Validate required fields
         if (!name || !email || !phone) {
+          console.error('Validation failed - missing required fields');
           alert('Please fill in all required fields.');
           
           // Re-enable button
@@ -600,26 +618,75 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
         // Store booking data in sessionStorage (for confirmation page and success page)
         try {
           sessionStorage.setItem('booking_data', JSON.stringify(bookingData));
+          console.log('✓ Booking data stored in sessionStorage');
+          
+          // Verify it was stored
+          const verifyData = sessionStorage.getItem('booking_data');
+          if (!verifyData) {
+            throw new Error('Failed to verify booking data storage');
+          }
+          console.log('✓ Booking data verified in sessionStorage');
         } catch (e) {
-          console.warn('Could not store booking data in sessionStorage:', e);
+          console.error('✗ Could not store booking data in sessionStorage:', e);
+          alert('Error saving booking data. Please try again.');
+          
+          // Re-enable button
+          if (confirmButton) {
+            confirmButton.disabled = false;
+            if (btnText) btnText.style.display = 'inline';
+            if (btnLoading) btnLoading.style.display = 'none';
+          }
+          return;
         }
         
         // Save booking to Shopify in background (non-blocking)
+        // Don't wait for this to complete before redirecting
         saveBookingToShopify(bookingData, function(success) {
-          console.log('Shopify save:', success ? 'OK' : 'Failed');
+          console.log('Shopify save (background):', success ? 'OK' : 'Failed');
         });
         
-        // Redirect to confirmation page
+        // Get confirmation page URL
         const confirmationPageUrl = '{{ confirmation_page_url }}';
         const shopUrl = '{{ shop.url }}';
         
-        console.log('Redirecting to confirmation page...');
+        console.log('=== Building Confirmation Page URL ===');
+        console.log('Raw confirmation_page_url:', confirmationPageUrl);
+        console.log('Shop URL:', shopUrl);
         
-        if (confirmationPageUrl.startsWith('http')) {
-          window.location.href = confirmationPageUrl;
+        // Build final URL
+        let finalConfirmationUrl = '';
+        if (!confirmationPageUrl || confirmationPageUrl.trim() === '') {
+          // No URL set, use default
+          finalConfirmationUrl = shopUrl + '/?booking=confirm';
+          console.log('No confirmation URL set, using default:', finalConfirmationUrl);
+        } else if (confirmationPageUrl.startsWith('http://') || confirmationPageUrl.startsWith('https://')) {
+          // Absolute URL
+          finalConfirmationUrl = confirmationPageUrl;
+          console.log('Using absolute URL:', finalConfirmationUrl);
+        } else if (confirmationPageUrl.startsWith('/')) {
+          // Relative URL starting with /
+          finalConfirmationUrl = shopUrl + confirmationPageUrl;
+          console.log('Using relative URL (starts with /):', finalConfirmationUrl);
         } else {
-          window.location.href = shopUrl + confirmationPageUrl;
+          // Relative URL without leading /
+          finalConfirmationUrl = shopUrl + '/' + confirmationPageUrl;
+          console.log('Using relative URL (no leading /):', finalConfirmationUrl);
         }
+        
+        console.log('=== Redirecting to Confirmation Page ===');
+        console.log('Final URL:', finalConfirmationUrl);
+        console.log('Will redirect in 100ms...');
+        
+        // Redirect immediately to confirmation page
+        console.log('=== Executing Redirect ===');
+        console.log('Target URL:', finalConfirmationUrl);
+        console.log('Redirecting now...');
+        
+        // Redirect using window.location.href
+        // Small delay to ensure sessionStorage is committed and any pending operations complete
+        setTimeout(function() {
+          window.location.href = finalConfirmationUrl;
+        }, 100);
       });
     }
 
@@ -693,7 +760,7 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
           dayElement.appendChild(imgWrapper);
 
           // Add click handler for events - always show modal for booking
-          dayElement.style.cursor = 'pointer';
+            dayElement.style.cursor = 'pointer';
           dayElement.addEventListener('click', function(e) {
             e.preventDefault();
             // If event has a link, still show modal but allow external link option
@@ -810,10 +877,10 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
           const year = parseInt(this.value);
           container.dataset.year = year;
           renderCalendar(container);
-        });
-      }
-      
-      // Initial render
+      });
+    }
+
+    // Initial render
       renderCalendar(container);
     });
   })();
