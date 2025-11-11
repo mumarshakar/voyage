@@ -48,7 +48,6 @@
       assign button_link = section.settings.column1_button_link
       assign text_alignment = section.settings.column1_text_alignment | default: 'left'
       assign text_color = section.settings.column1_text_color | default: '#333333'
-      assign heading_size = section.settings.column1_heading_size | default: 36
     endif
   else
     assign bg_color = section.settings.column2_bg_color | default: '#FFFFFF'
@@ -90,7 +89,6 @@
       assign button_link = section.settings.column2_button_link
       assign text_alignment = section.settings.column2_text_alignment | default: 'left'
       assign text_color = section.settings.column2_text_color | default: '#333333'
-      assign heading_size = section.settings.column2_heading_size | default: 36
     endif
   endif
   
@@ -327,7 +325,7 @@
                     background-color: {{ text_color }};
                     color: {{ bg_color }};
                     text-decoration: none;
-                    border-radius: 4px;
+                    border-radius: 2px;
                     transition: opacity 0.3s;">
             {{ button_text }}
           </a>

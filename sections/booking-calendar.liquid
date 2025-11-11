@@ -1,6 +1,7 @@
 {% comment %}
   sections/booking-calendar.liquid
   A custom section to display a booking calendar with event images.
+  Supports multiple months that can be added via blocks.
   This is for visual representation. Actual booking logic requires
   a Shopify app or external integration.
 {% endcomment %}
@@ -17,6 +18,7 @@
   assign day_number_color = section.settings.day_number_color | default: '#333333'
   assign heading_font_family = section.settings.heading_font_family | default: 'Playfair Display, serif'
   assign weekday_font_family = section.settings.weekday_font_family | default: 'Playfair Display, serif'
+  assign months_gap = section.settings.months_gap | default: 60
 -%}
 
 <div class="booking-calendar-section"
@@ -29,54 +31,131 @@
             margin-top: {{ margin_top }}px;
             margin-bottom: {{ margin_bottom }}px;">
 
-  <div class="calendar-header">
-    <button class="calendar-nav-arrow prev-month" 
-            aria-label="Previous Month"
-            style="color: {{ heading_color }};"
-            type="button">
-      {% render 'icon-arrow-left' %}
-    </button>
-    <h2 class="calendar-month-year" 
-        style="color: {{ heading_color }}; 
-               font-family: {{ heading_font_family }};">
-      {{ section.settings.month_display | default: "November 2025" }}
-    </h2>
-    <button class="calendar-nav-arrow next-month" 
-            aria-label="Next Month"
-            style="color: {{ heading_color }};"
-            type="button">
-      {% render 'icon-arrow-right' %}
-    </button>
-  </div>
+  {% comment %} Collect all month blocks {% endcomment %}
+  {% assign month_blocks = section.blocks | where: 'type', 'month' %}
+  
+  {% if month_blocks.size > 0 %}
+    {% for month_block in month_blocks %}
+      {%- liquid
+        assign month_number = month_block.settings.month | default: 1
+        assign year_number = month_block.settings.year | default: 2025
+        assign month_key = month_number | append: '-' | append: year_number
+      -%}
+      
+      <div class="calendar-month-container" 
+           data-month="{{ month_number }}" 
+           data-year="{{ year_number }}"
+           data-block-id="{{ month_block.id }}"
+           style="margin-bottom: {{ months_gap }}px;">
+        
+        <div class="calendar-header">
+          <h2 class="calendar-month-year" 
+              style="color: {{ heading_color }}; 
+                     font-family: {{ heading_font_family }};
+                     text-align: center;
+                     width: 100%;">
+            {%- liquid
+              case month_number
+                when 1
+                  echo 'January'
+                when 2
+                  echo 'February'
+                when 3
+                  echo 'March'
+                when 4
+                  echo 'April'
+                when 5
+                  echo 'May'
+                when 6
+                  echo 'June'
+                when 7
+                  echo 'July'
+                when 8
+                  echo 'August'
+                when 9
+                  echo 'September'
+                when 10
+                  echo 'October'
+                when 11
+                  echo 'November'
+                when 12
+                  echo 'December'
+                else
+                  echo 'January'
+              endcase
+            -%} {{ year_number }}
+          </h2>
+        </div>
 
-  <div class="calendar-weekdays" 
-       style="color: {{ weekday_color }}; 
-              font-family: {{ weekday_font_family }};">
-    <span>SU</span>
-    <span>MO</span>
-    <span>TU</span>
-    <span>WE</span>
-    <span>TH</span>
-    <span>FR</span>
-    <span>SA</span>
-  </div>
+        <div class="calendar-weekdays" 
+             style="color: {{ weekday_color }}; 
+                    font-family: {{ weekday_font_family }};">
+          <span>SU</span>
+          <span>MO</span>
+          <span>TU</span>
+          <span>WE</span>
+          <span>TH</span>
+          <span>FR</span>
+          <span>SA</span>
+        </div>
 
-  <div class="calendar-grid" data-section-id="{{ section.id }}">
-    {% comment %}
-      Initial calendar days will be populated by JavaScript.
-      For fallback/SEO, we'll show a basic structure.
-    {% endcomment %}
-    {% for i in (1..35) %}
-      <div class="calendar-day" data-day-index="{{ i }}">
-        <span class="day-number" style="color: {{ day_number_color }};"></span>
+        <div class="calendar-grid" 
+             data-month="{{ month_number }}" 
+             data-year="{{ year_number }}"
+             data-block-id="{{ month_block.id }}">
+          {% comment %} Calendar days will be populated by JavaScript {% endcomment %}
+        </div>
       </div>
     {% endfor %}
-  </div>
+  {% else %}
+    {% comment %} Fallback: Show current month if no months are configured {% endcomment %}
+    {%- liquid
+      assign current_month = 'now' | date: '%m'
+      assign current_year = 'now' | date: '%Y'
+      assign current_month_num = current_month | plus: 0
+      assign current_year_num = current_year | plus: 0
+    -%}
+    <div class="calendar-month-container" 
+         data-month="{{ current_month_num }}" 
+         data-year="{{ current_year_num }}"
+         style="margin-bottom: {{ months_gap }}px;">
+      
+      <div class="calendar-header">
+        <h2 class="calendar-month-year" 
+            style="color: {{ heading_color }}; 
+                   font-family: {{ heading_font_family }};
+                   text-align: center;
+                   width: 100%;">
+          {{ 'now' | date: '%B %Y' }}
+        </h2>
+      </div>
 
-  {% comment %} Event blocks for managing events in theme customizer {% endcomment %}
+      <div class="calendar-weekdays" 
+           style="color: {{ weekday_color }}; 
+                  font-family: {{ weekday_font_family }};">
+        <span>SU</span>
+        <span>MO</span>
+        <span>TU</span>
+        <span>WE</span>
+        <span>TH</span>
+        <span>FR</span>
+        <span>SA</span>
+      </div>
+
+      <div class="calendar-grid" 
+           data-month="{{ current_month_num }}" 
+           data-year="{{ current_year_num }}">
+        {% comment %} Calendar days will be populated by JavaScript {% endcomment %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% comment %} Event blocks - associate events with months via month/year {% endcomment %}
   {% for block in section.blocks %}
     {% if block.type == 'event' %}
       <div class="event-data" 
+           data-event-month="{{ block.settings.event_month | default: 1 }}"
+           data-event-year="{{ block.settings.event_year | default: 2025 }}"
            data-event-day="{{ block.settings.event_day }}"
            data-event-image="{{ block.settings.event_image | image_url: width: 400 }}"
            data-event-title="{{ block.settings.event_title | escape }}"
@@ -94,18 +173,16 @@
     const calendarSection = document.getElementById('booking-calendar-{{ section.id }}');
     if (!calendarSection) return;
 
-    const calendarGrid = calendarSection.querySelector('.calendar-grid');
-    const monthYearDisplay = calendarSection.querySelector('.calendar-month-year');
-    const prevMonthBtn = calendarSection.querySelector('.prev-month');
-    const nextMonthBtn = calendarSection.querySelector('.next-month');
-    
-    // Get event data from hidden divs
+    // Collect all event data by month-year-day key
     const eventData = {};
     const eventDivs = calendarSection.querySelectorAll('.event-data');
     eventDivs.forEach(div => {
+      const month = parseInt(div.dataset.eventMonth) || 1;
+      const year = parseInt(div.dataset.eventYear) || 2025;
       const day = parseInt(div.dataset.eventDay);
       if (day) {
-        eventData[day] = {
+        const key = `${year}-${month}-${day}`;
+        eventData[key] = {
           image: div.dataset.eventImage,
           title: div.dataset.eventTitle,
           link: div.dataset.eventLink
@@ -113,28 +190,20 @@
       }
     });
 
-    let currentDate = new Date();
-    {% if section.settings.initial_month != blank %}
-      const initialDate = new Date('{{ section.settings.initial_month }}');
-      if (!isNaN(initialDate.getTime())) {
-        currentDate = initialDate;
-      }
-    {% endif %}
+    // Render calendar for a specific month
+    function renderCalendar(monthContainer) {
+      const calendarGrid = monthContainer.querySelector('.calendar-grid');
+      if (!calendarGrid) return;
 
-    function renderCalendar() {
-      if (!calendarGrid || !monthYearDisplay) return;
+      const month = parseInt(monthContainer.dataset.month) || 1;
+      const year = parseInt(monthContainer.dataset.year) || 2025;
 
       // Clear existing days
       calendarGrid.innerHTML = '';
 
-      // Update month/year display
-      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-                         'July', 'August', 'September', 'October', 'November', 'December'];
-      monthYearDisplay.textContent = monthNames[currentDate.getMonth()] + ' ' + currentDate.getFullYear();
-
       // Calculate first day of month and days in month
-      const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-      const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+      const firstDayOfMonth = new Date(year, month - 1, 1);
+      const lastDayOfMonth = new Date(year, month, 0);
       const daysInMonth = lastDayOfMonth.getDate();
       const startDayOfWeek = firstDayOfMonth.getDay(); // 0 = Sunday, 1 = Monday, etc.
 
@@ -157,9 +226,10 @@
         dayElement.appendChild(dayNumber);
 
         // Check if this day has an event
-        if (eventData[day]) {
+        const eventKey = `${year}-${month}-${day}`;
+        if (eventData[eventKey]) {
           dayElement.classList.add('has-event');
-          const eventInfo = eventData[day];
+          const eventInfo = eventData[eventKey];
           
           const imgWrapper = document.createElement('div');
           imgWrapper.classList.add('event-image-wrapper');
@@ -194,24 +264,46 @@
       }
     }
 
-    if (prevMonthBtn) {
-      prevMonthBtn.addEventListener('click', function() {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        renderCalendar();
-      });
-    }
-
-    if (nextMonthBtn) {
-      nextMonthBtn.addEventListener('click', function() {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        renderCalendar();
-      });
-    }
-
-    // Initial render
-    renderCalendar();
+    // Render all month calendars
+    const monthContainers = calendarSection.querySelectorAll('.calendar-month-container');
+    monthContainers.forEach(container => {
+      renderCalendar(container);
+    });
   })();
 </script>
+
+<style>
+  .calendar-month-container {
+    margin-bottom: 60px;
+  }
+
+  .calendar-month-container:last-child {
+    margin-bottom: 0;
+  }
+
+  .calendar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .calendar-month-year {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .calendar-month-year {
+      font-size: 1.5rem;
+    }
+    
+    .calendar-month-container {
+      margin-bottom: 40px;
+    }
+  }
+</style>
 
 {% schema %}
 {
@@ -274,6 +366,17 @@
       "default": 0
     },
     {
+      "type": "range",
+      "id": "months_gap",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Gap Between Months",
+      "default": 60,
+      "info": "Spacing between multiple month calendars"
+    },
+    {
       "type": "color",
       "id": "background_color",
       "label": "Background Color",
@@ -281,21 +384,7 @@
     },
     {
       "type": "header",
-      "content": "Calendar Header"
-    },
-    {
-      "type": "text",
-      "id": "month_display",
-      "label": "Initial Month Display",
-      "default": "November 2025",
-      "info": "Will be updated dynamically by JavaScript"
-    },
-    {
-      "type": "text",
-      "id": "initial_month",
-      "label": "Initial Month (YYYY-MM-DD)",
-      "default": "2025-11-01",
-      "info": "Format: YYYY-MM-DD (e.g., 2025-11-01)"
+      "content": "Calendar Styling"
     },
     {
       "type": "color",
@@ -366,18 +455,58 @@
   ],
   "blocks": [
     {
+      "type": "month",
+      "name": "Month",
+      "settings": [
+        {
+          "type": "range",
+          "id": "month",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Month",
+          "default": 11,
+          "info": "Month number (1 = January, 12 = December)"
+        },
+        {
+          "type": "number",
+          "id": "year",
+          "label": "Year",
+          "default": 2025,
+          "info": "Year (e.g., 2025)"
+        }
+      ]
+    },
+    {
       "type": "event",
       "name": "Event",
       "settings": [
+        {
+          "type": "range",
+          "id": "event_month",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Event Month",
+          "default": 11,
+          "info": "Month when this event occurs (1 = January, 12 = December)"
+        },
+        {
+          "type": "number",
+          "id": "event_year",
+          "label": "Event Year",
+          "default": 2025,
+          "info": "Year when this event occurs (e.g., 2025)"
+        },
         {
           "type": "range",
           "id": "event_day",
           "min": 1,
           "max": 31,
           "step": 1,
-          "label": "Day of Month",
+          "label": "Event Day",
           "default": 1,
-          "info": "Day number (1-31) when this event occurs"
+          "info": "Day of month (1-31) when this event occurs"
         },
         {
           "type": "image_picker",
@@ -406,8 +535,24 @@
       "name": "Booking Calendar",
       "blocks": [
         {
+          "type": "month",
+          "settings": {
+            "month": 11,
+            "year": 2025
+          }
+        },
+        {
+          "type": "month",
+          "settings": {
+            "month": 12,
+            "year": 2025
+          }
+        },
+        {
           "type": "event",
           "settings": {
+            "event_month": 11,
+            "event_year": 2025,
             "event_day": 1,
             "event_title": "Yoga Class"
           }
@@ -415,6 +560,8 @@
         {
           "type": "event",
           "settings": {
+            "event_month": 11,
+            "event_year": 2025,
             "event_day": 5,
             "event_title": "Pilates Session"
           }
@@ -422,22 +569,10 @@
         {
           "type": "event",
           "settings": {
-            "event_day": 9,
-            "event_title": "Pilates Class"
-          }
-        },
-        {
-          "type": "event",
-          "settings": {
+            "event_month": 12,
+            "event_year": 2025,
             "event_day": 15,
             "event_title": "Yoga Class"
-          }
-        },
-        {
-          "type": "event",
-          "settings": {
-            "event_day": 22,
-            "event_title": "Pilates Class"
           }
         }
       ]
@@ -445,4 +580,3 @@
   ]
 }
 {% endschema %}
-

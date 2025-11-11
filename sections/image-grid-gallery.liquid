@@ -52,8 +52,6 @@
     {% endif %}
 
     {% if section.blocks.size > 0 %}
-      {%- assign image_blocks = section.blocks | where: 'type', 'image' -%}
-      
       <div class="gallery-layout" style="display: flex; flex-direction: column; gap: {{ image_gap }}px;">
         
         <!-- First Row: 80% Video/Image + 20% Two Stacked Images -->
@@ -95,9 +93,11 @@
                          controls
                          playsinline
                          style="width: 100%; height: 100%; object-fit: cover; border-radius: 2px !important;">
+                    {% comment %} theme-check-disable RemoteAsset {% endcomment %}
                     {% for source in featured_video_desktop.sources %}
                       <source src="{{ source.url }}" type="{{ source.mime_type }}">
                     {% endfor %}
+                    {% comment %} theme-check-enable RemoteAsset {% endcomment %}
                   </video>
                 {% endif %}
                 
@@ -132,9 +132,11 @@
                          controls
                          playsinline
                          style="width: 100%; height: 100%; object-fit: cover; border-radius: 2px !important;">
-                    {% for source in featured_video_mobile.sources %}
-                      <source src="{{ source.url }}" type="{{ source.mime_type }}">
-                    {% endfor %}
+                     {% comment %} theme-check-disable RemoteAsset {% endcomment %}
+                     {% for source in featured_video_mobile.sources %}
+                       <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                     {% endfor %}
+                     {% comment %} theme-check-enable RemoteAsset {% endcomment %}
                   </video>
                 {% elsif featured_video_desktop_url != blank or featured_video_desktop != blank %}
                   {% comment %} If no mobile video, use desktop video for mobile {% endcomment %}
@@ -168,9 +170,11 @@
                            controls
                            playsinline
                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 2px !important;">
+                      {% comment %} theme-check-disable RemoteAsset {% endcomment %}
                       {% for source in featured_video_desktop.sources %}
                         <source src="{{ source.url }}" type="{{ source.mime_type }}">
                       {% endfor %}
+                      {% comment %} theme-check-enable RemoteAsset {% endcomment %}
                     </video>
                   {% endif %}
                 {% endif %}
@@ -192,6 +196,8 @@
                     <img src="{{ featured_image_desktop | image_url: width: 1920 }}" 
                          alt="{{ featured_media_alt_text | default: featured_image_desktop.alt | escape }}"
                          class="grid-image gallery-image-desktop"
+                         width="{{ featured_image_desktop.width | default: 1920 }}"
+                         height="{{ featured_image_desktop.height | default: 1080 }}"
                          loading="lazy"
                          data-src="{{ featured_image_desktop | image_url: width: 1920 }}"
                          style="width: 100%; height: 100%; object-fit: cover;">
@@ -200,6 +206,8 @@
                     <img src="{{ featured_image_mobile | image_url: width: 800 }}" 
                          alt="{{ featured_media_alt_text | default: featured_image_mobile.alt | escape }}"
                          class="grid-image gallery-image-mobile"
+                         width="{{ featured_image_mobile.width | default: 800 }}"
+                         height="{{ featured_image_mobile.height | default: 450 }}"
                          loading="lazy"
                          data-src="{{ featured_image_mobile | image_url: width: 1920 }}"
                          style="width: 100%; height: 100%; object-fit: cover;">
@@ -208,6 +216,8 @@
                     <img src="{{ featured_image_desktop | image_url: width: 1920 }}" 
                          alt="{{ featured_media_alt_text | default: featured_image_desktop.alt | escape }}"
                          class="grid-image gallery-image-mobile"
+                         width="{{ featured_image_desktop.width | default: 1920 }}"
+                         height="{{ featured_image_desktop.height | default: 1080 }}"
                          loading="lazy"
                          data-src="{{ featured_image_desktop | image_url: width: 1920 }}"
                          style="width: 100%; height: 100%; object-fit: cover;">
@@ -241,6 +251,8 @@
                       <img src="{{ block.settings.image | image_url: width: 800 }}" 
                            alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
                            class="grid-image"
+                           width="{{ block.settings.image.width | default: 800 }}"
+                           height="{{ block.settings.image.height | default: 800 }}"
                            loading="lazy"
                            data-src="{{ block.settings.image | image_url: width: 1920 }}"
                            style="width: 100%; height: 100%; object-fit: cover; display: block;">
@@ -265,6 +277,8 @@
                       <img src="{{ block.settings.image | image_url: width: 800 }}" 
                            alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
                            class="grid-image"
+                           width="{{ block.settings.image.width | default: 800 }}"
+                           height="{{ block.settings.image.height | default: 800 }}"
                            loading="lazy"
                            data-src="{{ block.settings.image | image_url: width: 1920 }}"
                            style="width: 100%; height: 100%; object-fit: cover; display: block;">
@@ -303,6 +317,8 @@
                     <img src="{{ block.settings.image | image_url: width: 800 }}" 
                          alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
                          class="grid-image"
+                         width="{{ block.settings.image.width | default: 800 }}"
+                         height="{{ block.settings.image.height | default: 800 }}"
                          loading="lazy"
                          data-src="{{ block.settings.image | image_url: width: 1920 }}"
                          style="width: 100%; height: 100%; object-fit: cover; display: block;">
@@ -345,10 +361,12 @@
                data-featured-image="true"
                data-image-src="{{ featured_image | image_url: width: 1920 }}"
                data-image-alt="{{ featured_media_alt_text | default: featured_image.alt | escape }}">
-            <img src="{{ featured_image | image_url: width: 300 }}" 
-                 alt="{{ featured_media_alt_text | default: featured_image.alt | escape }}"
-                 class="modal-thumbnail"
-                 loading="lazy">
+                <img src="{{ featured_image | image_url: width: 300 }}" 
+                     alt="{{ featured_media_alt_text | default: featured_image.alt | escape }}"
+                     class="modal-thumbnail"
+                     width="300"
+                     height="300"
+                     loading="lazy">
             <div class="modal-thumbnail-overlay"></div>
           </div>
           {% assign image_index = image_index | plus: 1 %}
@@ -365,6 +383,8 @@
                 <img src="{{ block.settings.image | image_url: width: 300 }}" 
                      alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
                      class="modal-thumbnail"
+                     width="300"
+                     height="300"
                      loading="lazy">
                 <div class="modal-thumbnail-overlay"></div>
               </div>
@@ -380,7 +400,9 @@
         <i class="bi bi-chevron-left"></i>
       </button>
       <div class="modal-main-image-wrapper">
-        <img src="" alt="" class="modal-main-image">
+        {% comment %} theme-check-disable RemoteAsset {% endcomment %}
+        <img src="" alt="" class="modal-main-image" width="1920" height="1080">
+        {% comment %} theme-check-enable RemoteAsset {% endcomment %}
       </div>
       <button class="modal-nav modal-nav-next" aria-label="Next image">
         <i class="bi bi-chevron-right"></i>

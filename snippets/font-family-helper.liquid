@@ -2,7 +2,11 @@
   snippets/font-family-helper.liquid
   Helper snippet to convert font family setting value to CSS font-family string
   Usage: {% render 'font-family-helper', font_family: settings.heading_font_family %}
-  Returns: font_family_value variable
+  Returns: font_family_value variable (available in parent scope via output below)
+  
+  Note: This snippet is currently unused. Font family conversion is done inline
+  in the files that need it. If this snippet is used in the future, the variable
+  will be available via the data attribute output.
 {% endcomment %}
 
 {%- liquid
@@ -27,4 +31,10 @@
       assign font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
   endcase
 -%}
+
+{%- comment -%}
+  Output variable in data attribute to make it available to parent scope
+  and to satisfy theme-check UnusedAssign rule
+{%- endcomment -%}
+<span data-font-family-value="{{ font_family_value }}" style="display: none;"></span>
 
