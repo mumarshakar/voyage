@@ -11,7 +11,7 @@
   {% comment %} theme-check-disable RemoteAsset {% endcomment %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -59,6 +59,8 @@
       case heading_font_family
         when 'playfair'
           assign heading_font_family_css = "'Playfair Display', 'Times New Roman', serif"
+        when 'merriweather'
+          assign heading_font_family_css = "'Merriweather', Georgia, serif"
         when 'georgia'
           assign heading_font_family_css = "Georgia, 'Times New Roman', serif"
         when 'times'
@@ -78,6 +80,8 @@
       case subheading_font_family
         when 'playfair'
           assign subheading_font_family_css = "'Playfair Display', 'Times New Roman', serif"
+        when 'merriweather'
+          assign subheading_font_family_css = "'Merriweather', Georgia, serif"
         when 'georgia'
           assign subheading_font_family_css = "Georgia, 'Times New Roman', serif"
         when 'times'
@@ -97,6 +101,8 @@
       case body_font_family
         when 'playfair'
           assign body_font_family_css = "'Playfair Display', 'Times New Roman', serif"
+        when 'merriweather'
+          assign body_font_family_css = "'Merriweather', Georgia, serif"
         when 'georgia'
           assign body_font_family_css = "Georgia, 'Times New Roman', serif"
         when 'times'
@@ -125,7 +131,6 @@
     html body .custom-text-heading,
     html body .two-column-heading,
     html body .hero-title,
-    html body .hero-glow-title,
     html body .page-title,
     html body .section-title,
     html body main h1,
@@ -142,6 +147,16 @@
     html body .container h6 {
       color: {{ heading_color }} !important;
       font-size: {{ heading_font_size }}px !important;
+      font-weight: {{ heading_font_weight }} !important;
+      font-family: {{ heading_font_family_css }} !important;
+      line-height: {{ heading_line_height }} !important;
+      letter-spacing: {{ heading_letter_spacing }}px !important;
+    }
+    
+    /* Hero glow title is excluded from global typography - it uses section-specific settings */
+    /* Color and font-size are controlled by hero section settings via inline styles */
+    html body .hero-glow-title {
+      /* Only apply typography defaults that aren't overridden by section settings */
       font-weight: {{ heading_font_weight }} !important;
       font-family: {{ heading_font_family_css }} !important;
       line-height: {{ heading_line_height }} !important;

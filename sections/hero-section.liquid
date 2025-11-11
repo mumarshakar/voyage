@@ -454,6 +454,8 @@
     case heading_font_family
       when 'playfair'
         assign heading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
+      when 'merriweather'
+        assign heading_font_family_value = "'Merriweather', Georgia, serif"
       when 'georgia'
         assign heading_font_family_value = "Georgia, 'Times New Roman', serif"
       when 'times'
@@ -567,8 +569,8 @@
     {% endif %}
     <div class="hero-glow-content" style="text-align: {{ text_align }};">
       <h1 class="hero-glow-title" 
-          style="color: {{ title_color }};
-                 font-size: {{ title_font_size }}px;
+          style="color: {{ title_color }} !important;
+                 font-size: {{ title_font_size }}px !important;
                  font-weight: {{ heading_font_weight }};
                  font-family: {{ heading_font_family_value }};
                  line-height: {{ heading_line_height }};
@@ -579,8 +581,8 @@
       </h1>
       {% if section.settings.subtitle != blank %}
         <p class="hero-glow-subtitle" 
-           style="color: {{ subtitle_color }};
-                  font-size: {{ subtitle_font_size }}px;
+           style="color: {{ subtitle_color }} !important;
+                  font-size: {{ subtitle_font_size }}px !important;
                   font-weight: 400;
                   font-family: {{ heading_font_family_value }};
                   line-height: 1.6;

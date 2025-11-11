@@ -58,6 +58,10 @@
             "label": "Playfair Display (Serif)"
           },
           {
+            "value": "merriweather",
+            "label": "Merriweather (Serif)"
+          },
+          {
             "value": "segoe",
             "label": "Segoe UI (Sans-serif)"
           },
@@ -169,6 +173,10 @@
             "label": "Playfair Display (Serif)"
           },
           {
+            "value": "merriweather",
+            "label": "Merriweather (Serif)"
+          },
+          {
             "value": "segoe",
             "label": "Segoe UI (Sans-serif)"
           },
@@ -278,6 +286,10 @@
           {
             "value": "playfair",
             "label": "Playfair Display (Serif)"
+          },
+          {
+            "value": "merriweather",
+            "label": "Merriweather (Serif)"
           },
           {
             "value": "segoe",
