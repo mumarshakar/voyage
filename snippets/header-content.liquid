@@ -55,6 +55,19 @@
     assign scrolled_padding_bottom = 12
     assign scrolled_shadow = true
     assign scroll_threshold = 50
+    assign show_book_now_button = true
+    assign book_now_button_text = 'Book Now'
+    assign book_now_button_url = ''
+    assign book_now_button_bg_color = '#FF6B35'
+    assign book_now_button_text_color = '#FFFFFF'
+    assign book_now_button_hover_bg_color = '#FF8C61'
+    assign book_now_button_hover_text_color = '#FFFFFF'
+    assign book_now_button_font_size = 16
+    assign book_now_button_font_weight = '600'
+    assign book_now_button_padding_x = 20
+    assign book_now_button_padding_y = 10
+    assign book_now_button_border_radius = 25
+    assign book_now_button_margin_left = 15
   else
     assign logo_text = header_settings.logo_text | default: shop.name
     assign logo_line1 = header_settings.logo_line1 | default: 'GLOW'
@@ -186,6 +199,28 @@
     endif
 
     assign scroll_threshold = header_settings.scroll_threshold | default: 50
+
+    assign show_book_now_button_setting = header_settings.show_book_now_button
+    if show_book_now_button_setting == false
+      assign show_book_now_button = false
+    elsif show_book_now_button_setting == true
+      assign show_book_now_button = true
+    else
+      assign show_book_now_button = true
+    endif
+
+    assign book_now_button_text = header_settings.book_now_button_text | default: 'Book Now'
+    assign book_now_button_url = header_settings.book_now_button_url | default: ''
+    assign book_now_button_bg_color = header_settings.book_now_button_bg_color | default: '#FF6B35'
+    assign book_now_button_text_color = header_settings.book_now_button_text_color | default: '#FFFFFF'
+    assign book_now_button_hover_bg_color = header_settings.book_now_button_hover_bg_color | default: '#FF8C61'
+    assign book_now_button_hover_text_color = header_settings.book_now_button_hover_text_color | default: '#FFFFFF'
+    assign book_now_button_font_size = header_settings.book_now_button_font_size | default: 16
+    assign book_now_button_font_weight = header_settings.book_now_button_font_weight | default: '600'
+    assign book_now_button_padding_x = header_settings.book_now_button_padding_x | default: 20
+    assign book_now_button_padding_y = header_settings.book_now_button_padding_y | default: 10
+    assign book_now_button_border_radius = header_settings.book_now_button_border_radius | default: 25
+    assign book_now_button_margin_left = header_settings.book_now_button_margin_left | default: 15
   endif
 -%}
 
@@ -286,6 +321,24 @@
         {% endif %}
       </ul>
       
+      {% if show_book_now_button and book_now_button_url != blank %}
+        <a href="{{ book_now_button_url }}" 
+           class="book-now-button btn ms-3"
+           style="background-color: {{ book_now_button_bg_color }};
+                  color: {{ book_now_button_text_color }} !important;
+                  font-size: {{ book_now_button_font_size }}px;
+                  font-weight: {{ book_now_button_font_weight }};
+                  padding: {{ book_now_button_padding_y }}px {{ book_now_button_padding_x }}px;
+                  border-radius: {{ book_now_button_border_radius }}px;
+                  margin-left: {{ book_now_button_margin_left }}px;
+                  text-decoration: none;
+                  border: none;
+                  transition: all 0.3s ease;
+                  white-space: nowrap;">
+          {{ book_now_button_text }}
+        </a>
+      {% endif %}
+      
       {% if show_search or show_cart %}
         <div class="header-icons d-flex align-items-center ms-3">
           {% if show_search %}
@@ -369,6 +422,39 @@
   
   .header-icon:hover {
     color: {{ menu_link_hover_color }} !important;
+  }
+  
+  .book-now-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .book-now-button:hover {
+    background-color: {{ book_now_button_hover_bg_color }} !important;
+    color: {{ book_now_button_hover_text_color }} !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Mobile responsive adjustments for Book Now button */
+  @media (max-width: 991.98px) {
+    .book-now-button {
+      margin-left: 0 !important;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .navbar-collapse {
+      flex-direction: column;
+    }
+    
+    .navbar-nav {
+      width: 100%;
+    }
   }
   
   /* Initial state for sticky/fixed headers - transparent */
