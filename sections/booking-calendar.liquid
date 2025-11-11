@@ -28,6 +28,13 @@
   assign telr_success_url = settings.telr_success_url | default: ''
   assign telr_cancel_url = settings.telr_cancel_url | default: ''
   assign telr_failed_url = settings.telr_failed_url | default: ''
+  assign telr_currency = settings.telr_currency | default: 'AED'
+  
+  # Booking confirmation page URL
+  assign confirmation_page_url = section.settings.confirmation_page_url | default: ''
+  if confirmation_page_url == blank
+    assign confirmation_page_url = routes.root_url | append: '?booking=confirm'
+  endif
   
   # Use home page as fallback if URLs are not set
   if telr_success_url == blank
@@ -38,14 +45,6 @@
   endif
   if telr_failed_url == blank
     assign telr_failed_url = routes.root_url | append: '?booking=failed'
-  endif
-  assign telr_currency = settings.telr_currency | default: 'AED'
-  
-  # Telr API endpoints
-  if telr_environment == 'live'
-    assign telr_api_url = 'https://secure.telr.com/gateway/order.json'
-  else
-    assign telr_api_url = 'https://secure.telr.com/gateway/order.json'
   endif
 -%}
 
@@ -268,31 +267,6 @@
   {% endfor %}
 
 </div>
-
-{% comment %} Telr Payment Form - Outside section for better submission {% endcomment %}
-<form id="telr-payment-form-{{ section.id }}" 
-      method="post" 
-      action="https://secure.telr.com/gateway/order.json" 
-      style="position: absolute; left: -9999px; opacity: 0; pointer-events: none; width: 1px; height: 1px; overflow: hidden;"
-      target="_self"
-      accept-charset="UTF-8"
-      enctype="application/x-www-form-urlencoded">
-  <input type="hidden" name="ivp_method" value="create">
-  <input type="hidden" name="ivp_store" id="telr-store-id-{{ section.id }}" value="{{ telr_store_id }}">
-  <input type="hidden" name="ivp_authkey" id="telr-auth-key-{{ section.id }}" value="{{ telr_auth_key }}">
-  <input type="hidden" name="ivp_amount" id="telr-amount-{{ section.id }}" value="">
-  <input type="hidden" name="ivp_currency" id="telr-currency-{{ section.id }}" value="{{ telr_currency }}">
-  <input type="hidden" name="ivp_test" id="telr-test-{{ section.id }}" value="{% if telr_environment == 'test' %}1{% else %}0{% endif %}">
-  <input type="hidden" name="ivp_desc" id="telr-description-{{ section.id }}" value="">
-  <input type="hidden" name="ivp_cart" id="telr-order-id-{{ section.id }}" value="">
-  <input type="hidden" name="return_auth" id="telr-return-auth-{{ section.id }}" value="">
-  <input type="hidden" name="return_can" id="telr-return-can-{{ section.id }}" value="">
-  <input type="hidden" name="return_decl" id="telr-return-decl-{{ section.id }}" value="">
-  <input type="hidden" name="bill_fname" id="telr-bill-fname-{{ section.id }}" value="">
-  <input type="hidden" name="bill_lname" id="telr-bill-lname-{{ section.id }}" value="">
-  <input type="hidden" name="bill_email" id="telr-bill-email-{{ section.id }}" value="">
-  <input type="hidden" name="bill_mobile" id="telr-bill-mobile-{{ section.id }}" value="">
-</form>
 
 <div class="booking-calendar-section"
      id="booking-calendar-{{ section.id }}"
@@ -607,23 +581,7 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
           return;
         }
         
-        // For paid events, proceed with Telr payment
-        const telrStoreId = '{{ telr_store_id }}';
-        const telrAuthKey = '{{ telr_auth_key }}';
-        
-        // Validate Telr credentials
-        if (!telrStoreId || !telrAuthKey) {
-          alert('Payment gateway is not configured. Please configure Telr Store ID and Auth Key in Theme Settings > Payment Settings.');
-          
-          // Re-enable button
-          if (confirmButton) {
-            confirmButton.disabled = false;
-            if (btnText) btnText.style.display = 'inline';
-            if (btnLoading) btnLoading.style.display = 'none';
-          }
-          return;
-        }
-        
+        // For paid events, redirect to confirmation page first
         // Validate required fields
         if (!name || !email || !phone) {
           alert('Please fill in all required fields.');
@@ -639,83 +597,29 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
         
         bookingData.status = 'pending_payment';
         
-        // Store booking data in sessionStorage (for success page)
+        // Store booking data in sessionStorage (for confirmation page and success page)
         try {
           sessionStorage.setItem('booking_data', JSON.stringify(bookingData));
         } catch (e) {
           console.warn('Could not store booking data in sessionStorage:', e);
         }
         
-        // Split name into first and last name
-        const nameParts = name.trim().split(' ');
-        const firstName = nameParts[0] || '';
-        const lastName = nameParts.slice(1).join(' ') || firstName;
-        
-        // Prepare URLs
-        const shopUrl = '{{ shop.url }}';
-        const successUrl = '{{ telr_success_url }}';
-        const cancelUrl = '{{ telr_cancel_url }}';
-        const failedUrl = '{{ telr_failed_url }}';
-        
-        const finalSuccessUrl = successUrl.startsWith('http') ? successUrl : (shopUrl + successUrl);
-        const finalCancelUrl = cancelUrl.startsWith('http') ? cancelUrl : (shopUrl + cancelUrl);
-        const finalFailedUrl = failedUrl.startsWith('http') ? failedUrl : (shopUrl + failedUrl);
-        
         // Save booking to Shopify in background (non-blocking)
         saveBookingToShopify(bookingData, function(success) {
           console.log('Shopify save:', success ? 'OK' : 'Failed');
         });
         
-        // Create a fresh form dynamically and submit immediately to Telr
-        // This is the most reliable method for cross-origin POST submissions
-        console.log('=== Redirecting to Telr Payment Gateway ===');
-        console.log('Store ID:', telrStoreId);
-        console.log('Amount:', price.toFixed(2), '{{ telr_currency }}');
-        console.log('Order ID:', orderId);
-        console.log('Return URL:', finalSuccessUrl);
+        // Redirect to confirmation page
+        const confirmationPageUrl = '{{ confirmation_page_url }}';
+        const shopUrl = '{{ shop.url }}';
         
-        // Create form element
-        const telrPaymentForm = document.createElement('form');
-        telrPaymentForm.method = 'POST';
-        telrPaymentForm.action = 'https://secure.telr.com/gateway/order.json';
-        telrPaymentForm.style.cssText = 'display:none !important; position:absolute; left:-9999px; width:1px; height:1px;';
-        telrPaymentForm.target = '_self';
-        telrPaymentForm.acceptCharset = 'UTF-8';
+        console.log('Redirecting to confirmation page...');
         
-        // Add all required Telr fields
-        const fields = [
-          { name: 'ivp_method', value: 'create' },
-          { name: 'ivp_store', value: telrStoreId },
-          { name: 'ivp_authkey', value: telrAuthKey },
-          { name: 'ivp_amount', value: price.toFixed(2) },
-          { name: 'ivp_currency', value: '{{ telr_currency }}' },
-          { name: 'ivp_test', value: '{% if telr_environment == "test" %}1{% else %}0{% endif %}' },
-          { name: 'ivp_desc', value: 'Booking: ' + eventTitle + ' - ' + eventDate },
-          { name: 'ivp_cart', value: orderId },
-          { name: 'return_auth', value: finalSuccessUrl },
-          { name: 'return_can', value: finalCancelUrl },
-          { name: 'return_decl', value: finalFailedUrl },
-          { name: 'bill_fname', value: firstName },
-          { name: 'bill_lname', value: lastName },
-          { name: 'bill_email', value: email },
-          { name: 'bill_mobile', value: phone }
-        ];
-        
-        // Add all fields to form
-        fields.forEach(function(field) {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = field.name;
-          input.value = field.value;
-          telrPaymentForm.appendChild(input);
-        });
-        
-        // Append form to body
-        document.body.appendChild(telrPaymentForm);
-        
-        // Submit form immediately - this will redirect browser to Telr payment page
-        console.log('Submitting form to Telr payment gateway...');
-        telrPaymentForm.submit();
+        if (confirmationPageUrl.startsWith('http')) {
+          window.location.href = confirmationPageUrl;
+        } else {
+          window.location.href = shopUrl + confirmationPageUrl;
+        }
       });
     }
 
@@ -1272,6 +1176,16 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
   "tag": "section",
   "class": "section-booking-calendar",
   "settings": [
+    {
+      "type": "header",
+      "content": "Booking Flow"
+    },
+    {
+      "type": "text",
+      "id": "confirmation_page_url",
+      "label": "Booking Confirmation Page URL",
+      "info": "URL to the booking confirmation page (e.g., /pages/booking-confirmation). Leave empty to use home page with query parameter."
+    },
     {
       "type": "header",
       "content": "Section Spacing"
