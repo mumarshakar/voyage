@@ -9,14 +9,26 @@
   assign show_title = section.settings.show_title | default: true
   assign title_alignment = section.settings.title_alignment | default: 'center'
   
-  assign media_block = null
+  assign featured_media_type = section.settings.featured_media_type | default: 'image'
+  assign featured_image_desktop = section.settings.featured_image_desktop
+  assign featured_image_mobile = section.settings.featured_image_mobile
+  assign featured_video_desktop = section.settings.featured_video_desktop
+  assign featured_video_desktop_url = section.settings.featured_video_desktop_url
+  assign featured_video_mobile = section.settings.featured_video_mobile
+  assign featured_video_mobile_url = section.settings.featured_video_mobile_url
+  assign featured_media_alt_text = section.settings.featured_media_alt_text
+  
   assign total_image_count = 0
+  # Count featured image if exists
+  if featured_image_desktop != blank or featured_image_mobile != blank
+    assign total_image_count = total_image_count | plus: 1
+  endif
+  # Count image blocks
   for block in section.blocks
-    if block.type == 'media'
-      assign media_block = block
-    endif
-    if block.settings.image != blank
-      assign total_image_count = total_image_count | plus: 1
+    if block.type == 'image'
+      if block.settings.image != blank
+        assign total_image_count = total_image_count | plus: 1
+      endif
     endif
   endfor
 -%}
@@ -49,48 +61,125 @@
           
           <!-- Left: 80% - Video or Image -->
           <div class="gallery-main-item" style="flex: 0 0 80%; position: relative;">
-            {% if media_block != null and media_block.settings.media_type == 'video' %}
-              {% if media_block.settings.video_url != blank or media_block.settings.video != blank %}
+            {% if featured_media_type == 'video' %}
               <!-- Video -->
-              <div class="video-wrapper" style="width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden; background-color: #000;">
-                {% if media_block.settings.video_url != blank %}
-                  {% if media_block.settings.video_url contains 'youtube.com' or media_block.settings.video_url contains 'youtu.be' %}
-                    {% assign video_id = media_block.settings.video_url | split: 'v=' | last | split: '&' | first %}
+              <div class="gallery-video-wrapper" style="width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden; background-color: #000; aspect-ratio: 16 / 9;">
+                {% comment %} Desktop Video {% endcomment %}
+                {% if featured_video_desktop_url != blank %}
+                  {% if featured_video_desktop_url contains 'youtube.com' or featured_video_desktop_url contains 'youtu.be' %}
+                    {% assign video_id = featured_video_desktop_url | split: 'v=' | last | split: '&' | first %}
                     {% if video_id == blank %}
-                      {% assign video_id = media_block.settings.video_url | split: '/' | last %}
+                      {% assign video_id = featured_video_desktop_url | split: '/' | last %}
                     {% endif %}
-                    <iframe src="https://www.youtube.com/embed/{{ video_id }}?autoplay=0&mute=0&loop=0&controls=1" 
-                            frameborder="0" 
-                            allow="autoplay; encrypted-media" 
-                            allowfullscreen
-                            style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
-                    </iframe>
-                  {% elsif media_block.settings.video_url contains 'vimeo.com' %}
-                    {% assign video_id = media_block.settings.video_url | split: '/' | last | split: '?' | first %}
-                    <iframe src="https://player.vimeo.com/video/{{ video_id }}?autoplay=0&muted=0&loop=0&controls=1" 
-                            frameborder="0" 
-                            allow="autoplay; encrypted-media" 
-                            allowfullscreen
-                            style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
-                    </iframe>
+                    <div class="gallery-video-embed gallery-video-desktop">
+                      <iframe src="https://www.youtube.com/embed/{{ video_id }}?autoplay=0&mute=0&loop=0&controls=1" 
+                              frameborder="0" 
+                              allow="autoplay; encrypted-media" 
+                              allowfullscreen
+                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                      </iframe>
+                    </div>
+                  {% elsif featured_video_desktop_url contains 'vimeo.com' %}
+                    {% assign video_id = featured_video_desktop_url | split: '/' | last | split: '?' | first %}
+                    <div class="gallery-video-embed gallery-video-desktop">
+                      <iframe src="https://player.vimeo.com/video/{{ video_id }}?autoplay=0&muted=0&loop=0&controls=1" 
+                              frameborder="0" 
+                              allow="autoplay; encrypted-media" 
+                              allowfullscreen
+                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                      </iframe>
+                    </div>
                   {% endif %}
-                {% elsif media_block.settings.video != blank %}
-                  <video class="gallery-video" 
+                {% elsif featured_video_desktop != blank %}
+                  <video class="gallery-video gallery-video-desktop" 
                          controls
                          playsinline
                          style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
-                    {% for source in media_block.settings.video.sources %}
+                    {% for source in featured_video_desktop.sources %}
                       <source src="{{ source.url }}" type="{{ source.mime_type }}">
                     {% endfor %}
                   </video>
                 {% endif %}
+                
+                {% comment %} Mobile Video {% endcomment %}
+                {% if featured_video_mobile_url != blank %}
+                  {% if featured_video_mobile_url contains 'youtube.com' or featured_video_mobile_url contains 'youtu.be' %}
+                    {% assign video_id = featured_video_mobile_url | split: 'v=' | last | split: '&' | first %}
+                    {% if video_id == blank %}
+                      {% assign video_id = featured_video_mobile_url | split: '/' | last %}
+                    {% endif %}
+                    <div class="gallery-video-embed gallery-video-mobile">
+                      <iframe src="https://www.youtube.com/embed/{{ video_id }}?autoplay=0&mute=0&loop=0&controls=1" 
+                              frameborder="0" 
+                              allow="autoplay; encrypted-media" 
+                              allowfullscreen
+                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                      </iframe>
+                    </div>
+                  {% elsif featured_video_mobile_url contains 'vimeo.com' %}
+                    {% assign video_id = featured_video_mobile_url | split: '/' | last | split: '?' | first %}
+                    <div class="gallery-video-embed gallery-video-mobile">
+                      <iframe src="https://player.vimeo.com/video/{{ video_id }}?autoplay=0&muted=0&loop=0&controls=1" 
+                              frameborder="0" 
+                              allow="autoplay; encrypted-media" 
+                              allowfullscreen
+                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                      </iframe>
+                    </div>
+                  {% endif %}
+                {% elsif featured_video_mobile != blank %}
+                  <video class="gallery-video gallery-video-mobile" 
+                         controls
+                         playsinline
+                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                    {% for source in featured_video_mobile.sources %}
+                      <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                    {% endfor %}
+                  </video>
+                {% elsif featured_video_desktop_url != blank or featured_video_desktop != blank %}
+                  {% comment %} If no mobile video, use desktop video for mobile {% endcomment %}
+                  {% if featured_video_desktop_url != blank %}
+                    {% if featured_video_desktop_url contains 'youtube.com' or featured_video_desktop_url contains 'youtu.be' %}
+                      {% assign video_id = featured_video_desktop_url | split: 'v=' | last | split: '&' | first %}
+                      {% if video_id == blank %}
+                        {% assign video_id = featured_video_desktop_url | split: '/' | last %}
+                      {% endif %}
+                      <div class="gallery-video-embed gallery-video-mobile">
+                        <iframe src="https://www.youtube.com/embed/{{ video_id }}?autoplay=0&mute=0&loop=0&controls=1" 
+                                frameborder="0" 
+                                allow="autoplay; encrypted-media" 
+                                allowfullscreen
+                                style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                        </iframe>
+                      </div>
+                    {% elsif featured_video_desktop_url contains 'vimeo.com' %}
+                      {% assign video_id = featured_video_desktop_url | split: '/' | last | split: '?' | first %}
+                      <div class="gallery-video-embed gallery-video-mobile">
+                        <iframe src="https://player.vimeo.com/video/{{ video_id }}?autoplay=0&muted=0&loop=0&controls=1" 
+                                frameborder="0" 
+                                allow="autoplay; encrypted-media" 
+                                allowfullscreen
+                                style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                        </iframe>
+                      </div>
+                    {% endif %}
+                  {% elsif featured_video_desktop != blank %}
+                    <video class="gallery-video gallery-video-mobile" 
+                           controls
+                           playsinline
+                           style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                      {% for source in featured_video_desktop.sources %}
+                        <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                      {% endfor %}
+                    </video>
+                  {% endif %}
+                {% endif %}
               </div>
-            {% elsif media_block != null and media_block.settings.image != blank %}
-              <!-- Image from Media Block -->
+            {% elsif featured_image_desktop != blank or featured_image_mobile != blank %}
+              <!-- Image Mode -->
               <div class="grid-item grid-item-clickable" 
-                   data-block-id="{{ media_block.id }}"
                    data-is-image="true"
-                   {{ media_block.shopify_attributes }}
+                   data-featured-image="true"
                    style="width: 100%; height: 100%; cursor: pointer;">
                 <div class="grid-image-wrapper" 
                      style="position: relative;
@@ -99,12 +188,30 @@
                             width: 100%;
                             height: 100%;
                             aspect-ratio: 16 / 9;">
-                  <img src="{{ media_block.settings.image | image_url: width: 1920 }}" 
-                       alt="{{ media_block.settings.alt_text | default: media_block.settings.image.alt | escape }}"
-                       class="grid-image"
-                       loading="lazy"
-                       data-src="{{ media_block.settings.image | image_url: width: 1920 }}"
-                       style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                  {% if featured_image_desktop != blank %}
+                    <img src="{{ featured_image_desktop | image_url: width: 1920 }}" 
+                         alt="{{ featured_media_alt_text | default: featured_image_desktop.alt | escape }}"
+                         class="grid-image gallery-image-desktop"
+                         loading="lazy"
+                         data-src="{{ featured_image_desktop | image_url: width: 1920 }}"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                  {% endif %}
+                  {% if featured_image_mobile != blank %}
+                    <img src="{{ featured_image_mobile | image_url: width: 800 }}" 
+                         alt="{{ featured_media_alt_text | default: featured_image_mobile.alt | escape }}"
+                         class="grid-image gallery-image-mobile"
+                         loading="lazy"
+                         data-src="{{ featured_image_mobile | image_url: width: 1920 }}"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                  {% elsif featured_image_desktop != blank %}
+                    {% comment %} If no mobile image, use desktop image for mobile {% endcomment %}
+                    <img src="{{ featured_image_desktop | image_url: width: 1920 }}" 
+                         alt="{{ featured_media_alt_text | default: featured_image_desktop.alt | escape }}"
+                         class="grid-image gallery-image-mobile"
+                         loading="lazy"
+                         data-src="{{ featured_image_desktop | image_url: width: 1920 }}"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                  {% endif %}
                   <div class="grid-image-overlay">
                     <i class="bi bi-zoom-in" style="font-size: 2rem; color: white;"></i>
                   </div>
@@ -230,20 +337,39 @@
       <div class="modal-grid" id="modal-grid-{{ section.id }}">
         {% comment %} Only include images in modal, skip videos {% endcomment %}
         {% assign image_index = 0 %}
+        {% comment %} Add featured image if it exists {% endcomment %}
+        {% if featured_image_desktop != blank or featured_image_mobile != blank %}
+          {% assign featured_image = featured_image_desktop | default: featured_image_mobile %}
+          <div class="modal-grid-item" 
+               data-modal-index="{{ image_index }}"
+               data-featured-image="true"
+               data-image-src="{{ featured_image | image_url: width: 1920 }}"
+               data-image-alt="{{ featured_media_alt_text | default: featured_image.alt | escape }}">
+            <img src="{{ featured_image | image_url: width: 300 }}" 
+                 alt="{{ featured_media_alt_text | default: featured_image.alt | escape }}"
+                 class="modal-thumbnail"
+                 loading="lazy">
+            <div class="modal-thumbnail-overlay"></div>
+          </div>
+          {% assign image_index = image_index | plus: 1 %}
+        {% endif %}
+        {% comment %} Add image blocks {% endcomment %}
         {% for block in section.blocks %}
-          {% if block.settings.image != blank %}
-            <div class="modal-grid-item" 
-                 data-modal-index="{{ image_index }}"
-                 data-block-id="{{ block.id }}"
-                 data-image-src="{{ block.settings.image | image_url: width: 1920 }}"
-                 data-image-alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}">
-              <img src="{{ block.settings.image | image_url: width: 300 }}" 
-                   alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
-                   class="modal-thumbnail"
-                   loading="lazy">
-              <div class="modal-thumbnail-overlay"></div>
-            </div>
-            {% assign image_index = image_index | plus: 1 %}
+          {% if block.type == 'image' %}
+            {% if block.settings.image != blank %}
+              <div class="modal-grid-item" 
+                   data-modal-index="{{ image_index }}"
+                   data-block-id="{{ block.id }}"
+                   data-image-src="{{ block.settings.image | image_url: width: 1920 }}"
+                   data-image-alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}">
+                <img src="{{ block.settings.image | image_url: width: 300 }}" 
+                     alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
+                     class="modal-thumbnail"
+                     loading="lazy">
+                <div class="modal-thumbnail-overlay"></div>
+              </div>
+              {% assign image_index = image_index | plus: 1 %}
+            {% endif %}
           {% endif %}
         {% endfor %}
       </div>
@@ -367,7 +493,7 @@
     opacity: 1;
   }
 
-  .video-wrapper {
+  .gallery-video-wrapper {
     width: 100%;
     height: 100%;
     position: relative;
@@ -377,11 +503,69 @@
     min-height: 400px;
   }
 
-  .video-wrapper iframe,
-  .video-wrapper video {
+  .gallery-video-embed {
     width: 100%;
     height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
     border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .gallery-video-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .gallery-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* Desktop/Mobile Image/Video Visibility */
+  .gallery-image-desktop {
+    display: block;
+  }
+
+  .gallery-image-mobile {
+    display: none;
+  }
+
+  .gallery-video-desktop,
+  .gallery-video-embed.gallery-video-desktop {
+    display: block;
+  }
+
+  .gallery-video-mobile,
+  .gallery-video-embed.gallery-video-mobile {
+    display: none;
+  }
+
+  @media (max-width: 767.98px) {
+    .gallery-image-desktop {
+      display: none;
+    }
+
+    .gallery-image-mobile {
+      display: block;
+    }
+
+    .gallery-video-desktop,
+    .gallery-video-embed.gallery-video-desktop {
+      display: none;
+    }
+
+    .gallery-video-mobile,
+    .gallery-video-embed.gallery-video-mobile {
+      display: block;
+    }
   }
 
   /* Modal Styles */
@@ -711,12 +895,18 @@
     const totalImages = gridItems.length;
     const totalModalImages = modalGridItems.length;
 
-    // Create mapping from block ID to modal index
+    // Create mapping from block ID to modal index, and handle featured image
     const blockIdToModalMap = {};
+    let featuredImageModalIndex = null;
+    
     modalGridItems.forEach((item) => {
-      const blockId = item.dataset.blockId;
       const modalIndex = parseInt(item.dataset.modalIndex);
-      if (blockId) {
+      const blockId = item.dataset.blockId;
+      const isFeaturedImage = item.dataset.featuredImage === 'true';
+      
+      if (isFeaturedImage) {
+        featuredImageModalIndex = modalIndex;
+      } else if (blockId) {
         blockIdToModalMap[blockId] = modalIndex;
       }
     });
@@ -736,8 +926,13 @@
       item.addEventListener('click', function(e) {
         e.preventDefault();
         const blockId = item.dataset.blockId;
+        const isFeaturedImage = item.dataset.featuredImage === 'true';
+        
         // Find the modal index for this block
-        if (blockId && blockIdToModalMap.hasOwnProperty(blockId)) {
+        if (isFeaturedImage && featuredImageModalIndex !== null) {
+          currentImageIndex = featuredImageModalIndex;
+          openModal();
+        } else if (blockId && blockIdToModalMap.hasOwnProperty(blockId)) {
           currentImageIndex = blockIdToModalMap[blockId];
           openModal();
         }
@@ -929,6 +1124,87 @@
     },
     {
       "type": "header",
+      "content": "Featured Media (80% Area)"
+    },
+    {
+      "type": "select",
+      "id": "featured_media_type",
+      "label": "Featured Media Type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image",
+      "info": "Choose between featured image or video for the large area (80% width)"
+    },
+    {
+      "type": "header",
+      "content": "Featured Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_image_desktop",
+      "label": "Desktop Image",
+      "info": "Featured image for desktop view"
+    },
+    {
+      "type": "header",
+      "content": "Featured Image (Mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_image_mobile",
+      "label": "Mobile Image",
+      "info": "Featured image for mobile view (optional, will use desktop image if not provided)"
+    },
+    {
+      "type": "header",
+      "content": "Featured Video (Desktop)"
+    },
+    {
+      "type": "video",
+      "id": "featured_video_desktop",
+      "label": "Desktop Video Upload",
+      "info": "Upload a video file for desktop view"
+    },
+    {
+      "type": "video_url",
+      "id": "featured_video_desktop_url",
+      "label": "Desktop Video URL",
+      "accept": ["youtube", "vimeo"],
+      "info": "YouTube or Vimeo URL for desktop view"
+    },
+    {
+      "type": "header",
+      "content": "Featured Video (Mobile)"
+    },
+    {
+      "type": "video",
+      "id": "featured_video_mobile",
+      "label": "Mobile Video Upload",
+      "info": "Upload a video file for mobile view (optional, will use desktop video if not provided)"
+    },
+    {
+      "type": "video_url",
+      "id": "featured_video_mobile_url",
+      "label": "Mobile Video URL",
+      "accept": ["youtube", "vimeo"],
+      "info": "YouTube or Vimeo URL for mobile view (optional, will use desktop video if not provided)"
+    },
+    {
+      "type": "text",
+      "id": "featured_media_alt_text",
+      "label": "Featured Media Alt Text",
+      "info": "Alternative text for the featured image/video (for accessibility)"
+    },
+    {
+      "type": "header",
       "content": "Layout Settings"
     },
     {
@@ -1006,23 +1282,62 @@
           "info": "First block: Choose between image or video (80% width)"
         },
         {
+          "type": "header",
+          "content": "Featured Image (Desktop)"
+        },
+        {
           "type": "image_picker",
-          "id": "image",
-          "label": "Image",
-          "info": "Required if Media Type is Image"
+          "id": "image_desktop",
+          "label": "Desktop Image",
+          "info": "Featured image for desktop view (required if Media Type is Image)"
+        },
+        {
+          "type": "header",
+          "content": "Featured Image (Mobile)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile Image",
+          "info": "Featured image for mobile view (optional, will use desktop image if not provided)"
+        },
+        {
+          "type": "header",
+          "content": "Featured Video (Desktop)"
         },
         {
           "type": "video",
-          "id": "video",
-          "label": "Video Upload",
-          "info": "Upload a video file (required if Media Type is Video and no URL provided)"
+          "id": "video_desktop",
+          "label": "Desktop Video Upload",
+          "info": "Upload a video file for desktop view (required if Media Type is Video and no URL provided)"
         },
         {
           "type": "video_url",
-          "id": "video_url",
-          "label": "Video URL",
+          "id": "video_desktop_url",
+          "label": "Desktop Video URL",
           "accept": ["youtube", "vimeo"],
-          "info": "YouTube or Vimeo URL (required if Media Type is Video and no upload provided)"
+          "info": "YouTube or Vimeo URL for desktop view (required if Media Type is Video and no upload provided)"
+        },
+        {
+          "type": "header",
+          "content": "Featured Video (Mobile)"
+        },
+        {
+          "type": "video",
+          "id": "video_mobile",
+          "label": "Mobile Video Upload",
+          "info": "Upload a video file for mobile view (optional, will use desktop video if not provided)"
+        },
+        {
+          "type": "video_url",
+          "id": "video_mobile_url",
+          "label": "Mobile Video URL",
+          "accept": ["youtube", "vimeo"],
+          "info": "YouTube or Vimeo URL for mobile view (optional, will use desktop video if not provided)"
+        },
+        {
+          "type": "header",
+          "content": "Accessibility"
         },
         {
           "type": "text",
