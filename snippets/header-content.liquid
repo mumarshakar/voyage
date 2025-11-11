@@ -200,11 +200,9 @@
 
     assign scroll_threshold = header_settings.scroll_threshold | default: 50
 
-    assign show_book_now_button_setting = header_settings.show_book_now_button
-    if show_book_now_button_setting == false
+    # Handle show_book_now_button checkbox - default to true if not explicitly set to false
+    if header_settings.show_book_now_button == false
       assign show_book_now_button = false
-    elsif show_book_now_button_setting == true
-      assign show_book_now_button = true
     else
       assign show_book_now_button = true
     endif
@@ -321,40 +319,52 @@
         {% endif %}
       </ul>
       
-      {% if show_book_now_button and book_now_button_url != blank %}
-        <a href="{{ book_now_button_url }}" 
-           class="book-now-button btn ms-3"
-           style="background-color: {{ book_now_button_bg_color }};
-                  color: {{ book_now_button_text_color }} !important;
-                  font-size: {{ book_now_button_font_size }}px;
-                  font-weight: {{ book_now_button_font_weight }};
-                  padding: {{ book_now_button_padding_y }}px {{ book_now_button_padding_x }}px;
-                  border-radius: {{ book_now_button_border_radius }}px;
-                  margin-left: {{ book_now_button_margin_left }}px;
-                  text-decoration: none;
-                  border: none;
-                  transition: all 0.3s ease;
-                  white-space: nowrap;">
-          {{ book_now_button_text }}
-        </a>
-      {% endif %}
-      
-      {% if show_search or show_cart %}
-        <div class="header-icons d-flex align-items-center ms-3">
-          {% if show_search %}
-            <a href="{{ routes.search_url }}" class="header-icon me-3" style="color: {{ menu_link_color }};">
-              <i class="bi bi-search" style="font-size: {{ icon_size }}px;"></i>
+      {% if show_book_now_button or show_search or show_cart %}
+        <div class="navbar-actions d-flex align-items-center ms-auto">
+          {% if show_book_now_button %}
+            {%- liquid
+              assign button_href = book_now_button_url
+              if button_href == blank
+                assign button_href = '#'
+              endif
+            -%}
+            <a href="{{ button_href }}" 
+               class="book-now-button btn"
+               style="background-color: {{ book_now_button_bg_color }};
+                      color: {{ book_now_button_text_color }} !important;
+                      font-size: {{ book_now_button_font_size }}px;
+                      font-weight: {{ book_now_button_font_weight }};
+                      padding: {{ book_now_button_padding_y }}px {{ book_now_button_padding_x }}px;
+                      border-radius: {{ book_now_button_border_radius }}px;
+                      margin-left: {{ book_now_button_margin_left }}px;
+                      text-decoration: none;
+                      border: none;
+                      transition: all 0.3s ease;
+                      white-space: nowrap;
+                      display: inline-flex;
+                      align-items: center;">
+              {{ book_now_button_text }}
             </a>
           {% endif %}
-          {% if show_cart %}
-            <a href="{{ routes.cart_url }}" class="header-icon position-relative" style="color: {{ menu_link_color }};">
-              <i class="bi bi-bag" style="font-size: {{ icon_size }}px;"></i>
-              {% if cart.item_count > 0 %}
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
-                  {{ cart.item_count }}
-                </span>
+          
+          {% if show_search or show_cart %}
+            <div class="header-icons d-flex align-items-center" style="margin-left: {% if show_book_now_button %}1rem{% else %}0{% endif %};">
+              {% if show_search %}
+                <a href="{{ routes.search_url }}" class="header-icon me-3" style="color: {{ menu_link_color }};">
+                  <i class="bi bi-search" style="font-size: {{ icon_size }}px;"></i>
+                </a>
               {% endif %}
-            </a>
+              {% if show_cart %}
+                <a href="{{ routes.cart_url }}" class="header-icon position-relative" style="color: {{ menu_link_color }};">
+                  <i class="bi bi-bag" style="font-size: {{ icon_size }}px;"></i>
+                  {% if cart.item_count > 0 %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                      {{ cart.item_count }}
+                    </span>
+                  {% endif %}
+                </a>
+              {% endif %}
+            </div>
           {% endif %}
         </div>
       {% endif %}
@@ -424,11 +434,18 @@
     color: {{ menu_link_hover_color }} !important;
   }
   
-  .book-now-button {
-    display: inline-flex;
+  /* Navbar actions container - holds button and icons */
+  .navbar-actions {
+    gap: 0.5rem;
+    display: flex;
     align-items: center;
-    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .book-now-button {
     cursor: pointer;
+    flex-shrink: 0;
+    z-index: 1;
   }
   
   .book-now-button:hover {
@@ -440,19 +457,29 @@
   
   /* Mobile responsive adjustments for Book Now button */
   @media (max-width: 991.98px) {
-    .book-now-button {
+    .navbar-actions {
       margin-left: 0 !important;
       margin-top: 1rem;
-      margin-bottom: 1rem;
+      flex-direction: column;
+      width: 100%;
+      align-items: stretch;
+    }
+    
+    .book-now-button {
+      margin-left: 0 !important;
       width: 100%;
       justify-content: center;
     }
     
-    .navbar-collapse {
-      flex-direction: column;
+    .navbar-nav {
+      width: 100%;
+      margin-bottom: 0.5rem;
     }
     
-    .navbar-nav {
+    .header-icons {
+      margin-left: 0 !important;
+      margin-top: 0.5rem;
+      justify-content: center;
       width: 100%;
     }
   }
