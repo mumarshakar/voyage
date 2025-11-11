@@ -63,7 +63,7 @@
           <div class="gallery-main-item" style="flex: 0 0 80%; position: relative;">
             {% if featured_media_type == 'video' %}
               <!-- Video -->
-              <div class="gallery-video-wrapper" style="width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden; background-color: #000; aspect-ratio: 16 / 9;">
+              <div class="gallery-video-wrapper" style="width: 100%; height: 100%; position: relative; border-radius: 2px !important; overflow: hidden; background-color: #000; aspect-ratio: 16 / 9;">
                 {% comment %} Desktop Video {% endcomment %}
                 {% if featured_video_desktop_url != blank %}
                   {% if featured_video_desktop_url contains 'youtube.com' or featured_video_desktop_url contains 'youtu.be' %}
@@ -76,7 +76,7 @@
                               frameborder="0" 
                               allow="autoplay; encrypted-media" 
                               allowfullscreen
-                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 2px !important;">
                       </iframe>
                     </div>
                   {% elsif featured_video_desktop_url contains 'vimeo.com' %}
@@ -86,7 +86,7 @@
                               frameborder="0" 
                               allow="autoplay; encrypted-media" 
                               allowfullscreen
-                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 2px !important;">
                       </iframe>
                     </div>
                   {% endif %}
@@ -94,7 +94,7 @@
                   <video class="gallery-video gallery-video-desktop" 
                          controls
                          playsinline
-                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 2px !important;">
                     {% for source in featured_video_desktop.sources %}
                       <source src="{{ source.url }}" type="{{ source.mime_type }}">
                     {% endfor %}
@@ -113,7 +113,7 @@
                               frameborder="0" 
                               allow="autoplay; encrypted-media" 
                               allowfullscreen
-                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 2px !important;">
                       </iframe>
                     </div>
                   {% elsif featured_video_mobile_url contains 'vimeo.com' %}
@@ -123,7 +123,7 @@
                               frameborder="0" 
                               allow="autoplay; encrypted-media" 
                               allowfullscreen
-                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                              style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 2px !important;">
                       </iframe>
                     </div>
                   {% endif %}
@@ -131,7 +131,7 @@
                   <video class="gallery-video gallery-video-mobile" 
                          controls
                          playsinline
-                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 2px !important;">
                     {% for source in featured_video_mobile.sources %}
                       <source src="{{ source.url }}" type="{{ source.mime_type }}">
                     {% endfor %}
@@ -149,7 +149,7 @@
                                 frameborder="0" 
                                 allow="autoplay; encrypted-media" 
                                 allowfullscreen
-                                style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                                style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 2px !important;">
                         </iframe>
                       </div>
                     {% elsif featured_video_desktop_url contains 'vimeo.com' %}
@@ -159,7 +159,7 @@
                                 frameborder="0" 
                                 allow="autoplay; encrypted-media" 
                                 allowfullscreen
-                                style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                                style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 2px !important;">
                         </iframe>
                       </div>
                     {% endif %}
@@ -167,7 +167,7 @@
                     <video class="gallery-video gallery-video-mobile" 
                            controls
                            playsinline
-                           style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                           style="width: 100%; height: 100%; object-fit: cover; border-radius: 2px !important;">
                       {% for source in featured_video_desktop.sources %}
                         <source src="{{ source.url }}" type="{{ source.mime_type }}">
                       {% endfor %}
@@ -184,7 +184,7 @@
                 <div class="grid-image-wrapper" 
                      style="position: relative;
                             overflow: hidden;
-                            border-radius: 8px;
+                            border-radius: 2px !important;
                             width: 100%;
                             height: 100%;
                             aspect-ratio: 16 / 9;">
@@ -234,7 +234,7 @@
                     <div class="grid-image-wrapper" 
                          style="position: relative;
                                 overflow: hidden;
-                                border-radius: 8px;
+                                border-radius: 2px !important;
                                 width: 100%;
                                 height: 100%;
                                 min-height: 190px;">
@@ -258,7 +258,7 @@
                     <div class="grid-image-wrapper" 
                          style="position: relative;
                                 overflow: hidden;
-                                border-radius: 8px;
+                                border-radius: 2px !important;
                                 width: 100%;
                                 height: 100%;
                                 min-height: 190px;">
@@ -297,7 +297,7 @@
                   <div class="grid-image-wrapper" 
                        style="position: relative;
                               overflow: hidden;
-                              border-radius: 8px;
+                              border-radius: 2px !important;
                               width: 100%;
                               aspect-ratio: 1 / 1;">
                     <img src="{{ block.settings.image | image_url: width: 800 }}" 
@@ -448,7 +448,7 @@
   .grid-image-wrapper {
     position: relative;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 2px !important;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background-color: #f0f0f0;
   }
@@ -472,6 +472,7 @@
     object-fit: cover;
     display: block;
     transition: transform 0.3s ease;
+    border-radius: 2px;
   }
 
   .grid-image-overlay {
@@ -497,7 +498,7 @@
     width: 100%;
     height: 100%;
     position: relative;
-    border-radius: 8px;
+    border-radius: 2px !important;
     overflow: hidden;
     background-color: #000;
     min-height: 400px;
@@ -509,7 +510,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    border-radius: 8px;
+    border-radius: 2px !important;
     overflow: hidden;
   }
 
@@ -517,13 +518,14 @@
     width: 100%;
     height: 100%;
     border: 0;
+    border-radius: 2px !important;
   }
 
   .gallery-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 2px !important;
     position: absolute;
     top: 0;
     left: 0;
@@ -649,7 +651,7 @@
   .modal-grid-item {
     position: relative;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 2px !important;
     overflow: hidden;
     border: 3px solid transparent;
     transition: border-color 0.3s ease, transform 0.3s ease;
@@ -724,7 +726,7 @@
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    border-radius: 8px;
+    border-radius: 2px !important;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease;
   }
