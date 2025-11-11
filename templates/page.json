@@ -27,12 +27,13 @@
         "background_video_mobile_url": "",
         "video_autoplay": false,
         "video_muted": false,
-        "variation": "glow",
         "hero_height": 75,
         "background_position": "center",
         "background_size": "cover",
         "title_color": "#8b6f47",
+        "subtitle_color": "#ffffff",
         "title_font_size": 40,
+        "subtitle_font_size": 18,
         "title_position_top": 20,
         "text_alignment": "center",
         "button_text_color": "#8b6f47",
@@ -57,43 +58,54 @@
         "event_gx4LN6": {
           "type": "event",
           "settings": {
-            "event_day": 10,
+            "event_date": "2025-11-01",
             "event_image": "shopify://shop_images/Meat_the_team.jpg",
             "event_title": "Yoga Class",
+            "event_description": "",
+            "event_price": "0",
             "event_link": ""
           }
         },
         "event_LHBhLx": {
           "type": "event",
           "settings": {
-            "event_day": 5,
+            "event_date": "2025-11-01",
             "event_image": "shopify://shop_images/DSC05749_copy_2.jpg",
             "event_title": "Pilates Session",
+            "event_description": "",
+            "event_price": "0",
             "event_link": ""
           }
         },
         "event_GjdhYP": {
           "type": "event",
           "settings": {
-            "event_day": 9,
+            "event_date": "2025-11-01",
             "event_image": "shopify://shop_images/voyage.png",
             "event_title": "Pilates Class",
+            "event_description": "",
+            "event_price": "0",
             "event_link": ""
           }
         },
         "event_6KbCiY": {
           "type": "event",
           "settings": {
-            "event_day": 15,
+            "event_date": "2025-11-01",
+            "event_image": "shopify://shop_images/voyage_wellness.jpg",
             "event_title": "Yoga Class",
+            "event_description": "ghfjmhg",
+            "event_price": "1000",
             "event_link": ""
           }
         },
         "event_JPCamm": {
           "type": "event",
           "settings": {
-            "event_day": 22,
+            "event_date": "2025-11-01",
             "event_title": "Pilates Class",
+            "event_description": "",
+            "event_price": "0",
             "event_link": ""
           }
         }
@@ -107,17 +119,18 @@
       ],
       "name": "Booking Calendar",
       "settings": {
+        "confirmation_page_url": "",
         "padding_top": 60,
         "padding_bottom": 60,
         "padding_horizontal": 20,
         "margin_top": 0,
         "margin_bottom": 0,
-        "background_color": "#F8F7F5",
-        "month_display": "November 2025",
-        "initial_month": "2025-11-01",
-        "heading_color": "#8B6F47",
+        "months_gap": 60,
+        "background_color": "#f8f7f5",
+        "show_navigation": true,
+        "heading_color": "#8b6f47",
         "heading_font_family": "Playfair Display, serif",
-        "weekday_color": "#8B6F47",
+        "weekday_color": "#8b6f47",
         "weekday_font_family": "Playfair Display, serif",
         "day_number_color": "#333333"
       }
