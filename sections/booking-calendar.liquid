@@ -291,6 +291,15 @@
       </div>
       <div class="event-details-booking-form">
         <h3>Booking Details</h3>
+        {% comment %} Hidden form for Shopify contact form submission {% endcomment %}
+        <form id="shopify-booking-form-{{ section.id }}" action="/contact" method="post" style="display: none;">
+          <input type="hidden" name="form_type" value="contact">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="contact[subject]" id="shopify-booking-subject" value="">
+          <input type="hidden" name="contact[email]" id="shopify-booking-email" value="">
+          <input type="hidden" name="contact[body]" id="shopify-booking-body" value="">
+        </form>
+        
         <form id="booking-form-{{ section.id }}" class="booking-form">
           <div class="form-group">
             <label for="booking-name">Full Name *</label>
@@ -465,6 +474,60 @@
       }
     });
 
+    // Function to save booking to Shopify contact form
+    function saveBookingToShopify(bookingData, callback) {
+      const shopifyForm = document.getElementById('shopify-booking-form-{{ section.id }}');
+      if (!shopifyForm) {
+        console.warn('Shopify booking form not found');
+        if (callback) callback(false);
+        return;
+      }
+      
+      // Prepare booking details for email body
+      const bookingBody = `Event Booking Request
+
+Order ID: ${bookingData.orderId}
+Event: ${bookingData.eventTitle}
+Event Date: ${bookingData.eventDate}
+Customer Name: ${bookingData.customerName}
+Customer Email: ${bookingData.customerEmail}
+Customer Phone: ${bookingData.customerPhone}
+Amount: ${bookingData.amount} ${bookingData.currency}
+Status: ${bookingData.status || 'Pending'}
+${bookingData.notes ? 'Additional Notes: ' + bookingData.notes : ''}
+Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
+      
+      // Set form values
+      const subjectInput = document.getElementById('shopify-booking-subject');
+      const emailInput = document.getElementById('shopify-booking-email');
+      const bodyInput = document.getElementById('shopify-booking-body');
+      
+      if (subjectInput) subjectInput.value = 'Event Booking: ' + bookingData.eventTitle + ' - ' + bookingData.eventDate;
+      if (emailInput) emailInput.value = bookingData.customerEmail;
+      if (bodyInput) bodyInput.value = bookingBody;
+      
+      // Submit form asynchronously using fetch
+      const formData = new FormData(shopifyForm);
+      
+      fetch('/contact', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Booking saved to Shopify successfully');
+          if (callback) callback(true);
+        } else {
+          console.warn('Failed to save booking to Shopify');
+          if (callback) callback(false);
+        }
+      })
+      .catch(error => {
+        console.error('Error saving booking to Shopify:', error);
+        if (callback) callback(false);
+      });
+    }
+
     // Handle booking form submission
     if (bookingForm) {
       bookingForm.addEventListener('submit', function(e) {
@@ -473,39 +536,47 @@
         const formData = new FormData(bookingForm);
         const eventPrice = formData.get('event_price');
         const price = parseFloat(eventPrice) || 0;
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const phone = formData.get('phone');
+        const eventDate = formData.get('event_date');
+        const eventTitle = formData.get('event_title');
+        const notes = formData.get('notes') || '';
+        
+        // Generate unique order ID
+        const orderId = 'BOOK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        
+        // Prepare booking data
+        const bookingData = {
+          orderId: orderId,
+          eventTitle: eventTitle,
+          eventDate: eventDate,
+          customerName: name,
+          customerEmail: email,
+          customerPhone: phone,
+          amount: eventPrice || '0',
+          currency: '{{ telr_currency }}',
+          notes: notes,
+          timestamp: new Date().toISOString()
+        };
         
         // For free events (price = 0), handle differently
         if (price <= 0) {
-          const name = formData.get('name');
-          const email = formData.get('email');
-          const phone = formData.get('phone');
-          const eventDate = formData.get('event_date');
-          const eventTitle = formData.get('event_title');
+          bookingData.status = 'confirmed';
           
-          // Generate unique order ID
-          const orderId = 'BOOK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+          // Store booking data in sessionStorage
+          sessionStorage.setItem('booking_data', JSON.stringify(bookingData));
           
-          // Store booking data
-          sessionStorage.setItem('booking_data', JSON.stringify({
-            orderId: orderId,
-            eventTitle: eventTitle,
-            eventDate: eventDate,
-            customerName: name,
-            customerEmail: email,
-            customerPhone: phone,
-            amount: '0',
-            currency: '{{ telr_currency }}',
-            status: 'confirmed'
-          }));
-          
-          // For free events, redirect directly to success page
-          // Check if success URL is a full URL or relative path
-          const successUrl = '{{ telr_success_url }}';
-          if (successUrl.startsWith('http')) {
-            window.location.href = successUrl;
-          } else {
-            window.location.href = '{{ shop.url }}' + successUrl;
-          }
+          // Save booking to Shopify contact form
+          saveBookingToShopify(bookingData, function(success) {
+            // Redirect to success page regardless of save status
+            const successUrl = '{{ telr_success_url }}';
+            if (successUrl.startsWith('http')) {
+              window.location.href = successUrl;
+            } else {
+              window.location.href = '{{ shop.url }}' + successUrl;
+            }
+          });
           return;
         }
         
@@ -518,88 +589,76 @@
           return;
         }
         
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const phone = formData.get('phone');
-        const eventDate = formData.get('event_date');
-        const eventTitle = formData.get('event_title');
-        
         // Validate required fields
         if (!name || !email || !phone) {
           alert('Please fill in all required fields.');
           return;
         }
         
-        // Split name into first and last name
-        const nameParts = name.trim().split(' ');
-        const firstName = nameParts[0] || '';
-        const lastName = nameParts.slice(1).join(' ') || firstName;
+        bookingData.status = 'pending_payment';
         
-        // Generate unique order ID (Telr requires unique order ID)
-        const orderId = 'BOOK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-        
-        // Set Telr payment form values
-        const telrStoreIdInput = document.getElementById('telr-store-id');
-        const telrAuthKeyInput = document.getElementById('telr-auth-key');
-        const telrAmountInput = document.getElementById('telr-amount');
-        const telrCurrencyInput = document.getElementById('telr-currency');
-        const telrDescriptionInput = document.getElementById('telr-description');
-        const telrOrderIdInput = document.getElementById('telr-order-id');
-        const telrBillFnameInput = document.getElementById('telr-bill-fname');
-        const telrBillLnameInput = document.getElementById('telr-bill-lname');
-        const telrBillEmailInput = document.getElementById('telr-bill-email');
-        const telrBillMobileInput = document.getElementById('telr-bill-mobile');
-        
-        const shopUrl = '{{ shop.url }}';
-        const successUrl = '{{ telr_success_url }}';
-        const cancelUrl = '{{ telr_cancel_url }}';
-        const failedUrl = '{{ telr_failed_url }}';
-        
-        // Set return URLs
-        const returnAuthInput = document.getElementById('telr-return-auth');
-        const returnCanInput = document.getElementById('telr-return-can');
-        const returnDeclInput = document.getElementById('telr-return-decl');
-        
-        if (returnAuthInput) {
-          returnAuthInput.value = successUrl.startsWith('http') ? successUrl : shopUrl + successUrl;
-        }
-        if (returnCanInput) {
-          returnCanInput.value = cancelUrl.startsWith('http') ? cancelUrl : shopUrl + cancelUrl;
-        }
-        if (returnDeclInput) {
-          returnDeclInput.value = failedUrl.startsWith('http') ? failedUrl : shopUrl + failedUrl;
-        }
-        
-        if (telrStoreIdInput) telrStoreIdInput.value = telrStoreId;
-        if (telrAuthKeyInput) telrAuthKeyInput.value = telrAuthKey;
-        if (telrAmountInput) telrAmountInput.value = price.toFixed(2);
-        if (telrCurrencyInput) telrCurrencyInput.value = '{{ telr_currency }}';
-        if (telrDescriptionInput) telrDescriptionInput.value = 'Booking: ' + eventTitle + ' - ' + eventDate;
-        if (telrOrderIdInput) telrOrderIdInput.value = orderId;
-        if (telrBillFnameInput) telrBillFnameInput.value = firstName;
-        if (telrBillLnameInput) telrBillLnameInput.value = lastName;
-        if (telrBillEmailInput) telrBillEmailInput.value = email;
-        if (telrBillMobileInput) telrBillMobileInput.value = phone;
-        
-        // Store booking data in sessionStorage for success page
-        try {
-          sessionStorage.setItem('booking_data', JSON.stringify({
-            orderId: orderId,
-            eventTitle: eventTitle,
-            eventDate: eventDate,
-            customerName: name,
-            customerEmail: email,
-            customerPhone: phone,
-            amount: eventPrice,
-            currency: '{{ telr_currency }}',
-            timestamp: new Date().toISOString()
-          }));
-        } catch (e) {
-          console.warn('Could not store booking data in sessionStorage:', e);
-        }
-        
-        // Submit payment form to Telr
-        telrPaymentForm.submit();
+        // Save booking to Shopify contact form BEFORE payment
+        // This creates a record even if payment fails
+        saveBookingToShopify(bookingData, function(success) {
+          // Continue with payment regardless of save status
+          // Split name into first and last name
+          const nameParts = name.trim().split(' ');
+          const firstName = nameParts[0] || '';
+          const lastName = nameParts.slice(1).join(' ') || firstName;
+          
+          // Set Telr payment form values
+          const telrStoreIdInput = document.getElementById('telr-store-id');
+          const telrAuthKeyInput = document.getElementById('telr-auth-key');
+          const telrAmountInput = document.getElementById('telr-amount');
+          const telrCurrencyInput = document.getElementById('telr-currency');
+          const telrDescriptionInput = document.getElementById('telr-description');
+          const telrOrderIdInput = document.getElementById('telr-order-id');
+          const telrBillFnameInput = document.getElementById('telr-bill-fname');
+          const telrBillLnameInput = document.getElementById('telr-bill-lname');
+          const telrBillEmailInput = document.getElementById('telr-bill-email');
+          const telrBillMobileInput = document.getElementById('telr-bill-mobile');
+          
+          const shopUrl = '{{ shop.url }}';
+          const successUrl = '{{ telr_success_url }}';
+          const cancelUrl = '{{ telr_cancel_url }}';
+          const failedUrl = '{{ telr_failed_url }}';
+          
+          // Set return URLs
+          const returnAuthInput = document.getElementById('telr-return-auth');
+          const returnCanInput = document.getElementById('telr-return-can');
+          const returnDeclInput = document.getElementById('telr-return-decl');
+          
+          if (returnAuthInput) {
+            returnAuthInput.value = successUrl.startsWith('http') ? successUrl : shopUrl + successUrl;
+          }
+          if (returnCanInput) {
+            returnCanInput.value = cancelUrl.startsWith('http') ? cancelUrl : shopUrl + cancelUrl;
+          }
+          if (returnDeclInput) {
+            returnDeclInput.value = failedUrl.startsWith('http') ? failedUrl : shopUrl + failedUrl;
+          }
+          
+          if (telrStoreIdInput) telrStoreIdInput.value = telrStoreId;
+          if (telrAuthKeyInput) telrAuthKeyInput.value = telrAuthKey;
+          if (telrAmountInput) telrAmountInput.value = price.toFixed(2);
+          if (telrCurrencyInput) telrCurrencyInput.value = '{{ telr_currency }}';
+          if (telrDescriptionInput) telrDescriptionInput.value = 'Booking: ' + eventTitle + ' - ' + eventDate;
+          if (telrOrderIdInput) telrOrderIdInput.value = orderId;
+          if (telrBillFnameInput) telrBillFnameInput.value = firstName;
+          if (telrBillLnameInput) telrBillLnameInput.value = lastName;
+          if (telrBillEmailInput) telrBillEmailInput.value = email;
+          if (telrBillMobileInput) telrBillMobileInput.value = phone;
+          
+          // Store booking data in sessionStorage for success page
+          try {
+            sessionStorage.setItem('booking_data', JSON.stringify(bookingData));
+          } catch (e) {
+            console.warn('Could not store booking data in sessionStorage:', e);
+          }
+          
+          // Submit payment form to Telr
+          telrPaymentForm.submit();
+        });
       });
     }
 
