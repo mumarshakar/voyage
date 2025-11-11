@@ -1,0 +1,856 @@
+{%- liquid
+  assign section_title = section.settings.title | default: ''
+  assign section_subtitle = section.settings.subtitle | default: ''
+  assign columns_desktop = section.settings.columns_desktop | default: 3
+  assign columns_tablet = section.settings.columns_tablet | default: 2
+  assign columns_mobile = section.settings.columns_mobile | default: 1
+  assign image_gap = section.settings.image_gap | default: 15
+  assign image_aspect_ratio = section.settings.image_aspect_ratio | default: 'square'
+  assign section_bg_color = section.settings.section_bg_color | default: '#FFFFFF'
+  assign section_padding_top = section.settings.section_padding_top | default: 80
+  assign section_padding_bottom = section.settings.section_padding_bottom | default: 80
+  assign section_padding_horizontal = section.settings.section_padding_horizontal | default: 20
+  assign show_title = section.settings.show_title | default: true
+  assign title_alignment = section.settings.title_alignment | default: 'center'
+-%}
+
+<section class="image-grid-gallery-section" 
+         id="gallery-{{ section.id }}"
+         style="background-color: {{ section_bg_color }};
+                padding-top: {{ section_padding_top }}px;
+                padding-bottom: {{ section_padding_bottom }}px;
+                padding-left: {{ section_padding_horizontal }}px;
+                padding-right: {{ section_padding_horizontal }}px;">
+  
+  <div class="container">
+    {% if show_title and section_title != blank %}
+      <div class="gallery-header text-{{ title_alignment }}" style="margin-bottom: 3rem;">
+        <h2 class="gallery-title">{{ section_title }}</h2>
+        {% if section_subtitle != blank %}
+          <p class="gallery-subtitle">{{ section_subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="image-grid" 
+           style="display: grid;
+                  grid-template-columns: repeat({{ columns_desktop }}, 1fr);
+                  gap: {{ image_gap }}px;">
+        {% for block in section.blocks %}
+          {% if block.settings.image != blank %}
+            <div class="grid-item" 
+                 data-image-index="{{ forloop.index0 }}"
+                 {{ block.shopify_attributes }}>
+              <div class="grid-image-wrapper" 
+                   style="position: relative;
+                          overflow: hidden;
+                          cursor: pointer;
+                          {% if image_aspect_ratio == 'square' %}aspect-ratio: 1 / 1;{% elsif image_aspect_ratio == 'landscape' %}aspect-ratio: 16 / 9;{% elsif image_aspect_ratio == 'portrait' %}aspect-ratio: 3 / 4;{% endif %}
+                          border-radius: 8px;
+                          {% if image_aspect_ratio == 'auto' %}min-height: 200px;{% endif %}">
+                <img src="{{ block.settings.image | image_url: width: 800 }}" 
+                     alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
+                     class="grid-image"
+                     loading="lazy"
+                     data-src="{{ block.settings.image | image_url: width: 1920 }}"
+                     style="width: 100%;
+                            {% if image_aspect_ratio != 'auto' %}height: 100%;
+                            object-fit: cover;{% else %}height: auto;
+                            max-height: 500px;
+                            object-fit: contain;{% endif %}
+                            transition: transform 0.3s ease;
+                            display: block;">
+                <div class="grid-image-overlay">
+                  <i class="bi bi-zoom-in" style="font-size: 2rem; color: white;"></i>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="gallery-empty-state text-center" style="padding: 4rem 0;">
+        <p>No images added yet. Add images in the theme customizer.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Modal -->
+<div class="gallery-modal" id="gallery-modal-{{ section.id }}">
+  <div class="modal-overlay"></div>
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Close modal">
+      <i class="bi bi-x-lg"></i>
+    </button>
+    
+    <div class="modal-grid-container">
+      <div class="modal-grid" id="modal-grid-{{ section.id }}">
+        {% for block in section.blocks %}
+          {% if block.settings.image != blank %}
+            <div class="modal-grid-item" 
+                 data-modal-index="{{ forloop.index0 }}"
+                 data-image-src="{{ block.settings.image | image_url: width: 1920 }}"
+                 data-image-alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}">
+              <img src="{{ block.settings.image | image_url: width: 300 }}" 
+                   alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
+                   class="modal-thumbnail"
+                   loading="lazy">
+              <div class="modal-thumbnail-overlay"></div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="modal-main-image-container">
+      <button class="modal-nav modal-nav-prev" aria-label="Previous image">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <div class="modal-main-image-wrapper">
+        <img src="" alt="" class="modal-main-image">
+      </div>
+      <button class="modal-nav modal-nav-next" aria-label="Next image">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="modal-footer">
+      <span class="modal-counter">
+        <span class="current-image">1</span> / <span class="total-images">{{ section.blocks.size }}</span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .image-grid-gallery-section {
+    position: relative;
+  }
+
+  .gallery-header {
+    margin-bottom: 3rem;
+  }
+
+  .gallery-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .gallery-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 0;
+  }
+
+  .image-grid {
+    display: grid;
+    gap: 15px;
+  }
+
+  .grid-item {
+    position: relative;
+  }
+
+  .grid-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f0f0f0;
+  }
+
+  .grid-image-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .grid-image-wrapper:hover .grid-image {
+    transform: scale(1.1);
+  }
+
+  .grid-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .grid-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .grid-image-wrapper:hover .grid-image-overlay {
+    opacity: 1;
+  }
+
+  /* Modal Styles */
+  .gallery-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gallery-modal.active {
+    display: flex;
+  }
+
+  .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(5px);
+  }
+
+  .modal-content {
+    position: relative;
+    z-index: 10001;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10003;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #FFFFFF;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .modal-close:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: rotate(90deg);
+  }
+
+  .modal-grid-container {
+    flex: 0 0 auto;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e0e0e0;
+    max-height: 35vh;
+    overflow-y: auto;
+  }
+
+  .modal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .modal-grid-item {
+    position: relative;
+    cursor: pointer;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 3px solid transparent;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    aspect-ratio: 1 / 1;
+    background-color: #e0e0e0;
+  }
+
+  .modal-grid-item:hover {
+    transform: scale(1.05);
+    border-color: #FF6B35;
+  }
+
+  .modal-grid-item.active {
+    border-color: #FF6B35;
+    box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.3);
+  }
+
+  .modal-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .modal-grid-item:hover .modal-thumbnail {
+    transform: scale(1.1);
+  }
+
+  .modal-thumbnail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .modal-grid-item.active .modal-thumbnail-overlay {
+    opacity: 0;
+  }
+
+  .modal-grid-item:hover .modal-thumbnail-overlay {
+    opacity: 0.2;
+  }
+
+  .modal-main-image-container {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 80px;
+    background-color: #FFFFFF;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .modal-main-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-main-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.8rem;
+    color: #FFFFFF;
+    transition: background 0.3s ease, transform 0.3s ease;
+    z-index: 10002;
+  }
+
+  .modal-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .modal-nav:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .modal-nav-prev {
+    left: 20px;
+  }
+
+  .modal-nav-next {
+    right: 20px;
+  }
+
+  .modal-footer {
+    flex: 0 0 auto;
+    padding: 15px 30px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-counter {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 500;
+  }
+
+  /* Responsive Grid */
+  @media (max-width: 991.98px) {
+    .image-grid {
+      grid-template-columns: repeat({{ columns_tablet }}, 1fr) !important;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .image-grid {
+      grid-template-columns: repeat({{ columns_mobile }}, 1fr) !important;
+    }
+
+    .gallery-title {
+      font-size: 2rem;
+    }
+
+    .modal-grid-container {
+      max-height: 25vh;
+      padding: 15px;
+    }
+
+    .modal-grid {
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+      gap: 8px !important;
+    }
+
+    .modal-main-image-container {
+      padding: 20px 50px;
+    }
+
+    .modal-nav {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+    }
+
+    .modal-nav-prev {
+      left: 10px;
+    }
+
+    .modal-nav-next {
+      right: 10px;
+    }
+
+    .modal-close {
+      top: 10px;
+      right: 10px;
+      width: 35px;
+      height: 35px;
+      font-size: 1.2rem;
+    }
+
+    .modal-footer {
+      padding: 12px 20px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const gallerySection = document.getElementById('gallery-{{ section.id }}');
+    if (!gallerySection) return;
+
+    const modal = document.getElementById('gallery-modal-{{ section.id }}');
+    if (!modal) return;
+
+    const modalOverlay = modal.querySelector('.modal-overlay');
+    const modalClose = modal.querySelector('.modal-close');
+    const gridItems = gallerySection.querySelectorAll('.grid-item');
+    const modalGridItems = modal.querySelectorAll('.modal-grid-item');
+    const modalMainImage = modal.querySelector('.modal-main-image');
+    const modalCounter = modal.querySelector('.modal-counter');
+    const currentImageSpan = modalCounter ? modalCounter.querySelector('.current-image') : null;
+    const totalImagesSpan = modalCounter ? modalCounter.querySelector('.total-images') : null;
+    const prevButton = modal.querySelector('.modal-nav-prev');
+    const nextButton = modal.querySelector('.modal-nav-next');
+
+    let currentImageIndex = 0;
+    const totalImages = gridItems.length;
+
+    if (totalImages === 0) return;
+
+    // Open modal when grid image is clicked
+    gridItems.forEach((item, index) => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        currentImageIndex = index;
+        openModal();
+      });
+    });
+
+    // Close modal
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function openModal() {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      updateModalImage();
+    }
+
+    // Update modal image and active thumbnail
+    function updateModalImage() {
+      if (currentImageIndex < 0) currentImageIndex = totalImages - 1;
+      if (currentImageIndex >= totalImages) currentImageIndex = 0;
+
+      const activeModalItem = modalGridItems[currentImageIndex];
+
+      // Update main image
+      if (activeModalItem && modalMainImage) {
+        const imageSrc = activeModalItem.dataset.imageSrc;
+        const imageAlt = activeModalItem.dataset.imageAlt || '';
+        
+        if (imageSrc) {
+          modalMainImage.src = imageSrc;
+          modalMainImage.alt = imageAlt;
+        }
+      }
+
+      // Update active thumbnail
+      modalGridItems.forEach((item, index) => {
+        item.classList.remove('active');
+      });
+
+      if (activeModalItem) {
+        activeModalItem.classList.add('active');
+        
+        // Scroll active thumbnail into view
+        setTimeout(() => {
+          activeModalItem.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest', 
+            inline: 'center' 
+          });
+        }, 100);
+      }
+
+      // Update counter
+      if (currentImageSpan) {
+        currentImageSpan.textContent = currentImageIndex + 1;
+      }
+    }
+
+    // Thumbnail click handler
+    modalGridItems.forEach((item, index) => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        currentImageIndex = index;
+        updateModalImage();
+      });
+    });
+
+    // Navigation buttons
+    if (prevButton) {
+      prevButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        currentImageIndex--;
+        updateModalImage();
+      });
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        currentImageIndex++;
+        updateModalImage();
+      });
+    }
+
+    // Close modal handlers
+    if (modalClose) {
+      modalClose.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal();
+      });
+    }
+
+    if (modalOverlay) {
+      modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) {
+          closeModal();
+        }
+      });
+    }
+
+    // Prevent modal content clicks from closing modal
+    const modalContent = modal.querySelector('.modal-content');
+    if (modalContent) {
+      modalContent.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+
+    // Keyboard navigation
+    function handleKeyDown(e) {
+      if (!modal.classList.contains('active')) return;
+
+      if (e.key === 'Escape') {
+        closeModal();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        currentImageIndex--;
+        updateModalImage();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        currentImageIndex++;
+        updateModalImage();
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Initialize: Set first image when modal opens for first time
+    if (modalGridItems.length > 0 && modalMainImage) {
+      const firstItem = modalGridItems[0];
+      if (firstItem.dataset.imageSrc) {
+        modalMainImage.src = firstItem.dataset.imageSrc;
+        modalMainImage.alt = firstItem.dataset.imageAlt || '';
+      }
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Image Grid Gallery",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show Title",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Image Gallery"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Title Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Grid Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (Desktop)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "info": "Number of columns on desktop screens"
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "label": "Columns (Tablet)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2,
+      "info": "Number of columns on tablet screens"
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns (Mobile)",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "default": 1,
+      "info": "Number of columns on mobile screens"
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "label": "Gap Between Images (px)",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "default": 15,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape (16:9)"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait (3:4)"
+        },
+        {
+          "value": "auto",
+          "label": "Auto (Original)"
+        }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "header",
+      "content": "Section Styling"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Top Padding (px)",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Bottom Padding (px)",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_horizontal",
+      "label": "Horizontal Padding (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt Text",
+          "info": "Alternative text for the image (for accessibility)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Grid Gallery",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
