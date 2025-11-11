@@ -66,7 +66,7 @@
     assign book_now_button_font_weight = '600'
     assign book_now_button_padding_x = 20
     assign book_now_button_padding_y = 10
-    assign book_now_button_border_radius = 25
+    assign book_now_button_border_radius = 24
     assign book_now_button_margin_left = 15
   else
     assign logo_text = header_settings.logo_text | default: shop.name
@@ -217,7 +217,7 @@
     assign book_now_button_font_weight = header_settings.book_now_button_font_weight | default: '600'
     assign book_now_button_padding_x = header_settings.book_now_button_padding_x | default: 20
     assign book_now_button_padding_y = header_settings.book_now_button_padding_y | default: 10
-    assign book_now_button_border_radius = header_settings.book_now_button_border_radius | default: 25
+    assign book_now_button_border_radius = header_settings.book_now_button_border_radius | default: 24
     assign book_now_button_margin_left = header_settings.book_now_button_margin_left | default: 15
   endif
 -%}
