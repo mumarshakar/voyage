@@ -8,6 +8,17 @@
   assign section_padding_horizontal = section.settings.section_padding_horizontal | default: 20
   assign show_title = section.settings.show_title | default: true
   assign title_alignment = section.settings.title_alignment | default: 'center'
+  
+  assign media_block = null
+  assign total_image_count = 0
+  for block in section.blocks
+    if block.type == 'media'
+      assign media_block = block
+    endif
+    if block.settings.image != blank
+      assign total_image_count = total_image_count | plus: 1
+    endif
+  endfor
 -%}
 
 <section class="image-grid-gallery-section" 
@@ -29,20 +40,7 @@
     {% endif %}
 
     {% if section.blocks.size > 0 %}
-      {%- liquid
-        assign media_block = null
-        assign image_blocks = section.blocks | where: 'type', 'image'
-        for block in section.blocks
-          if block.type == 'media'
-            assign media_block = block
-            break
-          endif
-        endfor
-        
-        # Count image blocks for positioning (excluding media block if it's an image)
-        assign side_image_count = 0
-        assign row2_image_count = 0
-      -%}
+      {%- assign image_blocks = section.blocks | where: 'type', 'image' -%}
       
       <div class="gallery-layout" style="display: flex; flex-direction: column; gap: {{ image_gap }}px;">
         
@@ -265,15 +263,7 @@
 
     <div class="modal-footer">
       <span class="modal-counter">
-        <span class="current-image">1</span> / <span class="total-images">
-          {% assign image_count = 0 %}
-          {% for block in section.blocks %}
-            {% if block.settings.image != blank %}
-              {% assign image_count = image_count | plus: 1 %}
-            {% endif %}
-          {% endfor %}
-          {{ image_count }}
-        </span>
+        <span class="current-image">1</span> / <span class="total-images">{{ total_image_count }}</span>
       </span>
     </div>
   </div>
