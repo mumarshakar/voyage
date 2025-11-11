@@ -1,9 +1,9 @@
 {% comment %}
   sections/booking-calendar.liquid
   A custom section to display a booking calendar with event images.
-  Supports multiple months that can be added via blocks.
-  This is for visual representation. Actual booking logic requires
-  a Shopify app or external integration.
+  Supports multiple months with interactive navigation.
+  Admin: Uses date picker fields in theme customizer
+  Frontend: Interactive calendar with month navigation
 {% endcomment %}
 
 {%- liquid
@@ -19,6 +19,7 @@
   assign heading_font_family = section.settings.heading_font_family | default: 'Playfair Display, serif'
   assign weekday_font_family = section.settings.weekday_font_family | default: 'Playfair Display, serif'
   assign months_gap = section.settings.months_gap | default: 60
+  assign show_navigation = section.settings.show_navigation | default: true
 -%}
 
 <div class="booking-calendar-section"
@@ -31,60 +32,78 @@
             margin-top: {{ margin_top }}px;
             margin-bottom: {{ margin_bottom }}px;">
 
-  {% comment %} Collect all month blocks {% endcomment %}
+  {% comment %} Collect all month blocks and parse dates {% endcomment %}
   {% assign month_blocks = section.blocks | where: 'type', 'month' %}
   
   {% if month_blocks.size > 0 %}
     {% for month_block in month_blocks %}
       {%- liquid
-        assign month_number = month_block.settings.month | default: 1
-        assign year_number = month_block.settings.year | default: 2025
-        assign month_key = month_number | append: '-' | append: year_number
+        assign month_date_string = month_block.settings.month_date | default: ''
+        if month_date_string != blank
+          assign month_date_parts = month_date_string | split: '-'
+          assign year_number = month_date_parts[0] | plus: 0
+          assign month_number = month_date_parts[1] | plus: 0
+        else
+          assign month_number = 11
+          assign year_number = 2025
+        endif
       -%}
       
       <div class="calendar-month-container" 
            data-month="{{ month_number }}" 
            data-year="{{ year_number }}"
            data-block-id="{{ month_block.id }}"
+           data-initial-month="{{ month_number }}"
+           data-initial-year="{{ year_number }}"
            style="margin-bottom: {{ months_gap }}px;">
         
         <div class="calendar-header">
-          <h2 class="calendar-month-year" 
-              style="color: {{ heading_color }}; 
-                     font-family: {{ heading_font_family }};
-                     text-align: center;
-                     width: 100%;">
-            {%- liquid
-              case month_number
-                when 1
-                  echo 'January'
-                when 2
-                  echo 'February'
-                when 3
-                  echo 'March'
-                when 4
-                  echo 'April'
-                when 5
-                  echo 'May'
-                when 6
-                  echo 'June'
-                when 7
-                  echo 'July'
-                when 8
-                  echo 'August'
-                when 9
-                  echo 'September'
-                when 10
-                  echo 'October'
-                when 11
-                  echo 'November'
-                when 12
-                  echo 'December'
-                else
-                  echo 'January'
-              endcase
-            -%} {{ year_number }}
-          </h2>
+          {% if show_navigation %}
+            <button class="calendar-nav-arrow calendar-nav-prev" 
+                    aria-label="Previous Month"
+                    style="color: {{ heading_color }};"
+                    type="button">
+              {% render 'icon-arrow-left' %}
+            </button>
+          {% endif %}
+          
+          <div class="calendar-month-year-selector" style="flex: 1; display: flex; justify-content: center; align-items: center; gap: 10px;">
+            <select class="calendar-month-select" 
+                    style="color: {{ heading_color }}; font-family: {{ heading_font_family }}; font-size: 1.5rem; font-weight: 600; border: none; background: transparent; cursor: pointer; padding: 5px;">
+              <option value="1" {% if month_number == 1 %}selected{% endif %}>January</option>
+              <option value="2" {% if month_number == 2 %}selected{% endif %}>February</option>
+              <option value="3" {% if month_number == 3 %}selected{% endif %}>March</option>
+              <option value="4" {% if month_number == 4 %}selected{% endif %}>April</option>
+              <option value="5" {% if month_number == 5 %}selected{% endif %}>May</option>
+              <option value="6" {% if month_number == 6 %}selected{% endif %}>June</option>
+              <option value="7" {% if month_number == 7 %}selected{% endif %}>July</option>
+              <option value="8" {% if month_number == 8 %}selected{% endif %}>August</option>
+              <option value="9" {% if month_number == 9 %}selected{% endif %}>September</option>
+              <option value="10" {% if month_number == 10 %}selected{% endif %}>October</option>
+              <option value="11" {% if month_number == 11 %}selected{% endif %}>November</option>
+              <option value="12" {% if month_number == 12 %}selected{% endif %}>December</option>
+            </select>
+            <select class="calendar-year-select" 
+                    style="color: {{ heading_color }}; font-family: {{ heading_font_family }}; font-size: 1.5rem; font-weight: 600; border: none; background: transparent; cursor: pointer; padding: 5px;">
+              {%- liquid
+                assign current_year = 'now' | date: '%Y' | plus: 0
+                assign min_year = current_year | minus: 1
+                assign max_year = current_year | plus: 2
+              -%}
+              {% for y in (min_year..max_year) %}
+                <option value="{{ y }}" {% if year_number == y %}selected{% endif %}>{{ y }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          {% if show_navigation %}
+            <button class="calendar-nav-arrow calendar-nav-next" 
+                    aria-label="Next Month"
+                    style="color: {{ heading_color }};"
+                    type="button">
+              {% render 'icon-arrow-right' %}
+            </button>
+          {% endif %}
         </div>
 
         <div class="calendar-weekdays" 
@@ -118,16 +137,57 @@
     <div class="calendar-month-container" 
          data-month="{{ current_month_num }}" 
          data-year="{{ current_year_num }}"
+         data-initial-month="{{ current_month_num }}"
+         data-initial-year="{{ current_year_num }}"
          style="margin-bottom: {{ months_gap }}px;">
       
       <div class="calendar-header">
-        <h2 class="calendar-month-year" 
-            style="color: {{ heading_color }}; 
-                   font-family: {{ heading_font_family }};
-                   text-align: center;
-                   width: 100%;">
-          {{ 'now' | date: '%B %Y' }}
-        </h2>
+        {% if show_navigation %}
+          <button class="calendar-nav-arrow calendar-nav-prev" 
+                  aria-label="Previous Month"
+                  style="color: {{ heading_color }};"
+                  type="button">
+            {% render 'icon-arrow-left' %}
+          </button>
+        {% endif %}
+        
+        <div class="calendar-month-year-selector" style="flex: 1; display: flex; justify-content: center; align-items: center; gap: 10px;">
+          <select class="calendar-month-select" 
+                  style="color: {{ heading_color }}; font-family: {{ heading_font_family }}; font-size: 1.5rem; font-weight: 600; border: none; background: transparent; cursor: pointer; padding: 5px;">
+            <option value="1" {% if current_month_num == 1 %}selected{% endif %}>January</option>
+            <option value="2" {% if current_month_num == 2 %}selected{% endif %}>February</option>
+            <option value="3" {% if current_month_num == 3 %}selected{% endif %}>March</option>
+            <option value="4" {% if current_month_num == 4 %}selected{% endif %}>April</option>
+            <option value="5" {% if current_month_num == 5 %}selected{% endif %}>May</option>
+            <option value="6" {% if current_month_num == 6 %}selected{% endif %}>June</option>
+            <option value="7" {% if current_month_num == 7 %}selected{% endif %}>July</option>
+            <option value="8" {% if current_month_num == 8 %}selected{% endif %}>August</option>
+            <option value="9" {% if current_month_num == 9 %}selected{% endif %}>September</option>
+            <option value="10" {% if current_month_num == 10 %}selected{% endif %}>October</option>
+            <option value="11" {% if current_month_num == 11 %}selected{% endif %}>November</option>
+            <option value="12" {% if current_month_num == 12 %}selected{% endif %}>December</option>
+          </select>
+          <select class="calendar-year-select" 
+                  style="color: {{ heading_color }}; font-family: {{ heading_font_family }}; font-size: 1.5rem; font-weight: 600; border: none; background: transparent; cursor: pointer; padding: 5px;">
+            {%- liquid
+              assign current_year_for_select = 'now' | date: '%Y' | plus: 0
+              assign min_year_fallback = current_year_for_select | minus: 1
+              assign max_year_fallback = current_year_for_select | plus: 2
+            -%}
+            {% for y in (min_year_fallback..max_year_fallback) %}
+              <option value="{{ y }}" {% if current_year_num == y %}selected{% endif %}>{{ y }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        {% if show_navigation %}
+          <button class="calendar-nav-arrow calendar-nav-next" 
+                  aria-label="Next Month"
+                  style="color: {{ heading_color }};"
+                  type="button">
+            {% render 'icon-arrow-right' %}
+          </button>
+        {% endif %}
       </div>
 
       <div class="calendar-weekdays" 
@@ -150,14 +210,27 @@
     </div>
   {% endif %}
 
-  {% comment %} Event blocks - associate events with months via month/year {% endcomment %}
+  {% comment %} Event blocks - parse event dates from date picker {% endcomment %}
   {% for block in section.blocks %}
     {% if block.type == 'event' %}
+      {%- liquid
+        assign event_date_string = block.settings.event_date | default: ''
+        if event_date_string != blank
+          assign event_date_parts = event_date_string | split: '-'
+          assign event_year = event_date_parts[0] | plus: 0
+          assign event_month = event_date_parts[1] | plus: 0
+          assign event_day = event_date_parts[2] | plus: 0
+        else
+          assign event_year = 2025
+          assign event_month = 11
+          assign event_day = 1
+        endif
+      -%}
       <div class="event-data" 
-           data-event-month="{{ block.settings.event_month | default: 1 }}"
-           data-event-year="{{ block.settings.event_year | default: 2025 }}"
-           data-event-day="{{ block.settings.event_day }}"
-           data-event-image="{{ block.settings.event_image | image_url: width: 400 }}"
+           data-event-month="{{ event_month }}"
+           data-event-year="{{ event_year }}"
+           data-event-day="{{ event_day }}"
+           data-event-image="{% if block.settings.event_image != blank %}{{ block.settings.event_image | image_url: width: 400 }}{% endif %}"
            data-event-title="{{ block.settings.event_title | escape }}"
            data-event-link="{{ block.settings.event_link }}"
            style="display: none;">
@@ -180,23 +253,41 @@
       const month = parseInt(div.dataset.eventMonth) || 1;
       const year = parseInt(div.dataset.eventYear) || 2025;
       const day = parseInt(div.dataset.eventDay);
-      if (day) {
+      if (day && div.dataset.eventImage) {
         const key = `${year}-${month}-${day}`;
         eventData[key] = {
           image: div.dataset.eventImage,
-          title: div.dataset.eventTitle,
-          link: div.dataset.eventLink
+          title: div.dataset.eventTitle || 'Event',
+          link: div.dataset.eventLink || ''
         };
       }
     });
 
-    // Render calendar for a specific month
+    // Month names for display
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+
+    // Render calendar for a specific month container
     function renderCalendar(monthContainer) {
       const calendarGrid = monthContainer.querySelector('.calendar-grid');
+      const monthSelect = monthContainer.querySelector('.calendar-month-select');
+      const yearSelect = monthContainer.querySelector('.calendar-year-select');
       if (!calendarGrid) return;
 
-      const month = parseInt(monthContainer.dataset.month) || 1;
-      const year = parseInt(monthContainer.dataset.year) || 2025;
+      let month = parseInt(monthContainer.dataset.month) || 1;
+      let year = parseInt(monthContainer.dataset.year) || 2025;
+
+      // Update data attributes
+      monthContainer.dataset.month = month;
+      monthContainer.dataset.year = year;
+
+      // Update month/year selects
+      if (monthSelect) {
+        monthSelect.value = month;
+      }
+      if (yearSelect) {
+        yearSelect.value = year;
+      }
 
       // Clear existing days
       calendarGrid.innerHTML = '';
@@ -218,6 +309,9 @@
       for (let day = 1; day <= daysInMonth; day++) {
         const dayElement = document.createElement('div');
         dayElement.classList.add('calendar-day');
+        dayElement.dataset.day = day;
+        dayElement.dataset.month = month;
+        dayElement.dataset.year = year;
         
         const dayNumber = document.createElement('span');
         dayNumber.classList.add('day-number');
@@ -242,13 +336,32 @@
           imgWrapper.appendChild(img);
           dayElement.appendChild(imgWrapper);
 
-          // Make clickable if link is provided
+          // Add click handler for events
           if (eventInfo.link) {
             dayElement.style.cursor = 'pointer';
-            dayElement.addEventListener('click', function() {
+            dayElement.addEventListener('click', function(e) {
+              e.preventDefault();
               window.location.href = eventInfo.link;
             });
+          } else {
+            dayElement.style.cursor = 'pointer';
+            dayElement.addEventListener('click', function(e) {
+              e.preventDefault();
+              // Show event details or trigger booking
+              if (eventInfo.title) {
+                alert('Event: ' + eventInfo.title + '\nDate: ' + monthNames[month - 1] + ' ' + day + ', ' + year);
+              }
+            });
           }
+        } else {
+          // Make all days clickable for booking
+          dayElement.style.cursor = 'pointer';
+          dayElement.addEventListener('click', function(e) {
+            e.preventDefault();
+            const dateStr = monthNames[month - 1] + ' ' + day + ', ' + year;
+            // Trigger booking or show date picker
+            console.log('Date selected: ' + dateStr);
+          });
         }
 
         calendarGrid.appendChild(dayElement);
@@ -264,9 +377,92 @@
       }
     }
 
-    // Render all month calendars
+    // Add navigation handlers for each calendar
     const monthContainers = calendarSection.querySelectorAll('.calendar-month-container');
     monthContainers.forEach(container => {
+      const prevBtn = container.querySelector('.calendar-nav-prev');
+      const nextBtn = container.querySelector('.calendar-nav-next');
+      const monthSelect = container.querySelector('.calendar-month-select');
+      const yearSelect = container.querySelector('.calendar-year-select');
+      
+      // Previous month button
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+          let month = parseInt(container.dataset.month) || 1;
+          let year = parseInt(container.dataset.year) || 2025;
+          
+          month--;
+          if (month < 1) {
+            month = 12;
+            year--;
+          }
+          
+          container.dataset.month = month;
+          container.dataset.year = year;
+          renderCalendar(container);
+        });
+      }
+      
+      // Next month button
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+          let month = parseInt(container.dataset.month) || 1;
+          let year = parseInt(container.dataset.year) || 2025;
+          
+          month++;
+          if (month > 12) {
+            month = 1;
+            year++;
+          }
+          
+          container.dataset.month = month;
+          container.dataset.year = year;
+          renderCalendar(container);
+        });
+      }
+      
+      // Month dropdown
+      if (monthSelect) {
+        monthSelect.addEventListener('change', function() {
+          const month = parseInt(this.value);
+          container.dataset.month = month;
+          renderCalendar(container);
+        });
+      }
+      
+      // Year dropdown - populate with more years if needed
+      if (yearSelect) {
+        const currentYear = new Date().getFullYear();
+        const selectedYear = parseInt(yearSelect.value);
+        const minYear = currentYear - 1;
+        const maxYear = currentYear + 3;
+        
+        // Check if we need to add more years
+        const existingYears = Array.from(yearSelect.options).map(opt => parseInt(opt.value));
+        const needsMoreYears = selectedYear < minYear || selectedYear > maxYear;
+        
+        if (needsMoreYears) {
+          // Clear and repopulate with wider range
+          yearSelect.innerHTML = '';
+          const startYear = Math.min(selectedYear, minYear) - 1;
+          const endYear = Math.max(selectedYear, maxYear) + 1;
+          for (let y = startYear; y <= endYear; y++) {
+            const option = document.createElement('option');
+            option.value = y;
+            option.textContent = y;
+            if (y === selectedYear) option.selected = true;
+            yearSelect.appendChild(option);
+          }
+        }
+        
+        yearSelect.addEventListener('change', function() {
+          const year = parseInt(this.value);
+          container.dataset.year = year;
+          renderCalendar(container);
+        });
+      }
+      
+      // Initial render
       renderCalendar(container);
     });
   })();
@@ -283,24 +479,103 @@
 
   .calendar-header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    gap: 20px;
   }
 
-  .calendar-month-year {
-    margin: 0;
-    font-size: 2rem;
+  .calendar-month-year-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .calendar-month-select,
+  .calendar-year-select {
+    font-size: 1.5rem;
     font-weight: 600;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 5px;
+    outline: none;
+  }
+
+  .calendar-month-select:hover,
+  .calendar-year-select:hover {
+    opacity: 0.8;
+  }
+
+  .calendar-month-select:focus,
+  .calendar-year-select:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .calendar-nav-arrow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    font-size: 1.5rem;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .calendar-nav-arrow:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+
+  .calendar-nav-arrow:active {
+    transform: scale(0.95);
+  }
+
+  .calendar-nav-arrow svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .calendar-day {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .calendar-day:not(.empty):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   @media (max-width: 768px) {
-    .calendar-month-year {
-      font-size: 1.5rem;
+    .calendar-month-select,
+    .calendar-year-select {
+      font-size: 1.2rem;
     }
     
     .calendar-month-container {
       margin-bottom: 40px;
+    }
+
+    .calendar-nav-arrow {
+      padding: 6px 8px;
+      min-width: 36px;
+      min-height: 36px;
+    }
+
+    .calendar-nav-arrow svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .calendar-month-year-selector {
+      flex-direction: column;
+      gap: 5px;
     }
   }
 </style>
@@ -384,6 +659,17 @@
     },
     {
       "type": "header",
+      "content": "Calendar Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Show Month Navigation",
+      "default": true,
+      "info": "Display previous/next month buttons"
+    },
+    {
+      "type": "header",
       "content": "Calendar Styling"
     },
     {
@@ -459,21 +745,11 @@
       "name": "Month",
       "settings": [
         {
-          "type": "range",
-          "id": "month",
-          "min": 1,
-          "max": 12,
-          "step": 1,
-          "label": "Month",
-          "default": 11,
-          "info": "Month number (1 = January, 12 = December)"
-        },
-        {
-          "type": "number",
-          "id": "year",
-          "label": "Year",
-          "default": 2025,
-          "info": "Year (e.g., 2025)"
+          "type": "text",
+          "id": "month_date",
+          "label": "Month Date",
+          "default": "2025-11-01",
+          "info": "Select the month to display. Format: YYYY-MM-DD (e.g., 2025-11-01). Click in this field and most browsers will show a calendar date picker. The day can be any day in that month - only the month and year are used."
         }
       ]
     },
@@ -482,31 +758,11 @@
       "name": "Event",
       "settings": [
         {
-          "type": "range",
-          "id": "event_month",
-          "min": 1,
-          "max": 12,
-          "step": 1,
-          "label": "Event Month",
-          "default": 11,
-          "info": "Month when this event occurs (1 = January, 12 = December)"
-        },
-        {
-          "type": "number",
-          "id": "event_year",
-          "label": "Event Year",
-          "default": 2025,
-          "info": "Year when this event occurs (e.g., 2025)"
-        },
-        {
-          "type": "range",
-          "id": "event_day",
-          "min": 1,
-          "max": 31,
-          "step": 1,
-          "label": "Event Day",
-          "default": 1,
-          "info": "Day of month (1-31) when this event occurs"
+          "type": "text",
+          "id": "event_date",
+          "label": "Event Date",
+          "default": "2025-11-01",
+          "info": "Select the exact date for this event. Format: YYYY-MM-DD (e.g., 2025-11-15). Click in this field and most browsers will show a calendar date picker to select the date visually."
         },
         {
           "type": "image_picker",
@@ -519,7 +775,7 @@
           "id": "event_title",
           "label": "Event Title",
           "default": "Yoga Class",
-          "info": "Alt text for the image"
+          "info": "Title or description of the event"
         },
         {
           "type": "url",
@@ -537,41 +793,33 @@
         {
           "type": "month",
           "settings": {
-            "month": 11,
-            "year": 2025
+            "month_date": "2025-11-01"
           }
         },
         {
           "type": "month",
           "settings": {
-            "month": 12,
-            "year": 2025
+            "month_date": "2025-12-01"
           }
         },
         {
           "type": "event",
           "settings": {
-            "event_month": 11,
-            "event_year": 2025,
-            "event_day": 1,
+            "event_date": "2025-11-01",
             "event_title": "Yoga Class"
           }
         },
         {
           "type": "event",
           "settings": {
-            "event_month": 11,
-            "event_year": 2025,
-            "event_day": 5,
+            "event_date": "2025-11-05",
             "event_title": "Pilates Session"
           }
         },
         {
           "type": "event",
           "settings": {
-            "event_month": 12,
-            "event_year": 2025,
-            "event_day": 15,
+            "event_date": "2025-12-15",
             "event_title": "Yoga Class"
           }
         }
