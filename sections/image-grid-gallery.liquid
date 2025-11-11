@@ -1,11 +1,7 @@
 {%- liquid
   assign section_title = section.settings.title | default: ''
   assign section_subtitle = section.settings.subtitle | default: ''
-  assign columns_desktop = section.settings.columns_desktop | default: 3
-  assign columns_tablet = section.settings.columns_tablet | default: 2
-  assign columns_mobile = section.settings.columns_mobile | default: 1
   assign image_gap = section.settings.image_gap | default: 15
-  assign image_aspect_ratio = section.settings.image_aspect_ratio | default: 'square'
   assign section_bg_color = section.settings.section_bg_color | default: '#FFFFFF'
   assign section_padding_top = section.settings.section_padding_top | default: 80
   assign section_padding_bottom = section.settings.section_padding_bottom | default: 80
@@ -33,41 +29,188 @@
     {% endif %}
 
     {% if section.blocks.size > 0 %}
-      <div class="image-grid" 
-           style="display: grid;
-                  grid-template-columns: repeat({{ columns_desktop }}, 1fr);
-                  gap: {{ image_gap }}px;">
-        {% for block in section.blocks %}
-          {% if block.settings.image != blank %}
-            <div class="grid-item" 
-                 data-image-index="{{ forloop.index0 }}"
-                 {{ block.shopify_attributes }}>
-              <div class="grid-image-wrapper" 
-                   style="position: relative;
-                          overflow: hidden;
-                          cursor: pointer;
-                          {% if image_aspect_ratio == 'square' %}aspect-ratio: 1 / 1;{% elsif image_aspect_ratio == 'landscape' %}aspect-ratio: 16 / 9;{% elsif image_aspect_ratio == 'portrait' %}aspect-ratio: 3 / 4;{% endif %}
-                          border-radius: 8px;
-                          {% if image_aspect_ratio == 'auto' %}min-height: 200px;{% endif %}">
-                <img src="{{ block.settings.image | image_url: width: 800 }}" 
-                     alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
-                     class="grid-image"
-                     loading="lazy"
-                     data-src="{{ block.settings.image | image_url: width: 1920 }}"
-                     style="width: 100%;
-                            {% if image_aspect_ratio != 'auto' %}height: 100%;
-                            object-fit: cover;{% else %}height: auto;
-                            max-height: 500px;
-                            object-fit: contain;{% endif %}
-                            transition: transform 0.3s ease;
-                            display: block;">
-                <div class="grid-image-overlay">
-                  <i class="bi bi-zoom-in" style="font-size: 2rem; color: white;"></i>
+      {%- liquid
+        assign media_block = null
+        assign image_blocks = section.blocks | where: 'type', 'image'
+        for block in section.blocks
+          if block.type == 'media'
+            assign media_block = block
+            break
+          endif
+        endfor
+        
+        # Count image blocks for positioning (excluding media block if it's an image)
+        assign side_image_count = 0
+        assign row2_image_count = 0
+      -%}
+      
+      <div class="gallery-layout" style="display: flex; flex-direction: column; gap: {{ image_gap }}px;">
+        
+        <!-- First Row: 80% Video/Image + 20% Two Stacked Images -->
+        <div class="gallery-row-1" style="display: flex; gap: {{ image_gap }}px; min-height: 400px;">
+          
+          <!-- Left: 80% - Video or Image -->
+          <div class="gallery-main-item" style="flex: 0 0 80%; position: relative;">
+            {% if media_block != null and media_block.settings.media_type == 'video' %}
+              {% if media_block.settings.video_url != blank or media_block.settings.video != blank %}
+              <!-- Video -->
+              <div class="video-wrapper" style="width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden; background-color: #000;">
+                {% if media_block.settings.video_url != blank %}
+                  {% if media_block.settings.video_url contains 'youtube.com' or media_block.settings.video_url contains 'youtu.be' %}
+                    {% assign video_id = media_block.settings.video_url | split: 'v=' | last | split: '&' | first %}
+                    {% if video_id == blank %}
+                      {% assign video_id = media_block.settings.video_url | split: '/' | last %}
+                    {% endif %}
+                    <iframe src="https://www.youtube.com/embed/{{ video_id }}?autoplay=0&mute=0&loop=0&controls=1" 
+                            frameborder="0" 
+                            allow="autoplay; encrypted-media" 
+                            allowfullscreen
+                            style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                    </iframe>
+                  {% elsif media_block.settings.video_url contains 'vimeo.com' %}
+                    {% assign video_id = media_block.settings.video_url | split: '/' | last | split: '?' | first %}
+                    <iframe src="https://player.vimeo.com/video/{{ video_id }}?autoplay=0&muted=0&loop=0&controls=1" 
+                            frameborder="0" 
+                            allow="autoplay; encrypted-media" 
+                            allowfullscreen
+                            style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 8px;">
+                    </iframe>
+                  {% endif %}
+                {% elsif media_block.settings.video != blank %}
+                  <video class="gallery-video" 
+                         controls
+                         playsinline
+                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                    {% for source in media_block.settings.video.sources %}
+                      <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                    {% endfor %}
+                  </video>
+                {% endif %}
+              </div>
+            {% elsif media_block != null and media_block.settings.image != blank %}
+              <!-- Image from Media Block -->
+              <div class="grid-item grid-item-clickable" 
+                   data-block-id="{{ media_block.id }}"
+                   data-is-image="true"
+                   {{ media_block.shopify_attributes }}
+                   style="width: 100%; height: 100%; cursor: pointer;">
+                <div class="grid-image-wrapper" 
+                     style="position: relative;
+                            overflow: hidden;
+                            border-radius: 8px;
+                            width: 100%;
+                            height: 100%;
+                            aspect-ratio: 16 / 9;">
+                  <img src="{{ media_block.settings.image | image_url: width: 1920 }}" 
+                       alt="{{ media_block.settings.alt_text | default: media_block.settings.image.alt | escape }}"
+                       class="grid-image"
+                       loading="lazy"
+                       data-src="{{ media_block.settings.image | image_url: width: 1920 }}"
+                       style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                  <div class="grid-image-overlay">
+                    <i class="bi bi-zoom-in" style="font-size: 2rem; color: white;"></i>
+                  </div>
                 </div>
               </div>
-            </div>
-          {% endif %}
-        {% endfor %}
+            {% endif %}
+          </div>
+
+          <!-- Right: 20% - Two Stacked Images -->
+          <div class="gallery-side-column" style="flex: 0 0 20%; display: flex; flex-direction: column; gap: {{ image_gap }}px;">
+            {% assign image_count = 0 %}
+            {% for block in section.blocks %}
+              {% if block.type == 'image' and block.settings.image != blank %}
+                {% if image_count == 0 %}
+                  <div class="grid-item grid-item-clickable" 
+                       data-block-id="{{ block.id }}"
+                       data-is-image="true"
+                       {{ block.shopify_attributes }}
+                       style="flex: 1; cursor: pointer;">
+                    <div class="grid-image-wrapper" 
+                         style="position: relative;
+                                overflow: hidden;
+                                border-radius: 8px;
+                                width: 100%;
+                                height: 100%;
+                                min-height: 190px;">
+                      <img src="{{ block.settings.image | image_url: width: 800 }}" 
+                           alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
+                           class="grid-image"
+                           loading="lazy"
+                           data-src="{{ block.settings.image | image_url: width: 1920 }}"
+                           style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                      <div class="grid-image-overlay">
+                        <i class="bi bi-zoom-in" style="font-size: 1.5rem; color: white;"></i>
+                      </div>
+                    </div>
+                  </div>
+                {% elsif image_count == 1 %}
+                  <div class="grid-item grid-item-clickable" 
+                       data-block-id="{{ block.id }}"
+                       data-is-image="true"
+                       {{ block.shopify_attributes }}
+                       style="flex: 1; cursor: pointer;">
+                    <div class="grid-image-wrapper" 
+                         style="position: relative;
+                                overflow: hidden;
+                                border-radius: 8px;
+                                width: 100%;
+                                height: 100%;
+                                min-height: 190px;">
+                      <img src="{{ block.settings.image | image_url: width: 800 }}" 
+                           alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
+                           class="grid-image"
+                           loading="lazy"
+                           data-src="{{ block.settings.image | image_url: width: 1920 }}"
+                           style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                      <div class="grid-image-overlay">
+                        <i class="bi bi-zoom-in" style="font-size: 1.5rem; color: white;"></i>
+                      </div>
+                    </div>
+                  </div>
+                  {% break %}
+                {% endif %}
+                {% assign image_count = image_count | plus: 1 %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Second Row: 4 Images -->
+        <div class="gallery-row-2" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: {{ image_gap }}px;">
+          {% assign image_count = 0 %}
+          {% assign row2_count = 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'image' and block.settings.image != blank %}
+              {% assign image_count = image_count | plus: 1 %}
+              {% if image_count > 2 and row2_count < 4 %}
+                <div class="grid-item grid-item-clickable" 
+                     data-block-id="{{ block.id }}"
+                     data-is-image="true"
+                     {{ block.shopify_attributes }}
+                     style="cursor: pointer;">
+                  <div class="grid-image-wrapper" 
+                       style="position: relative;
+                              overflow: hidden;
+                              border-radius: 8px;
+                              width: 100%;
+                              aspect-ratio: 1 / 1;">
+                    <img src="{{ block.settings.image | image_url: width: 800 }}" 
+                         alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}"
+                         class="grid-image"
+                         loading="lazy"
+                         data-src="{{ block.settings.image | image_url: width: 1920 }}"
+                         style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    <div class="grid-image-overlay">
+                      <i class="bi bi-zoom-in" style="font-size: 1.5rem; color: white;"></i>
+                    </div>
+                  </div>
+                </div>
+                {% assign row2_count = row2_count | plus: 1 %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
     {% else %}
       <div class="gallery-empty-state text-center" style="padding: 4rem 0;">
@@ -87,10 +230,13 @@
     
     <div class="modal-grid-container">
       <div class="modal-grid" id="modal-grid-{{ section.id }}">
+        {% comment %} Only include images in modal, skip videos {% endcomment %}
+        {% assign image_index = 0 %}
         {% for block in section.blocks %}
           {% if block.settings.image != blank %}
             <div class="modal-grid-item" 
-                 data-modal-index="{{ forloop.index0 }}"
+                 data-modal-index="{{ image_index }}"
+                 data-block-id="{{ block.id }}"
                  data-image-src="{{ block.settings.image | image_url: width: 1920 }}"
                  data-image-alt="{{ block.settings.alt_text | default: block.settings.image.alt | escape }}">
               <img src="{{ block.settings.image | image_url: width: 300 }}" 
@@ -99,6 +245,7 @@
                    loading="lazy">
               <div class="modal-thumbnail-overlay"></div>
             </div>
+            {% assign image_index = image_index | plus: 1 %}
           {% endif %}
         {% endfor %}
       </div>
@@ -118,7 +265,15 @@
 
     <div class="modal-footer">
       <span class="modal-counter">
-        <span class="current-image">1</span> / <span class="total-images">{{ section.blocks.size }}</span>
+        <span class="current-image">1</span> / <span class="total-images">
+          {% assign image_count = 0 %}
+          {% for block in section.blocks %}
+            {% if block.settings.image != blank %}
+              {% assign image_count = image_count | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+          {{ image_count }}
+        </span>
       </span>
     </div>
   </div>
@@ -146,9 +301,28 @@
     margin-bottom: 0;
   }
 
-  .image-grid {
+  .gallery-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gallery-row-1 {
+    display: flex;
+    min-height: 400px;
+  }
+
+  .gallery-main-item {
+    position: relative;
+  }
+
+  .gallery-side-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gallery-row-2 {
     display: grid;
-    gap: 15px;
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .grid-item {
@@ -158,18 +332,21 @@
   .grid-image-wrapper {
     position: relative;
     overflow: hidden;
-    cursor: pointer;
     border-radius: 8px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background-color: #f0f0f0;
   }
 
-  .grid-image-wrapper:hover {
+  .grid-item-clickable .grid-image-wrapper {
+    cursor: pointer;
+  }
+
+  .grid-item-clickable:hover .grid-image-wrapper {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   }
 
-  .grid-image-wrapper:hover .grid-image {
+  .grid-item-clickable:hover .grid-image {
     transform: scale(1.1);
   }
 
@@ -193,10 +370,28 @@
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+    pointer-events: none;
   }
 
-  .grid-image-wrapper:hover .grid-image-overlay {
+  .grid-item-clickable:hover .grid-image-overlay {
     opacity: 1;
+  }
+
+  .video-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #000;
+    min-height: 400px;
+  }
+
+  .video-wrapper iframe,
+  .video-wrapper video {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
   }
 
   /* Modal Styles */
@@ -423,20 +618,43 @@
     font-weight: 500;
   }
 
-  /* Responsive Grid */
+  /* Responsive */
   @media (max-width: 991.98px) {
-    .image-grid {
-      grid-template-columns: repeat({{ columns_tablet }}, 1fr) !important;
+    .gallery-row-1 {
+      flex-direction: column;
+    }
+
+    .gallery-main-item {
+      flex: 1 1 auto !important;
+      width: 100% !important;
+    }
+
+    .gallery-side-column {
+      flex: 1 1 auto !important;
+      width: 100% !important;
+      flex-direction: row !important;
+    }
+
+    .gallery-side-column .grid-item {
+      flex: 1;
+    }
+
+    .gallery-row-2 {
+      grid-template-columns: repeat(2, 1fr) !important;
     }
   }
 
   @media (max-width: 767.98px) {
-    .image-grid {
-      grid-template-columns: repeat({{ columns_mobile }}, 1fr) !important;
-    }
-
     .gallery-title {
       font-size: 2rem;
+    }
+
+    .gallery-row-2 {
+      grid-template-columns: 1fr !important;
+    }
+
+    .gallery-side-column {
+      flex-direction: column !important;
     }
 
     .modal-grid-container {
@@ -491,26 +709,48 @@
 
     const modalOverlay = modal.querySelector('.modal-overlay');
     const modalClose = modal.querySelector('.modal-close');
-    const gridItems = gallerySection.querySelectorAll('.grid-item');
+    const gridItems = gallerySection.querySelectorAll('.grid-item-clickable[data-is-image="true"]');
     const modalGridItems = modal.querySelectorAll('.modal-grid-item');
     const modalMainImage = modal.querySelector('.modal-main-image');
     const modalCounter = modal.querySelector('.modal-counter');
     const currentImageSpan = modalCounter ? modalCounter.querySelector('.current-image') : null;
-    const totalImagesSpan = modalCounter ? modalCounter.querySelector('.total-images') : null;
     const prevButton = modal.querySelector('.modal-nav-prev');
     const nextButton = modal.querySelector('.modal-nav-next');
 
     let currentImageIndex = 0;
     const totalImages = gridItems.length;
+    const totalModalImages = modalGridItems.length;
 
-    if (totalImages === 0) return;
+    // Create mapping from block ID to modal index
+    const blockIdToModalMap = {};
+    modalGridItems.forEach((item) => {
+      const blockId = item.dataset.blockId;
+      const modalIndex = parseInt(item.dataset.modalIndex);
+      if (blockId) {
+        blockIdToModalMap[blockId] = modalIndex;
+      }
+    });
 
-    // Open modal when grid image is clicked
-    gridItems.forEach((item, index) => {
+    // Update total images counter
+    if (modalCounter) {
+      const totalImagesSpan = modalCounter.querySelector('.total-images');
+      if (totalImagesSpan) {
+        totalImagesSpan.textContent = totalModalImages;
+      }
+    }
+
+    if (totalImages === 0 || totalModalImages === 0) return;
+
+    // Open modal when grid image is clicked (only images, not videos)
+    gridItems.forEach((item) => {
       item.addEventListener('click', function(e) {
         e.preventDefault();
-        currentImageIndex = index;
-        openModal();
+        const blockId = item.dataset.blockId;
+        // Find the modal index for this block
+        if (blockId && blockIdToModalMap.hasOwnProperty(blockId)) {
+          currentImageIndex = blockIdToModalMap[blockId];
+          openModal();
+        }
       });
     });
 
@@ -528,8 +768,8 @@
 
     // Update modal image and active thumbnail
     function updateModalImage() {
-      if (currentImageIndex < 0) currentImageIndex = totalImages - 1;
-      if (currentImageIndex >= totalImages) currentImageIndex = 0;
+      if (currentImageIndex < 0) currentImageIndex = totalModalImages - 1;
+      if (currentImageIndex >= totalModalImages) currentImageIndex = 0;
 
       const activeModalItem = modalGridItems[currentImageIndex];
 
@@ -675,8 +915,7 @@
     {
       "type": "text",
       "id": "subtitle",
-      "label": "Section Subtitle",
-      "default": ""
+      "label": "Section Subtitle"
     },
     {
       "type": "select",
@@ -700,37 +939,7 @@
     },
     {
       "type": "header",
-      "content": "Grid Layout"
-    },
-    {
-      "type": "range",
-      "id": "columns_desktop",
-      "label": "Columns (Desktop)",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "default": 3,
-      "info": "Number of columns on desktop screens"
-    },
-    {
-      "type": "range",
-      "id": "columns_tablet",
-      "label": "Columns (Tablet)",
-      "min": 1,
-      "max": 4,
-      "step": 1,
-      "default": 2,
-      "info": "Number of columns on tablet screens"
-    },
-    {
-      "type": "range",
-      "id": "columns_mobile",
-      "label": "Columns (Mobile)",
-      "min": 1,
-      "max": 2,
-      "step": 1,
-      "default": 1,
-      "info": "Number of columns on mobile screens"
+      "content": "Layout Settings"
     },
     {
       "type": "range",
@@ -741,30 +950,6 @@
       "step": 5,
       "default": 15,
       "unit": "px"
-    },
-    {
-      "type": "select",
-      "id": "image_aspect_ratio",
-      "label": "Image Aspect Ratio",
-      "options": [
-        {
-          "value": "square",
-          "label": "Square (1:1)"
-        },
-        {
-          "value": "landscape",
-          "label": "Landscape (16:9)"
-        },
-        {
-          "value": "portrait",
-          "label": "Portrait (3:4)"
-        },
-        {
-          "value": "auto",
-          "label": "Auto (Original)"
-        }
-      ],
-      "default": "square"
     },
     {
       "type": "header",
@@ -809,6 +994,55 @@
   ],
   "blocks": [
     {
+      "type": "media",
+      "name": "Media (First Block)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media Type",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "video",
+              "label": "Video"
+            }
+          ],
+          "default": "image",
+          "info": "First block: Choose between image or video (80% width)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Required if Media Type is Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video Upload",
+          "info": "Upload a video file (required if Media Type is Video and no URL provided)"
+        },
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "label": "Video URL",
+          "accept": ["youtube", "vimeo"],
+          "info": "YouTube or Vimeo URL (required if Media Type is Video and no upload provided)"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt Text",
+          "info": "Alternative text for the image (for accessibility)"
+        }
+      ]
+    },
+    {
       "type": "image",
       "name": "Image",
       "settings": [
@@ -830,6 +1064,12 @@
     {
       "name": "Image Grid Gallery",
       "blocks": [
+        {
+          "type": "media",
+          "settings": {
+            "media_type": "image"
+          }
+        },
         {
           "type": "image"
         },
@@ -853,4 +1093,3 @@
   ]
 }
 {% endschema %}
-
