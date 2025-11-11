@@ -303,6 +303,9 @@
             <span id="modal-event-price" class="price-amount"></span>
             <span class="price-currency">{{ telr_currency }}</span>
           </div>
+          <div id="price-warning-{{ section.id }}" class="price-warning" style="display: none; background: #FFF3CD; border: 1px solid #FFC107; border-radius: 2px; padding: 10px; margin-top: 10px; color: #856404; font-size: 0.9rem;">
+            ⚠️ This event has no price set. It will be treated as a free event. To make it a paid event, set the price in Shopify admin.
+          </div>
         </div>
       </div>
       <div class="event-details-booking-form">
@@ -395,6 +398,7 @@
       const modalDescription = eventModal.querySelector('#modal-event-description');
       const modalPrice = eventModal.querySelector('#modal-event-price');
       const priceContainer = eventModal.querySelector('.event-details-price');
+      const priceWarning = eventModal.querySelector('#price-warning-{{ section.id }}');
       const bookingEventDate = document.getElementById('booking-event-date');
       const bookingEventTitle = document.getElementById('booking-event-title');
       const bookingEventPrice = document.getElementById('booking-event-price');
@@ -413,15 +417,49 @@
         }
       }
       
-      const price = parseFloat(eventInfo.price) || 0;
+      // Parse and clean the price
+      let rawPrice = eventInfo.price || '0';
+      console.log('=== Opening Event Modal ===');
+      console.log('Event Info:', eventInfo);
+      console.log('Raw price from eventInfo:', rawPrice);
+      console.log('Price type:', typeof rawPrice);
+      
+      // Clean the price (remove currency symbols, commas, etc.)
+      if (rawPrice) {
+        rawPrice = rawPrice.toString().trim();
+        // Remove currency symbols, commas, and any non-numeric characters except decimal point and minus
+        rawPrice = rawPrice.replace(/[^\d.-]/g, '');
+      }
+      
+      // Parse the price
+      const price = parseFloat(rawPrice) || 0;
+      
+      console.log('Cleaned price:', rawPrice);
+      console.log('Parsed price:', price);
+      console.log('Is price > 0?', price > 0);
+      
+      // Display price in modal
       if (modalPrice) {
         modalPrice.textContent = price.toFixed(2);
       }
       if (priceContainer) {
         if (price > 0) {
           priceContainer.style.display = 'flex';
+          // Hide warning for paid events
+          if (priceWarning) priceWarning.style.display = 'none';
         } else {
-          priceContainer.style.display = 'none';
+          priceContainer.style.display = 'flex'; // Still show price container, but with 0.00
+          // Show warning for free events
+          if (priceWarning) priceWarning.style.display = 'block';
+          console.warn('⚠️  FREE EVENT DETECTED: Price is 0 or not set');
+          console.warn('   Event:', eventInfo.title);
+          console.warn('   Raw price from event data:', eventInfo.price);
+          console.warn('   If this should be a PAID event:');
+          console.warn('   1. Go to Shopify Admin > Online Store > Themes > Customize');
+          console.warn('   2. Find the Booking Calendar section');
+          console.warn('   3. Click on the Event block for this event');
+          console.warn('   4. Set "Event Price" field to a number (e.g., 100.00)');
+          console.warn('   5. Save and refresh the page');
         }
       }
       
@@ -431,7 +469,8 @@
         if (price > 0) {
           btnTextSpan.textContent = 'Confirm Booking & Pay';
         } else {
-          btnTextSpan.textContent = 'Confirm Booking';
+          btnTextSpan.textContent = 'Confirm Booking (Free Event)';
+          console.warn('⚠️  Button shows "Confirm Booking (Free Event)" - this event will skip payment');
         }
       }
       
@@ -440,7 +479,17 @@
         bookingEventDate.value = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
       }
       if (bookingEventTitle) bookingEventTitle.value = eventInfo.title;
-      if (bookingEventPrice) bookingEventPrice.value = eventInfo.price || '0';
+      if (bookingEventPrice) {
+        // Set the cleaned price value in the form
+        // Use the cleaned rawPrice string, or '0' if invalid
+        const priceValue = (rawPrice && rawPrice !== '' && rawPrice !== '-') ? rawPrice : '0';
+        bookingEventPrice.value = priceValue;
+        console.log('✓ Set event price in form field:', priceValue);
+        console.log('Form field ID: booking-event-price');
+        console.log('Form field value after setting:', bookingEventPrice.value);
+      } else {
+        console.error('✗ bookingEventPrice input element not found!');
+      }
       
       eventModal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
@@ -540,8 +589,7 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
         }
         
         const formData = new FormData(bookingForm);
-        const eventPrice = formData.get('event_price');
-        const price = parseFloat(eventPrice) || 0;
+        let eventPrice = formData.get('event_price');
         const name = formData.get('name');
         const email = formData.get('email');
         const phone = formData.get('phone');
@@ -550,10 +598,35 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
         const notes = formData.get('notes') || '';
         
         console.log('=== Booking Form Submission ===');
-        console.log('Event Price:', eventPrice);
+        console.log('Raw Event Price from form:', eventPrice);
+        console.log('Type of eventPrice:', typeof eventPrice);
+        
+        // Clean and parse the price
+        // Remove any currency symbols, commas, whitespace, etc.
+        if (eventPrice) {
+          eventPrice = eventPrice.toString().trim();
+          // Remove currency symbols, commas, and any non-numeric characters except decimal point and minus
+          eventPrice = eventPrice.replace(/[^\d.-]/g, '');
+        }
+        
+        // Parse the price
+        const price = parseFloat(eventPrice) || 0;
+        
+        console.log('Cleaned Event Price:', eventPrice);
         console.log('Parsed Price:', price);
+        console.log('Is NaN?', isNaN(price));
+        console.log('Price > 0?', price > 0);
         console.log('Customer:', name, email, phone);
         console.log('Event:', eventTitle, eventDate);
+        
+        // Debug: Check the actual form field value
+        const priceInput = document.getElementById('booking-event-price');
+        if (priceInput) {
+          console.log('Price input element value:', priceInput.value);
+          console.log('Price input element type:', priceInput.type);
+        } else {
+          console.error('Price input element not found!');
+        }
         
         // Generate unique order ID
         const orderId = 'BOOK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
@@ -573,31 +646,26 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
         };
         
         console.log('Booking Data:', bookingData);
-        console.log('Price check - Is free event?', price <= 0);
+        console.log('=== PRICE DECISION POINT ===');
+        console.log('Final parsed price:', price);
+        console.log('Price <= 0?', price <= 0);
+        console.log('Price > 0?', price > 0);
+        console.log('Raw eventPrice string:', eventPrice);
+        console.log('Price input element:', priceInput ? priceInput.value : 'NOT FOUND');
         
-        // For free events (price = 0), handle differently
+        // Set booking status based on price
         if (price <= 0) {
-          console.log('Processing FREE event - redirecting to success page');
-          bookingData.status = 'confirmed';
-          
-          // Store booking data in sessionStorage
-          sessionStorage.setItem('booking_data', JSON.stringify(bookingData));
-          
-          // Save booking to Shopify contact form
-          saveBookingToShopify(bookingData, function(success) {
-            // Redirect to success page regardless of save status
-            const successUrl = '{{ telr_success_url }}';
-            if (successUrl.startsWith('http')) {
-              window.location.href = successUrl;
-            } else {
-              window.location.href = '{{ shop.url }}' + successUrl;
-            }
-          });
-          return;
+          bookingData.status = 'confirmed'; // Free event - confirmed immediately
+          console.log('⚠️  FREE EVENT: Price is 0 or not set');
+          console.log('   This event will go to confirmation page, then success (no payment)');
+        } else {
+          bookingData.status = 'pending_payment'; // Paid event - pending payment
+          console.log('✓ PAID EVENT: Price is', price);
+          console.log('   This event will go to confirmation page, then Telr payment');
         }
         
-        // For paid events, redirect to confirmation page first
-        console.log('Processing PAID event - redirecting to confirmation page');
+        // ALWAYS redirect to confirmation page first (for both free and paid events)
+        console.log('Redirecting to confirmation page (all events go through confirmation first)');
         
         // Validate required fields
         if (!name || !email || !phone) {
@@ -612,8 +680,6 @@ Timestamp: ${bookingData.timestamp || new Date().toISOString()}`;
           }
           return;
         }
-        
-        bookingData.status = 'pending_payment';
         
         // Store booking data in sessionStorage (for confirmation page and success page)
         try {

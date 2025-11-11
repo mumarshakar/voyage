@@ -24,6 +24,20 @@
     assign telr_failed_url = routes.root_url | append: '?booking=failed'
   endif
   
+  # Check if we should show this section
+  # By default, always show the section (for dedicated confirmation pages)
+  # If only_show_on_confirm_page setting is enabled, only show when URL has ?booking=confirm
+  assign show_section = true
+  assign only_show_on_confirm = section.settings.only_show_on_confirm_page | default: false
+  if only_show_on_confirm
+    assign url_params = request.url | split: '?' | last
+    if url_params contains 'booking=confirm'
+      assign show_section = true
+    else
+      assign show_section = false
+    endif
+  endif
+  
   # Section settings
   assign title = section.settings.title | default: 'Confirm Your Booking'
   assign subtitle = section.settings.subtitle | default: 'Please review your booking details below and proceed to checkout'
@@ -32,6 +46,8 @@
   assign heading_color = section.settings.heading_color | default: '#8B6F47'
   assign button_color = section.settings.button_color | default: '#8B6F47'
 -%}
+
+{% if show_section %}
 
 <div class="booking-confirmation-section" 
      id="booking-confirmation-{{ section.id }}"
@@ -288,28 +304,35 @@
       
       // Show total amount if price > 0
       const price = parseFloat(bookingData.amount) || 0;
+      console.log('Confirmation page - Event price:', price);
+      console.log('Confirmation page - Booking status:', bookingData.status);
+      
       if (price > 0) {
+        // Paid event - show price and "Proceed To Checkout" button
         const currency = bookingData.currency || '{{ telr_currency }}';
         totalAmount.textContent = parseFloat(bookingData.amount).toFixed(2) + ' ' + currency;
         bookingTotal.style.display = 'block';
         // Show proceed to checkout button for paid events
         if (proceedButton) {
           proceedButton.style.display = 'inline-block';
+          const btnTextSpan = proceedButton.querySelector('.btn-text');
+          if (btnTextSpan) {
+            btnTextSpan.textContent = 'Proceed To Checkout';
+          }
         }
+        console.log('✓ Paid event - showing checkout button');
       } else {
+        // Free event - hide price, show "Confirm Booking" button that goes to success
         bookingTotal.style.display = 'none';
-        // Hide proceed to checkout button for free events
+        // Change button text for free events
         if (proceedButton) {
-          proceedButton.style.display = 'none';
+          proceedButton.style.display = 'inline-block';
+          const btnTextSpan = proceedButton.querySelector('.btn-text');
+          if (btnTextSpan) {
+            btnTextSpan.textContent = 'Confirm Booking';
+          }
         }
-        // For free events, they should have gone directly to success page
-        // But if they somehow reached here, show a message
-        if (bookingActions) {
-          const freeEventMsg = document.createElement('p');
-          freeEventMsg.textContent = 'This is a free event. Your booking has been confirmed!';
-          freeEventMsg.style.cssText = 'text-align: center; color: #4CAF50; font-weight: 600; margin-top: 20px;';
-          bookingActions.appendChild(freeEventMsg);
-        }
+        console.log('✓ Free event - showing confirm button (will redirect to success)');
       }
     } else {
       // No booking data - show error
@@ -318,7 +341,7 @@
       bookingActions.style.display = 'none';
     }
     
-    // Handle "Proceed To Checkout" button click
+    // Handle "Proceed To Checkout" / "Confirm Booking" button click
     if (proceedButton && bookingData) {
       proceedButton.addEventListener('click', function() {
         const btnText = proceedButton.querySelector('.btn-text');
@@ -328,6 +351,77 @@
         proceedButton.disabled = true;
         if (btnText) btnText.style.display = 'none';
         if (btnLoading) btnLoading.style.display = 'inline';
+        
+        // Get booking data
+        const price = parseFloat(bookingData.amount) || 0;
+        const orderId = bookingData.orderId;
+        const eventTitle = bookingData.eventTitle;
+        const eventDate = bookingData.eventDate;
+        const customerName = bookingData.customerName;
+        const customerEmail = bookingData.customerEmail;
+        const customerPhone = bookingData.customerPhone;
+        
+        console.log('=== Button Clicked on Confirmation Page ===');
+        console.log('Event price:', price);
+        console.log('Booking status:', bookingData.status);
+        
+        // For free events (price = 0), redirect directly to success page
+        if (price <= 0) {
+          console.log('Free event - redirecting to success page');
+          bookingData.status = 'confirmed';
+          
+          // Update booking data in sessionStorage
+          try {
+            sessionStorage.setItem('booking_data', JSON.stringify(bookingData));
+          } catch (e) {
+            console.warn('Could not update booking data:', e);
+          }
+          
+          // Save to Shopify (if not already saved)
+          // Note: This should already be saved from the calendar page, but save again to be sure
+          const shopifyForm = document.createElement('form');
+          shopifyForm.method = 'POST';
+          shopifyForm.action = '/contact';
+          shopifyForm.style.display = 'none';
+          
+          const formFields = [
+            { name: 'form_type', value: 'contact' },
+            { name: 'utf8', value: '✓' },
+            { name: 'contact[subject]', value: 'Event Booking: ' + eventTitle + ' - ' + eventDate },
+            { name: 'contact[email]', value: customerEmail },
+            { name: 'contact[body]', value: 'Event Booking Request\n\nOrder ID: ' + orderId + '\nEvent: ' + eventTitle + '\nEvent Date: ' + eventDate + '\nCustomer Name: ' + customerName + '\nCustomer Email: ' + customerEmail + '\nCustomer Phone: ' + customerPhone + '\nAmount: 0 ' + (bookingData.currency || 'AED') + '\nStatus: confirmed\nTimestamp: ' + (bookingData.timestamp || new Date().toISOString()) }
+          ];
+          
+          formFields.forEach(function(field) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = field.name;
+            input.value = field.value;
+            shopifyForm.appendChild(input);
+          });
+          
+          document.body.appendChild(shopifyForm);
+          
+          // Submit to Shopify in background
+          fetch('/contact', {
+            method: 'POST',
+            body: new FormData(shopifyForm)
+          }).catch(function(error) {
+            console.warn('Failed to save booking to Shopify:', error);
+          });
+          
+          // Redirect to success page
+          const successUrl = '{{ telr_success_url }}';
+          const shopUrl = '{{ shop.url }}';
+          const finalSuccessUrl = successUrl.startsWith('http') ? successUrl : (shopUrl + successUrl);
+          
+          console.log('Redirecting to success page:', finalSuccessUrl);
+          window.location.href = finalSuccessUrl;
+          return;
+        }
+        
+        // For paid events, proceed with Telr payment
+        console.log('Paid event - proceeding to Telr payment');
         
         // Get Telr credentials
         const telrStoreId = '{{ telr_store_id }}';
@@ -340,15 +434,6 @@
           if (btnLoading) btnLoading.style.display = 'none';
           return;
         }
-        
-        // Get booking data
-        const price = parseFloat(bookingData.amount) || 0;
-        const orderId = bookingData.orderId;
-        const eventTitle = bookingData.eventTitle;
-        const eventDate = bookingData.eventDate;
-        const customerName = bookingData.customerName;
-        const customerEmail = bookingData.customerEmail;
-        const customerPhone = bookingData.customerPhone;
         
         // Split name into first and last name
         const nameParts = customerName.trim().split(' ');
@@ -370,6 +455,7 @@
         console.log('Store ID:', telrStoreId);
         console.log('Amount:', price.toFixed(2), '{{ telr_currency }}');
         console.log('Order ID:', orderId);
+        console.log('Return URL:', finalSuccessUrl);
         
         const telrPaymentForm = document.createElement('form');
         telrPaymentForm.method = 'POST';
@@ -533,6 +619,17 @@
         }
       ],
       "default": "Playfair Display, serif"
+    },
+    {
+      "type": "header",
+      "content": "Display Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "only_show_on_confirm_page",
+      "label": "Only show when booking=confirm query parameter is present",
+      "default": false,
+      "info": "If checked, this section will only display when the URL contains ?booking=confirm. If unchecked, it will always display (useful for dedicated confirmation pages)."
     }
   ],
   "presets": [
@@ -542,4 +639,6 @@
   ]
 }
 {% endschema %}
+
+{% endif %}
 
