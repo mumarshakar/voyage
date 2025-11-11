@@ -437,22 +437,19 @@
         "type": "text",
         "id": "telr_success_url",
         "label": "Payment Success URL",
-        "default": "/pages/booking-success",
-        "info": "URL to redirect after successful payment"
+        "info": "URL to redirect after successful payment (e.g., /pages/booking-success). Leave empty to use home page with query parameter."
       },
       {
         "type": "text",
         "id": "telr_cancel_url",
         "label": "Payment Cancel URL",
-        "default": "/pages/booking-cancel",
-        "info": "URL to redirect if payment is cancelled"
+        "info": "URL to redirect if payment is cancelled (e.g., /pages/booking-cancel). Leave empty to use home page with query parameter."
       },
       {
         "type": "text",
         "id": "telr_failed_url",
         "label": "Payment Failed URL",
-        "default": "/pages/booking-failed",
-        "info": "URL to redirect if payment fails"
+        "info": "URL to redirect if payment fails (e.g., /pages/booking-failed). Leave empty to use home page with query parameter."
       },
       {
         "type": "text",

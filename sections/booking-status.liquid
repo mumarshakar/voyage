@@ -1,0 +1,413 @@
+{% comment %}
+  sections/booking-status.liquid
+  Display booking status (success, cancel, failed) after payment processing
+{% endcomment %}
+
+{%- liquid
+  # Detect status from URL parameter if not set in settings
+  assign url_status = request.url | split: '?' | last | split: '&' | first | split: '=' | last
+  if url_status == 'success' or url_status == 'cancel' or url_status == 'failed'
+    assign status_type = url_status
+  else
+    assign status_type = section.settings.status_type | default: 'success'
+  endif
+  
+  # Set default title and message based on status
+  if status_type == 'success'
+    assign default_title = 'Booking Confirmed'
+    assign default_message = 'Thank you for your booking! We\'ll send you a confirmation email shortly.'
+  elsif status_type == 'cancel'
+    assign default_title = 'Booking Cancelled'
+    assign default_message = 'Your booking has been cancelled. If you have any questions, please contact us.'
+  else
+    assign default_title = 'Payment Failed'
+    assign default_message = 'Unfortunately, your payment could not be processed. Please try again or contact us for assistance.'
+  endif
+  
+  assign title = section.settings.title | default: default_title
+  assign message = section.settings.message | default: default_message
+  assign show_booking_details = section.settings.show_booking_details | default: true
+  assign background_color = section.settings.background_color | default: '#F8F7F5'
+  assign text_color = section.settings.text_color | default: '#333333'
+  assign heading_color = section.settings.heading_color | default: '#8B6F47'
+-%}
+
+<div class="booking-status-section" 
+     id="booking-status-{{ section.id }}"
+     style="background-color: {{ background_color }};
+            padding: 60px 20px;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;">
+  
+  <div class="booking-status-container" style="max-width: 800px; width: 100%; text-align: center;">
+    
+    {% comment %} Status Icon {% endcomment %}
+    <div class="booking-status-icon" 
+         style="width: 80px;
+                height: 80px;
+                margin: 0 auto 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 40px;
+                {% if status_type == 'success' %}
+                  background-color: #4CAF50;
+                  color: #FFFFFF;
+                {% elsif status_type == 'cancel' %}
+                  background-color: #FF9800;
+                  color: #FFFFFF;
+                {% else %}
+                  background-color: #F44336;
+                  color: #FFFFFF;
+                {% endif %}">
+      {% if status_type == 'success' %}
+        ✓
+      {% elsif status_type == 'cancel' %}
+        ⚠
+      {% else %}
+        ✕
+      {% endif %}
+    </div>
+
+    {% comment %} Status Title {% endcomment %}
+    <h1 class="booking-status-title" 
+        style="font-size: 2.5rem;
+               font-weight: 600;
+               margin-bottom: 20px;
+               color: {{ heading_color }};
+               font-family: {{ section.settings.heading_font_family | default: 'Playfair Display, serif' }};">
+      {{ title }}
+    </h1>
+
+    {% comment %} Status Message {% endcomment %}
+    <p class="booking-status-message" 
+       style="font-size: 1.2rem;
+              margin-bottom: 40px;
+              color: {{ text_color }};
+              line-height: 1.6;">
+      {{ message }}
+    </p>
+
+    {% comment %} Booking Details (populated by JavaScript from sessionStorage) {% endcomment %}
+    {% if show_booking_details %}
+      <div id="booking-details-{{ section.id }}" 
+           class="booking-details"
+           style="background: #FFFFFF;
+                  border-radius: 2px;
+                  padding: 30px;
+                  margin-bottom: 30px;
+                  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                  text-align: left;
+                  display: none;">
+        <h3 style="font-size: 1.5rem;
+                   font-weight: 600;
+                   margin-bottom: 20px;
+                   color: {{ heading_color }};
+                   text-align: center;">
+          Booking Details
+        </h3>
+        <div id="booking-details-content-{{ section.id }}" class="booking-details-content">
+          {% comment %} Populated by JavaScript {% endcomment %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% comment %} Action Buttons {% endcomment %}
+    <div class="booking-status-actions" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+      <a href="{{ routes.root_url }}" 
+         class="btn btn-primary"
+         style="display: inline-block;
+                padding: 14px 32px;
+                background-color: {{ heading_color }};
+                color: #FFFFFF;
+                text-decoration: none;
+                border-radius: 2px;
+                font-weight: 600;
+                transition: background-color 0.3s ease, transform 0.2s ease;">
+        Back to Home
+      </a>
+      {% if section.settings.show_calendar_link %}
+        <a href="{{ section.settings.calendar_page_url | default: routes.root_url }}" 
+           class="btn btn-secondary"
+           style="display: inline-block;
+                  padding: 14px 32px;
+                  background-color: transparent;
+                  color: {{ heading_color }};
+                  text-decoration: none;
+                  border: 2px solid {{ heading_color }};
+                  border-radius: 2px;
+                  font-weight: 600;
+                  transition: all 0.3s ease;">
+          View Calendar
+        </a>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    const sectionId = '{{ section.id }}';
+    const bookingDetails = document.getElementById('booking-details-{{ section.id }}');
+    const bookingDetailsContent = document.getElementById('booking-details-content-{{ section.id }}');
+    
+    if (!bookingDetails || !bookingDetailsContent) return;
+
+    // Try to get booking data from sessionStorage
+    try {
+      const bookingDataStr = sessionStorage.getItem('booking_data');
+      if (bookingDataStr) {
+        const bookingData = JSON.parse(bookingDataStr);
+        
+        // Build booking details HTML
+        let detailsHTML = '<div class="booking-detail-row" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">';
+        detailsHTML += '<strong style="color: #666666; display: inline-block; min-width: 150px;">Order ID:</strong>';
+        detailsHTML += '<span style="color: #333333;">' + (bookingData.orderId || 'N/A') + '</span>';
+        detailsHTML += '</div>';
+        
+        if (bookingData.eventTitle) {
+          detailsHTML += '<div class="booking-detail-row" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">';
+          detailsHTML += '<strong style="color: #666666; display: inline-block; min-width: 150px;">Event:</strong>';
+          detailsHTML += '<span style="color: #333333;">' + bookingData.eventTitle + '</span>';
+          detailsHTML += '</div>';
+        }
+        
+        if (bookingData.eventDate) {
+          detailsHTML += '<div class="booking-detail-row" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">';
+          detailsHTML += '<strong style="color: #666666; display: inline-block; min-width: 150px;">Date:</strong>';
+          detailsHTML += '<span style="color: #333333;">' + bookingData.eventDate + '</span>';
+          detailsHTML += '</div>';
+        }
+        
+        if (bookingData.customerName) {
+          detailsHTML += '<div class="booking-detail-row" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">';
+          detailsHTML += '<strong style="color: #666666; display: inline-block; min-width: 150px;">Name:</strong>';
+          detailsHTML += '<span style="color: #333333;">' + bookingData.customerName + '</span>';
+          detailsHTML += '</div>';
+        }
+        
+        if (bookingData.customerEmail) {
+          detailsHTML += '<div class="booking-detail-row" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">';
+          detailsHTML += '<strong style="color: #666666; display: inline-block; min-width: 150px;">Email:</strong>';
+          detailsHTML += '<span style="color: #333333;">' + bookingData.customerEmail + '</span>';
+          detailsHTML += '</div>';
+        }
+        
+        if (bookingData.customerPhone) {
+          detailsHTML += '<div class="booking-detail-row" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">';
+          detailsHTML += '<strong style="color: #666666; display: inline-block; min-width: 150px;">Phone:</strong>';
+          detailsHTML += '<span style="color: #333333;">' + bookingData.customerPhone + '</span>';
+          detailsHTML += '</div>';
+        }
+        
+        if (bookingData.amount && parseFloat(bookingData.amount) > 0) {
+          detailsHTML += '<div class="booking-detail-row" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">';
+          detailsHTML += '<strong style="color: #666666; display: inline-block; min-width: 150px;">Amount:</strong>';
+          detailsHTML += '<span style="color: #333333; font-weight: 600;">' + parseFloat(bookingData.amount).toFixed(2) + ' ' + (bookingData.currency || 'AED') + '</span>';
+          detailsHTML += '</div>';
+        }
+        
+        bookingDetailsContent.innerHTML = detailsHTML;
+        bookingDetails.style.display = 'block';
+      }
+    } catch (e) {
+      console.warn('Could not retrieve booking data:', e);
+      // Hide booking details if no data available
+      if (bookingDetails) {
+        bookingDetails.style.display = 'none';
+      }
+    }
+  })();
+</script>
+
+<style>
+  .booking-status-section {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+
+  .booking-status-icon {
+    animation: scaleIn 0.5s ease-out;
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .btn-primary:hover {
+    background-color: #6B5B4F !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-secondary:hover {
+    background-color: {{ heading_color }} !important;
+    color: #FFFFFF !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    .booking-status-title {
+      font-size: 2rem !important;
+    }
+    
+    .booking-status-message {
+      font-size: 1rem !important;
+    }
+    
+    .booking-status-actions {
+      flex-direction: column;
+    }
+    
+    .booking-status-actions .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Booking Status",
+  "tag": "section",
+  "class": "section-booking-status",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Status Type"
+    },
+    {
+      "type": "select",
+      "id": "status_type",
+      "label": "Status Type",
+      "options": [
+        {
+          "value": "success",
+          "label": "Success"
+        },
+        {
+          "value": "cancel",
+          "label": "Cancelled"
+        },
+        {
+          "value": "failed",
+          "label": "Failed"
+        }
+      ],
+      "default": "success"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Booking Confirmed"
+    },
+    {
+      "type": "textarea",
+      "id": "message",
+      "label": "Message",
+      "default": "Thank you for your booking! We'll send you a confirmation email shortly."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_booking_details",
+      "label": "Show Booking Details",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#F8F7F5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#8B6F47"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Heading Font Family",
+      "options": [
+        {
+          "value": "Playfair Display, serif",
+          "label": "Playfair Display"
+        },
+        {
+          "value": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+          "label": "Segoe UI"
+        },
+        {
+          "value": "Arial, sans-serif",
+          "label": "Arial"
+        }
+      ],
+      "default": "Playfair Display, serif"
+    },
+    {
+      "type": "header",
+      "content": "Actions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_calendar_link",
+      "label": "Show Calendar Link",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "calendar_page_url",
+      "label": "Calendar Page URL",
+      "info": "URL to the page with booking calendar"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Booking Status - Success"
+    },
+    {
+      "name": "Booking Status - Cancelled",
+      "settings": {
+        "status_type": "cancel",
+        "title": "Booking Cancelled",
+        "message": "Your booking has been cancelled. If you have any questions, please contact us."
+      }
+    },
+    {
+      "name": "Booking Status - Failed",
+      "settings": {
+        "status_type": "failed",
+        "title": "Payment Failed",
+        "message": "Unfortunately, your payment could not be processed. Please try again or contact us for assistance."
+      }
+    }
+  ]
+}
+{% endschema %}
+

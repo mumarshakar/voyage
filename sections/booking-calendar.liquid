@@ -25,9 +25,20 @@
   assign telr_store_id = settings.telr_store_id | default: ''
   assign telr_auth_key = settings.telr_auth_key | default: ''
   assign telr_environment = settings.telr_environment | default: 'test'
-  assign telr_success_url = settings.telr_success_url | default: '/pages/booking-success'
-  assign telr_cancel_url = settings.telr_cancel_url | default: '/pages/booking-cancel'
-  assign telr_failed_url = settings.telr_failed_url | default: '/pages/booking-failed'
+  assign telr_success_url = settings.telr_success_url | default: ''
+  assign telr_cancel_url = settings.telr_cancel_url | default: ''
+  assign telr_failed_url = settings.telr_failed_url | default: ''
+  
+  # Use home page as fallback if URLs are not set
+  if telr_success_url == blank
+    assign telr_success_url = routes.root_url | append: '?booking=success'
+  endif
+  if telr_cancel_url == blank
+    assign telr_cancel_url = routes.root_url | append: '?booking=cancel'
+  endif
+  if telr_failed_url == blank
+    assign telr_failed_url = routes.root_url | append: '?booking=failed'
+  endif
   assign telr_currency = settings.telr_currency | default: 'AED'
   
   # Telr API endpoints
@@ -319,9 +330,9 @@
       <input type="hidden" name="ivp_test" id="telr-test" value="{% if telr_environment == 'test' %}1{% else %}0{% endif %}">
       <input type="hidden" name="ivp_desc" id="telr-description" value="">
       <input type="hidden" name="ivp_cart" id="telr-order-id" value="">
-      <input type="hidden" name="return_auth" value="{{ shop.url }}{{ telr_success_url }}">
-      <input type="hidden" name="return_can" value="{{ shop.url }}{{ telr_cancel_url }}">
-      <input type="hidden" name="return_decl" value="{{ shop.url }}{{ telr_failed_url }}">
+      <input type="hidden" name="return_auth" id="telr-return-auth" value="">
+      <input type="hidden" name="return_can" id="telr-return-can" value="">
+      <input type="hidden" name="return_decl" id="telr-return-decl" value="">
       <input type="hidden" name="bill_fname" id="telr-bill-fname" value="">
       <input type="hidden" name="bill_lname" id="telr-bill-lname" value="">
       <input type="hidden" name="bill_email" id="telr-bill-email" value="">
@@ -488,7 +499,13 @@
           }));
           
           // For free events, redirect directly to success page
-          window.location.href = '{{ shop.url }}{{ telr_success_url }}';
+          // Check if success URL is a full URL or relative path
+          const successUrl = '{{ telr_success_url }}';
+          if (successUrl.startsWith('http')) {
+            window.location.href = successUrl;
+          } else {
+            window.location.href = '{{ shop.url }}' + successUrl;
+          }
           return;
         }
         
@@ -532,6 +549,26 @@
         const telrBillLnameInput = document.getElementById('telr-bill-lname');
         const telrBillEmailInput = document.getElementById('telr-bill-email');
         const telrBillMobileInput = document.getElementById('telr-bill-mobile');
+        
+        const shopUrl = '{{ shop.url }}';
+        const successUrl = '{{ telr_success_url }}';
+        const cancelUrl = '{{ telr_cancel_url }}';
+        const failedUrl = '{{ telr_failed_url }}';
+        
+        // Set return URLs
+        const returnAuthInput = document.getElementById('telr-return-auth');
+        const returnCanInput = document.getElementById('telr-return-can');
+        const returnDeclInput = document.getElementById('telr-return-decl');
+        
+        if (returnAuthInput) {
+          returnAuthInput.value = successUrl.startsWith('http') ? successUrl : shopUrl + successUrl;
+        }
+        if (returnCanInput) {
+          returnCanInput.value = cancelUrl.startsWith('http') ? cancelUrl : shopUrl + cancelUrl;
+        }
+        if (returnDeclInput) {
+          returnDeclInput.value = failedUrl.startsWith('http') ? failedUrl : shopUrl + failedUrl;
+        }
         
         if (telrStoreIdInput) telrStoreIdInput.value = telrStoreId;
         if (telrAuthKeyInput) telrAuthKeyInput.value = telrAuthKey;
