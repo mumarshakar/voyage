@@ -22,14 +22,13 @@
   
   <!-- Typography CSS - Must load last to override everything -->
   <style>
-    :root {
-      --primary-orange: {{ settings.color_primary_orange }};
-      --light-orange: {{ settings.color_light_orange }};
-      --cream: {{ settings.color_cream }};
-      --white: {{ settings.color_white }};
-    }
-    
     {%- liquid
+      # Get color theme settings with defaults
+      assign color_primary_orange = settings.color_primary_orange | default: '#FF6B35'
+      assign color_light_orange = settings.color_light_orange | default: '#FF8C61'
+      assign color_cream = settings.color_cream | default: '#FFF8E7'
+      assign color_white = settings.color_white | default: '#FFFFFF'
+      
       # Get heading theme settings - use default filter (Shopify standard way)
       assign heading_color = settings.heading_color | default: '#333333'
       assign heading_font_size = settings.heading_font_size | default: 36
@@ -54,7 +53,16 @@
       assign body_line_height = settings.body_line_height | default: 1.6
       assign body_letter_spacing = settings.body_letter_spacing | default: 0
       assign body_word_spacing = settings.body_word_spacing | default: 0
-      
+    -%}
+    
+    :root {
+      --primary-orange: {{ color_primary_orange }};
+      --light-orange: {{ color_light_orange }};
+      --cream: {{ color_cream }};
+      --white: {{ color_white }};
+    }
+    
+    {%- liquid
       # Convert font family settings to CSS values
       case heading_font_family
         when 'playfair'

@@ -1,4 +1,12 @@
-
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_section": {
@@ -13,7 +21,7 @@
         "button_link": "",
         "background_type": "video",
         "video_source_type": "upload",
-        "background_video_desktop": "",
+        "background_video_desktop": "shopify://files/videos/voyage hy hype.mp4",
         "background_video_desktop_url": "",
         "background_video_mobile_url": "",
         "video_autoplay": true,
@@ -22,7 +30,9 @@
         "background_position": "center",
         "background_size": "cover",
         "title_color": "#ffffff",
+        "subtitle_color": "#ffffff",
         "title_font_size": 40,
+        "subtitle_font_size": 18,
         "title_position_top": 20,
         "text_alignment": "center",
         "button_text_color": "#8b6f47",

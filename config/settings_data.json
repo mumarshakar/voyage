@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "color_primary_orange": "#3577ff",
     "sections": {
       "header": {
         "type": "header",
@@ -23,7 +24,7 @@
           "logo_color": "#ff6b35",
           "show_book_now_button": true,
           "book_now_button_text": "Book Now",
-          "book_now_button_url": "",
+          "book_now_button_url": "shopify://pages/contact",
           "book_now_button_bg_color": "#ff6b35",
           "book_now_button_text_color": "#ffffff",
           "book_now_button_hover_bg_color": "#ff8c61",
@@ -134,8 +135,8 @@
         "type": "footer",
         "settings": {
           "footer_text": "Follow us on instagram!",
-          "instagram_url": "https://instagram.com/hypewellnessclub",
-          "footer_bg_color": "#fff8e7",
+          "instagram_url": "https://www.instagram.com/thehypeclubofficial?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr",
+          "footer_bg_color": "#FFFFFF",
           "footer_text_color": "#ff6b35",
           "footer_font_family": "serif",
           "footer_font_size": 18,

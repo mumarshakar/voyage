@@ -1,9 +1,7 @@
 /* Voyage Theme Styles */
+/* CSS Variables for colors are now set dynamically in theme.liquid from theme settings */
+/* Keeping warm-brown variables as they are not theme settings */
 :root {
-  --primary-orange: #FF6B35;
-  --light-orange: #FF8C61;
-  --cream: #FFF8E7;
-  --white: #FFFFFF;
   --warm-brown: #8B6F47;
   --warm-brown-dark: #6B5735;
 }
