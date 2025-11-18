@@ -31,9 +31,7 @@
         "background_position": "center",
         "background_size": "cover",
         "title_color": "#8b6f47",
-        "subtitle_color": "#ffffff",
         "title_font_size": 40,
-        "subtitle_font_size": 18,
         "title_position_top": 20,
         "text_alignment": "center",
         "button_text_color": "#8b6f47",
@@ -58,54 +56,38 @@
         "event_gx4LN6": {
           "type": "event",
           "settings": {
-            "event_date": "2025-11-01",
             "event_image": "shopify://shop_images/Meat_the_team.jpg",
             "event_title": "Yoga Class",
-            "event_description": "",
-            "event_price": "0",
             "event_link": ""
           }
         },
         "event_LHBhLx": {
           "type": "event",
           "settings": {
-            "event_date": "2025-11-01",
             "event_image": "shopify://shop_images/DSC05749_copy_2.jpg",
             "event_title": "Pilates Session",
-            "event_description": "",
-            "event_price": "0",
             "event_link": ""
           }
         },
         "event_GjdhYP": {
           "type": "event",
           "settings": {
-            "event_date": "2025-11-01",
             "event_image": "shopify://shop_images/voyage.png",
             "event_title": "Pilates Class",
-            "event_description": "",
-            "event_price": "0",
             "event_link": ""
           }
         },
         "event_6KbCiY": {
           "type": "event",
           "settings": {
-            "event_date": "2025-11-01",
-            "event_image": "shopify://shop_images/voyage_wellness.jpg",
             "event_title": "Yoga Class",
-            "event_description": "ghfjmhg",
-            "event_price": "1000",
             "event_link": ""
           }
         },
         "event_JPCamm": {
           "type": "event",
           "settings": {
-            "event_date": "2025-11-01",
             "event_title": "Pilates Class",
-            "event_description": "",
-            "event_price": "0",
             "event_link": ""
           }
         }
@@ -119,18 +101,15 @@
       ],
       "name": "Booking Calendar",
       "settings": {
-        "confirmation_page_url": "",
         "padding_top": 60,
         "padding_bottom": 60,
         "padding_horizontal": 20,
         "margin_top": 0,
         "margin_bottom": 0,
-        "months_gap": 60,
-        "background_color": "#f8f7f5",
-        "show_navigation": true,
-        "heading_color": "#8b6f47",
+        "background_color": "#F8F7F5",
+        "heading_color": "#8B6F47",
         "heading_font_family": "Playfair Display, serif",
-        "weekday_color": "#8b6f47",
+        "weekday_color": "#8B6F47",
         "weekday_font_family": "Playfair Display, serif",
         "day_number_color": "#333333"
       }
@@ -142,21 +121,6 @@
         "heading": "Contact Us",
         "subheading": "Contact us any time with questions, private/corporate event enquiries or just some feedback!Gift cards are available, please contact us to purchase.",
         "text_content": "<p>Phone or WhatsApp: <a href=\"https://wa.me/971585312526\" target=\"_blank\">+971585312526</a></p><p>Email: <a href=\"mailto:gaby@glowdeckme.com?\" target=\"_blank\">gaby@glowdeckme.com</a> OR <a href=\"mailto:nicole@glowdeckme.com?\" target=\"_blank\">nicole@glowdeckme.com</a></p><p></p><p></p><h3>To secure your Glow Social ticket, please select an event below:</h3>",
-        "heading_color": "#ff6b35",
-        "heading_font_size": 48,
-        "heading_font_weight": "600",
-        "heading_font_family": "serif",
-        "heading_text_transform": "uppercase",
-        "subheading_color": "#ff6b35",
-        "subheading_font_size": 24,
-        "subheading_font_weight": "500",
-        "subheading_font_family": "serif",
-        "subheading_text_transform": "capitalize",
-        "text_color": "#ff6b35",
-        "text_font_size": 16,
-        "text_font_weight": "400",
-        "text_font_family": "serif",
-        "text_line_height": 2.4,
         "text_alignment": "center",
         "content_max_width": 900,
         "background_color": "#ffffff",
