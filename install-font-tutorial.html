@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Install Custom Font in Shopify Theme - GP Alpina Tutorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-orange: #FF6B35;
+      --light-orange: #FF8C61;
+      --cream: #FFF8E7;
+      --white: #FFFFFF;
+      --dark-text: #333333;
+      --medium-text: #666666;
+      --border: #e0e0e0;
+      --shadow: rgba(0,0,0,0.1);
+      --success: #28a745;
+      --warning: #ffc107;
+      --info: #17a2b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%);
+      color: var(--dark-text);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px var(--shadow);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-orange) 0%, var(--light-orange) 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .step-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      position: relative;
+      padding: 0 20px;
+    }
+
+    .step-indicator::before {
+      content: '';
+      position: absolute;
+      top: 25px;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: var(--border);
+      z-index: 0;
+    }
+
+    .step {
+      background: white;
+      border: 3px solid var(--border);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .step.active {
+      background: var(--primary-orange);
+      border-color: var(--primary-orange);
+      color: white;
+    }
+
+    .step.completed {
+      background: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+
+    .step-label {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--medium-text);
+    }
+
+    .step.active .step-label {
+      color: var(--primary-orange);
+    }
+
+    .step-section {
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    .step-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      margin-bottom: 30px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      background: var(--cream);
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+
+    .section-header:hover {
+      background: #f5f0e0;
+    }
+
+    .section-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-orange);
+    }
+
+    .section-toggle {
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+
+    .section.active .section-toggle {
+      transform: rotate(180deg);
+    }
+
+    .section-content {
+      padding: 30px;
+      display: none;
+    }
+
+    .section.active .section-content {
+      display: block;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    .code-block::before {
+      content: attr(data-language);
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      font-size: 0.75rem;
+      color: #888;
+      text-transform: uppercase;
+    }
+
+    .code-block code {
+      display: block;
+      white-space: pre;
+    }
+
+    .highlight {
+      background: #3e3e3e;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .alert {
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid;
+    }
+
+    .alert-info {
+      background: #e8f4f8;
+      border-color: var(--info);
+      color: #0c5460;
+    }
+
+    .alert-warning {
+      background: #fff3cd;
+      border-color: var(--warning);
+      color: #856404;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      border-color: var(--success);
+      color: #155724;
+    }
+
+    .alert-danger {
+      background: #f8d7da;
+      border-color: #dc3545;
+      color: #721c24;
+    }
+
+    .file-structure {
+      background: var(--cream);
+      padding: 20px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      margin: 15px 0;
+    }
+
+    .file-item {
+      padding: 5px 0;
+      padding-left: 20px;
+    }
+
+    .file-item::before {
+      content: '📄 ';
+    }
+
+    .folder-item {
+      font-weight: 600;
+      padding: 5px 0;
+    }
+
+    .folder-item::before {
+      content: '📁 ';
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background: var(--primary-orange);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+      margin: 10px 10px 10px 0;
+    }
+
+    .btn:hover {
+      background: var(--light-orange);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .btn-secondary {
+      background: var(--medium-text);
+    }
+
+    .btn-secondary:hover {
+      background: #555;
+    }
+
+    .checklist {
+      list-style: none;
+      margin: 20px 0;
+    }
+
+    .checklist li {
+      padding: 10px 0;
+      padding-left: 35px;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: '☐';
+      position: absolute;
+      left: 0;
+      font-size: 1.5rem;
+      color: var(--medium-text);
+    }
+
+    .checklist li.checked::before {
+      content: '✓';
+      color: var(--success);
+    }
+
+    .screenshot-placeholder {
+      background: var(--cream);
+      border: 2px dashed var(--border);
+      padding: 40px;
+      text-align: center;
+      border-radius: 8px;
+      margin: 20px 0;
+      color: var(--medium-text);
+    }
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px solid var(--border);
+    }
+
+    .font-preview-box {
+      background: white;
+      border: 2px solid var(--border);
+      padding: 30px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .font-preview-box h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--primary-orange);
+    }
+
+    .font-preview-box p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .info-card {
+      background: var(--cream);
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .info-card strong {
+      color: var(--primary-orange);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .path-highlight {
+      background: #fff3cd;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      color: #856404;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .content {
+        padding: 20px;
+      }
+
+      .step-indicator {
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .step-indicator::before {
+        display: none;
+      }
+
+      .navigation-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        margin: 5px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Install Custom Font in Shopify</h1>
+      <p>Complete Guide: Adding GP Alpina to Your Voyage Theme</p>
+    </div>
+
+    <div class="content">
+      <!-- Step Indicator -->
+      <div class="step-indicator">
+        <div class="step active" onclick="goToStep(1)">
+          1
+          <span class="step-label">Prepare</span>
+        </div>
+        <div class="step" onclick="goToStep(2)">
+          2
+          <span class="step-label">Upload</span>
+        </div>
+        <div class="step" onclick="goToStep(3)">
+          3
+          <span class="step-label">Add CSS</span>
+        </div>
+        <div class="step" onclick="goToStep(4)">
+          4
+          <span class="step-label">Settings</span>
+        </div>
+        <div class="step" onclick="goToStep(5)">
+          5
+          <span class="step-label">Use</span>
+        </div>
+      </div>
+
+      <!-- Step 1: Prepare Font Files -->
+      <div class="step-section active" id="step1">
+        <h2 style="font-family: 'Playfair Display', serif; color: var(--primary-orange); margin-bottom: 20px;">
+          Step 1: Prepare Your Font Files
+        </h2>
+
+        <div class="alert alert-info">
+          <strong>📦 What You Have:</strong> GP Alpina font in a ZIP file. First, we need to extract and prepare the font files.
+        </div>
+
+        <div class="section active">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>1.1 Extract the ZIP File</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <ol style="margin-left: 20px; line-height: 2;">
+              <li>Locate your <strong>GP Alpina.zip</strong> file</li>
+              <li>Right-click and select "Extract" or double-click to open</li>
+              <li>Extract all files to a folder on your computer</li>
+            </ol>
+
+            <div class="alert alert-warning">
+              <strong>⚠️ Important:</strong> After extraction, you'll typically find multiple font files. Look for files with extensions: <code>.woff</code>, <code>.woff2</code>, <code>.ttf</code>, or <code>.otf</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>1.2 Identify Font File Formats</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>Modern web browsers support multiple font formats. Here's what to look for:</p>
+            
+            <div class="info-grid">
+              <div class="info-card">
+                <strong>WOFF2 (Recommended)</strong>
+                Best compression, modern browsers only
+              </div>
+              <div class="info-card">
+                <strong>WOFF</strong>
+                Good compression, wider browser support
+              </div>
+              <div class="info-card">
+                <strong>TTF/OTF</strong>
+                Fallback format, larger file size
+              </div>
+            </div>
+
+            <div class="file-structure">
+              <div class="folder-item">GP Alpina/</div>
+              <div class="file-item">GPAlpina-Regular.woff2</div>
+              <div class="file-item">GPAlpina-Regular.woff</div>
+              <div class="file-item">GPAlpina-Bold.woff2</div>
+              <div class="file-item">GPAlpina-Bold.woff</div>
+              <div class="file-item">GPAlpina-Italic.woff2</div>
+              <div class="file-item">GPAlpina-Italic.woff</div>
+            </div>
+
+            <div class="alert alert-success">
+              <strong>✓ Best Practice:</strong> Use <code>.woff2</code> files if available, with <code>.woff</code> as fallback. This provides the best balance of quality and file size.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>1.3 Check Font Weights and Styles</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>Different font weights and styles will have separate files. Common variants include:</p>
+            
+            <ul style="margin-left: 20px; line-height: 2;">
+              <li><strong>Regular</strong> (400) - Normal weight</li>
+              <li><strong>Medium</strong> (500) - Medium weight</li>
+              <li><strong>Bold</strong> (700) - Bold weight</li>
+              <li><strong>Light</strong> (300) - Light weight</li>
+              <li><strong>Italic</strong> - Italic style</li>
+              <li><strong>Bold Italic</strong> - Bold + Italic combination</li>
+            </ul>
+
+            <div class="alert alert-info">
+              <strong>💡 Tip:</strong> You don't need to upload all variants. Only upload the weights/styles you plan to use in your theme. This keeps your theme lightweight.
+            </div>
+          </div>
+        </div>
+
+        <div class="navigation-buttons">
+          <div></div>
+          <button class="btn" onclick="goToStep(2)">Next: Upload to Shopify →</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Upload to Shopify -->
+      <div class="step-section" id="step2">
+        <h2 style="font-family: 'Playfair Display', serif; color: var(--primary-orange); margin-bottom: 20px;">
+          Step 2: Upload Font Files to Shopify
+        </h2>
+
+        <div class="alert alert-info">
+          <strong>📤 Upload Process:</strong> Shopify stores font files in the theme's Assets folder. You'll access this through the Shopify admin.
+        </div>
+
+        <div class="section active">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>2.1 Access Shopify Theme Editor</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <ol style="margin-left: 20px; line-height: 2;">
+              <li>Log into your Shopify Admin dashboard</li>
+              <li>Go to <strong>Online Store</strong> → <strong>Themes</strong></li>
+              <li>Click <strong>Customize</strong> on your active theme (Voyage)</li>
+              <li>In the left sidebar, click the <strong>⋯</strong> (three dots) menu at the bottom</li>
+              <li>Select <strong>Edit code</strong></li>
+            </ol>
+
+            <div class="alert alert-warning">
+              <strong>⚠️ Backup First!</strong> Before making changes, consider duplicating your theme or using a development theme for testing.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>2.2 Navigate to Assets Folder</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <ol style="margin-left: 20px; line-height: 2;">
+              <li>In the file tree on the left, find and click on the <strong>Assets</strong> folder</li>
+              <li>You'll see files like <code>theme.css</code>, <code>theme.js</code>, etc.</li>
+              <li>This is where all your theme assets are stored</li>
+            </ol>
+
+            <div class="file-structure">
+              <div class="folder-item">Assets/</div>
+              <div class="file-item">theme.css</div>
+              <div class="file-item">theme.js</div>
+              <div class="file-item" style="color: var(--primary-orange);">← Your fonts will go here</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>2.3 Upload Font Files</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <ol style="margin-left: 20px; line-height: 2;">
+              <li>Click the <strong>Add a new asset</strong> button (or upload icon)</li>
+              <li>Select <strong>Choose file</strong> or drag and drop your font files</li>
+              <li>Upload your GP Alpina font files (e.g., <code>GPAlpina-Regular.woff2</code>)</li>
+              <li>Repeat for each font weight/style you want to use</li>
+              <li>Name the files clearly (keep original names or use descriptive ones like <code>gp-alpina-regular.woff2</code>)</li>
+            </ol>
+
+            <div class="screenshot-placeholder">
+              📸 Screenshot: Shopify Assets folder with "Add a new asset" button
+            </div>
+
+            <div class="alert alert-success">
+              <strong>✓ Naming Convention:</strong> Use lowercase with hyphens for consistency:<br>
+              <code>gp-alpina-regular.woff2</code><br>
+              <code>gp-alpina-bold.woff2</code><br>
+              <code>gp-alpina-italic.woff2</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>2.4 Verify Upload</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>After uploading, verify your files appear in the Assets folder:</p>
+            
+            <div class="file-structure">
+              <div class="folder-item">Assets/</div>
+              <div class="file-item">theme.css</div>
+              <div class="file-item">theme.js</div>
+              <div class="file-item" style="color: var(--success);">gp-alpina-regular.woff2</div>
+              <div class="file-item" style="color: var(--success);">gp-alpina-regular.woff</div>
+              <div class="file-item" style="color: var(--success);">gp-alpina-bold.woff2</div>
+              <div class="file-item" style="color: var(--success);">gp-alpina-bold.woff</div>
+            </div>
+
+            <ul class="checklist">
+              <li class="checked">Font files uploaded to Assets folder</li>
+              <li>File names are clear and consistent</li>
+              <li>You have at least Regular and Bold weights</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="navigation-buttons">
+          <button class="btn btn-secondary" onclick="goToStep(1)">← Previous</button>
+          <button class="btn" onclick="goToStep(3)">Next: Add CSS →</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Add CSS -->
+      <div class="step-section" id="step3">
+        <h2 style="font-family: 'Playfair Display', serif; color: var(--primary-orange); margin-bottom: 20px;">
+          Step 3: Add @font-face Declarations
+        </h2>
+
+        <div class="alert alert-info">
+          <strong>🎨 CSS Setup:</strong> We need to tell the browser where to find your font files using <code>@font-face</code> declarations. This goes in your <code>theme.css</code> file.
+        </div>
+
+        <div class="section active">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>3.1 Open theme.css File</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <ol style="margin-left: 20px; line-height: 2;">
+              <li>In the Assets folder, click on <code>theme.css</code></li>
+              <li>The file will open in the code editor</li>
+              <li>Scroll to the top of the file (or find a good location after the existing CSS)</li>
+            </ol>
+
+            <div class="alert alert-warning">
+              <strong>⚠️ Best Practice:</strong> Add <code>@font-face</code> declarations at the top of your CSS file, before any other styles. This ensures fonts load early.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>3.2 Add @font-face for Regular Weight</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>Copy and paste this code at the top of your <code>theme.css</code> file:</p>
+
+            <div class="code-block" data-language="CSS">
+<code>/* GP Alpina Font - Regular Weight */
+@font-face {
+  font-family: 'GP Alpina';
+  src: url('{{ "gp-alpina-regular.woff2" | asset_url }}') format('woff2'),
+       url('{{ "gp-alpina-regular.woff" | asset_url }}') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}</code>
+            </div>
+
+            <div class="alert alert-info">
+              <strong>📝 Explanation:</strong>
+              <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><code>font-family: 'GP Alpina'</code> - Name you'll use to reference the font</li>
+                <li><code>src: url(...)</code> - Shopify Liquid syntax to load assets</li>
+                <li><code>format('woff2')</code> - Tells browser the file format</li>
+                <li><code>font-weight: 400</code> - Regular weight</li>
+                <li><code>font-display: swap</code> - Better loading performance</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>3.3 Add @font-face for Bold Weight</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>Add this code right after the Regular weight declaration:</p>
+
+            <div class="code-block" data-language="CSS">
+<code>/* GP Alpina Font - Bold Weight */
+@font-face {
+  font-family: 'GP Alpina';
+  src: url('{{ "gp-alpina-bold.woff2" | asset_url }}') format('woff2'),
+       url('{{ "gp-alpina-bold.woff" | asset_url }}') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}</code>
+            </div>
+
+            <div class="alert alert-warning">
+              <strong>💡 Note:</strong> If you have other weights (Light 300, Medium 500, etc.), add them with their respective font-weight values.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>3.4 Add Italic Variants (If Available)</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>If you have italic versions, add them like this:</p>
+
+            <div class="code-block" data-language="CSS">
+<code>/* GP Alpina Font - Regular Italic */
+@font-face {
+  font-family: 'GP Alpina';
+  src: url('{{ "gp-alpina-italic.woff2" | asset_url }}') format('woff2'),
+       url('{{ "gp-alpina-italic.woff" | asset_url }}') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* GP Alpina Font - Bold Italic */
+@font-face {
+  font-family: 'GP Alpina';
+  src: url('{{ "gp-alpina-bold-italic.woff2" | asset_url }}') format('woff2'),
+       url('{{ "gp-alpina-bold-italic.woff" | asset_url }}') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>3.5 Complete Example</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>Here's what your complete <code>@font-face</code> block should look like at the top of <code>theme.css</code>:</p>
+
+            <div class="code-block" data-language="CSS">
+<code>/* ============================================
+   GP Alpina Custom Font
+   ============================================ */
+
+/* Regular Weight */
+@font-face {
+  font-family: 'GP Alpina';
+  src: url('{{ "gp-alpina-regular.woff2" | asset_url }}') format('woff2'),
+       url('{{ "gp-alpina-regular.woff" | asset_url }}') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold Weight */
+@font-face {
+  font-family: 'GP Alpina';
+  src: url('{{ "gp-alpina-bold.woff2" | asset_url }}') format('woff2'),
+       url('{{ "gp-alpina-bold.woff" | asset_url }}') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Regular Italic */
+@font-face {
+  font-family: 'GP Alpina';
+  src: url('{{ "gp-alpina-italic.woff2" | asset_url }}') format('woff2'),
+       url('{{ "gp-alpina-italic.woff" | asset_url }}') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Bold Italic */
+@font-face {
+  font-family: 'GP Alpina';
+  src: url('{{ "gp-alpina-bold-italic.woff2" | asset_url }}') format('woff2'),
+       url('{{ "gp-alpina-bold-italic.woff" | asset_url }}') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Voyage Theme Styles */
+:root {
+  --primary-orange: #FF6B35;
+  ...</code>
+            </div>
+
+            <div class="alert alert-success">
+              <strong>✓ Save Your Changes:</strong> Click the <strong>Save</strong> button in the top right corner of the editor.
+            </div>
+          </div>
+        </div>
+
+        <div class="navigation-buttons">
+          <button class="btn btn-secondary" onclick="goToStep(2)">← Previous</button>
+          <button class="btn" onclick="goToStep(4)">Next: Update Settings →</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Update Theme Settings -->
+      <div class="step-section" id="step4">
+        <h2 style="font-family: 'Playfair Display', serif; color: var(--primary-orange); margin-bottom: 20px;">
+          Step 4: Add Font to Theme Settings
+        </h2>
+
+        <div class="alert alert-info">
+          <strong>⚙️ Settings Integration:</strong> To make GP Alpina available in the Shopify theme customizer, we need to add it to the theme settings schema.
+        </div>
+
+        <div class="section active">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>4.1 Open settings_schema.json</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <ol style="margin-left: 20px; line-height: 2;">
+              <li>In the file tree, navigate to <strong>config</strong> folder</li>
+              <li>Click on <code>settings_schema.json</code></li>
+              <li>This file contains all theme customization options</li>
+            </ol>
+
+            <div class="file-structure">
+              <div class="folder-item">config/</div>
+              <div class="file-item">settings_schema.json <span class="path-highlight">← Edit this file</span></div>
+              <div class="file-item">settings_data.json</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>4.2 Find Typography Section</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>Scroll down to find the <strong>"Typography"</strong> section. It will look something like this:</p>
+
+            <div class="code-block" data-language="JSON">
+<code>{
+  "name": "Typography",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading Typography"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_family",
+      "label": "Heading Font Family",
+      "options": [
+        {
+          "value": "playfair",
+          "label": "Playfair Display (Serif)"
+        },
+        {
+          "value": "segoe",
+          "label": "Segoe UI (Sans-serif)"
+        },
+        ...</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>4.3 Add GP Alpina to Font Options</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>Find each font family select dropdown (Heading, Subheading, and Body Text) and add GP Alpina option:</p>
+
+            <p><strong>For each font family selector, add this option:</strong></p>
+
+            <div class="code-block" data-language="JSON">
+<code>{
+  "value": "gp-alpina",
+  "label": "GP Alpina"
+}</code>
+            </div>
+
+            <p style="margin-top: 20px;"><strong>Complete example for Heading Font Family:</strong></p>
+
+            <div class="code-block" data-language="JSON">
+<code>{
+  "type": "select",
+  "id": "heading_font_family",
+  "label": "Heading Font Family",
+  "options": [
+    {
+      "value": "gp-alpina",
+      "label": "GP Alpina"
+    },
+    {
+      "value": "playfair",
+      "label": "Playfair Display (Serif)"
+    },
+    {
+      "value": "merriweather",
+      "label": "Merriweather (Serif)"
+    },
+    {
+      "value": "segoe",
+      "label": "Segoe UI (Sans-serif)"
+    },
+    ...</code>
+            </div>
+
+            <div class="alert alert-warning">
+              <strong>⚠️ Important:</strong> Add GP Alpina to ALL three font selectors:
+              <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><code>heading_font_family</code></li>
+                <li><code>subheading_font_family</code></li>
+                <li><code>body_font_family</code></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>4.4 Update Font Helper in theme.liquid</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>Now we need to tell the theme how to use GP Alpina. Open <code>layout/theme.liquid</code>:</p>
+
+            <ol style="margin-left: 20px; line-height: 2;">
+              <li>Navigate to <strong>layout</strong> folder</li>
+              <li>Open <code>theme.liquid</code></li>
+              <li>Find the <code>case</code> statements that convert font family values to CSS</li>
+            </ol>
+
+            <p><strong>Find the heading_font_family case statement and add:</strong></p>
+
+            <div class="code-block" data-language="Liquid">
+<code>case heading_font_family
+  when 'gp-alpina'
+    assign heading_font_family_css = "'GP Alpina', sans-serif"
+  when 'playfair'
+    assign heading_font_family_css = "'Playfair Display', 'Times New Roman', serif"
+  ...</code>
+            </div>
+
+            <p style="margin-top: 20px;"><strong>Do the same for subheading_font_family:</strong></p>
+
+            <div class="code-block" data-language="Liquid">
+<code>case subheading_font_family
+  when 'gp-alpina'
+    assign subheading_font_family_css = "'GP Alpina', sans-serif"
+  when 'playfair'
+    assign subheading_font_family_css = "'Playfair Display', 'Times New Roman', serif"
+  ...</code>
+            </div>
+
+            <p style="margin-top: 20px;"><strong>And for body_font_family:</strong></p>
+
+            <div class="code-block" data-language="Liquid">
+<code>case body_font_family
+  when 'gp-alpina'
+    assign body_font_family_css = "'GP Alpina', sans-serif"
+  when 'playfair'
+    assign body_font_family_css = "'Playfair Display', 'Times New Roman', serif"
+  ...</code>
+            </div>
+
+            <div class="alert alert-success">
+              <strong>✓ Save All Files:</strong> Make sure to save both <code>settings_schema.json</code> and <code>theme.liquid</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="navigation-buttons">
+          <button class="btn btn-secondary" onclick="goToStep(3)">← Previous</button>
+          <button class="btn" onclick="goToStep(5)">Next: Use the Font →</button>
+        </div>
+      </div>
+
+      <!-- Step 5: Use the Font -->
+      <div class="step-section" id="step5">
+        <h2 style="font-family: 'Playfair Display', serif; color: var(--primary-orange); margin-bottom: 20px;">
+          Step 5: Use GP Alpina in Your Theme
+        </h2>
+
+        <div class="alert alert-success">
+          <strong>🎉 Almost Done!</strong> Now you can use GP Alpina throughout your theme. Here's how:
+        </div>
+
+        <div class="section active">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>5.1 Via Theme Customizer (Recommended)</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <ol style="margin-left: 20px; line-height: 2;">
+              <li>Go to <strong>Online Store</strong> → <strong>Themes</strong> → <strong>Customize</strong></li>
+              <li>In the left sidebar, click <strong>Theme settings</strong> (or press <kbd>D</kbd>)</li>
+              <li>Navigate to <strong>Typography</strong> section</li>
+              <li>For each typography category:
+                <ul style="margin-left: 30px; margin-top: 10px;">
+                  <li><strong>Heading Font Family</strong> → Select "GP Alpina"</li>
+                  <li><strong>Subheading Font Family</strong> → Select "GP Alpina"</li>
+                  <li><strong>Body Text Font Family</strong> → Select "GP Alpina"</li>
+                </ul>
+              </li>
+              <li>Click <strong>Save</strong> in the top right</li>
+            </ol>
+
+            <div class="screenshot-placeholder">
+              📸 Screenshot: Theme settings with GP Alpina selected in dropdown menus
+            </div>
+
+            <div class="alert alert-info">
+              <strong>💡 Tip:</strong> You can mix and match! Use GP Alpina for headings and keep another font for body text if you prefer.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>5.2 Preview Your Changes</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>After selecting GP Alpina in the theme settings:</p>
+            
+            <ul style="margin-left: 20px; line-height: 2;">
+              <li>Your changes will be visible immediately in the preview</li>
+              <li>Navigate through different pages to see the font applied</li>
+              <li>Check headings, subheadings, and body text</li>
+              <li>Test on mobile view to ensure it looks good on all devices</li>
+            </ul>
+
+            <div class="font-preview-box" style="font-family: 'GP Alpina', sans-serif;">
+              <h4 style="font-weight: 700;">This is how GP Alpina Bold looks</h4>
+              <p style="font-weight: 400;">This is how GP Alpina Regular looks in body text. The font should now be applied throughout your theme according to your settings.</p>
+            </div>
+
+            <div class="alert alert-warning">
+              <strong>⚠️ Note:</strong> The preview above uses a fallback font. Your actual theme will show the real GP Alpina font after following all steps.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>5.3 Direct CSS Usage (Advanced)</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p>If you want to use GP Alpina directly in CSS (outside of theme settings), you can use:</p>
+
+            <div class="code-block" data-language="CSS">
+<code>.my-custom-class {
+  font-family: 'GP Alpina', sans-serif;
+  font-weight: 400; /* Regular */
+}
+
+.my-bold-text {
+  font-family: 'GP Alpina', sans-serif;
+  font-weight: 700; /* Bold */
+}</code>
+            </div>
+
+            <div class="alert alert-info">
+              <strong>📝 Remember:</strong> Always include a fallback font (like <code>sans-serif</code>) in case the custom font fails to load.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>5.4 Troubleshooting</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <p><strong>Font not showing?</strong> Check these common issues:</p>
+
+            <ul style="margin-left: 20px; line-height: 2;">
+              <li><strong>File names don't match:</strong> Make sure the file names in <code>@font-face</code> match exactly what you uploaded</li>
+              <li><strong>Wrong file path:</strong> Verify the <code>asset_url</code> filter is correct</li>
+              <li><strong>Browser cache:</strong> Hard refresh (Ctrl+F5 or Cmd+Shift+R) to clear cache</li>
+              <li><strong>Font not loaded:</strong> Check browser DevTools → Network tab to see if fonts are loading</li>
+              <li><strong>Syntax errors:</strong> Verify your CSS and JSON files have no syntax errors</li>
+            </ul>
+
+            <div class="alert alert-danger">
+              <strong>🐛 Debug Tip:</strong> Open browser DevTools (F12), go to Console tab, and look for any font loading errors.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header" onclick="toggleSection(this)">
+            <h3>5.5 Checklist: Verify Installation</h3>
+            <span class="section-toggle">▼</span>
+          </div>
+          <div class="section-content">
+            <ul class="checklist">
+              <li class="checked">Font files extracted from ZIP</li>
+              <li>Font files uploaded to Assets folder</li>
+              <li>@font-face declarations added to theme.css</li>
+              <li>GP Alpina added to settings_schema.json</li>
+              <li>Font helper updated in theme.liquid</li>
+              <li>Font selected in theme customizer</li>
+              <li>Changes saved and previewed</li>
+              <li>Font displays correctly on website</li>
+            </ul>
+
+            <div class="alert alert-success" style="margin-top: 20px;">
+              <strong>🎉 Congratulations!</strong> GP Alpina is now installed and ready to use in your Voyage theme!
+            </div>
+          </div>
+        </div>
+
+        <div class="navigation-buttons">
+          <button class="btn btn-secondary" onclick="goToStep(4)">← Previous</button>
+          <button class="btn" onclick="goToStep(1)">Start Over</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function goToStep(stepNumber) {
+      // Hide all step sections
+      document.querySelectorAll('.step-section').forEach(section => {
+        section.classList.remove('active');
+      });
+
+      // Remove active class from all steps
+      document.querySelectorAll('.step').forEach(step => {
+        step.classList.remove('active', 'completed');
+      });
+
+      // Show selected step section
+      document.getElementById('step' + stepNumber).classList.add('active');
+
+      // Mark current step as active
+      const currentStep = document.querySelectorAll('.step')[stepNumber - 1];
+      currentStep.classList.add('active');
+
+      // Mark previous steps as completed
+      for (let i = 0; i < stepNumber - 1; i++) {
+        document.querySelectorAll('.step')[i].classList.add('completed');
+      }
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleSection(header) {
+      const section = header.parentElement;
+      section.classList.toggle('active');
+    }
+
+    // Initialize: expand first section of active step
+    document.querySelectorAll('.step-section.active .section').forEach((section, index) => {
+      if (index === 0) {
+        section.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>
+
