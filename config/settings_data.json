@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "color_primary_orange": "#3577ff",
     "sections": {
       "header": {
         "type": "header",
@@ -135,7 +136,7 @@
         "settings": {
           "footer_text": "Follow us on instagram!",
           "instagram_url": "https://www.instagram.com/thehypeclubofficial?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr",
-          "footer_bg_color": "#fff8e7",
+          "footer_bg_color": "#FFFFFF",
           "footer_text_color": "#ff6b35",
           "footer_font_family": "serif",
           "footer_font_size": 18,
