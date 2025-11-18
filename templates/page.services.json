@@ -228,7 +228,7 @@
       "settings": {
         "heading": "Our Service Categories",
         "subheading": "Explore our comprehensive range of wellness services",
-        "text_content": "<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;\"><div><h3 style=\"color: #8B6F47; margin-bottom: 15px;\">Glow Social</h3><p>Join our signature community events for a shared wellness experience. Connect with like-minded individuals while enjoying curated wellness activities, movement sessions, and nourishing meals.</p></div><div><h3 style=\"color: #8B6F47; margin-bottom: 15px;\">Glow Privé</h3><p>Experience personalized wellness journeys tailored to your individual needs. Perfect for solo escapes or intimate gatherings with complete privacy and bespoke service.</p></div><div><h3 style=\"color: #8B6F47; margin-bottom: 15px;\">Glow Collective</h3><p>Ideal for corporate retreats and team building. Our corporate wellness packages combine team activities, wellness sessions, and networking opportunities in a luxurious setting.</p></div></div>",
+        "text_content": "<h3>Glow Social</h3><p>Join our signature community events for a shared wellness experience. Connect with like-minded individuals while enjoying curated wellness activities, movement sessions, and nourishing meals.</p><h3>Glow Privé</h3><p>Experience personalized wellness journeys tailored to your individual needs. Perfect for solo escapes or intimate gatherings with complete privacy and bespoke service.</p><h3>Glow Collective</h3><p>Ideal for corporate retreats and team building. Our corporate wellness packages combine team activities, wellness sessions, and networking opportunities in a luxurious setting.</p>",
         "heading_color": "#8B6F47",
         "heading_font_size": 40,
         "heading_font_weight": "600",
@@ -336,7 +336,7 @@
       "settings": {
         "heading": "Ready to Begin Your Wellness Journey?",
         "subheading": "Book your experience today and discover the transformative power of our services",
-        "text_content": "<p style=\"text-align: center; font-size: 18px; margin-top: 30px;\">Whether you're looking for a solo escape, a group experience, or a corporate retreat, we're here to create the perfect wellness experience for you.</p><p style=\"text-align: center; margin-top: 20px;\"><a href=\"#\" style=\"display: inline-block; padding: 16px 40px; background-color: #8B6F47; color: #ffffff; text-decoration: none; border-radius: 2px; font-weight: 500; margin-top: 20px;\">Book Your Session</a></p>",
+        "text_content": "<p>Whether you're looking for a solo escape, a group experience, or a corporate retreat, we're here to create the perfect wellness experience for you.</p><p><a href=\"#\">Book Your Session</a></p>",
         "heading_color": "#8B6F47",
         "heading_font_size": 42,
         "heading_font_weight": "600",
