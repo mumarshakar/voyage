@@ -9,31 +9,30 @@
  */
 {
   "sections": {
-    "hero_section_KcAnbM": {
+    "hero_section_mJUjfe": {
       "type": "hero-section",
       "custom_css": [
         ".hero-section {margin-top: -35px !important;}"
       ],
       "name": "Hero Section",
       "settings": {
-        "title": "Behind The Wellness Club",
-        "subtitle": "Your perfect journey starts here. Book your next adventure with ease.",
+        "title": "",
+        "subtitle": "",
         "button_text": "",
         "button_link": "",
         "background_type": "image",
-        "background_image": "shopify://shop_images/WhatsApp_Image_2025-06-15_at_22.12.58_1.jpg",
+        "background_image": "shopify://shop_images/DSC05749_copy_2.jpg",
         "video_source_type": "upload",
         "background_video_desktop_url": "",
         "background_video_mobile_url": "",
-        "video_autoplay": true,
-        "video_muted": true,
-        "variation": "glow",
-        "hero_height": 80,
+        "video_autoplay": false,
+        "video_muted": false,
+        "hero_height": 75,
         "background_position": "center",
         "background_size": "cover",
-        "title_color": "#ffffff",
+        "title_color": "#8b6f47",
         "title_font_size": 40,
-        "title_position_top": 5,
+        "title_position_top": 20,
         "text_alignment": "center",
         "button_text_color": "#8b6f47",
         "button_bg_color": "#ffffff",
@@ -42,8 +41,8 @@
         "button_font_size": 16,
         "button_padding_horizontal": 32,
         "button_padding_vertical": 14,
-        "overlay_color": "#000000",
-        "overlay_opacity": 0,
+        "overlay_color": "#ff8c61",
+        "overlay_opacity": 30,
         "padding_top": 120,
         "padding_bottom": 80,
         "padding_horizontal": 20,
@@ -51,289 +50,80 @@
         "margin_bottom": 0
       }
     },
-    "custom_text_GjMz68": {
-      "type": "custom-text",
-      "name": "Custom Text",
-      "settings": {
-        "heading": "",
-        "subheading": "",
-        "text_content": "<p>Glow Deck isn’t your typical wellness retreat — it’s wellness with a glow-up. Set on the shimmering waters of the UAE, we create elevated, wellness experiences at sea, where movement, connection, and luxury effortlessly collide.<br/>Born from our belief that wellness should feel just as good as it looks, Glow Deck was created for those who value <span style=\"text-decoration:underline\">balance, beauty, and a little indulgence. </span><br/>Whether you're planning a private celebration or simply looking for a solo escape with Glow Privé, a corporate off-site with Glow Collective, or joining one of our signature community events with Glow Social — we deliver bespoke wellness with style.</p>",
-        "heading_color": "#333333",
-        "heading_font_size": 36,
-        "heading_font_weight": "500",
-        "heading_font_family": "sans-serif",
-        "heading_text_transform": "none",
-        "subheading_color": "#666666",
-        "subheading_font_size": 20,
-        "subheading_font_weight": "400",
-        "subheading_font_family": "sans-serif",
-        "subheading_text_transform": "none",
-        "text_color": "#333333",
-        "text_font_size": 16,
-        "text_font_weight": "400",
-        "text_font_family": "sans-serif",
-        "text_line_height": 2.5,
-        "text_alignment": "left",
-        "content_max_width": 800,
-        "background_color": "#ffffff",
-        "background_size": "cover",
-        "background_overlay_opacity": 0,
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "padding_horizontal": 20,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "heading_margin_bottom": 20,
-        "subheading_margin_bottom": 20
-      }
-    },
-    "two_columns_fMeVMy": {
-      "type": "two-columns",
-      "name": "Two Columns",
-      "settings": {
-        "swap_columns": false,
-        "stack_on_mobile": true,
-        "column_gap_horizontal": 10,
-        "column_gap_vertical": 5,
-        "vertical_alignment": "center",
-        "column1_content_type": "video",
-        "column1_image_alt": "",
-        "column1_image_link": "",
-        "column1_image_fit": "cover",
-        "column1_video_source": "upload",
-        "column1_video": "shopify://files/videos/voyage hy hype.mp4",
-        "column1_video_mobile": "shopify://files/videos/voyage hy hype.mp4",
-        "column1_video_url": "",
-        "column1_video_url_mobile": "",
-        "column1_video_autoplay": true,
-        "column1_video_muted": true,
-        "column1_video_loop": true,
-        "column1_video_controls": true,
-        "column1_heading": "",
-        "column1_subheading": "",
-        "column1_text": "",
-        "column1_button_text": "",
-        "column1_button_link": "",
-        "column1_text_alignment": "left",
-        "column1_text_color": "#333333",
-        "column1_heading_size": 36,
-        "column1_bg_color": "#ffffff",
-        "column1_bg_size": "cover",
-        "column1_bg_overlay_opacity": 0,
-        "column1_padding_top": 5,
-        "column1_padding_bottom": 5,
-        "column1_padding_left": 5,
-        "column1_padding_right": 0,
-        "column2_content_type": "video",
-        "column2_image_alt": "",
-        "column2_image_link": "",
-        "column2_image_fit": "cover",
-        "column2_video_source": "upload",
-        "column2_video": "shopify://files/videos/voyage hy hype.mp4",
-        "column2_video_mobile": "shopify://files/videos/voyage hy hype.mp4",
-        "column2_video_url": "",
-        "column2_video_url_mobile": "",
-        "column2_video_autoplay": true,
-        "column2_video_muted": true,
-        "column2_video_loop": true,
-        "column2_video_controls": true,
-        "column2_heading": "",
-        "column2_subheading": "",
-        "column2_text": "",
-        "column2_button_text": "",
-        "column2_button_link": "",
-        "column2_text_alignment": "left",
-        "column2_text_color": "#333333",
-        "column2_heading_size": 36,
-        "column2_bg_color": "#ffffff",
-        "column2_bg_size": "cover",
-        "column2_bg_overlay_opacity": 0,
-        "column2_padding_top": 0,
-        "column2_padding_bottom": 0,
-        "column2_padding_left": 0,
-        "column2_padding_right": 0,
-        "section_bg_color": "#ffffff",
-        "section_padding_top": 80,
-        "section_padding_bottom": 80,
-        "section_padding_horizontal": 20,
-        "section_min_height": 400
-      }
-    },
-    "custom_text_xRqecy": {
-      "type": "custom-text",
-      "name": "Custom Text",
-      "settings": {
-        "heading": "Experience Wellness  Elements",
-        "subheading": "While no two events are exactly the same, here’s what you can usually expect — give or take a few surprises. Everything is designed to be inclusive and welcoming across all ages.",
-        "text_content": "<ul><li><strong>Sensory Experiences:</strong> Sound healing, guided visualisation, manifestation rituals, and floating meditations designed to quiet the mind and reconnect with presence.<br/></li><li><strong>Movement: </strong>Intentional sessions including pilates, sculpt-inspired flows, stretch therapy, barre, and sound-led yoga — a gentle rebellion against modern stillness.<br/></li><li><strong>Recovery & Rest:</strong> Cold plunges, breathwork, reiki, reflexology, ice facials, and infrared sauna blankets to soothe your nervous system and restore balance.<br/></li><li><strong>Nourishment:</strong> Wellness-aligned meals by private chefs using refined ingredients — from sunrise breakfasts to onboard BBQs — indulgent, intentional, and beautifully curated.<br/></li><li><strong>Indulgence:</strong> Natural face and hair masks, optional blow dries, and glow rituals that leave you radiant, grounded, and ready for the ’gram.</li></ul>",
-        "heading_color": "#333333",
-        "heading_font_size": 40,
-        "heading_font_weight": "700",
-        "heading_font_family": "serif",
-        "heading_text_transform": "capitalize",
-        "subheading_color": "#666666",
-        "subheading_font_size": 24,
-        "subheading_font_weight": "400",
-        "subheading_font_family": "sans-serif",
-        "subheading_text_transform": "none",
-        "text_color": "#333333",
-        "text_font_size": 16,
-        "text_font_weight": "400",
-        "text_font_family": "sans-serif",
-        "text_line_height": 2.5,
-        "text_alignment": "justify",
-        "content_max_width": 800,
-        "background_color": "#ffffff",
-        "background_size": "cover",
-        "background_overlay_opacity": 0,
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "padding_horizontal": 20,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "heading_margin_bottom": 20,
-        "subheading_margin_bottom": 20
-      }
-    },
-    "image_carousel_rVKCqM": {
-      "type": "image-carousel",
+    "booking_calendar_tNwzTR": {
+      "type": "booking-calendar",
       "blocks": {
-        "image_4baB4y": {
-          "type": "image",
+        "event_gx4LN6": {
+          "type": "event",
           "settings": {
-            "image": "shopify://shop_images/voyage.png",
-            "alt_text": "",
-            "image_link": ""
+            "event_image": "shopify://shop_images/Meat_the_team.jpg",
+            "event_title": "Yoga Class",
+            "event_link": ""
           }
         },
-        "image_ciaPx9": {
-          "type": "image",
+        "event_LHBhLx": {
+          "type": "event",
           "settings": {
-            "image": "shopify://shop_images/voyage.png",
-            "alt_text": "",
-            "image_link": ""
+            "event_image": "shopify://shop_images/DSC05749_copy_2.jpg",
+            "event_title": "Pilates Session",
+            "event_link": ""
           }
         },
-        "image_bTc4gd": {
-          "type": "image",
+        "event_GjdhYP": {
+          "type": "event",
           "settings": {
-            "image": "shopify://shop_images/Main.jpg",
-            "alt_text": "",
-            "image_link": ""
+            "event_image": "shopify://shop_images/voyage.png",
+            "event_title": "Pilates Class",
+            "event_link": ""
           }
         },
-        "image_Xdi3mj": {
-          "type": "image",
+        "event_6KbCiY": {
+          "type": "event",
           "settings": {
-            "image": "shopify://shop_images/theme_cover_image.jpg",
-            "alt_text": "",
-            "image_link": ""
+            "event_title": "Yoga Class",
+            "event_link": ""
           }
         },
-        "image_nDJJ4w": {
-          "type": "image",
+        "event_JPCamm": {
+          "type": "event",
           "settings": {
-            "image": "shopify://shop_images/voyage.png",
-            "alt_text": "",
-            "image_link": ""
-          }
-        },
-        "image_apceQw": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Main_c8ff0b5d-c712-429a-be00-b29bd55cbc9d.jpg",
-            "alt_text": "",
-            "image_link": ""
+            "event_title": "Pilates Class",
+            "event_link": ""
           }
         }
       },
       "block_order": [
-        "image_4baB4y",
-        "image_ciaPx9",
-        "image_bTc4gd",
-        "image_Xdi3mj",
-        "image_nDJJ4w",
-        "image_apceQw"
+        "event_gx4LN6",
+        "event_LHBhLx",
+        "event_GjdhYP",
+        "event_6KbCiY",
+        "event_JPCamm"
       ],
-      "name": "Image Carousel",
+      "name": "Booking Calendar",
       "settings": {
-        "autoplay": true,
-        "autoplay_speed": 5,
-        "show_arrows": true,
-        "show_dots": true,
-        "images_per_view": 3,
-        "image_height": 600,
-        "image_gap": 15,
-        "image_fit": "cover",
-        "arrows_size": 50,
-        "arrows_color": "#8b6f47",
-        "arrows_bg_color": "#ffffff",
-        "arrows_opacity": 90,
-        "dots_color": "#8b6f47",
-        "section_bg_color": "#eae7e1",
-        "section_padding_top": 80,
-        "section_padding_bottom": 80,
-        "section_padding_horizontal": 20
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "background_color": "#F8F7F5",
+        "heading_color": "#8B6F47",
+        "heading_font_family": "Playfair Display, serif",
+        "weekday_color": "#8B6F47",
+        "weekday_font_family": "Playfair Display, serif",
+        "day_number_color": "#333333"
       }
     },
-    "meet_team_YGLgdU": {
-      "type": "meet-team",
-      "name": "Meet Team",
-      "settings": {
-        "heading": "Meet the Team",
-        "team_image": "shopify://shop_images/Meat_the_team.jpg",
-        "introduction_text": "<p>Glow Deck was founded by Gaby and Nicole — two friends who’ve spent over 15 years in Dubai, working with people, creating experiences, and watching the city evolve into a global hub for lifestyle, wellness, and everything in between.</p>",
-        "quote_text": "<p><em>“We craved more from life — something that didn’t drain us, but elevated us. Glow Deck was born from a simple idea: what if joy, movement, and meaningful connection could exist within a truly luxurious experience?”</em></p>",
-        "image_position": "left",
-        "stack_on_mobile": true,
-        "heading_color": "#333333",
-        "heading_font_size": 40,
-        "heading_font_weight": "600",
-        "heading_font_family": "serif",
-        "heading_text_align": "center",
-        "text_color": "#333333",
-        "text_font_size": 16,
-        "text_font_family": "sans-serif",
-        "text_line_height": 1.6,
-        "quote_color": "#333333",
-        "quote_font_size": 18,
-        "quote_font_style": "italic",
-        "image_fit": "cover",
-        "image_border_radius": 0,
-        "section_bg_color": "#eae7e1",
-        "section_padding_top": 80,
-        "section_padding_bottom": 80,
-        "section_padding_horizontal": 20,
-        "heading_margin_bottom": 50,
-        "column_gap": 40,
-        "text_spacing": 20
-      }
-    },
-    "custom_text_aJh9pV": {
+    "custom_text_JNzLJm": {
       "type": "custom-text",
       "name": "Custom Text",
       "settings": {
-        "heading": "",
-        "subheading": "",
-        "text_content": "<h1>Click here to book your Glow Social ticket or to make any enquiries!</h1>",
-        "heading_color": "#333333",
-        "heading_font_size": 36,
-        "heading_font_weight": "600",
-        "heading_font_family": "sans-serif",
-        "heading_text_transform": "none",
-        "subheading_color": "#666666",
-        "subheading_font_size": 20,
-        "subheading_font_weight": "400",
-        "subheading_font_family": "sans-serif",
-        "subheading_text_transform": "none",
-        "text_color": "#333333",
-        "text_font_size": 24,
-        "text_font_weight": "400",
-        "text_font_family": "serif",
-        "text_line_height": 2.5,
+        "heading": "Contact Us",
+        "subheading": "Contact us any time with questions, private/corporate event enquiries or just some feedback!Gift cards are available, please contact us to purchase.",
+        "text_content": "<p>Phone or WhatsApp: <a href=\"https://wa.me/971585312526\" target=\"_blank\">+971585312526</a></p><p>Email: <a href=\"mailto:gaby@glowdeckme.com?\" target=\"_blank\">gaby@glowdeckme.com</a> OR <a href=\"mailto:nicole@glowdeckme.com?\" target=\"_blank\">nicole@glowdeckme.com</a></p><p></p><p></p><h3>To secure your Glow Social ticket, please select an event below:</h3>",
         "text_alignment": "center",
         "content_max_width": 900,
-        "background_color": "#fff8e7",
+        "background_color": "#ffffff",
         "background_size": "cover",
         "background_overlay_opacity": 0,
         "padding_top": 200,
@@ -347,12 +137,8 @@
     }
   },
   "order": [
-    "hero_section_KcAnbM",
-    "custom_text_GjMz68",
-    "two_columns_fMeVMy",
-    "custom_text_xRqecy",
-    "image_carousel_rVKCqM",
-    "meet_team_YGLgdU",
-    "custom_text_aJh9pV"
+    "hero_section_mJUjfe",
+    "booking_calendar_tNwzTR",
+    "custom_text_JNzLJm"
   ]
 }
