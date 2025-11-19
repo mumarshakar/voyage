@@ -54,47 +54,19 @@
         "label": "Heading Font Family",
         "options": [
           {
-            "value": "playfair",
-            "label": "Playfair Display (Serif)"
-          },
-          {
-            "value": "merriweather",
-            "label": "Merriweather (Serif)"
-          },
-          {
             "value": "merriweather_heading",
-            "label": "Merriweather (Local Heading)"
+            "label": "Merriweather Heading"
           },
           {
-            "value": "segoe",
-            "label": "Segoe UI (Sans-serif)"
+            "value": "merriweather_subheading",
+            "label": "Merriweather Subheading"
           },
           {
-            "value": "arial",
-            "label": "Arial (Sans-serif)"
-          },
-          {
-            "value": "georgia",
-            "label": "Georgia (Serif)"
-          },
-          {
-            "value": "times",
-            "label": "Times New Roman (Serif)"
-          },
-          {
-            "value": "helvetica",
-            "label": "Helvetica (Sans-serif)"
-          },
-          {
-            "value": "verdana",
-            "label": "Verdana (Sans-serif)"
-          },
-          {
-            "value": "courier",
-            "label": "Courier New (Monospace)"
+            "value": "merriweather_body",
+            "label": "Merriweather Body"
           }
         ],
-        "default": "segoe",
+        "default": "merriweather_heading",
         "info": "Default font family for all headings across the theme"
       },
       {
@@ -173,47 +145,19 @@
         "label": "Subheading Font Family",
         "options": [
           {
-            "value": "playfair",
-            "label": "Playfair Display (Serif)"
-          },
-          {
-            "value": "merriweather",
-            "label": "Merriweather (Serif)"
+            "value": "merriweather_heading",
+            "label": "Merriweather Heading"
           },
           {
             "value": "merriweather_subheading",
-            "label": "Merriweather (Local Subheading)"
+            "label": "Merriweather Subheading"
           },
           {
-            "value": "segoe",
-            "label": "Segoe UI (Sans-serif)"
-          },
-          {
-            "value": "arial",
-            "label": "Arial (Sans-serif)"
-          },
-          {
-            "value": "georgia",
-            "label": "Georgia (Serif)"
-          },
-          {
-            "value": "times",
-            "label": "Times New Roman (Serif)"
-          },
-          {
-            "value": "helvetica",
-            "label": "Helvetica (Sans-serif)"
-          },
-          {
-            "value": "verdana",
-            "label": "Verdana (Sans-serif)"
-          },
-          {
-            "value": "courier",
-            "label": "Courier New (Monospace)"
+            "value": "merriweather_body",
+            "label": "Merriweather Body"
           }
         ],
-        "default": "segoe",
+        "default": "merriweather_subheading",
         "info": "Default font family for all subheadings across the theme"
       },
       {
@@ -292,47 +236,19 @@
         "label": "Body Text Font Family",
         "options": [
           {
-            "value": "playfair",
-            "label": "Playfair Display (Serif)"
+            "value": "merriweather_heading",
+            "label": "Merriweather Heading"
           },
           {
-            "value": "merriweather",
-            "label": "Merriweather (Serif)"
+            "value": "merriweather_subheading",
+            "label": "Merriweather Subheading"
           },
           {
             "value": "merriweather_body",
-            "label": "Merriweather (Local Body)"
-          },
-          {
-            "value": "segoe",
-            "label": "Segoe UI (Sans-serif)"
-          },
-          {
-            "value": "arial",
-            "label": "Arial (Sans-serif)"
-          },
-          {
-            "value": "georgia",
-            "label": "Georgia (Serif)"
-          },
-          {
-            "value": "times",
-            "label": "Times New Roman (Serif)"
-          },
-          {
-            "value": "helvetica",
-            "label": "Helvetica (Sans-serif)"
-          },
-          {
-            "value": "verdana",
-            "label": "Verdana (Sans-serif)"
-          },
-          {
-            "value": "courier",
-            "label": "Courier New (Monospace)"
+            "label": "Merriweather Body"
           }
         ],
-        "default": "segoe",
+        "default": "merriweather_body",
         "info": "Default font family for body text across the theme"
       },
       {
