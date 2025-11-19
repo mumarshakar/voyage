@@ -62,6 +62,10 @@
             "label": "Merriweather (Serif)"
           },
           {
+            "value": "merriweather_heading",
+            "label": "Merriweather (Local Heading)"
+          },
+          {
             "value": "segoe",
             "label": "Segoe UI (Sans-serif)"
           },
@@ -177,6 +181,10 @@
             "label": "Merriweather (Serif)"
           },
           {
+            "value": "merriweather_subheading",
+            "label": "Merriweather (Local Subheading)"
+          },
+          {
             "value": "segoe",
             "label": "Segoe UI (Sans-serif)"
           },
@@ -290,6 +298,10 @@
           {
             "value": "merriweather",
             "label": "Merriweather (Serif)"
+          },
+          {
+            "value": "merriweather_body",
+            "label": "Merriweather (Local Body)"
           },
           {
             "value": "segoe",

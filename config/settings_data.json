@@ -10,6 +10,9 @@
 {
   "current": {
     "color_primary_orange": "#3577ff",
+    "heading_font_family": "merriweather_heading",
+    "subheading_font_family": "merriweather_subheading",
+    "body_font_family": "merriweather_body",
     "sections": {
       "header": {
         "type": "header",

@@ -1,13 +1,37 @@
 /* Voyage Theme Styles */
 /* CSS Variables for colors are now set dynamically in theme.liquid from theme settings */
 /* Keeping warm-brown variables as they are not theme settings */
+@font-face {
+  font-family: 'MerriweatherHeading';
+  src: url({{ 'Merriweather_heading.ttf' | asset_url }}) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MerriweatherSubheading';
+  src: url({{ 'Merriweather_subheading.ttf' | asset_url }}) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MerriweatherBody';
+  src: url({{ 'Merriweather_text.ttf' | asset_url }}) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --warm-brown: #8B6F47;
   --warm-brown-dark: #6B5735;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'MerriweatherBody', 'Merriweather', Georgia, serif;
   background-color: var(--white);
 }
 
@@ -152,7 +176,7 @@ body {
 }
 
 .btn-glow-cta {
-  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-family: 'MerriweatherHeading', 'Merriweather', Georgia, serif;
   font-size: 1rem;
   font-weight: 400;
   text-transform: uppercase;
@@ -286,7 +310,7 @@ body {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'MerriweatherBody', 'Merriweather', Georgia, serif;
 }
 
 .calendar-header {

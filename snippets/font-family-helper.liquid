@@ -11,6 +11,12 @@
 
 {%- liquid
   case font_family
+    when 'merriweather_heading'
+      assign font_family_value = "'MerriweatherHeading', 'Merriweather', Georgia, serif"
+    when 'merriweather_subheading'
+      assign font_family_value = "'MerriweatherSubheading', 'Merriweather', Georgia, serif"
+    when 'merriweather_body'
+      assign font_family_value = "'MerriweatherBody', 'Merriweather', Georgia, serif"
     when 'playfair'
       assign font_family_value = "'Playfair Display', 'Times New Roman', serif"
     when 'merriweather'
