@@ -140,7 +140,7 @@
         "settings": {
           "footer_text": "Follow us on instagram!",
           "instagram_url": "https://www.instagram.com/thehypeclubofficial?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr",
-          "footer_bg_color": "#FFFFFF",
+          "footer_bg_color": "#ffffff",
           "footer_text_color": "#ff6b35",
           "footer_font_family": "serif",
           "footer_font_size": 18,
@@ -149,6 +149,15 @@
         }
       }
     },
-    "content_for_index": []
+    "content_for_index": [],
+    "blocks": {
+      "6455419830187867978": {
+        "type": "shopify://apps/sesami-booking-app/blocks/app-embed/dc3b1344-0a53-477e-93d0-4b8a473ab587",
+        "disabled": false,
+        "settings": {
+          "enable_cart_verification": true
+        }
+      }
+    }
   }
 }
