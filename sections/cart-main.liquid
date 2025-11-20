@@ -1,0 +1,72 @@
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+    {%- if cart.item_count > 0 -%}
+      <h1 class="text-3xl font-bold text-gray-900 mb-8">Your Cart</h1>
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {%- for item in cart.items -%}
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0 h-10 w-10">
+                      <img class="h-10 w-10 rounded-full" src="{{ item.image | image_url: width: 100 }}" alt="">
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">{{ item.product.title }}</div>
+                      <div class="text-sm text-gray-500">{{ item.variant.title }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{ item.price | money }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <input type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0" class="w-20 text-center">
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&amp;quantity=0" class="text-indigo-600 hover:text-indigo-900">Remove</a>
+                </td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+        <div class="mt-8 flex justify-between items-center">
+          <div>
+            <label for="note" class="block text-sm font-medium text-gray-700">Add a note to your order:</label>
+            <textarea name="note" id="note" rows="3" class="mt-1 block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">{{ cart.note }}</textarea>
+          </div>
+          <div class="text-right">
+            <p class="text-lg font-medium text-gray-900">Subtotal: {{ cart.total_price | money }}</p>
+            <p class="mt-1 text-sm text-gray-500">Taxes and shipping calculated at checkout.</p>
+            <div class="mt-4">
+              <button type="submit" name="update" class="button-secondary">Update Cart</button>
+              <button type="submit" name="checkout" class="button-primary ml-4">Checkout</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="text-center py-20">
+        <h1 class="text-3xl font-bold text-gray-900">Your cart is empty</h1>
+        <p class="mt-4 text-lg text-gray-600">Continue browsing <a href="{{ routes.all_products_collection_url }}" class="text-indigo-600 hover:text-indigo-900">here</a>.</p>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart Main",
+  "class": "cart-main-section",
+  "settings": []
+}
+{% endschema %}
