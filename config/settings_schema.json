@@ -38,6 +38,78 @@
         "id": "color_white",
         "label": "White",
         "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "logo_color",
+        "label": "Logo Color",
+        "default": "#8B6F47"
+      },
+      {
+        "type": "color",
+        "id": "menu_link_color",
+        "label": "Menu Link Color",
+        "default": "#8B6F47"
+      },
+      {
+        "type": "color",
+        "id": "menu_link_hover_color",
+        "label": "Menu Link Hover Color",
+        "default": "#8B6F47"
+      },
+      {
+        "type": "color",
+        "id": "dropdown_bg_color",
+        "label": "Dropdown Background Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "dropdown_link_color",
+        "label": "Dropdown Link Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "dropdown_hover_bg_color",
+        "label": "Dropdown Hover Background Color",
+        "default": "#FFF8E7"
+      },
+      {
+        "type": "color",
+        "id": "dropdown_hover_color",
+        "label": "Dropdown Hover Color",
+        "default": "#FF6B35"
+      },
+      {
+        "type": "color",
+        "id": "header_bg_color",
+        "label": "Header Background Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "scrolled_bg_color",
+        "label": "Scrolled Background Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "mobile_menu_icon_color",
+        "label": "Mobile Menu Icon Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "mobile_menu_border_color",
+        "label": "Mobile Menu Border Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "mobile_menu_bg_color",
+        "label": "Mobile Menu Background Color",
+        "default": "#FFFFFF"
       }
     ]
   },
