@@ -11,16 +11,54 @@
   "sections": {
     "product_main": {
       "type": "product-main",
+      "settings": {
+        "show_thumbnails": true,
+        "show_vendor": true,
+        "show_sku": false,
+        "show_quantity_selector": true,
+        "enable_dynamic_checkout": false
+      }
+    },
+    "176363517991952302": {
+      "type": "apps",
+      "blocks": {
+        "sesami_booking_app_app_block_FN6T9d": {
+          "type": "shopify://apps/sesami-booking-app/blocks/app-block/dc3b1344-0a53-477e-93d0-4b8a473ab587",
+          "settings": {
+            "auto_add_to_cart": true,
+            "skip_cart": true,
+            "button_label": "Book Now",
+            "alignment": "center",
+            "color": "#ffffff",
+            "color_background": "#000",
+            "font_size": 16,
+            "border_width": 1,
+            "border_radius": 4,
+            "border_color": "#000",
+            "width": "300px",
+            "height": "45px",
+            "cta_background_color": "#333",
+            "cta_text_color": "#fff"
+          }
+        }
+      },
+      "block_order": [
+        "sesami_booking_app_app_block_FN6T9d"
+      ],
       "settings": {}
     },
     "product_description": {
       "type": "product-description",
-      "settings": {}
+      "settings": {
+        "show_tabs": true,
+        "show_description": true,
+        "show_additional_info": true
+      }
     }
   },
   "order": [
     "product_main",
+    "176363517991952302",
     "product_description"
   ]
 }
-
