@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "product_main": {
+      "type": "product-main",
+      "settings": {}
+    },
+    "product_description": {
+      "type": "product-description",
+      "settings": {}
+    }
+  },
+  "order": [
+    "product_main",
+    "product_description"
+  ]
+}
+

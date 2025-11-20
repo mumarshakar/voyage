@@ -1,0 +1,272 @@
+{%- liquid
+  assign show_vendor = section.settings.show_vendor | default: false
+  assign show_sku = section.settings.show_sku | default: false
+  assign show_quantity_selector = section.settings.show_quantity_selector | default: true
+  assign enable_dynamic_checkout = section.settings.enable_dynamic_checkout | default: false
+-%}
+
+<div class="product-info-section" style="padding: 40px 0;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-6">
+        {% if show_vendor and product.vendor != blank %}
+          <div class="product-vendor mb-2" style="font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.1em;">
+            {{ product.vendor }}
+          </div>
+        {% endif %}
+
+        <h1 class="product-title mb-3">{{ product.title }}</h1>
+
+        <div class="product-price mb-4">
+          {% if product.compare_at_price > product.price %}
+            <span class="product-price-compare text-muted text-decoration-line-through me-2" style="font-size: 18px;">
+              {{ product.compare_at_price | money }}
+            </span>
+            <span class="product-price-current text-danger" style="font-size: 24px; font-weight: 600;">
+              {{ product.price | money }}
+            </span>
+            <span class="product-price-save ms-2" style="color: var(--primary-orange, #FF6B35); font-weight: 600;">
+              Save {{ product.compare_at_price | minus: product.price | money }}
+            </span>
+          {% else %}
+            <span class="product-price-current" style="font-size: 28px; font-weight: 600;">
+              {{ product.price | money }}
+            </span>
+          {% endif %}
+        </div>
+
+        {% if show_sku and product.selected_or_first_available_variant.sku != blank %}
+          <div class="product-sku mb-4" style="font-size: 14px; color: #666;">
+            SKU: <strong>{{ product.selected_or_first_available_variant.sku }}</strong>
+          </div>
+        {% endif %}
+
+        {% if product.available == false %}
+          <div class="alert alert-danger mb-4" role="alert">
+            This product is currently out of stock.
+          </div>
+        {% else %}
+          <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form">
+            {% if product.variants.size > 1 %}
+              <div class="product-variants mb-4">
+                <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
+                {% for option in product.options_with_values %}
+                  <div class="mb-3">
+                    <label for="option-{{ forloop.index }}" class="form-label fw-semibold mb-2">
+                      {{ option.name }}:
+                    </label>
+                    <select 
+                      id="option-{{ forloop.index }}"
+                      class="form-select product-option-select"
+                      required
+                      data-option-index="{{ option.position | minus: 1 }}"
+                      onchange="updateSelectedVariant()">
+                      {% for value in option.values %}
+                        <option 
+                          value="{{ value | escape }}"
+                          {% if option.selected_value == value %}selected{% endif %}>
+                          {{ value }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
+            {% endif %}
+
+            {% if show_quantity_selector %}
+              <div class="product-quantity mb-4">
+                <label for="quantity" class="form-label fw-semibold mb-2">Quantity:</label>
+                <div class="input-group" style="max-width: 200px;">
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-secondary"
+                    onclick="decreaseQuantity()"
+                    style="border-color: var(--cream, #FFF8E7);">
+                    -
+                  </button>
+                  <input 
+                    type="number" 
+                    id="quantity" 
+                    name="quantity" 
+                    value="1" 
+                    min="1" 
+                    class="form-control text-center"
+                    style="border-color: var(--cream, #FFF8E7);">
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-secondary"
+                    onclick="increaseQuantity()"
+                    style="border-color: var(--cream, #FFF8E7);">
+                    +
+                  </button>
+                </div>
+              </div>
+            {% else %}
+              <input type="hidden" name="quantity" value="1">
+            {% endif %}
+
+            <div class="product-actions">
+              <button 
+                type="submit" 
+                name="add" 
+                class="btn btn-primary btn-lg w-100 mb-3"
+                style="background-color: var(--primary-orange, #FF6B35); border-color: var(--primary-orange, #FF6B35); padding: 14px 32px; font-size: 18px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;"
+                id="add-to-cart-btn">
+                Add to Cart
+              </button>
+
+              {% if enable_dynamic_checkout %}
+                {{ form | payment_button }}
+              {% endif %}
+            </div>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const productVariants = [
+    {% for variant in product.variants %}
+    {
+      id: {{ variant.id }},
+      title: "{{ variant.title | escape }}",
+      price: {{ variant.price }},
+      priceFormatted: "{{ variant.price | money }}",
+      compare_at_price: {{ variant.compare_at_price | default: 0 }},
+      compare_at_priceFormatted: "{{ variant.compare_at_price | money | default: '' }}",
+      available: {{ variant.available | json }},
+      option1: "{{ variant.option1 | escape }}",
+      option2: "{{ variant.option2 | escape }}",
+      option3: "{{ variant.option3 | escape }}"
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+  
+  function updateSelectedVariant() {
+    const selects = document.querySelectorAll('.product-option-select');
+    const selectedOptions = [];
+    
+    selects.forEach(select => {
+      selectedOptions.push(select.value);
+    });
+    
+    // Find matching variant
+    const variant = productVariants.find(v => {
+      let match = true;
+      if (selectedOptions[0] && v.option1 !== selectedOptions[0]) match = false;
+      if (selectedOptions[1] && v.option2 !== selectedOptions[1]) match = false;
+      if (selectedOptions[2] && v.option3 !== selectedOptions[2]) match = false;
+      return match;
+    });
+    
+    if (variant) {
+      // Update hidden variant ID input
+      const variantIdInput = document.getElementById('selected-variant-id');
+      if (variantIdInput) {
+        variantIdInput.value = variant.id;
+      }
+      
+      // Update price display
+      updatePrice(variant.priceFormatted, variant.compare_at_priceFormatted, variant.price, variant.compare_at_price);
+      
+      // Update button state
+      const addToCartBtn = document.getElementById('add-to-cart-btn');
+      if (addToCartBtn) {
+        addToCartBtn.disabled = !variant.available;
+        addToCartBtn.textContent = variant.available ? 'Add to Cart' : 'Out of Stock';
+      }
+    }
+  }
+  
+  function updatePrice(priceFormatted, compareAtPriceFormatted, price, compareAtPrice) {
+    const priceContainer = document.querySelector('.product-price');
+    if (!priceContainer) return;
+    
+    if (compareAtPrice && compareAtPrice > price && compareAtPriceFormatted) {
+      const savingsCents = compareAtPrice - price;
+      // Format savings - Shopify formats in cents
+      const savingsFormatted = (savingsCents / 100).toLocaleString('en-US', {
+        style: 'currency',
+        currency: '{{ cart.currency.iso_code | default: "USD" }}'
+      });
+      
+      priceContainer.innerHTML = `
+        <span class="product-price-compare text-muted text-decoration-line-through me-2" style="font-size: 18px;">${compareAtPriceFormatted}</span>
+        <span class="product-price-current text-danger" style="font-size: 24px; font-weight: 600;">${priceFormatted}</span>
+        <span class="product-price-save ms-2" style="color: var(--primary-orange, #FF6B35); font-weight: 600;">Save ${savingsFormatted}</span>
+      `;
+    } else {
+      priceContainer.innerHTML = `
+        <span class="product-price-current" style="font-size: 28px; font-weight: 600;">${priceFormatted}</span>
+      `;
+    }
+  }
+  
+  function increaseQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    if (quantityInput) {
+      quantityInput.value = parseInt(quantityInput.value) + 1;
+    }
+  }
+  
+  function decreaseQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    if (quantityInput && parseInt(quantityInput.value) > 1) {
+      quantityInput.value = parseInt(quantityInput.value) - 1;
+    }
+  }
+  
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    {% if product.variants.size > 1 %}
+      updateSelectedVariant();
+    {% endif %}
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Info",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show Vendor",
+      "default": false,
+      "info": "Display the product vendor name"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sku",
+      "label": "Show SKU",
+      "default": false,
+      "info": "Display the product SKU"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": "Show Quantity Selector",
+      "default": true,
+      "info": "Allow customers to select quantity before adding to cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_dynamic_checkout",
+      "label": "Enable Dynamic Checkout Buttons",
+      "default": false,
+      "info": "Show payment provider buttons (PayPal, Apple Pay, etc.)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Info"
+    }
+  ]
+}
+{% endschema %}
+

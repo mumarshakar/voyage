@@ -1,0 +1,131 @@
+{%- liquid
+  assign show_thumbnails = section.settings.show_thumbnails | default: true
+  assign thumbnail_position = section.settings.thumbnail_position | default: 'bottom'
+  assign image_zoom = section.settings.image_zoom | default: true
+-%}
+
+<div class="product-images-section">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12">
+        {% if product.featured_image %}
+          <div class="product-image-main mb-3">
+            <img 
+              id="product-main-image"
+              src="{{ product.featured_image | image_url: width: 1200 }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              class="img-fluid w-100"
+              style="border-radius: 8px; object-fit: cover; max-height: 800px;"
+              loading="eager">
+          </div>
+        {% endif %}
+
+        {% if show_thumbnails and product.images.size > 1 %}
+          <div class="product-thumbnails d-flex gap-3 overflow-x-auto pb-2">
+            {% for image in product.images %}
+              <button 
+                type="button"
+                class="product-thumbnail-btn border-0 bg-transparent p-0"
+                data-image-src="{{ image | image_url: width: 1200 }}"
+                style="flex-shrink: 0; cursor: pointer; opacity: {% if forloop.first %}1{% else %}0.6{% endif %}; transition: opacity 0.3s;"
+                onclick="changeProductImage(this)">
+                <img 
+                  src="{{ image | image_url: width: 200 }}"
+                  alt="{{ image.alt | escape }}"
+                  class="img-fluid"
+                  style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 2px solid {% if forloop.first %}var(--primary-orange, #FF6B35){% else %}transparent{% endif %};"
+                  loading="lazy">
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function changeProductImage(button) {
+    const imageSrc = button.dataset.imageSrc;
+    const mainImage = document.getElementById('product-main-image');
+    if (mainImage && imageSrc) {
+      mainImage.src = imageSrc;
+      
+      // Update thumbnail opacity
+      document.querySelectorAll('.product-thumbnail-btn').forEach(btn => {
+        btn.style.opacity = '0.6';
+        btn.querySelector('img').style.borderColor = 'transparent';
+      });
+      button.style.opacity = '1';
+      button.querySelector('img').style.borderColor = 'var(--primary-orange, #FF6B35)';
+    }
+  }
+</script>
+
+<style>
+  .product-thumbnails {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-orange, #FF6B35) transparent;
+  }
+  
+  .product-thumbnails::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .product-thumbnails::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .product-thumbnails::-webkit-scrollbar-thumb {
+    background-color: var(--primary-orange, #FF6B35);
+    border-radius: 3px;
+  }
+  
+  .product-thumbnail-btn:hover {
+    opacity: 1 !important;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product Images",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show Thumbnails",
+      "default": true,
+      "info": "Display thumbnail images below the main product image"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_position",
+      "label": "Thumbnail Position",
+      "options": [
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left Side"
+        }
+      ],
+      "default": "bottom"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_zoom",
+      "label": "Enable Image Zoom",
+      "default": true,
+      "info": "Allow users to zoom into product images"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Images"
+    }
+  ]
+}
+{% endschema %}
+
