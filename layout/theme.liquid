@@ -49,6 +49,9 @@
       assign body_line_height = settings.body_line_height | default: 1.6
       assign body_letter_spacing = settings.body_letter_spacing | default: 0
       assign body_word_spacing = settings.body_word_spacing | default: 0
+      
+      # Get menu theme settings
+      assign menu_font_family = settings.menu_font_family | default: 'merriweather_body'
     -%}
     
     :root {
@@ -128,6 +131,17 @@
         else
           assign body_font_family_css = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
       endcase
+      
+      case menu_font_family
+        when 'merriweather_heading'
+          assign menu_font_family_css = "'MerriweatherHeading', 'Merriweather', Georgia, serif"
+        when 'merriweather_subheading'
+          assign menu_font_family_css = "'MerriweatherSubheading', 'Merriweather', Georgia, serif"
+        when 'merriweather_body'
+          assign menu_font_family_css = "'MerriweatherBody', 'Merriweather', Georgia, serif"
+        else
+          assign menu_font_family_css = "'MerriweatherBody', 'Merriweather', Georgia, serif"
+      endcase
     -%}
     
     /* Global Typography Styles from Theme Settings - Loaded AFTER theme.css to ensure priority */
@@ -206,6 +220,13 @@
       line-height: {{ body_line_height }} !important;
       letter-spacing: {{ body_letter_spacing }}px !important;
       word-spacing: {{ body_word_spacing }}px !important;
+    }
+    
+    /* Menu Typography from Theme Settings */
+    html body .navbar .nav-link,
+    html body .navbar-nav .nav-link,
+    html body .navbar .nav-link.dropdown-toggle {
+      font-family: {{ menu_font_family_css }} !important;
     }
   </style>
 </head>
