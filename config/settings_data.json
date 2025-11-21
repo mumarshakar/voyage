@@ -19,6 +19,8 @@
     "menu_font_size": 16,
     "menu_font_weight": "500",
     "menu_link_spacing": 8,
+    "menu_text_decoration": "none",
+    "menu_text_transform": "none",
     "dropdown_bg_color": "#FFFFFF",
     "dropdown_link_color": "#333333",
     "dropdown_hover_bg_color": "#FFF8E7",
