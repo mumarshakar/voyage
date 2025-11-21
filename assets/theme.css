@@ -201,7 +201,7 @@ body {
   margin-top: auto;
   margin-bottom: 10vh;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .btn-glow-cta:focus,
