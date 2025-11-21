@@ -13,15 +13,15 @@
     assign logo_color = '#8B6F47'
     assign menu = 'main-menu'
     assign menu_alignment = 'right'
-    assign menu_font_size = 16
-    assign menu_font_weight = '500'
-    assign menu_link_spacing = 8
-    assign menu_link_color = '#8B6F47'
-    assign menu_link_hover_color = '#8B6F47'
-    assign dropdown_bg_color = '#FFFFFF'
-    assign dropdown_link_color = '#333333'
-    assign dropdown_hover_bg_color = '#FFF8E7'
-    assign dropdown_hover_color = '#FF6B35'
+    assign menu_font_size = settings.menu_font_size | default: 16
+    assign menu_font_weight = settings.menu_font_weight | default: '500'
+    assign menu_link_spacing = settings.menu_link_spacing | default: 8
+    assign menu_link_color = settings.menu_link_color | default: '#8B6F47'
+    assign menu_link_hover_color = settings.menu_link_hover_color | default: '#FF6B35'
+    assign dropdown_bg_color = settings.dropdown_bg_color | default: '#FFFFFF'
+    assign dropdown_link_color = settings.dropdown_link_color | default: '#333333'
+    assign dropdown_hover_bg_color = settings.dropdown_hover_bg_color | default: '#FFF8E7'
+    assign dropdown_hover_color = settings.dropdown_hover_color | default: '#FF6B35'
     assign header_bg_color = '#FFFFFF'
     assign header_shadow = true
     assign header_style = 'fixed'
@@ -85,11 +85,11 @@
     assign logo_color = settings.logo_color | default: '#8B6F47'
     assign menu = header_settings.menu | default: 'main-menu'
     assign menu_alignment = header_settings.menu_alignment | default: 'right'
-    assign menu_font_size = header_settings.menu_font_size | default: 16
-    assign menu_font_weight = header_settings.menu_font_weight | default: '500'
-    assign menu_link_spacing = header_settings.menu_link_spacing | default: 8
+    assign menu_font_size = settings.menu_font_size | default: 16
+    assign menu_font_weight = settings.menu_font_weight | default: '500'
+    assign menu_link_spacing = settings.menu_link_spacing | default: 8
     assign menu_link_color = settings.menu_link_color | default: '#8B6F47'
-    assign menu_link_hover_color = settings.menu_link_hover_color | default: '#8B6F47'
+    assign menu_link_hover_color = settings.menu_link_hover_color | default: '#FF6B35'
     assign dropdown_bg_color = settings.dropdown_bg_color | default: '#FFFFFF'
     assign dropdown_link_color = settings.dropdown_link_color | default: '#333333'
     assign dropdown_hover_bg_color = settings.dropdown_hover_bg_color | default: '#FFF8E7'
@@ -285,18 +285,14 @@
                 <a class="nav-link dropdown-toggle" 
                    href="{{ link.url }}" 
                    role="button" 
-                   data-bs-toggle="dropdown"
-                   style="color: {{ menu_link_color }} !important; 
-                          font-size: {{ menu_font_size }}px;
-                          font-weight: {{ menu_font_weight }};">
+                   data-bs-toggle="dropdown">
                   {{ link.title }}
                 </a>
-                <ul class="dropdown-menu" style="background-color: {{ dropdown_bg_color }};">
+                <ul class="dropdown-menu">
                   {% for childlink in link.links %}
                     <li>
                       <a class="dropdown-item" 
-                         href="{{ childlink.url }}"
-                         style="color: {{ dropdown_link_color }} !important;">
+                         href="{{ childlink.url }}">
                         {{ childlink.title }}
                       </a>
                     </li>
@@ -307,10 +303,7 @@
               <li class="nav-item">
                 <a class="nav-link {% if link.active or request.page_type == 'index' and link.title == 'Home' %}active{% endif %}" 
                    href="{{ link.url }}"
-                   style="color: {{ menu_link_color }} !important; 
-                          font-size: {{ menu_font_size }}px;
-                          font-weight: {{ menu_font_weight }};
-                          margin: 0 {{ menu_link_spacing }}px;">
+                   style="margin: 0 var(--menu-link-spacing);">
                   {{ link.title }}
                 </a>
               </li>
@@ -350,12 +343,12 @@
           {% if show_search or show_cart %}
             <div class="header-icons d-flex align-items-center" style="margin-left: {% if show_book_now_button %}1rem{% else %}0{% endif %};">
               {% if show_search %}
-                <a href="{{ routes.search_url }}" class="header-icon me-3" style="color: {{ menu_link_color }};">
+                <a href="{{ routes.search_url }}" class="header-icon me-3">
                   <i class="bi bi-search" style="font-size: {{ icon_size }}px;"></i>
                 </a>
               {% endif %}
               {% if show_cart %}
-                <a href="{{ routes.cart_url }}" class="header-icon position-relative" style="color: {{ menu_link_color }};">
+                <a href="{{ routes.cart_url }}" class="header-icon position-relative">
                   <i class="bi bi-bag" style="font-size: {{ icon_size }}px;"></i>
                   {% if cart.item_count > 0 %}
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
@@ -410,28 +403,15 @@
     box-shadow: none !important;
   }
   
-  {% if make_header_transparent or transparent_on_homepage and template.name == 'index' %}
-  .navbar-transparent .nav-link {
-    color: {{ menu_link_color }} !important;
-  }
-  {% endif %}
-  
-  .nav-link:hover {
-    color: {{ menu_link_hover_color }} !important;
-  }
-  
-  .dropdown-item:hover {
-    background-color: {{ dropdown_hover_bg_color }};
-    color: {{ dropdown_hover_color }} !important;
-  }
-  
+  /* Header icon styles - uses theme settings via CSS variables */
   .header-icon {
     text-decoration: none;
     transition: color 0.3s;
+    color: var(--menu-link-color) !important;
   }
   
   .header-icon:hover {
-    color: {{ menu_link_hover_color }} !important;
+    color: var(--menu-link-hover-color) !important;
   }
   
   /* Navbar actions container - holds button and icons */

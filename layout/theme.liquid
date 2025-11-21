@@ -52,6 +52,15 @@
       
       # Get menu theme settings
       assign menu_font_family = settings.menu_font_family | default: 'merriweather_body'
+      assign menu_link_color = settings.menu_link_color | default: '#8B6F47'
+      assign menu_link_hover_color = settings.menu_link_hover_color | default: '#FF6B35'
+      assign menu_font_size = settings.menu_font_size | default: 16
+      assign menu_font_weight = settings.menu_font_weight | default: '500'
+      assign menu_link_spacing = settings.menu_link_spacing | default: 8
+      assign dropdown_bg_color = settings.dropdown_bg_color | default: '#FFFFFF'
+      assign dropdown_link_color = settings.dropdown_link_color | default: '#333333'
+      assign dropdown_hover_bg_color = settings.dropdown_hover_bg_color | default: '#FFF8E7'
+      assign dropdown_hover_color = settings.dropdown_hover_color | default: '#FF6B35'
       
       # Get button theme settings
       assign button_background_color = settings.button_background_color | default: '#FF6B35'
@@ -81,6 +90,15 @@
       --button-hover-border-color: {{ button_hover_border_color }};
       --button-hover-border-style: {{ button_hover_border_style }};
       --button-hover-border-width: {{ button_hover_border_width }}px;
+      --menu-link-color: {{ menu_link_color }};
+      --menu-link-hover-color: {{ menu_link_hover_color }};
+      --menu-font-size: {{ menu_font_size }}px;
+      --menu-font-weight: {{ menu_font_weight }};
+      --menu-link-spacing: {{ menu_link_spacing }}px;
+      --dropdown-bg-color: {{ dropdown_bg_color }};
+      --dropdown-link-color: {{ dropdown_link_color }};
+      --dropdown-hover-bg-color: {{ dropdown_hover_bg_color }};
+      --dropdown-hover-color: {{ dropdown_hover_color }};
     }
     
     {%- liquid
@@ -249,6 +267,44 @@
     html body .navbar-nav .nav-link,
     html body .navbar .nav-link.dropdown-toggle {
       font-family: {{ menu_font_family_css }} !important;
+      font-size: var(--menu-font-size) !important;
+      font-weight: var(--menu-font-weight) !important;
+      color: var(--menu-link-color) !important;
+      transition: all 0.3s ease;
+    }
+    
+    html body .navbar .nav-link:hover,
+    html body .navbar-nav .nav-link:hover,
+    html body .navbar .nav-link.dropdown-toggle:hover,
+    html body .navbar .nav-link:focus,
+    html body .navbar-nav .nav-link:focus,
+    html body .navbar .nav-link.dropdown-toggle:focus {
+      color: var(--menu-link-hover-color) !important;
+    }
+    
+    /* Dropdown Menu Styles from Theme Settings */
+    html body .dropdown-menu {
+      background-color: var(--dropdown-bg-color) !important;
+    }
+    
+    html body .dropdown-item {
+      color: var(--dropdown-link-color) !important;
+      transition: all 0.3s ease;
+    }
+    
+    html body .dropdown-item:hover,
+    html body .dropdown-item:focus {
+      background-color: var(--dropdown-hover-bg-color) !important;
+      color: var(--dropdown-hover-color) !important;
+    }
+    
+    /* Header icon styles from theme settings */
+    html body .header-icon {
+      color: var(--menu-link-color) !important;
+    }
+    
+    html body .header-icon:hover {
+      color: var(--menu-link-hover-color) !important;
     }
     
     /* Global Button Styles from Theme Settings */

@@ -351,6 +351,112 @@
     ]
   },
   {
+    "name": "Menus",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Menu Link Colors"
+      },
+      {
+        "type": "color",
+        "id": "menu_link_color",
+        "label": "Menu Link Color",
+        "default": "#8B6F47",
+        "info": "Default color for menu links"
+      },
+      {
+        "type": "color",
+        "id": "menu_link_hover_color",
+        "label": "Menu Link Hover Color",
+        "default": "#FF6B35",
+        "info": "Color when menu link is hovered"
+      },
+      {
+        "type": "header",
+        "content": "Menu Typography"
+      },
+      {
+        "type": "range",
+        "id": "menu_font_size",
+        "label": "Menu Font Size (px)",
+        "min": 12,
+        "max": 24,
+        "step": 1,
+        "default": 16,
+        "unit": "px",
+        "info": "Font size for menu links"
+      },
+      {
+        "type": "select",
+        "id": "menu_font_weight",
+        "label": "Menu Font Weight",
+        "options": [
+          {
+            "value": "400",
+            "label": "Normal"
+          },
+          {
+            "value": "500",
+            "label": "Medium"
+          },
+          {
+            "value": "600",
+            "label": "Semi Bold"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          }
+        ],
+        "default": "500",
+        "info": "Font weight for menu links"
+      },
+      {
+        "type": "range",
+        "id": "menu_link_spacing",
+        "label": "Menu Link Spacing (px)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 8,
+        "unit": "px",
+        "info": "Spacing between menu links"
+      },
+      {
+        "type": "header",
+        "content": "Dropdown Menu Colors"
+      },
+      {
+        "type": "color",
+        "id": "dropdown_bg_color",
+        "label": "Dropdown Background Color",
+        "default": "#FFFFFF",
+        "info": "Background color for dropdown menus"
+      },
+      {
+        "type": "color",
+        "id": "dropdown_link_color",
+        "label": "Dropdown Link Color",
+        "default": "#333333",
+        "info": "Default color for dropdown menu links"
+      },
+      {
+        "type": "color",
+        "id": "dropdown_hover_bg_color",
+        "label": "Dropdown Hover Background Color",
+        "default": "#FFF8E7",
+        "info": "Background color when dropdown link is hovered"
+      },
+      {
+        "type": "color",
+        "id": "dropdown_hover_color",
+        "label": "Dropdown Hover Link Color",
+        "default": "#FF6B35",
+        "info": "Link color when dropdown item is hovered"
+      }
+    ]
+  },
+  {
     "name": "Buttons",
     "settings": [
       {
