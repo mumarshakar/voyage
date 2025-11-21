@@ -241,28 +241,6 @@
       "content": "Button Settings"
     },
     {
-      "type": "color",
-      "id": "button_text_color",
-      "label": "Button Text Color",
-      "default": "#8B6F47"
-    },
-    {
-      "type": "color",
-      "id": "button_bg_color",
-      "label": "Button Background Color",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "range",
-      "id": "button_opacity",
-      "label": "Button Background Opacity",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "default": 70,
-      "unit": "%"
-    },
-    {
       "type": "range",
       "id": "button_position_bottom",
       "label": "Button Position from Bottom (%)",
@@ -270,37 +248,8 @@
       "max": 30,
       "step": 1,
       "default": 15,
-      "unit": "%"
-    },
-    {
-      "type": "range",
-      "id": "button_font_size",
-      "label": "Button Font Size (px)",
-      "min": 12,
-      "max": 24,
-      "step": 1,
-      "default": 16,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "button_padding_horizontal",
-      "label": "Button Horizontal Padding (px)",
-      "min": 16,
-      "max": 64,
-      "step": 4,
-      "default": 32,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "button_padding_vertical",
-      "label": "Button Vertical Padding (px)",
-      "min": 8,
-      "max": 32,
-      "step": 2,
-      "default": 14,
-      "unit": "px"
+      "unit": "%",
+      "info": "Button styling (colors, borders) is controlled by Theme Settings > Buttons"
     },
     {
       "type": "header",
@@ -391,13 +340,7 @@
     assign bg_size = section.settings.background_size | default: 'cover'
     assign title_position_top = section.settings.title_position_top | default: 20
     assign text_align = section.settings.text_alignment | default: 'center'
-    assign button_text_color = section.settings.button_text_color | default: '#8B6F47'
-    assign button_bg_color = section.settings.button_bg_color | default: '#FFFFFF'
-    assign button_opacity = section.settings.button_opacity | default: 70
     assign button_position_bottom = section.settings.button_position_bottom | default: 15
-    assign button_font_size = section.settings.button_font_size | default: 16
-    assign button_padding_h = section.settings.button_padding_horizontal | default: 32
-    assign button_padding_v = section.settings.button_padding_vertical | default: 14
     assign overlay_color = section.settings.overlay_color | default: '#000000'
     assign overlay_opacity = section.settings.overlay_opacity | default: 0
     assign padding_top = section.settings.padding_top | default: 120
@@ -472,11 +415,6 @@
         assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
     endcase
     
-    if button_opacity > 0
-      assign button_opacity_decimal = button_opacity | divided_by: 100.0
-    else
-      assign button_opacity_decimal = 0
-    endif
     if overlay_opacity > 0
       assign overlay_opacity_decimal = overlay_opacity | divided_by: 100.0
     else
@@ -596,12 +534,7 @@
       {% if section.settings.button_link != blank %}
         <a href="{{ section.settings.button_link }}" 
            class="btn-glow-cta"
-           style="color: {{ button_text_color }};
-                  --btn-bg-color: {{ button_bg_color }};
-                  --btn-opacity: {{ button_opacity_decimal }};
-                  font-size: {{ button_font_size }}px;
-                  padding: {{ button_padding_v }}px {{ button_padding_h }}px;
-                  margin-bottom: {{ button_position_bottom }}%;">
+           style="margin-bottom: {{ button_position_bottom }}%;">
           {{ section.settings.button_text }}
         </a>
       {% endif %}
