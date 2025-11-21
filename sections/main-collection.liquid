@@ -1,0 +1,52 @@
+<div class="main-collection-section">
+  <div class="page-width">
+    <div class="section-header text-center">
+      <h1>{{ collection.title }}</h1>
+      {% if collection.description != blank %}
+        <div class="rte">
+          {{ collection.description }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% paginate collection.products by 12 %}
+      {% if collection.products.size > 0 %}
+        <div class="product-grid grid grid--uniform">
+          {% for product in collection.products %}
+            {% comment %}
+              This is a placeholder for a product card.
+              You might want to include a snippet like:
+              {% render 'product-card', product: product %}
+              For now, we'll just display the product title.
+            {% endcomment %}
+            <div class="grid__item small--one-half medium--one-third large--one-quarter">
+              <a href="{{ product.url | within: collection }}">
+                <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.featured_image.alt }}">
+                <h3>{{ product.title }}</h3>
+                <p>{{ product.price | money }}</p>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if paginate.pages > 1 %}
+          {% render 'pagination', paginate: paginate %}
+        {% endif %}
+      {% else %}
+        <p class="text-center">No products found in this collection.</p>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Main Collection",
+    "settings": [],
+    "presets": [
+      {
+        "name": "Main Collection"
+      }
+    ]
+  }
+{% endschema %}
