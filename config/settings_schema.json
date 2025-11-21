@@ -325,33 +325,8 @@
       },
       {
         "type": "header",
-        "content": "Menu Typography"
+        "content": "Body Text Typography"
       },
-      {
-        "type": "select",
-        "id": "menu_font_family",
-        "label": "Menu Font Family",
-        "options": [
-          {
-            "value": "merriweather_heading",
-            "label": "Merriweather Heading"
-          },
-          {
-            "value": "merriweather_subheading",
-            "label": "Merriweather Subheading"
-          },
-          {
-            "value": "merriweather_body",
-            "label": "Merriweather Body"
-          }
-        ],
-        "default": "merriweather_body",
-        "info": "Default font family for menu items in the header"
-      }
-    ]
-  },
-  {
-    "name": "Menus",
     "settings": [
       {
         "type": "header",
@@ -374,6 +349,77 @@
       {
         "type": "header",
         "content": "Menu Typography"
+      },
+      {
+        "type": "select",
+        "id": "menu_font_family",
+        "label": "Menu Font Family",
+        "options": [
+          {
+            "value": "merriweather_heading",
+            "label": "Merriweather Heading"
+          },
+          {
+            "value": "merriweather_subheading",
+            "label": "Merriweather Subheading"
+          },
+          {
+            "value": "merriweather_body",
+            "label": "Merriweather Body"
+          }
+        ],
+        "default": "merriweather_body",
+        "info": "Default font family for menu items in the header"
+      },
+      {
+        "type": "select",
+        "id": "menu_text_decoration",
+        "label": "Menu Text Decoration",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "underline",
+            "label": "Underline"
+          },
+          {
+            "value": "overline",
+            "label": "Overline"
+          },
+          {
+            "value": "line-through",
+            "label": "Line-through"
+          }
+        ],
+        "default": "none",
+        "info": "Text decoration for menu links"
+      },
+      {
+        "type": "select",
+        "id": "menu_text_transform",
+        "label": "Menu Text Transform",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "uppercase",
+            "label": "Uppercase"
+          },
+          {
+            "value": "lowercase",
+            "label": "Lowercase"
+          },
+          {
+            "value": "capitalize",
+            "label": "Capitalize"
+          }
+        ],
+        "default": "none",
+        "info": "Text transform for menu links"
       },
       {
         "type": "range",

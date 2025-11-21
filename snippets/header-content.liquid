@@ -59,9 +59,9 @@
     assign book_now_button_text = 'Book Now'
     assign book_now_button_url = ''
     assign book_now_button_bg_color = '#FF6B35'
-    assign book_now_button_text_color = '#FFFFFF'
+    assign book_now_button_text_color = settings.button_text_color | default: '#FFFFFF'
     assign book_now_button_hover_bg_color = '#FF8C61'
-    assign book_now_button_hover_text_color = '#FFFFFF'
+    assign book_now_button_hover_text_color = settings.button_hover_text_color | default: '#FFFFFF'
     assign book_now_button_font_size = 16
     assign book_now_button_font_weight = '600'
     assign book_now_button_padding_x = 20
@@ -209,10 +209,10 @@
 
     assign book_now_button_text = header_settings.book_now_button_text | default: 'Book Now'
     assign book_now_button_url = header_settings.book_now_button_url | default: ''
-    assign book_now_button_bg_color = settings.color_primary_orange | default: '#FF6B35'
-    assign book_now_button_text_color = settings.color_white | default: '#FFFFFF'
-    assign book_now_button_hover_bg_color = settings.color_light_orange | default: '#FF8C61'
-    assign book_now_button_hover_text_color = settings.color_white | default: '#FFFFFF'
+    assign book_now_button_bg_color = settings.button_background_color | default: '#FF6B35'
+    assign book_now_button_text_color = settings.button_text_color | default: '#FFFFFF'
+    assign book_now_button_hover_bg_color = settings.button_hover_background_color | default: '#FF8C61'
+    assign book_now_button_hover_text_color = settings.button_hover_text_color | default: '#FFFFFF'
     assign book_now_button_font_size = header_settings.book_now_button_font_size | default: 16
     assign book_now_button_font_weight = header_settings.book_now_button_font_weight | default: '600'
     assign book_now_button_padding_x = header_settings.book_now_button_padding_x | default: 20
@@ -323,15 +323,12 @@
             -%}
             <a href="{{ button_href }}" 
                class="book-now-button btn"
-               style="background-color: {{ book_now_button_bg_color }};
-                      color: {{ book_now_button_text_color }} !important;
-                      font-size: {{ book_now_button_font_size }}px;
+               style="font-size: {{ book_now_button_font_size }}px;
                       font-weight: {{ book_now_button_font_weight }};
                       padding: {{ book_now_button_padding_y }}px {{ book_now_button_padding_x }}px;
                       border-radius: {{ book_now_button_border_radius }}px;
                       margin-left: {{ book_now_button_margin_left }}px;
                       text-decoration: none;
-                      border: none;
                       transition: all 0.3s ease;
                       white-space: nowrap;
                       display: inline-flex;
@@ -426,13 +423,6 @@
     cursor: pointer;
     flex-shrink: 0;
     z-index: 1;
-  }
-  
-  .book-now-button:hover {
-    background-color: {{ book_now_button_hover_bg_color }} !important;
-    color: {{ book_now_button_hover_text_color }} !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   
   /* Mobile responsive adjustments for Book Now button */

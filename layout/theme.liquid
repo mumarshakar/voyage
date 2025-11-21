@@ -51,17 +51,19 @@
       assign body_word_spacing = settings.body_word_spacing | default: 0
       
       # Get menu theme settings
-      assign menu_font_family = settings.menu_font_family | default: 'merriweather_body'
       assign menu_link_color = settings.menu_link_color | default: '#8B6F47'
       assign menu_link_hover_color = settings.menu_link_hover_color | default: '#FF6B35'
+      assign menu_font_family = settings.menu_font_family | default: 'merriweather_body'
       assign menu_font_size = settings.menu_font_size | default: 16
       assign menu_font_weight = settings.menu_font_weight | default: '500'
       assign menu_link_spacing = settings.menu_link_spacing | default: 8
+      assign menu_text_decoration = settings.menu_text_decoration | default: 'none'
+      assign menu_text_transform = settings.menu_text_transform | default: 'none'
       assign dropdown_bg_color = settings.dropdown_bg_color | default: '#FFFFFF'
       assign dropdown_link_color = settings.dropdown_link_color | default: '#333333'
       assign dropdown_hover_bg_color = settings.dropdown_hover_bg_color | default: '#FFF8E7'
       assign dropdown_hover_color = settings.dropdown_hover_color | default: '#FF6B35'
-      
+
       # Get button theme settings
       assign button_background_color = settings.button_background_color | default: '#FF6B35'
       assign button_text_color = settings.button_text_color | default: '#FFFFFF'
@@ -74,27 +76,38 @@
       assign button_hover_border_style = settings.button_hover_border_style | default: 'solid'
       assign button_hover_border_width = settings.button_hover_border_width | default: 1
     -%}
-    
+
     :root {
-      --primary-orange: {{ color_primary_orange }};
-      --light-orange: {{ color_light_orange }};
-      --cream: {{ color_cream }};
-      --white: {{ color_white }};
+      --heading-font-family: {{ heading_font_family_css }};
+      --subheading-font-family: {{ subheading_font_family_css }};
+      --body-font-family: {{ body_font_family_css }};
+
+      /* Button colors from theme settings (long + short names for compatibility) */
       --button-bg-color: {{ button_background_color }};
+      --button-background-color: {{ button_background_color }};
+
       --button-text-color: {{ button_text_color }};
+
       --button-border-color: {{ button_border_color }};
       --button-border-style: {{ button_border_style }};
       --button-border-width: {{ button_border_width }}px;
+
       --button-hover-bg-color: {{ button_hover_background_color }};
+      --button-hover-background-color: {{ button_hover_background_color }};
+
       --button-hover-text-color: {{ button_hover_text_color }};
       --button-hover-border-color: {{ button_hover_border_color }};
       --button-hover-border-style: {{ button_hover_border_style }};
       --button-hover-border-width: {{ button_hover_border_width }}px;
+
       --menu-link-color: {{ menu_link_color }};
       --menu-link-hover-color: {{ menu_link_hover_color }};
+      --menu-font-family: {{ menu_font_family_css }};
       --menu-font-size: {{ menu_font_size }}px;
       --menu-font-weight: {{ menu_font_weight }};
       --menu-link-spacing: {{ menu_link_spacing }}px;
+      --menu-text-decoration: {{ menu_text_decoration }};
+      --menu-text-transform: {{ menu_text_transform }};
       --dropdown-bg-color: {{ dropdown_bg_color }};
       --dropdown-link-color: {{ dropdown_link_color }};
       --dropdown-hover-bg-color: {{ dropdown_hover_bg_color }};
@@ -266,10 +279,12 @@
     html body .navbar .nav-link,
     html body .navbar-nav .nav-link,
     html body .navbar .nav-link.dropdown-toggle {
-      font-family: {{ menu_font_family_css }} !important;
+      font-family: var(--menu-font-family) !important;
       font-size: var(--menu-font-size) !important;
       font-weight: var(--menu-font-weight) !important;
       color: var(--menu-link-color) !important;
+      text-decoration: var(--menu-text-decoration) !important;
+      text-transform: var(--menu-text-transform) !important;
       transition: all 0.3s ease;
     }
     
@@ -346,6 +361,8 @@
       border-color: var(--button-hover-border-color) !important;
       border-style: var(--button-hover-border-style) !important;
       border-width: var(--button-hover-border-width) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
     
     html body .btn:focus,
