@@ -82,19 +82,19 @@
     assign logo_width = header_settings.logo_width | default: 200
     assign logo_max_height = header_settings.logo_max_height | default: 60
     assign logo_font_size = header_settings.logo_font_size | default: 24
-    assign logo_color = header_settings.logo_color | default: '#8B6F47'
+    assign logo_color = settings.logo_color | default: '#8B6F47'
     assign menu = header_settings.menu | default: 'main-menu'
     assign menu_alignment = header_settings.menu_alignment | default: 'right'
     assign menu_font_size = header_settings.menu_font_size | default: 16
     assign menu_font_weight = header_settings.menu_font_weight | default: '500'
     assign menu_link_spacing = header_settings.menu_link_spacing | default: 8
-    assign menu_link_color = header_settings.menu_link_color | default: '#8B6F47'
-    assign menu_link_hover_color = header_settings.menu_link_hover_color | default: '#8B6F47'
-    assign dropdown_bg_color = header_settings.dropdown_bg_color | default: '#FFFFFF'
-    assign dropdown_link_color = header_settings.dropdown_link_color | default: '#333333'
-    assign dropdown_hover_bg_color = header_settings.dropdown_hover_bg_color | default: '#FFF8E7'
-    assign dropdown_hover_color = header_settings.dropdown_hover_color | default: '#FF6B35'
-    assign header_bg_color = header_settings.header_bg_color | default: '#FFFFFF'
+    assign menu_link_color = settings.menu_link_color | default: '#8B6F47'
+    assign menu_link_hover_color = settings.menu_link_hover_color | default: '#8B6F47'
+    assign dropdown_bg_color = settings.dropdown_bg_color | default: '#FFFFFF'
+    assign dropdown_link_color = settings.dropdown_link_color | default: '#333333'
+    assign dropdown_hover_bg_color = settings.dropdown_hover_bg_color | default: '#FFF8E7'
+    assign dropdown_hover_color = settings.dropdown_hover_color | default: '#FF6B35'
+    assign header_bg_color = settings.header_bg_color | default: '#FFFFFF'
 
     assign header_shadow_setting = header_settings.header_shadow
     if header_shadow_setting == false
@@ -166,9 +166,9 @@
       assign show_mobile_menu = true
     endif
 
-    assign mobile_menu_icon_color = header_settings.mobile_menu_icon_color | default: '#333333'
+    assign mobile_menu_icon_color = settings.mobile_menu_icon_color | default: '#333333'
     assign mobile_menu_icon_size = header_settings.mobile_menu_icon_size | default: 24
-    assign mobile_menu_border_color = header_settings.mobile_menu_border_color | default: '#333333'
+    assign mobile_menu_border_color = settings.mobile_menu_border_color | default: '#333333'
     assign mobile_menu_border_width = header_settings.mobile_menu_border_width | default: 1
     assign mobile_menu_border_radius = header_settings.mobile_menu_border_radius | default: 4
 
@@ -181,11 +181,11 @@
       assign mobile_menu_bg_transparent = true
     endif
 
-    assign mobile_menu_bg_color = header_settings.mobile_menu_bg_color | default: '#FFFFFF'
+    assign mobile_menu_bg_color = settings.mobile_menu_bg_color | default: '#FFFFFF'
     assign mobile_menu_padding = header_settings.mobile_menu_padding | default: 8
     assign mobile_menu_stroke_width = header_settings.mobile_menu_stroke_width | default: 2
 
-    assign scrolled_bg_color = header_settings.scrolled_bg_color | default: header_bg_color
+    assign scrolled_bg_color = settings.scrolled_bg_color | default: header_bg_color
     assign scrolled_padding_top = header_settings.scrolled_padding_top | default: 12
     assign scrolled_padding_bottom = header_settings.scrolled_padding_bottom | default: 12
 
@@ -209,10 +209,10 @@
 
     assign book_now_button_text = header_settings.book_now_button_text | default: 'Book Now'
     assign book_now_button_url = header_settings.book_now_button_url | default: ''
-    assign book_now_button_bg_color = header_settings.book_now_button_bg_color | default: '#FF6B35'
-    assign book_now_button_text_color = header_settings.book_now_button_text_color | default: '#FFFFFF'
-    assign book_now_button_hover_bg_color = header_settings.book_now_button_hover_bg_color | default: '#FF8C61'
-    assign book_now_button_hover_text_color = header_settings.book_now_button_hover_text_color | default: '#FFFFFF'
+    assign book_now_button_bg_color = settings.color_primary_orange | default: '#FF6B35'
+    assign book_now_button_text_color = settings.color_white | default: '#FFFFFF'
+    assign book_now_button_hover_bg_color = settings.color_light_orange | default: '#FF8C61'
+    assign book_now_button_hover_text_color = settings.color_white | default: '#FFFFFF'
     assign book_now_button_font_size = header_settings.book_now_button_font_size | default: 16
     assign book_now_button_font_weight = header_settings.book_now_button_font_weight | default: '600'
     assign book_now_button_padding_x = header_settings.book_now_button_padding_x | default: 20
