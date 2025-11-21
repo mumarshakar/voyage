@@ -326,7 +326,11 @@
       {
         "type": "header",
         "content": "Body Text Typography"
-      },
+      }
+    ]
+  },
+  {
+    "name": "Menu",
     "settings": [
       {
         "type": "header",
