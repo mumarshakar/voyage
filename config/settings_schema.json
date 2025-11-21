@@ -325,29 +325,6 @@
       },
       {
         "type": "header",
-        "content": "Body Text Typography"
-      },
-    "settings": [
-      {
-        "type": "header",
-        "content": "Menu Link Colors"
-      },
-      {
-        "type": "color",
-        "id": "menu_link_color",
-        "label": "Menu Link Color",
-        "default": "#8B6F47",
-        "info": "Default color for menu links"
-      },
-      {
-        "type": "color",
-        "id": "menu_link_hover_color",
-        "label": "Menu Link Hover Color",
-        "default": "#FF6B35",
-        "info": "Color when menu link is hovered"
-      },
-      {
-        "type": "header",
         "content": "Menu Typography"
       },
       {
@@ -370,56 +347,33 @@
         ],
         "default": "merriweather_body",
         "info": "Default font family for menu items in the header"
+      }
+    ]
+  },
+  {
+    "name": "Menus",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Menu Link Colors"
       },
       {
-        "type": "select",
-        "id": "menu_text_decoration",
-        "label": "Menu Text Decoration",
-        "options": [
-          {
-            "value": "none",
-            "label": "None"
-          },
-          {
-            "value": "underline",
-            "label": "Underline"
-          },
-          {
-            "value": "overline",
-            "label": "Overline"
-          },
-          {
-            "value": "line-through",
-            "label": "Line-through"
-          }
-        ],
-        "default": "none",
-        "info": "Text decoration for menu links"
+        "type": "color",
+        "id": "menu_link_color",
+        "label": "Menu Link Color",
+        "default": "#8B6F47",
+        "info": "Default color for menu links"
       },
       {
-        "type": "select",
-        "id": "menu_text_transform",
-        "label": "Menu Text Transform",
-        "options": [
-          {
-            "value": "none",
-            "label": "None"
-          },
-          {
-            "value": "uppercase",
-            "label": "Uppercase"
-          },
-          {
-            "value": "lowercase",
-            "label": "Lowercase"
-          },
-          {
-            "value": "capitalize",
-            "label": "Capitalize"
-          }
-        ],
-        "default": "none",
-        "info": "Text transform for menu links"
+        "type": "color",
+        "id": "menu_link_hover_color",
+        "label": "Menu Link Hover Color",
+        "default": "#FF6B35",
+        "info": "Color when menu link is hovered"
+      },
+      {
+        "type": "header",
+        "content": "Menu Typography"
       },
       {
         "type": "range",
