@@ -71,6 +71,8 @@ body {
 .btn-primary {
   background-color: var(--button-bg-color, var(--primary-orange));
   border-color: var(--button-border-color, var(--primary-orange));
+  border-style: var(--button-border-style, solid);
+  border-width: var(--button-border-width, 1px);
   color: var(--button-text-color, #FFFFFF);
   transition: all 0.3s ease;
 }
@@ -78,6 +80,8 @@ body {
 .btn-primary:hover {
   background-color: var(--button-hover-bg-color, var(--light-orange));
   border-color: var(--button-hover-border-color, var(--light-orange));
+  border-style: var(--button-hover-border-style, solid);
+  border-width: var(--button-hover-border-width, 1px);
   color: var(--button-hover-text-color, #FFFFFF);
 }
 

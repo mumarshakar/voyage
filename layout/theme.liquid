@@ -57,9 +57,13 @@
       assign button_background_color = settings.button_background_color | default: '#FF6B35'
       assign button_text_color = settings.button_text_color | default: '#FFFFFF'
       assign button_border_color = settings.button_border_color | default: '#FF6B35'
+      assign button_border_style = settings.button_border_style | default: 'solid'
+      assign button_border_width = settings.button_border_width | default: 1
       assign button_hover_background_color = settings.button_hover_background_color | default: '#FF8C61'
       assign button_hover_text_color = settings.button_hover_text_color | default: '#FFFFFF'
       assign button_hover_border_color = settings.button_hover_border_color | default: '#FF8C61'
+      assign button_hover_border_style = settings.button_hover_border_style | default: 'solid'
+      assign button_hover_border_width = settings.button_hover_border_width | default: 1
     -%}
     
     :root {
@@ -70,9 +74,13 @@
       --button-bg-color: {{ button_background_color }};
       --button-text-color: {{ button_text_color }};
       --button-border-color: {{ button_border_color }};
+      --button-border-style: {{ button_border_style }};
+      --button-border-width: {{ button_border_width }}px;
       --button-hover-bg-color: {{ button_hover_background_color }};
       --button-hover-text-color: {{ button_hover_text_color }};
       --button-hover-border-color: {{ button_hover_border_color }};
+      --button-hover-border-style: {{ button_hover_border_style }};
+      --button-hover-border-width: {{ button_hover_border_width }}px;
     }
     
     {%- liquid
@@ -260,6 +268,8 @@
       background-color: var(--button-bg-color) !important;
       color: var(--button-text-color) !important;
       border-color: var(--button-border-color) !important;
+      border-style: var(--button-border-style) !important;
+      border-width: var(--button-border-width) !important;
       transition: all 0.3s ease;
     }
     
@@ -278,6 +288,8 @@
       background-color: var(--button-hover-bg-color) !important;
       color: var(--button-hover-text-color) !important;
       border-color: var(--button-hover-border-color) !important;
+      border-style: var(--button-hover-border-style) !important;
+      border-width: var(--button-hover-border-width) !important;
     }
     
     html body .btn:focus,
@@ -289,6 +301,8 @@
       background-color: var(--button-hover-bg-color) !important;
       color: var(--button-hover-text-color) !important;
       border-color: var(--button-hover-border-color) !important;
+      border-style: var(--button-hover-border-style) !important;
+      border-width: var(--button-hover-border-width) !important;
       box-shadow: 0 0 0 0.2rem rgba(var(--button-hover-bg-color), 0.5) !important;
     }
     
@@ -301,6 +315,8 @@
       background-color: var(--button-hover-bg-color) !important;
       color: var(--button-hover-text-color) !important;
       border-color: var(--button-hover-border-color) !important;
+      border-style: var(--button-hover-border-style) !important;
+      border-width: var(--button-hover-border-width) !important;
     }
   </style>
 </head>

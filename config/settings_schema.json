@@ -379,6 +379,46 @@
         "info": "Default border color for all buttons"
       },
       {
+        "type": "select",
+        "id": "button_border_style",
+        "label": "Button Border Style",
+        "options": [
+          {
+            "value": "solid",
+            "label": "Solid"
+          },
+          {
+            "value": "dashed",
+            "label": "Dashed"
+          },
+          {
+            "value": "dotted",
+            "label": "Dotted"
+          },
+          {
+            "value": "double",
+            "label": "Double"
+          },
+          {
+            "value": "none",
+            "label": "None"
+          }
+        ],
+        "default": "solid",
+        "info": "Border style for all buttons"
+      },
+      {
+        "type": "range",
+        "id": "button_border_width",
+        "label": "Button Border Width (px)",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "default": 1,
+        "unit": "px",
+        "info": "Border width in pixels for all buttons"
+      },
+      {
         "type": "header",
         "content": "Button Hover Colors"
       },
@@ -402,6 +442,46 @@
         "label": "Button Hover Border Color",
         "default": "#FF8C61",
         "info": "Border color when button is hovered"
+      },
+      {
+        "type": "select",
+        "id": "button_hover_border_style",
+        "label": "Button Hover Border Style",
+        "options": [
+          {
+            "value": "solid",
+            "label": "Solid"
+          },
+          {
+            "value": "dashed",
+            "label": "Dashed"
+          },
+          {
+            "value": "dotted",
+            "label": "Dotted"
+          },
+          {
+            "value": "double",
+            "label": "Double"
+          },
+          {
+            "value": "none",
+            "label": "None"
+          }
+        ],
+        "default": "solid",
+        "info": "Border style when button is hovered"
+      },
+      {
+        "type": "range",
+        "id": "button_hover_border_width",
+        "label": "Button Hover Border Width (px)",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "default": 1,
+        "unit": "px",
+        "info": "Border width in pixels when button is hovered"
       }
     ]
   },
