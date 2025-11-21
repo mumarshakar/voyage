@@ -26,8 +26,8 @@
 }
 
 :root {
-  --warm-brown: var(--primary-orange);
-  --warm-brown-dark: var(--light-orange);
+  --warm-brown: #8B6F47;
+  --warm-brown-dark: #6B5735;
 }
 
 body {
@@ -69,13 +69,16 @@ body {
 }
 
 .btn-primary {
-  background-color: var(--primary-orange);
-  border-color: var(--primary-orange);
+  background-color: var(--button-bg-color, var(--primary-orange));
+  border-color: var(--button-border-color, var(--primary-orange));
+  color: var(--button-text-color, #FFFFFF);
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  background-color: var(--light-orange);
-  border-color: var(--light-orange);
+  background-color: var(--button-hover-bg-color, var(--light-orange));
+  border-color: var(--button-hover-border-color, var(--light-orange));
+  color: var(--button-hover-text-color, #FFFFFF);
 }
 
 /* Hero Section */
@@ -203,7 +206,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--btn-bg-color, var(--white));
+  background-color: var(--btn-bg-color, #FFFFFF);
   opacity: var(--btn-opacity, 0.7);
   border-radius: 50px;
   z-index: -1;
@@ -263,7 +266,7 @@ body {
 }
 
 .booking-tabs .nav-link {
-  color: var(--body_text_color);
+  color: #666;
   border: none;
   border-bottom: 3px solid transparent;
   padding: 1rem 2rem;
@@ -362,7 +365,7 @@ body {
   text-align: center;
   font-weight: 600;
   padding-bottom: 15px;
-  border-bottom: 1px solid var(--cream);
+  border-bottom: 1px solid #e0e0e0;
   margin-bottom: 15px;
 }
 
@@ -377,7 +380,7 @@ body {
 }
 
 .calendar-day {
-  border: 1px solid var(--cream);
+  border: 1px solid #e0e0e0;
   border-radius: 2px;
   min-height: 180px;
   padding: 10px;
@@ -385,20 +388,20 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: var(--white);
+  background-color: #ffffff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .calendar-day.empty {
-  background-color: var(--cream);
-  border: 1px dashed var(--cream);
+  background-color: #f0f0f0;
+  border: 1px dashed #e0e0e0;
   box-shadow: none;
 }
 
 .calendar-day.has-event {
-  border-color: var(--primary-orange);
+  border-color: #8B6F47;
   cursor: pointer;
 }
 
@@ -443,7 +446,6 @@ body {
 .calendar-day.has-event:hover .event-image-wrapper img {
   transform: scale(1.05);
 }
-
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

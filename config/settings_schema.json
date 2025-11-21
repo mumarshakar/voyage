@@ -38,78 +38,6 @@
         "id": "color_white",
         "label": "White",
         "default": "#FFFFFF"
-      },
-      {
-        "type": "color",
-        "id": "logo_color",
-        "label": "Logo Color",
-        "default": "#8B6F47"
-      },
-      {
-        "type": "color",
-        "id": "menu_link_color",
-        "label": "Menu Link Color",
-        "default": "#8B6F47"
-      },
-      {
-        "type": "color",
-        "id": "menu_link_hover_color",
-        "label": "Menu Link Hover Color",
-        "default": "#8B6F47"
-      },
-      {
-        "type": "color",
-        "id": "dropdown_bg_color",
-        "label": "Dropdown Background Color",
-        "default": "#FFFFFF"
-      },
-      {
-        "type": "color",
-        "id": "dropdown_link_color",
-        "label": "Dropdown Link Color",
-        "default": "#333333"
-      },
-      {
-        "type": "color",
-        "id": "dropdown_hover_bg_color",
-        "label": "Dropdown Hover Background Color",
-        "default": "#FFF8E7"
-      },
-      {
-        "type": "color",
-        "id": "dropdown_hover_color",
-        "label": "Dropdown Hover Color",
-        "default": "#FF6B35"
-      },
-      {
-        "type": "color",
-        "id": "header_bg_color",
-        "label": "Header Background Color",
-        "default": "#FFFFFF"
-      },
-      {
-        "type": "color",
-        "id": "scrolled_bg_color",
-        "label": "Scrolled Background Color",
-        "default": "#FFFFFF"
-      },
-      {
-        "type": "color",
-        "id": "mobile_menu_icon_color",
-        "label": "Mobile Menu Icon Color",
-        "default": "#333333"
-      },
-      {
-        "type": "color",
-        "id": "mobile_menu_border_color",
-        "label": "Mobile Menu Border Color",
-        "default": "#333333"
-      },
-      {
-        "type": "color",
-        "id": "mobile_menu_bg_color",
-        "label": "Mobile Menu Background Color",
-        "default": "#FFFFFF"
       }
     ]
   },
@@ -419,6 +347,61 @@
         ],
         "default": "merriweather_body",
         "info": "Default font family for menu items in the header"
+      }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Button Colors"
+      },
+      {
+        "type": "color",
+        "id": "button_background_color",
+        "label": "Button Background Color",
+        "default": "#FF6B35",
+        "info": "Default background color for all buttons"
+      },
+      {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button Text Color",
+        "default": "#FFFFFF",
+        "info": "Default text color for all buttons"
+      },
+      {
+        "type": "color",
+        "id": "button_border_color",
+        "label": "Button Border Color",
+        "default": "#FF6B35",
+        "info": "Default border color for all buttons"
+      },
+      {
+        "type": "header",
+        "content": "Button Hover Colors"
+      },
+      {
+        "type": "color",
+        "id": "button_hover_background_color",
+        "label": "Button Hover Background Color",
+        "default": "#FF8C61",
+        "info": "Background color when button is hovered"
+      },
+      {
+        "type": "color",
+        "id": "button_hover_text_color",
+        "label": "Button Hover Text Color",
+        "default": "#FFFFFF",
+        "info": "Text color when button is hovered"
+      },
+      {
+        "type": "color",
+        "id": "button_hover_border_color",
+        "label": "Button Hover Border Color",
+        "default": "#FF8C61",
+        "info": "Border color when button is hovered"
       }
     ]
   },

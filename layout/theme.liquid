@@ -52,6 +52,14 @@
       
       # Get menu theme settings
       assign menu_font_family = settings.menu_font_family | default: 'merriweather_body'
+      
+      # Get button theme settings
+      assign button_background_color = settings.button_background_color | default: '#FF6B35'
+      assign button_text_color = settings.button_text_color | default: '#FFFFFF'
+      assign button_border_color = settings.button_border_color | default: '#FF6B35'
+      assign button_hover_background_color = settings.button_hover_background_color | default: '#FF8C61'
+      assign button_hover_text_color = settings.button_hover_text_color | default: '#FFFFFF'
+      assign button_hover_border_color = settings.button_hover_border_color | default: '#FF8C61'
     -%}
     
     :root {
@@ -59,6 +67,12 @@
       --light-orange: {{ color_light_orange }};
       --cream: {{ color_cream }};
       --white: {{ color_white }};
+      --button-bg-color: {{ button_background_color }};
+      --button-text-color: {{ button_text_color }};
+      --button-border-color: {{ button_border_color }};
+      --button-hover-bg-color: {{ button_hover_background_color }};
+      --button-hover-text-color: {{ button_hover_text_color }};
+      --button-hover-border-color: {{ button_hover_border_color }};
     }
     
     {%- liquid
@@ -169,7 +183,7 @@
     html body .container h4,
     html body .container h5,
     html body .container h6 {
-      color: {{ heading_color }};
+      color: {{ heading_color }} !important;
       font-size: {{ heading_font_size }}px !important;
       font-weight: {{ heading_font_weight }} !important;
       font-family: {{ heading_font_family_css }} !important;
@@ -197,7 +211,7 @@
     html body .container .custom-text-subheading,
     html body .container .two-column-subheading,
     html body .container .hero-subtitle {
-      color: {{ subheading_color }};
+      color: {{ subheading_color }} !important;
       font-size: {{ subheading_font_size }}px !important;
       font-weight: {{ subheading_font_weight }} !important;
       font-family: {{ subheading_font_family_css }} !important;
@@ -213,7 +227,7 @@
     html body .container p,
     html body main .custom-text-body,
     html body main .two-column-body {
-      color: {{ body_text_color }};
+      color: {{ body_text_color }} !important;
       font-size: {{ body_font_size }}px !important;
       font-weight: {{ body_font_weight }} !important;
       font-family: {{ body_font_family_css }} !important;
@@ -228,6 +242,66 @@
     html body .navbar .nav-link.dropdown-toggle {
       font-family: {{ menu_font_family_css }} !important;
     }
+    
+    /* Global Button Styles from Theme Settings */
+    html body .btn,
+    html body button,
+    html body input[type="submit"],
+    html body input[type="button"],
+    html body .btn-primary,
+    html body .btn-secondary,
+    html body .btn-success,
+    html body .btn-danger,
+    html body .btn-warning,
+    html body .btn-info,
+    html body .btn-light,
+    html body .btn-dark,
+    html body .btn-link {
+      background-color: var(--button-bg-color) !important;
+      color: var(--button-text-color) !important;
+      border-color: var(--button-border-color) !important;
+      transition: all 0.3s ease;
+    }
+    
+    html body .btn:hover,
+    html body button:hover,
+    html body input[type="submit"]:hover,
+    html body input[type="button"]:hover,
+    html body .btn-primary:hover,
+    html body .btn-secondary:hover,
+    html body .btn-success:hover,
+    html body .btn-danger:hover,
+    html body .btn-warning:hover,
+    html body .btn-info:hover,
+    html body .btn-light:hover,
+    html body .btn-dark:hover {
+      background-color: var(--button-hover-bg-color) !important;
+      color: var(--button-hover-text-color) !important;
+      border-color: var(--button-hover-border-color) !important;
+    }
+    
+    html body .btn:focus,
+    html body button:focus,
+    html body input[type="submit"]:focus,
+    html body input[type="button"]:focus,
+    html body .btn-primary:focus,
+    html body .btn-secondary:focus {
+      background-color: var(--button-hover-bg-color) !important;
+      color: var(--button-hover-text-color) !important;
+      border-color: var(--button-hover-border-color) !important;
+      box-shadow: 0 0 0 0.2rem rgba(var(--button-hover-bg-color), 0.5) !important;
+    }
+    
+    html body .btn:active,
+    html body button:active,
+    html body input[type="submit"]:active,
+    html body input[type="button"]:active,
+    html body .btn-primary:active,
+    html body .btn-secondary:active {
+      background-color: var(--button-hover-bg-color) !important;
+      color: var(--button-hover-text-color) !important;
+      border-color: var(--button-hover-border-color) !important;
+    }
   </style>
 </head>
 <body>
@@ -239,7 +313,6 @@
 
   {% section 'footer' %}
 
-  <script src="{{ 'shopify_common.js' | asset_url }}" defer></script>
   <!-- Bootstrap 5 JS -->
   {% comment %} theme-check-disable RemoteAsset {% endcomment %}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
