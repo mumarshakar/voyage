@@ -1,42 +1,92 @@
-<div class="main-collection-section">
-  <div class="page-width">
-    <div class="section-header text-center">
-      <h1>{{ collection.title }}</h1>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12 text-center mb-5">
+      <h1 class="display-4">{{ collection.title }}</h1>
       {% if collection.description != blank %}
-        <div class="rte">
+        <div class="rte lead">
           {{ collection.description }}
         </div>
       {% endif %}
     </div>
+  </div>
 
-    {% paginate collection.products by 12 %}
-      {% if collection.products.size > 0 %}
-        <div class="product-grid grid grid--uniform">
-          {% for product in collection.products %}
-            {% comment %}
-              This is a placeholder for a product card.
-              You might want to include a snippet like:
-              {% render 'product-card', product: product %}
-              For now, we'll just display the product title.
-            {% endcomment %}
-            <div class="grid__item small--one-half medium--one-third large--one-quarter">
-              <a href="{{ product.url | within: collection }}">
-                <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.featured_image.alt }}">
-                <h3>{{ product.title }}</h3>
-                <p>{{ product.price | money }}</p>
+  {% paginate collection.products by 12 %}
+    {% if collection.products.size > 0 %}
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for product in collection.products %}
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <a href="{{ product.url | within: collection }}" class="text-decoration-none text-dark">
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | img_url: 'large' }}" class="card-img-top" alt="{{ product.featured_image.alt | escape }}">
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'card-img-top' }}
+                {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">{{ product.title }}</h5>
+                  <p class="card-text">{{ product.price | money }}</p>
+                  {% if product.vendor != blank %}
+                    <p class="card-text text-muted">{{ product.vendor }}</p>
+                  {% endif %}
+                </div>
               </a>
             </div>
-          {% endfor %}
-        </div>
+          </div>
+        {% endfor %}
+      </div>
 
-        {% if paginate.pages > 1 %}
-          {% render 'pagination', paginate: paginate %}
-        {% endif %}
-      {% else %}
-        <p class="text-center">No products found in this collection.</p>
+      {% if paginate.pages > 1 %}
+        <nav class="mt-5">
+          <ul class="pagination justify-content-center">
+            {% if paginate.previous %}
+              <li class="page-item">
+                <a class="page-link" href="{{ paginate.previous.url }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+              </li>
+            {% endif %}
+
+            {% for part in paginate.parts %}
+              {% if part.is_link %}
+                <li class="page-item">
+                  <a class="page-link" href="{{ part.url }}">{{ part.title }}</a>
+                </li>
+              {% else %}
+                {% if part.title == '&hellip;' %}
+                  <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
+                {% else %}
+                  <li class="page-item active" aria-current="page">
+                    <span class="page-link">{{ part.title }}</span>
+                  </li>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+            {% if paginate.next %}
+              <li class="page-item">
+                <a class="page-link" href="{{ paginate.next.url }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
       {% endif %}
-    {% endpaginate %}
-  </div>
+    {% else %}
+      <div class="text-center">
+        <p>No products found in this collection.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary">Continue shopping</a>
+      </div>
+    {% endif %}
+  {% endpaginate %}
 </div>
 
 {% schema %}
