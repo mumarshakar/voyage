@@ -4,7 +4,7 @@
       {% if collection.handle == 'all' %}{% continue %}{% endif %}
       <div class="col">
         <div class="card h-100">
-          <a href="{{ collection.url }}">
+          <a href="/collections/{{ collection.handle }}">
             {% if collection.image %}
               <img src="{{ collection.image | img_url: 'large' }}" alt="{{ collection.title }}" class="card-img-top">
             {% else %}
@@ -16,7 +16,7 @@
             <div class="card-text rte">
               {{ collection.description | truncatewords: 20 }}
             </div>
-            <a href="{{ collection.url }}" class="btn btn-primary mt-auto">View Collection</a>
+            <a href="/collections/{{ collection.handle }}" class="btn btn-primary mt-auto">View Collection</a>
           </div>
         </div>
       </div>
