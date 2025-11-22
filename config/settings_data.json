@@ -51,7 +51,7 @@
           "logo_font_size": 30,
           "show_book_now_button": true,
           "book_now_button_text": "Book Now",
-          "book_now_button_url": "shopify://collections",
+          "book_now_button_url": "shopify://collections/booking-services",
           "book_now_button_font_size": 16,
           "book_now_button_font_weight": "600",
           "book_now_button_padding_x": 20,
