@@ -12,12 +12,13 @@
         </a>
       </div>
       <div class="col-md-6 {% if forloop.index | odd %}order-md-1{% endif %} d-flex flex-column justify-content-center">
-        <div class="p-4">
+        <div class="p-5">
           <h2 class="h3">{{ collection.title }}</h2>
+          <h3 class="h5 text-muted mb-3">{{ section.settings.subheading_text }}</h3>
           <div class="rte">
             {{ collection.description | truncatewords: 30 }}
           </div>
-          <a href="{{ collection.url }}" class="btn btn-primary mt-3">View Collection</a>
+          <a href="{{ collection.url }}" class="btn btn-primary mt-4">View Collection</a>
         </div>
       </div>
     </div>
@@ -26,7 +27,7 @@
 
 <style>
   .two-columns-collection-item {
-    background-color: #f8f9fa;
+    background-color: #f8f7f5;
     border-radius: 0.5rem;
     overflow: hidden;
     transition: box-shadow 0.3s ease;
@@ -43,7 +44,14 @@
 {% schema %}
 {
   "name": "List Collections",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading_text",
+      "label": "Subheading Text",
+      "default": "Discover our collection of"
+    }
+  ],
   "presets": [
     {
       "name": "List Collections"
