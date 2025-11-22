@@ -8,7 +8,6 @@
  * ------------------------------------------------------------
  */
 {
-  "name": "Contact us",
   "sections": {
     "hero_section_mJUjfe": {
       "type": "hero-section",
@@ -22,6 +21,7 @@
         "button_text": "",
         "button_link": "",
         "background_type": "image",
+        "background_image": "shopify://shop_images/WhatsApp_Image_2025-06-21_at_17.24.09_1_2.jpg",
         "video_source_type": "upload",
         "background_video_desktop_url": "",
         "background_video_mobile_url": "",
