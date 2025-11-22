@@ -12,7 +12,7 @@
     "hero_section": {
       "type": "hero-section",
       "custom_css": [
-        ".hero-section{margin-top:-35px !important;}"
+        ".hero-section {margin-top: -35px !important;}"
       ],
       "settings": {
         "title": "Our Collections",
@@ -20,6 +20,7 @@
         "button_text": "BOOK YOUR GLOW",
         "button_link": "",
         "background_type": "image",
+        "background_image": "shopify://shop_images/WhatsApp_Image_2025-06-15_at_22.13.03_1.jpg",
         "video_source_type": "upload",
         "background_video_desktop_url": "",
         "background_video_mobile_url": "",
