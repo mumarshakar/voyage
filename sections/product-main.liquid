@@ -114,39 +114,41 @@
               <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
             {% endif %}
 
-            {% if show_quantity_selector %}
-              <div class="product-quantity mb-4">
-                <label for="quantity" class="form-label fw-semibold mb-2">Quantity:</label>
-                <div class="input-group" style="max-width: 200px;">
-                  <button 
-                    type="button" 
-                    class="btn btn-outline-secondary"
-                    onclick="decreaseQuantity()"
-                    style="border-color: var(--cream, #FFF8E7);">
-                    -
-                  </button>
-                  <input 
-                    type="number" 
-                    id="quantity" 
-                    name="quantity" 
-                    value="1" 
-                    min="1" 
-                    class="form-control text-center"
-                    style="border-color: var(--cream, #FFF8E7);">
-                  <button 
-                    type="button" 
-                    class="btn btn-outline-secondary"
-                    onclick="increaseQuantity()"
-                    style="border-color: var(--cream, #FFF8E7);">
-                    +
-                  </button>
-                </div>
-              </div>
-            {% else %}
-              <input type="hidden" name="quantity" value="1">
-            {% endif %}
-
+                        {% comment %}
+                        {% if show_quantity_selector %}
+                          <div class="product-quantity mb-4">
+                            <label for="quantity" class="form-label fw-semibold mb-2">Quantity:</label>
+                            <div class="input-group" style="max-width: 200px;">
+                              <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                onclick="decreaseQuantity()"
+                                style="border-color: var(--cream, #FFF8E7);">
+                                -
+                              </button>
+                              <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                value="1"
+                                min="1"
+                                class="form-control text-center"
+                                style="border-color: var(--cream, #FFF8E7);">
+                              <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                onclick="increaseQuantity()"
+                                style="border-color: var(--cream, #FFF8E7);">
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        {% else %}
+                          <input type="hidden" name="quantity" value="1">
+                        {% endif %}
+                        {% endcomment %}
             <div class="product-actions">
+              {% comment %}
               <button 
                 type="submit" 
                 name="add" 
@@ -155,6 +157,7 @@
                 id="add-to-cart-btn">
                 Add to Cart
               </button>
+              {% endcomment %}
 
               {% if enable_dynamic_checkout %}
                 {{ form | payment_button }}
