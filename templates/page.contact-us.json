@@ -21,17 +21,18 @@
         "button_text": "",
         "button_link": "",
         "background_type": "image",
-        "background_image": "shopify://shop_images/DSC05749_copy_2.jpg",
         "video_source_type": "upload",
         "background_video_desktop_url": "",
         "background_video_mobile_url": "",
         "video_autoplay": false,
         "video_muted": false,
-        "hero_height": 75,
+        "hero_height": 55,
         "background_position": "center",
         "background_size": "cover",
         "title_color": "#8b6f47",
+        "subtitle_color": "#ffffff",
         "title_font_size": 40,
+        "subtitle_font_size": 18,
         "title_position_top": 20,
         "text_alignment": "center",
         "button_position_bottom": 15,
@@ -44,95 +45,20 @@
         "margin_bottom": 0
       }
     },
-    "booking_calendar_tNwzTR": {
-      "type": "booking-calendar",
-      "blocks": {
-        "event_gx4LN6": {
-          "type": "event",
-          "settings": {
-            "event_image": "shopify://shop_images/Meat_the_team.jpg",
-            "event_title": "Yoga Class",
-            "event_link": ""
-          }
-        },
-        "event_LHBhLx": {
-          "type": "event",
-          "settings": {
-            "event_image": "shopify://shop_images/DSC05749_copy_2.jpg",
-            "event_title": "Pilates Session",
-            "event_link": ""
-          }
-        },
-        "event_GjdhYP": {
-          "type": "event",
-          "settings": {
-            "event_image": "shopify://shop_images/voyage.png",
-            "event_title": "Pilates Class",
-            "event_link": ""
-          }
-        },
-        "event_6KbCiY": {
-          "type": "event",
-          "settings": {
-            "event_title": "Yoga Class",
-            "event_link": ""
-          }
-        },
-        "event_JPCamm": {
-          "type": "event",
-          "settings": {
-            "event_title": "Pilates Class",
-            "event_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "event_gx4LN6",
-        "event_LHBhLx",
-        "event_GjdhYP",
-        "event_6KbCiY",
-        "event_JPCamm"
-      ],
-      "name": "Booking Calendar",
+    "contact_form_section_UgA6RX": {
+      "type": "contact-form-section",
+      "name": "Contact Form",
       "settings": {
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_horizontal": 20,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "background_color": "#F8F7F5",
-        "heading_color": "#8B6F47",
-        "heading_font_family": "Playfair Display, serif",
-        "weekday_color": "#8B6F47",
-        "weekday_font_family": "Playfair Display, serif",
-        "day_number_color": "#333333"
-      }
-    },
-    "custom_text_JNzLJm": {
-      "type": "custom-text",
-      "name": "Custom Text",
-      "settings": {
-        "heading": "Contact Us",
-        "subheading": "Contact us any time with questions, private/corporate event enquiries or just some feedback!Gift cards are available, please contact us to purchase.",
-        "text_content": "<p>Phone or WhatsApp: <a href=\"https://wa.me/971585312526\" target=\"_blank\">+971585312526</a></p><p>Email: <a href=\"mailto:gaby@glowdeckme.com?\" target=\"_blank\">gaby@glowdeckme.com</a> OR <a href=\"mailto:nicole@glowdeckme.com?\" target=\"_blank\">nicole@glowdeckme.com</a></p><p></p><p></p><h3>To secure your Glow Social ticket, please select an event below:</h3>",
-        "text_alignment": "center",
-        "content_max_width": 900,
-        "background_color": "#ffffff",
-        "background_size": "cover",
-        "background_overlay_opacity": 0,
-        "padding_top": 200,
-        "padding_bottom": 200,
-        "padding_horizontal": 20,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "heading_margin_bottom": 20,
-        "subheading_margin_bottom": 20
+        "title": "Send Us a Message",
+        "email_label": "Email Address",
+        "phone_label": "Phone Number",
+        "message_label": "Message",
+        "submit_button": "Send Message"
       }
     }
   },
   "order": [
     "hero_section_mJUjfe",
-    "booking_calendar_tNwzTR",
-    "custom_text_JNzLJm"
+    "contact_form_section_UgA6RX"
   ]
 }
