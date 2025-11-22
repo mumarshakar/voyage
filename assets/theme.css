@@ -201,7 +201,17 @@ body {
   margin-top: auto;
   margin-bottom: 10vh;
   position: relative;
-  z-index: 2;
+  z-index: 1;
+}
+
+.btn-glow-cta:hover {
+  color: var(--button-hover-text-color, #FFFFFF) !important;
+  background-color: var(--button-hover-bg-color, var(--button-bg-color, #FF8C61)) !important;
+  border-color: var(--button-hover-border-color, var(--button-hover-bg-color, var(--button-bg-color, #FF8C61))) !important;
+  border-style: var(--button-hover-border-style, var(--button-border-style, solid)) !important;
+  border-width: var(--button-hover-border-width, var(--button-border-width, 1px)) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-glow-cta:focus,
