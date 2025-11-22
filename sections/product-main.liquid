@@ -11,16 +11,20 @@
     <div class="row g-5 align-items-start">
       <!-- Product Images Column -->
       <div class="col-lg-6">
-        {% if product.featured_image %}
+        {% if product.featured_media %}
           <div class="product-image-main mb-3">
             <img 
               id="product-main-image"
-              src="{{ product.featured_image | image_url: width: 1200 }}"
-              alt="{{ product.featured_image.alt | escape }}"
+              src="{{ product.featured_media | image_url: width: 1200 }}"
+              alt="{{ product.featured_media.alt | escape }}"
               class="img-fluid w-100"
               style="border-radius: 8px; object-fit: cover; max-height: 800px; cursor: pointer;"
               loading="eager"
               onclick="zoomProductImage(this)">
+          </div>
+        {% else %}
+          <div class="product-image-main mb-3">
+            {{ 'product-1' | placeholder_svg_tag: 'img-fluid w-100' }}
           </div>
         {% endif %}
 

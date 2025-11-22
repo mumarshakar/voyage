@@ -342,11 +342,14 @@
           
           {% if show_search or show_cart %}
             <div class="header-icons d-flex align-items-center" style="margin-left: {% if show_book_now_button %}1rem{% else %}0{% endif %};">
+              {% comment %}
               {% if show_search %}
                 <a href="{{ routes.search_url }}" class="header-icon me-3">
                   <i class="bi bi-search" style="font-size: {{ icon_size }}px;"></i>
                 </a>
               {% endif %}
+              {% endcomment %}
+              {% comment %}
               {% if show_cart %}
                 <a href="{{ routes.cart_url }}" class="header-icon position-relative">
                   <i class="bi bi-bag" style="font-size: {{ icon_size }}px;"></i>
@@ -357,6 +360,7 @@
                   {% endif %}
                 </a>
               {% endif %}
+              {% endcomment %}
             </div>
           {% endif %}
         </div>
