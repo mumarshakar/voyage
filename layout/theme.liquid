@@ -63,12 +63,15 @@
       assign dropdown_hover_color = settings.dropdown_hover_color | default: '#FF6B35'
       
       # Get button theme settings
-      assign button_background_color = settings.button_background_color | default: '#FF6B35'
+      assign button_gradient_color_1 = settings.button_gradient_color_1 | default: '#FF6B35'
+      assign button_gradient_color_2 = settings.button_gradient_color_2 | default: '#FF8C61'
+      assign button_gradient_degree = settings.button_gradient_degree | default: 90
       assign button_text_color = settings.button_text_color | default: '#FFFFFF'
       assign button_border_color = settings.button_border_color | default: '#FF6B35'
       assign button_border_style = settings.button_border_style | default: 'solid'
       assign button_border_width = settings.button_border_width | default: 1
-      assign button_hover_background_color = settings.button_hover_background_color | default: '#FF8C61'
+      assign button_hover_gradient_color_1 = settings.button_hover_gradient_color_1 | default: '#FF8C61'
+      assign button_hover_gradient_color_2 = settings.button_hover_gradient_color_2 | default: '#FF6B35'
       assign button_hover_text_color = settings.button_hover_text_color | default: '#FFFFFF'
       assign button_hover_border_color = settings.button_hover_border_color | default: '#FF8C61'
       assign button_hover_border_style = settings.button_hover_border_style | default: 'solid'
@@ -80,12 +83,15 @@
       --light-orange: {{ color_light_orange }};
       --cream: {{ color_cream }};
       --white: {{ color_white }};
-      --button-bg-color: {{ button_background_color }};
+      --button-gradient-color-1: {{ button_gradient_color_1 }};
+      --button-gradient-color-2: {{ button_gradient_color_2 }};
+      --button-gradient-degree: {{ button_gradient_degree }}deg;
       --button-text-color: {{ button_text_color }};
       --button-border-color: {{ button_border_color }};
       --button-border-style: {{ button_border_style }};
       --button-border-width: {{ button_border_width }}px;
-      --button-hover-bg-color: {{ button_hover_background_color }};
+      --button-hover-gradient-color-1: {{ button_hover_gradient_color_1 }};
+      --button-hover-gradient-color-2: {{ button_hover_gradient_color_2 }};
       --button-hover-text-color: {{ button_hover_text_color }};
       --button-hover-border-color: {{ button_hover_border_color }};
       --button-hover-border-style: {{ button_hover_border_style }};
@@ -321,7 +327,7 @@
     html body .btn-light,
     html body .btn-dark,
     html body .btn-link {
-      background-color: var(--button-bg-color) !important;
+      background-image: linear-gradient(var(--button-gradient-degree), var(--button-gradient-color-1), var(--button-gradient-color-2)) !important;
       color: var(--button-text-color) !important;
       border-color: var(--button-border-color) !important;
       border-style: var(--button-border-style) !important;
@@ -341,7 +347,7 @@
     html body .btn-info:hover,
     html body .btn-light:hover,
     html body .btn-dark:hover {
-      background-color: var(--button-hover-bg-color) !important;
+      background-image: linear-gradient(var(--button-gradient-degree), var(--button-hover-gradient-color-1), var(--button-hover-gradient-color-2)) !important;
       color: var(--button-hover-text-color) !important;
       border-color: var(--button-hover-border-color) !important;
       border-style: var(--button-hover-border-style) !important;
@@ -354,12 +360,12 @@
     html body input[type="button"]:focus,
     html body .btn-primary:focus,
     html body .btn-secondary:focus {
-      background-color: var(--button-hover-bg-color) !important;
+      background-image: linear-gradient(var(--button-gradient-degree), var(--button-hover-gradient-color-1), var(--button-hover-gradient-color-2)) !important;
       color: var(--button-hover-text-color) !important;
       border-color: var(--button-hover-border-color) !important;
       border-style: var(--button-hover-border-style) !important;
       border-width: var(--button-hover-border-width) !important;
-      box-shadow: 0 0 0 0.2rem rgba(var(--button-hover-bg-color), 0.5) !important;
+      box-shadow: 0 0 0 0.2rem rgba(var(--button-hover-gradient-color-1), 0.5) !important;
     }
     
     html body .btn:active,
@@ -368,7 +374,7 @@
     html body input[type="button"]:active,
     html body .btn-primary:active,
     html body .btn-secondary:active {
-      background-color: var(--button-hover-bg-color) !important;
+      background-image: linear-gradient(var(--button-gradient-degree), var(--button-hover-gradient-color-1), var(--button-hover-gradient-color-2)) !important;
       color: var(--button-hover-text-color) !important;
       border-color: var(--button-hover-border-color) !important;
       border-style: var(--button-hover-border-style) !important;

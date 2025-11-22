@@ -465,10 +465,25 @@
       },
       {
         "type": "color",
-        "id": "button_background_color",
-        "label": "Button Background Color",
-        "default": "#FF6B35",
-        "info": "Default background color for all buttons"
+        "id": "button_gradient_color_1",
+        "label": "Button Gradient Color 1",
+        "default": "#FF6B35"
+      },
+      {
+        "type": "color",
+        "id": "button_gradient_color_2",
+        "label": "Button Gradient Color 2",
+        "default": "#FF8C61"
+      },
+      {
+        "type": "range",
+        "id": "button_gradient_degree",
+        "label": "Button Gradient Degree",
+        "min": 0,
+        "max": 360,
+        "step": 1,
+        "default": 90,
+        "unit": "deg"
       },
       {
         "type": "color",
@@ -530,10 +545,15 @@
       },
       {
         "type": "color",
-        "id": "button_hover_background_color",
-        "label": "Button Hover Background Color",
-        "default": "#FF8C61",
-        "info": "Background color when button is hovered"
+        "id": "button_hover_gradient_color_1",
+        "label": "Button Hover Gradient Color 1",
+        "default": "#FF8C61"
+      },
+      {
+        "type": "color",
+        "id": "button_hover_gradient_color_2",
+        "label": "Button Hover Gradient Color 2",
+        "default": "#FF6B35"
       },
       {
         "type": "color",
