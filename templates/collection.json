@@ -11,6 +11,9 @@
   "sections": {
     "hero_section": {
       "type": "hero-section",
+      "custom_css": [
+        ".hero-section{margin-top:-35px !important;}"
+      ],
       "settings": {
         "title": "Our Collections",
         "subtitle": "Discover our curated collections of wellness products.",
