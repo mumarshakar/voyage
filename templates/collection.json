@@ -1,9 +1,20 @@
 {
     "sections": {
-      "main": {
-        "type": "main-collection"
+      "hero_section": {
+        "type": "hero-section",
+        "settings": {
+          "title": "Our Collections",
+          "subtitle": "Discover our curated collections of wellness products.",
+          "background_type": "image",
+          "hero_height": 50,
+          "text_alignment": "center",
+          "overlay_opacity": 30
+        }
+      },
+      "list-collections": {
+        "type": "list-collections-section"
       }
     },
-    "order": ["main"]
+    "order": ["hero_section", "list-collections"]
   }
   

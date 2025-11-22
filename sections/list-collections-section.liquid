@@ -1,0 +1,53 @@
+<div class="container py-5">
+  {% for collection in collections %}
+    {% if collection.handle == 'all' %}{% continue %}{% endif %}
+    <div class="row two-columns-collection-item mb-5">
+      <div class="col-md-6 {% if forloop.index | odd %}order-md-2{% endif %}">
+        <a href="{{ collection.url }}">
+          {% if collection.image %}
+            <img src="{{ collection.image | img_url: 'large' }}" alt="{{ collection.title }}" class="img-fluid rounded">
+          {% else %}
+            {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'img-fluid rounded' }}
+          {% endif %}
+        </a>
+      </div>
+      <div class="col-md-6 {% if forloop.index | odd %}order-md-1{% endif %} d-flex flex-column justify-content-center">
+        <div class="p-4">
+          <h2 class="h3">{{ collection.title }}</h2>
+          <div class="rte">
+            {{ collection.description | truncatewords: 30 }}
+          </div>
+          <a href="{{ collection.url }}" class="btn btn-primary mt-3">View Collection</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<style>
+  .two-columns-collection-item {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  .two-columns-collection-item:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+  .two-columns-collection-item .btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "List Collections",
+  "settings": [],
+  "presets": [
+    {
+      "name": "List Collections"
+    }
+  ]
+}
+{% endschema %}
