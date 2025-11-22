@@ -46,19 +46,10 @@
         "sesami_booking_app_app_block_FN6T9d"
       ],
       "settings": {}
-    },
-    "product_description": {
-      "type": "product-description",
-      "settings": {
-        "show_tabs": true,
-        "show_description": true,
-        "show_additional_info": true
-      }
     }
   },
   "order": [
     "product_main",
-    "176363517991952302",
-    "product_description"
+    "176363517991952302"
   ]
 }
