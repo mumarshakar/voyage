@@ -144,7 +144,7 @@
           "footer_text_color": "#69e0dc",
           "footer_font_family": "serif",
           "footer_font_size": 18,
-          "show_underline": true,
+          "show_underline": false,
           "footer_vertical_padding": 80
         }
       }
