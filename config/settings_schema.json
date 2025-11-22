@@ -481,7 +481,7 @@
         "label": "Button Gradient Degree",
         "min": 0,
         "max": 360,
-        "step": 1,
+        "step": 4,
         "default": 90,
         "unit": "deg"
       },
