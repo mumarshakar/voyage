@@ -9,8 +9,8 @@
  */
 {
   "current": {
-    "color_primary_orange": "#69c0dc",
-    "color_light_orange": "#e9e5dc",
+    "color_primary_orange": "#69e0dc",
+    "color_light_orange": "#69c0dc",
     "heading_font_family": "merriweather_heading",
     "subheading_font_family": "merriweather_subheading",
     "body_font_family": "merriweather_body",
