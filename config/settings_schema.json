@@ -482,7 +482,7 @@
         "min": 0,
         "max": 360,
         "step": 4,
-        "default": 90,
+        "default": 92,
         "unit": "deg"
       },
       {
