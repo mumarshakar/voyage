@@ -16,7 +16,7 @@
       ],
       "name": "Hero Section",
       "settings": {
-        "title": "",
+        "title": "Contact Us",
         "subtitle": "",
         "button_text": "",
         "button_link": "",
@@ -30,7 +30,7 @@
         "hero_height": 55,
         "background_position": "center",
         "background_size": "cover",
-        "title_color": "#8b6f47",
+        "title_color": "#69e0dc",
         "subtitle_color": "#ffffff",
         "title_font_size": 40,
         "subtitle_font_size": 18,
