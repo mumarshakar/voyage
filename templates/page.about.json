@@ -18,8 +18,8 @@
       "settings": {
         "title": "Behind The Wellness Club",
         "subtitle": "Your perfect journey starts here. Book your next adventure with ease.",
-        "button_text": "",
-        "button_link": "",
+        "button_text": "BOOK NOW",
+        "button_link": "shopify://collections/booking-services",
         "background_type": "image",
         "background_image": "shopify://shop_images/AI_Generator_Picture_Fotor.jpg",
         "video_source_type": "upload",
