@@ -508,7 +508,7 @@ body {
     position: relative; /* Crucial for absolute positioning of faces */
     border-radius: 8px; /* Re-apply border-radius */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Re-apply shadow */
-    overflow: hidden; /* Ensure content is clipped */
+    /* Removed overflow: hidden; as it interferes with 3D transforms */
   }
 
   .card-inner {
