@@ -1,0 +1,27 @@
+.card {
+  background-color: var(--card-bg-color);
+  border-radius: var(--card-border-radius);
+}
+
+.card-img-top {
+  border-top-left-radius: var(--image-border-radius);
+  border-top-right-radius: var(--image-border-radius);
+}
+
+.card-title {
+  font-size: var(--title-font-size);
+  font-weight: var(--title-font-weight);
+  color: var(--title-color);
+}
+
+.card-text {
+  font-size: var(--price-font-size);
+  font-weight: var(--price-font-weight);
+  color: var(--price-color);
+}
+
+.text-muted {
+  font-size: var(--vendor-font-size);
+  font-weight: var(--vendor-font-weight);
+  color: var(--vendor-color);
+}
