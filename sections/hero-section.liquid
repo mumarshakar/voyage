@@ -434,13 +434,13 @@
   -%}
 
 <style>
-  #shopify-section-{{ section.id }} .hero-section {
-    min-height: {{ hero_height }}vh;
+  #shopify-section-{{ section.id }} .hero-section.hero-glow {
+    min-height: {{ section.settings.hero_height }}vh !important;
   }
 
   @media (max-width: 768px) {
-    #shopify-section-{{ section.id }} .hero-section {
-      min-height: {{ hero_height_mobile }}vh;
+    #shopify-section-{{ section.id }} .hero-section.hero-glow {
+      min-height: {{ section.settings.hero_height_mobile }}vh !important;
     }
   }
 </style>
