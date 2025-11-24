@@ -432,21 +432,10 @@
       assign overlay_opacity_decimal = 0
     endif
   -%}
-
-<style>
-  #shopify-section-{{ section.id }} .hero-section.hero-glow {
-    min-height: {{ section.settings.hero_height }}vh;
-  }
-
-  @media (max-width: 768px) {
-    #shopify-section-{{ section.id }} .hero-section.hero-glow {
-      min-height: {{ section.settings.hero_height_mobile }}vh;
-    }
-  }
-</style>
   
   <section class="hero-section hero-glow" 
-           style="{% if section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');{% endif %}
+           style="min-height: clamp({{ hero_height_mobile }}vh, 100vw, {{ hero_height }}vh); 
+                  {% if section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');{% endif %}
                   background-position: {{ bg_position }};
                   background-size: {{ bg_size }};
                   padding-top: {{ padding_top }}px;
@@ -470,7 +459,7 @@
       
       {% if video_source_type == 'upload' and desktop_video != blank %}
         <div class="hero-video-container">
-          {% if mobile_video != blank %}
+          {% if mobile_.video != blank %}
             <video class="hero-video hero-video-mobile" 
                    playsinline 
                    {% if video_autoplay %}autoplay{% endif %} 
@@ -562,22 +551,3 @@
       {% endif %}
     </div>
   </section>
-<script>
-document.addEventListener('shopify:section:load', function() {
-  const heroSection = document.querySelector('#shopify-section-{{ section.id }} .hero-section.hero-glow');
-  if (window.innerWidth <= 768) {
-    heroSection.style.minHeight = '{{ section.settings.hero_height_mobile }}vh';
-  } else {
-    heroSection.style.minHeight = '{{ section.settings.hero_height }}vh';
-  }
-});
-
-document.addEventListener('shopify:section:reorder', function() {
-  const heroSection = document.querySelector('#shopify-section-{{ section.id }} .hero-section.hero-glow');
-  if (window.innerWidth <= 768) {
-    heroSection.style.minHeight = '{{ section.settings.hero_height_mobile }}vh';
-  } else {
-    heroSection.style.minHeight = '{{ section.settings.hero_height }}vh';
-  }
-});
-</script>
