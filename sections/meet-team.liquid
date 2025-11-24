@@ -6,7 +6,7 @@
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="team-member-card">
             <div class="card-inner">
-              <div class="card-front card h-100">
+              <div class="card-front h-100">
                 {% if block.settings.image != blank %}
                   <img src="{{ block.settings.image | img_url: '400x400' }}" class="card-img-top" alt="{{ block.settings.name }}">
                 {% else %}
@@ -17,7 +17,7 @@
                   <p class="card-text">{{ block.settings.designation }}</p>
                 </div>
               </div>
-              <div class="card-back card h-100">
+              <div class="card-back h-100">
                 <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
                   <p class="card-text">{{ block.settings.info }}</p>
                 </div>
