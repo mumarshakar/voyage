@@ -435,12 +435,12 @@
 
 <style>
   #shopify-section-{{ section.id }} .hero-section.hero-glow {
-    min-height: {{ section.settings.hero_height }}vh !important;
+    min-height: {{ section.settings.hero_height }}vh;
   }
 
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} .hero-section.hero-glow {
-      min-height: {{ section.settings.hero_height_mobile }}vh !important;
+      min-height: {{ section.settings.hero_height_mobile }}vh;
     }
   }
 </style>
@@ -562,4 +562,22 @@
       {% endif %}
     </div>
   </section>
+<script>
+document.addEventListener('shopify:section:load', function() {
+  const heroSection = document.querySelector('#shopify-section-{{ section.id }} .hero-section.hero-glow');
+  if (window.innerWidth <= 768) {
+    heroSection.style.minHeight = '{{ section.settings.hero_height_mobile }}vh';
+  } else {
+    heroSection.style.minHeight = '{{ section.settings.hero_height }}vh';
+  }
+});
 
+document.addEventListener('shopify:section:reorder', function() {
+  const heroSection = document.querySelector('#shopify-section-{{ section.id }} .hero-section.hero-glow');
+  if (window.innerWidth <= 768) {
+    heroSection.style.minHeight = '{{ section.settings.hero_height_mobile }}vh';
+  } else {
+    heroSection.style.minHeight = '{{ section.settings.hero_height }}vh';
+  }
+});
+</script>
