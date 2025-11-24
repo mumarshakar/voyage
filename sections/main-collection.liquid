@@ -1,3 +1,26 @@
+{%- liquid
+  assign products_per_page = section.settings.products_per_page
+  assign products_per_row = section.settings.products_per_row
+
+  assign card_bg_color = section.settings.card_bg_color
+  assign card_border_radius = section.settings.card_border_radius
+  assign card_shadow = section.settings.card_shadow
+
+  assign image_border_radius = section.settings.image_border_radius
+
+  assign title_font_size = section.settings.title_font_size
+  assign title_font_weight = section.settings.title_font_weight
+  assign title_color = section.settings.title_color
+
+  assign price_font_size = section.settings.price_font_size
+  assign price_font_weight = section.settings.price_font_weight
+  assign price_color = section.settings.price_color
+
+  assign vendor_font_size = section.settings.vendor_font_size
+  assign vendor_font_weight = section.settings.vendor_font_weight
+  assign vendor_color = section.settings.vendor_color
+-%}
+
 <div class="container py-5">
   <div class="row">
     <div class="col-12 text-center mb-5">
@@ -10,23 +33,36 @@
     </div>
   </div>
 
-  {% paginate collection.products by 12 %}
+  {% paginate collection.products by products_per_page %}
     {% if collection.products.size > 0 %}
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-{{ products_per_row }} g-4">
         {% for product in collection.products %}
           <div class="col">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 {% if card_shadow %}shadow-sm{% endif %}"
+                 style="background-color: {{ card_bg_color }}; border-radius: {{ card_border_radius }}px;">
               <a href="{{ product.url | within: collection }}" class="text-decoration-none text-dark">
                 {% if product.featured_image %}
-                  <img src="{{ product.featured_image | img_url: 'large' }}" class="card-img-top" alt="{{ product.featured_image.alt | escape }}">
+                  <img src="{{ product.featured_image | img_url: 'large' }}"
+                       class="card-img-top"
+                       alt="{{ product.featured_image.alt | escape }}"
+                       style="border-top-left-radius: {{ image_border_radius }}px; border-top-right-radius: {{ image_border_radius }}px;">
                 {% else %}
                   {{ 'product-1' | placeholder_svg_tag: 'card-img-top' }}
                 {% endif %}
                 <div class="card-body">
-                  <h5 class="card-title">{{ product.title }}</h5>
-                  <p class="card-text">{{ product.price | money }}</p>
+                  <h5 class="card-title"
+                      style="font-size: {{ title_font_size }}px; font-weight: {{ title_font_weight }}; color: {{ title_color }};">
+                    {{ product.title }}
+                  </h5>
+                  <p class="card-text"
+                     style="font-size: {{ price_font_size }}px; font-weight: {{ price_font_weight }}; color: {{ price_color }};">
+                    {{ product.price | money }}
+                  </p>
                   {% if product.vendor != blank %}
-                    <p class="card-text text-muted">{{ product.vendor }}</p>
+                    <p class="card-text text-muted"
+                       style="font-size: {{ vendor_font_size }}px; font-weight: {{ vendor_font_weight }}; color: {{ vendor_color }} !important;">
+                      {{ product.vendor }}
+                    </p>
                   {% endif %}
                 </div>
               </a>
@@ -92,7 +128,161 @@
 {% schema %}
   {
     "name": "Main Collection",
-    "settings": [],
+    "settings": [
+      {
+        "type": "header",
+        "content": "Product Card Settings"
+      },
+      {
+        "type": "range",
+        "id": "products_per_page",
+        "label": "Products per page",
+        "min": 2,
+        "max": 24,
+        "step": 1,
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "products_per_row",
+        "label": "Products per row (Desktop)",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "select",
+        "id": "card_bg_color",
+        "label": "Card Background Color",
+        "options": [
+          { "value": "white", "label": "White" },
+          { "value": "#f8f9fa", "label": "Light Gray" },
+          { "value": "#e9ecef", "label": "Gray" }
+        ],
+        "default": "white"
+      },
+      {
+        "type": "range",
+        "id": "card_border_radius",
+        "label": "Card Border Radius (px)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 8
+      },
+      {
+        "type": "checkbox",
+        "id": "card_shadow",
+        "label": "Show Card Shadow",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Image Settings"
+      },
+      {
+        "type": "range",
+        "id": "image_border_radius",
+        "label": "Image Border Radius (px)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "header",
+        "content": "Title Settings"
+      },
+      {
+        "type": "range",
+        "id": "title_font_size",
+        "label": "Title Font Size (px)",
+        "min": 14,
+        "max": 30,
+        "step": 1,
+        "default": 18
+      },
+      {
+        "type": "select",
+        "id": "title_font_weight",
+        "label": "Title Font Weight",
+        "options": [
+          { "value": "400", "label": "Normal" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi Bold" },
+          { "value": "700", "label": "Bold" }
+        ],
+        "default": "600"
+      },
+      {
+        "type": "color",
+        "id": "title_color",
+        "label": "Title Color",
+        "default": "#212529"
+      },
+      {
+        "type": "header",
+        "content": "Price Settings"
+      },
+      {
+        "type": "range",
+        "id": "price_font_size",
+        "label": "Price Font Size (px)",
+        "min": 12,
+        "max": 24,
+        "step": 1,
+        "default": 16
+      },
+      {
+        "type": "select",
+        "id": "price_font_weight",
+        "label": "Price Font Weight",
+        "options": [
+          { "value": "400", "label": "Normal" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi Bold" },
+          { "value": "700", "label": "Bold" }
+        ],
+        "default": "500"
+      },
+      {
+        "type": "color",
+        "id": "price_color",
+        "label": "Price Color",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Brand/Vendor Settings"
+      },
+      {
+        "type": "range",
+        "id": "vendor_font_size",
+        "label": "Brand/Vendor Font Size (px)",
+        "min": 10,
+        "max": 20,
+        "step": 1,
+        "default": 14
+      },
+      {
+        "type": "select",
+        "id": "vendor_font_weight",
+        "label": "Brand/Vendor Font Weight",
+        "options": [
+          { "value": "300", "label": "Light" },
+          { "value": "400", "label": "Normal" },
+          { "value": "500", "label": "Medium" }
+        ],
+        "default": "400"
+      },
+      {
+        "type": "color",
+        "id": "vendor_color",
+        "label": "Brand/Vendor Color",
+        "default": "#6c757d"
+      }
+    ],
     "presets": [
       {
         "name": "Main Collection"
