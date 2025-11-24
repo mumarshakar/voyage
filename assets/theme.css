@@ -495,44 +495,18 @@ body {
     padding: 8px 0;
   }
   
-  /* Meet the Team Section Styles */
+  /* Meet the Team Section Styles - Adapted for Bootstrap */
   .meet-the-team {
-    padding: 50px 0;
     text-align: center;
   }
-  
-  .meet-the-team h2 {
-    font-size: 2.5rem;
-    margin-bottom: 50px;
-  }
-  
-  .meet-the-team .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-  
-  .team-members {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    justify-content: center;
-  }
-  
+
   .team-member-card {
     background-color: transparent;
-    width: 100%;
-    height: 350px; /* Fixed height for consistent card size */
-    perspective: 1000px; /* For 3D flip effect */
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    height: 350px; /* Consistent height for flip */
+    perspective: 1000px;
+    border: none; /* Remove default Bootstrap card border */
   }
-  
+
   .card-inner {
     position: relative;
     width: 100%;
@@ -541,58 +515,72 @@ body {
     transition: transform 0.8s;
     transform-style: preserve-3d;
   }
-  
+
   .team-member-card:hover .card-inner {
     transform: rotateY(180deg);
   }
-  
+
   .card-front, .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    -webkit-backface-visibility: hidden; /* Safari */
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--white); /* Assuming --white is defined or a default white */
-    padding: 20px;
     border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
   
-  .card-front img {
+  .card-front {
+    background-color: var(--white);
+    padding: 20px;
+  }
+
+  .card-front img.card-img-top {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 15px;
-    border: 3px solid var(--warm-brown); /* Assuming --warm-brown is defined */
+    border: 3px solid var(--warm-brown);
+    flex-shrink: 0; /* Prevent image from shrinking */
   }
-  
-  .card-front h3 {
+
+  .card-front .card-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-front .card-title {
     font-size: 1.5rem;
     margin-bottom: 5px;
-    color: var(--warm-brown-dark); /* Assuming --warm-brown-dark is defined */
+    color: var(--warm-brown-dark);
   }
-  
-  .card-front p {
+
+  .card-front .card-text {
     font-size: 1rem;
     color: #666;
   }
-  
+
   .card-back {
     transform: rotateY(180deg);
-    background-color: var(--warm-brown); /* Different background for back */
+    background-color: var(--warm-brown);
     color: white;
     padding: 30px;
   }
   
-  .card-back p {
+  .card-back .card-text {
     font-size: 1rem;
     line-height: 1.6;
+    margin-bottom: 0;
   }
-  
+
   .placeholder-image {
     width: 150px;
     height: 150px;
@@ -603,46 +591,48 @@ body {
     align-items: center;
     margin-bottom: 15px;
     border: 3px solid #aaa;
+    flex-shrink: 0; /* Prevent placeholder from shrinking */
   }
-  
+
   .placeholder-image svg {
     width: 80px;
     height: 80px;
     color: #888;
   }
-  
+
   @media (max-width: 768px) {
     .team-member-card {
       height: 320px;
     }
-  
-    .card-front img {
+
+    .card-front img.card-img-top, .placeholder-image {
       width: 120px;
       height: 120px;
     }
-  
-    .card-front h3 {
+
+    .card-front .card-title {
       font-size: 1.3rem;
     }
-  
-    .card-front p, .card-back p {
+
+    .card-front .card-text, .card-back .card-text {
       font-size: 0.9rem;
     }
   }
-  
+
   @media (max-width: 480px) {
     .meet-the-team h2 {
       font-size: 2rem;
     }
-  
+
     .team-member-card {
       height: 300px;
     }
-  
-    .card-front img {
+
+    .card-front img.card-img-top, .placeholder-image {
       width: 100px;
       height: 100px;
     }
   }
+
   }
 
