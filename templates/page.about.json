@@ -21,26 +21,23 @@
         "button_text": "",
         "button_link": "",
         "background_type": "image",
-        "background_image": "shopify://shop_images/WhatsApp_Image_2025-06-15_at_22.12.58_1.jpg",
+        "background_image": "shopify://shop_images/AI_Generator_Picture_Fotor.jpg",
         "video_source_type": "upload",
         "background_video_desktop_url": "",
         "background_video_mobile_url": "",
         "video_autoplay": true,
         "video_muted": true,
         "hero_height": 80,
+        "hero_height_mobile": 80,
         "background_position": "center",
         "background_size": "cover",
         "title_color": "#ffffff",
+        "subtitle_color": "#ffffff",
         "title_font_size": 40,
+        "subtitle_font_size": 18,
         "title_position_top": 5,
         "text_alignment": "center",
-        "button_text_color": "#8b6f47",
-        "button_bg_color": "#ffffff",
-        "button_opacity": 70,
         "button_position_bottom": 15,
-        "button_font_size": 16,
-        "button_padding_horizontal": 32,
-        "button_padding_vertical": 14,
         "overlay_color": "#000000",
         "overlay_opacity": 0,
         "padding_top": 120,
@@ -56,7 +53,13 @@
       "settings": {
         "heading": "",
         "subheading": "",
+        "content_type": "richtext",
         "text_content": "<p>Glow Deck isn’t your typical wellness retreat — it’s wellness with a glow-up. Set on the shimmering waters of the UAE, we create elevated, wellness experiences at sea, where movement, connection, and luxury effortlessly collide.<br/>Born from our belief that wellness should feel just as good as it looks, Glow Deck was created for those who value <span style=\"text-decoration:underline\">balance, beauty, and a little indulgence. </span><br/>Whether you're planning a private celebration or simply looking for a solo escape with Glow Privé, a corporate off-site with Glow Collective, or joining one of our signature community events with Glow Social — we deliver bespoke wellness with style.</p>",
+        "html_content": "<p>Add your HTML content here. You can use any HTML tags and inline styles.</p>",
+        "link_color": "#333333",
+        "link_hover_color": "#666666",
+        "link_text_decoration": "underline",
+        "custom_css": "",
         "text_alignment": "left",
         "content_max_width": 800,
         "background_color": "#ffffff",
@@ -145,7 +148,13 @@
       "settings": {
         "heading": "Experience Wellness  Elements",
         "subheading": "While no two events are exactly the same, here’s what you can usually expect — give or take a few surprises. Everything is designed to be inclusive and welcoming across all ages.",
+        "content_type": "richtext",
         "text_content": "<ul><li><strong>Sensory Experiences:</strong> Sound healing, guided visualisation, manifestation rituals, and floating meditations designed to quiet the mind and reconnect with presence.<br/></li><li><strong>Movement: </strong>Intentional sessions including pilates, sculpt-inspired flows, stretch therapy, barre, and sound-led yoga — a gentle rebellion against modern stillness.<br/></li><li><strong>Recovery & Rest:</strong> Cold plunges, breathwork, reiki, reflexology, ice facials, and infrared sauna blankets to soothe your nervous system and restore balance.<br/></li><li><strong>Nourishment:</strong> Wellness-aligned meals by private chefs using refined ingredients — from sunrise breakfasts to onboard BBQs — indulgent, intentional, and beautifully curated.<br/></li><li><strong>Indulgence:</strong> Natural face and hair masks, optional blow dries, and glow rituals that leave you radiant, grounded, and ready for the ’gram.</li></ul>",
+        "html_content": "<p>Add your HTML content here. You can use any HTML tags and inline styles.</p>",
+        "link_color": "#333333",
+        "link_hover_color": "#666666",
+        "link_text_decoration": "underline",
+        "custom_css": "",
         "text_alignment": "justify",
         "content_max_width": 800,
         "background_color": "#ffffff",
@@ -166,7 +175,6 @@
         "image_4baB4y": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/voyage.png",
             "alt_text": "",
             "image_link": ""
           }
@@ -174,7 +182,6 @@
         "image_ciaPx9": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/voyage.png",
             "alt_text": "",
             "image_link": ""
           }
@@ -182,7 +189,6 @@
         "image_bTc4gd": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Main.jpg",
             "alt_text": "",
             "image_link": ""
           }
@@ -190,7 +196,6 @@
         "image_Xdi3mj": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/theme_cover_image.jpg",
             "alt_text": "",
             "image_link": ""
           }
@@ -198,7 +203,6 @@
         "image_nDJJ4w": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/voyage.png",
             "alt_text": "",
             "image_link": ""
           }
@@ -206,7 +210,6 @@
         "image_apceQw": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Main_c8ff0b5d-c712-429a-be00-b29bd55cbc9d.jpg",
             "alt_text": "",
             "image_link": ""
           }
@@ -246,7 +249,6 @@
       "name": "Meet Team",
       "settings": {
         "heading": "Meet the Team",
-        "team_image": "shopify://shop_images/Meat_the_team.jpg",
         "introduction_text": "<p>Glow Deck was founded by Gaby and Nicole — two friends who’ve spent over 15 years in Dubai, working with people, creating experiences, and watching the city evolve into a global hub for lifestyle, wellness, and everything in between.</p>",
         "quote_text": "<p><em>“We craved more from life — something that didn’t drain us, but elevated us. Glow Deck was born from a simple idea: what if joy, movement, and meaningful connection could exist within a truly luxurious experience?”</em></p>",
         "image_position": "left",
@@ -270,7 +272,13 @@
       "settings": {
         "heading": "",
         "subheading": "",
+        "content_type": "richtext",
         "text_content": "<h1>Click here to book your Glow Social ticket or to make any enquiries!</h1>",
+        "html_content": "<p>Add your HTML content here. You can use any HTML tags and inline styles.</p>",
+        "link_color": "#333333",
+        "link_hover_color": "#666666",
+        "link_text_decoration": "underline",
+        "custom_css": "",
         "text_alignment": "center",
         "content_max_width": 900,
         "background_color": "#fff8e7",
