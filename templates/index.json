@@ -23,6 +23,7 @@
         "video_source_type": "upload",
         "background_video_desktop": "shopify://files/videos/voyage hy hype.mp4",
         "background_video_desktop_url": "",
+        "background_video_mobile": "shopify://files/videos/voyage hy hype.mp4",
         "background_video_mobile_url": "",
         "video_autoplay": true,
         "video_muted": true,
