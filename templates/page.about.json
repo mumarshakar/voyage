@@ -207,6 +207,7 @@
         "image_Xdi3mj": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/AI_Generator_Picture_Fotor_6e908974-e99a-4d11-bd4c-9083651471c8.jpg",
             "alt_text": "",
             "image_link": ""
           }
@@ -214,6 +215,7 @@
         "image_nDJJ4w": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/AI_Generator_Picture_1__Fotor.jpg",
             "alt_text": "",
             "image_link": ""
           }
