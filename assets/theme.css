@@ -495,142 +495,47 @@ body {
     padding: 8px 0;
   }
   
-  /* Meet the Team Section Styles - Adapted for Bootstrap */
-  .meet-the-team {
-    text-align: center;
-  }
-
-  .team-member-card {
-    background-color: transparent;
-    height: 350px; /* Consistent height for flip */
+  .flip-card {
+    background: transparent;
+    width: 100%;
+    height: 340px;
     perspective: 1000px;
-    border: none;
-    position: relative; /* Crucial for absolute positioning of faces */
-    border-radius: 8px; /* Re-apply border-radius */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Re-apply shadow */
-    /* Removed overflow: hidden; as it interferes with 3D transforms */
   }
 
-  .card-inner {
+  .flip-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
-    text-align: center;
-    transition: transform 0.8s;
+    transition: transform 0.6s;
     transform-style: preserve-3d;
   }
 
-  .team-member-card:hover .card-inner {
+  .flip-card:hover .flip-card-inner {
     transform: rotateY(180deg);
   }
 
-  .card-front, .card-back {
+  .flip-card-front,
+  .flip-card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    /* Removed flex properties, content is now centered by card-body */
-  }
-  
-  .card-front {
-    background-color: var(--white);
-    padding: 20px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   }
 
-  .card-front img.card-img-top {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+  .flip-card-front img {
+    height: 180px;
     object-fit: cover;
-    margin-bottom: 15px;
-    border: 3px solid var(--warm-brown);
-    flex-shrink: 0;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
   }
 
-  .card-front .card-body {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .card-front .card-title {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-    color: var(--warm-brown-dark);
-  }
-
-  .card-front .card-text {
-    font-size: 1rem;
-    color: #666;
-  }
-
-  .card-back {
+  .flip-card-back {
     transform: rotateY(180deg);
-    background-color: var(--warm-brown);
-    color: white;
-    padding: 30px;
-  }
-  
-  .card-back .card-text {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 0;
-  }
-
-  .placeholder-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background-color: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
-    border: 3px solid #aaa;
-    flex-shrink: 0;
-  }
-
-  .placeholder-image svg {
-    width: 80px;
-    height: 80px;
-    color: #888;
-  }
-
-  @media (max-width: 768px) {
-    .team-member-card {
-      height: 320px;
-    }
-
-    .card-front img.card-img-top, .placeholder-image {
-      width: 120px;
-      height: 120px;
-    }
-
-    .card-front .card-title {
-      font-size: 1.3rem;
-    }
-
-    .card-front .card-text, .card-back .card-text {
-      font-size: 0.9rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .meet-the-team h2 {
-      font-size: 2rem;
-    }
-
-    .team-member-card {
-      height: 300px;
-    }
-
-    .card-front img.card-img-top, .placeholder-image {
-      width: 100px;
-      height: 100px;
-    }
+    background: #f8f9fa;
+    padding: 20px;
   }
 
   }
