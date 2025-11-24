@@ -1,82 +1,131 @@
+{% stylesheet %}
+.flip-card {
+    background: transparent;
+    width: 100%;
+    height: 340px;
+    perspective: 1000px;
+}
 
-    <style>
-        .flip-card {
-            background: transparent;
-            width: 100%;
-            height: 340px;
-            perspective: 1000px;
-        }
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
 
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
 
-        .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
-        }
+.flip-card-front, 
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
 
-        .flip-card-front, 
-        .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 10px;
-            background: #ffffff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
+.flip-card-front img {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+}
 
-        .flip-card-front img {
-            height: 180px;
-            object-fit: cover;
-            width: 100%;
-            border-radius: 10px 10px 0 0;
-        }
-
-        .flip-card-back {
-            transform: rotateY(180deg);
-            background: #f8f9fa;
-            padding: 20px;
-        }
-    </style>
-</head>
-
-<body>
+.flip-card-back {
+    transform: rotateY(180deg);
+    background: #f8f9fa;
+    padding: 20px;
+}
+{% endstylesheet %}
 
 <div class="container py-5">
-    <h2 class="text-center mb-5">Bootstrap 5 Flip Cards</h2>
+    <h2 class="text-center mb-5">{{ section.settings.heading }}</h2>
 
     <div class="row g-4">
 
-        <!-- Card 1 -->
-        <div class="col-md-4">
+        {% for block in section.blocks %}
+        <div class="col-md-4" {{ block.shopify_attributes }}>
             <div class="flip-card">
                 <div class="flip-card-inner">
 
                     <!-- Front -->
                     <div class="flip-card-front text-center">
-                        <img src="https://via.placeholder.com/400x250" alt="">
-                        <h5 class="mt-3 mb-0">John Doe</h5>
-                        <p class="text-muted">Senior Developer</p>
+                        {% if block.settings.image != blank %}
+                            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.name }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/400x250" alt="placeholder">
+                        {% endif %}
+
+                        <h5 class="mt-3 mb-0">{{ block.settings.name }}</h5>
+                        <p class="text-muted">{{ block.settings.role }}</p>
                     </div>
 
                     <!-- Back -->
                     <div class="flip-card-back d-flex align-items-center">
-                        <p>
-                            John has 10+ years of experience in full-stack development and leads the engineering team.
-                        </p>
+                        <p>{{ block.settings.description }}</p>
                     </div>
 
                 </div>
             </div>
         </div>
-
-
-
+        {% endfor %}
 
     </div>
 </div>
+
+{% schema %}
+{
+  "name": "Team Flip Cards",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Meet Our Team"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "team_member",
+      "name": "Team Member",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "John Doe"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role",
+          "default": "Senior Developer"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Team member bio goes here."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Team Flip Cards",
+      "category": "Team"
+    }
+  ]
+}
+{% endschema %}
