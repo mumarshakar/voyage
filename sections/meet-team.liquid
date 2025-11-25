@@ -89,7 +89,7 @@
 }
 </style>
 
-<div class="page-width" style="padding: 3rem 0;">
+<div class="page-width" style="max-width: {{ section.settings.max_width }}px; padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px 0;">
     <h2 class="section-heading">{{ section.settings.heading }}</h2>
 
     <div class="team-cards-row">
@@ -137,6 +137,36 @@
     {
       "type": "header",
       "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 500,
+      "max": 1200,
+      "step": 10,
+      "unit": "px",
+      "label": "Max Width",
+      "default": 1100
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 48
     },
     {
       "type": "range",
