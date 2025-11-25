@@ -63,11 +63,20 @@
     letter-spacing: {{ section.settings.description_letter_spacing }}px;
 }
 
+/* Fix for row and column gaps */
 .team-cards-row {
-    row-gap: {{ section.settings.row_gap }}px;
-    column-gap: {{ section.settings.column_gap }}px;
+    row-gap: {{ section.settings.row_gap }}px !important;
+    column-gap: {{ section.settings.column_gap }}px !important;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.team-cards-row > [class*='col-'] {
+    padding: 0;
+    margin-bottom: {{ section.settings.row_gap }}px;
 }
 {% endstylesheet %}
+
 
 <div class="container py-5">
     <h2 class="text-center mb-5">{{ section.settings.heading }}</h2>
