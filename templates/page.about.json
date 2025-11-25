@@ -327,6 +327,8 @@
       "name": "Meet Team",
       "settings": {
         "heading": "Meet the Team",
+        "column_gap": 25,
+        "row_gap": 35,
         "card_border_radius": 2,
         "image_height": 100,
         "image_border_radius": 10,
