@@ -433,7 +433,7 @@
   -%}
   
   <section class="hero-section hero-glow" 
-           style="min-height: calc(var(--vh, 1vh) * {{ hero_height }});
+           style="min-height: calc(var(--vh, 1vh) * {{ section.settings.hero_height }});
                   {% if background_type == 'image' and section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');{% endif %}
                   background-position: {{ bg_position }};
                   background-size: {{ bg_size }};
@@ -554,7 +554,7 @@
 <style>
 @media screen and (max-width: 767px) {
   .hero-section.hero-glow {
-      min-height: calc(var(--vh, 1vh) * {{ hero_height_mobile }}) !important;
+      min-height: calc(var(--vh, 1vh) * {{ section.settings.hero_height_mobile }}) !important;
   }
 }
 </style>
