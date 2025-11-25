@@ -121,16 +121,6 @@
       "unit": "vh"
     },
     {
-      "type": "range",
-      "id": "hero_height_mobile",
-      "label": "Hero Height for Mobile (vh)",
-      "min": 50,
-      "max": 100,
-      "step": 5,
-      "default": 80,
-      "unit": "vh"
-    },
-    {
       "type": "select",
       "id": "background_position",
       "label": "Background Image Position",
@@ -346,7 +336,6 @@
 
 {%- liquid
     assign hero_height = section.settings.hero_height | default: 100
-    assign hero_height_mobile = section.settings.hero_height_mobile | default: 80
     assign bg_position = section.settings.background_position | default: 'center'
     assign bg_size = section.settings.background_size | default: 'cover'
     assign title_position_top = section.settings.title_position_top | default: 20
@@ -434,8 +423,8 @@
   -%}
   
   <section class="hero-section hero-glow" 
-           style="min-height: clamp({{ hero_height_mobile }}vh, 100vw, {{ hero_height }}vh); 
-                  {% if section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');{% endif %}
+           style="min-height: calc(var(--vh, 1vh) * {{ hero_height }});
+                  {% if background_type == 'image' and section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');{% endif %}
                   background-position: {{ bg_position }};
                   background-size: {{ bg_size }};
                   padding-top: {{ padding_top }}px;
@@ -459,7 +448,7 @@
       
       {% if video_source_type == 'upload' and desktop_video != blank %}
         <div class="hero-video-container">
-          {% if mobile_.video != blank %}
+          {% if mobile_video != blank %}
             <video class="hero-video hero-video-mobile" 
                    playsinline 
                    {% if video_autoplay %}autoplay{% endif %} 
@@ -551,3 +540,4 @@
       {% endif %}
     </div>
   </section>
+

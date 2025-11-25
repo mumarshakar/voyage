@@ -9,36 +9,30 @@
  */
 {
   "current": {
-    "color_primary_orange": "#69e0dc",
-    "color_light_orange": "#69c0dc",
+    "color_primary_orange": "#3577ff",
     "heading_font_family": "merriweather_heading",
     "subheading_font_family": "merriweather_subheading",
     "body_font_family": "merriweather_body",
-    "menu_font_family": "merriweather_subheading",
-    "menu_link_color": "#69e0dc",
-    "menu_link_hover_color": "#69c0dc",
-    "menu_font_size": 24,
-    "menu_font_weight": "400",
-    "menu_link_spacing": 13,
+    "menu_font_family": "merriweather_body",
+    "menu_link_color": "#8B6F47",
+    "menu_link_hover_color": "#FF6B35",
+    "menu_font_size": 16,
+    "menu_font_weight": "500",
+    "menu_link_spacing": 8,
     "dropdown_bg_color": "#FFFFFF",
     "dropdown_link_color": "#333333",
     "dropdown_hover_bg_color": "#FFF8E7",
     "dropdown_hover_color": "#FF6B35",
-    "button_gradient_color_1": "#69e0dc",
-    "button_gradient_color_2": "#69c0dc",
-    "button_gradient_degree": 180,
+    "button_background_color": "#3577ff",
     "button_text_color": "#FFFFFF",
-    "button_border_color": "rgba(0,0,0,0)",
+    "button_border_color": "#3577ff",
     "button_border_style": "solid",
     "button_border_width": 1,
-    "button_hover_gradient_color_1": "#69c0dc",
-    "button_hover_gradient_color_2": "#69e0dc",
+    "button_hover_background_color": "#FF8C61",
     "button_hover_text_color": "#FFFFFF",
-    "button_hover_border_color": "rgba(0,0,0,0)",
+    "button_hover_border_color": "#FF8C61",
     "button_hover_border_style": "solid",
     "button_hover_border_width": 1,
-    "button_background_color": "#3577ff",
-    "button_hover_background_color": "#FF8C61",
     "sections": {
       "header": {
         "type": "header",
@@ -52,7 +46,7 @@
           "logo_font_size": 30,
           "show_book_now_button": true,
           "book_now_button_text": "Book Now",
-          "book_now_button_url": "shopify://collections/booking-services",
+          "book_now_button_url": "shopify://pages/contact",
           "book_now_button_font_size": 16,
           "book_now_button_font_weight": "600",
           "book_now_button_padding_x": 20,
@@ -61,6 +55,9 @@
           "book_now_button_margin_left": 15,
           "menu": "main-menu",
           "menu_alignment": "right",
+          "menu_font_size": 20,
+          "menu_font_weight": "400",
+          "menu_link_spacing": 12,
           "header_shadow": true,
           "scrolled_padding_top": 12,
           "scrolled_padding_bottom": 12,
@@ -109,7 +106,13 @@
           "title_font_size": 40,
           "title_position_top": 20,
           "text_alignment": "center",
+          "button_text_color": "#ffffff",
+          "button_bg_color": "#ff6b35",
+          "button_opacity": 70,
           "button_position_bottom": 5,
+          "button_font_size": 16,
+          "button_padding_horizontal": 32,
+          "button_padding_vertical": 14,
           "overlay_color": "#000000",
           "overlay_opacity": 25,
           "padding_top": 110,
@@ -141,19 +144,14 @@
           "footer_text": "Follow us on instagram!",
           "instagram_url": "https://www.instagram.com/thehypeclubofficial?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr",
           "footer_bg_color": "#ffffff",
-          "footer_text_color": "#69e0dc",
+          "footer_text_color": "#ff6b35",
           "footer_font_family": "serif",
           "footer_font_size": 18,
-          "show_underline": false,
+          "show_underline": true,
           "footer_vertical_padding": 80
         }
       }
     },
     "content_for_index": []
-  },
-  "platform_customizations": {
-    "custom_css": [
-      "div#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {display: flex; justify-content: center; padding: 50px 0px;}"
-    ]
   }
 }

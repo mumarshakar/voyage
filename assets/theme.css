@@ -103,6 +103,7 @@ body {
 /* Glow Deck Hero Style */
 .hero-glow {
   position: relative;
+  min-height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -188,7 +189,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--button-text-color, #FFFFFF) !important;
-  background-image: linear-gradient(var(--button-gradient-degree), var(--button-gradient-color-1), var(--button-gradient-color-2)) !important;
+  background-color: var(--button-bg-color, #FF6B35) !important;
   border-color: var(--button-border-color, var(--button-bg-color, #FF6B35)) !important;
   border-style: var(--button-border-style, solid) !important;
   border-width: var(--button-border-width, 1px) !important;
@@ -205,7 +206,7 @@ body {
 
 .btn-glow-cta:hover {
   color: var(--button-hover-text-color, #FFFFFF) !important;
-  background-image: linear-gradient(var(--button-gradient-degree), var(--button-hover-gradient-color-1), var(--button-hover-gradient-color-2)) !important;
+  background-color: var(--button-hover-bg-color, var(--button-bg-color, #FF8C61)) !important;
   border-color: var(--button-hover-border-color, var(--button-hover-bg-color, var(--button-bg-color, #FF8C61))) !important;
   border-style: var(--button-hover-border-style, var(--button-border-style, solid)) !important;
   border-width: var(--button-hover-border-width, var(--button-border-width, 1px)) !important;
@@ -298,8 +299,7 @@ body {
 @media (max-width: 768px) {
   /* Typography font sizes are controlled by theme settings */
   .hero-glow-content {
-    margin-top: 5vh;
-    gap: 30vh;
+    gap: 2rem;
   }
 }
 
@@ -494,49 +494,5 @@ body {
     font-size: 0.85rem;
     padding: 8px 0;
   }
-  
-  .flip-card {
-    background: transparent;
-    width: 100%;
-    height: 340px;
-    perspective: 1000px;
-  }
-
-  .flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-  }
-
-  .flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
-  }
-
-  .flip-card-front,
-  .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 10px;
-    background: #ffffff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  }
-
-  .flip-card-front img {
-    height: 180px;
-    object-fit: cover;
-    width: 100%;
-    border-radius: 10px 10px 0 0;
-  }
-
-  .flip-card-back {
-    transform: rotateY(180deg);
-    background: #f8f9fa;
-    padding: 20px;
-  }
-
-  }
+}
 

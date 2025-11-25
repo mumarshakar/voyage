@@ -82,7 +82,7 @@
     assign logo_width = header_settings.logo_width | default: 200
     assign logo_max_height = header_settings.logo_max_height | default: 60
     assign logo_font_size = header_settings.logo_font_size | default: 24
-    assign logo_color = header_settings.logo_color | default: '#8B6F47'
+    assign logo_color = settings.logo_color | default: '#8B6F47'
     assign menu = header_settings.menu | default: 'main-menu'
     assign menu_alignment = header_settings.menu_alignment | default: 'right'
     assign menu_font_size = settings.menu_font_size | default: 16
@@ -342,14 +342,11 @@
           
           {% if show_search or show_cart %}
             <div class="header-icons d-flex align-items-center" style="margin-left: {% if show_book_now_button %}1rem{% else %}0{% endif %};">
-              {% comment %}
               {% if show_search %}
                 <a href="{{ routes.search_url }}" class="header-icon me-3">
                   <i class="bi bi-search" style="font-size: {{ icon_size }}px;"></i>
                 </a>
               {% endif %}
-              {% endcomment %}
-              {% comment %}
               {% if show_cart %}
                 <a href="{{ routes.cart_url }}" class="header-icon position-relative">
                   <i class="bi bi-bag" style="font-size: {{ icon_size }}px;"></i>
@@ -360,7 +357,6 @@
                   {% endif %}
                 </a>
               {% endif %}
-              {% endcomment %}
             </div>
           {% endif %}
         </div>

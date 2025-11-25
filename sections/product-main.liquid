@@ -11,20 +11,16 @@
     <div class="row g-5 align-items-start">
       <!-- Product Images Column -->
       <div class="col-lg-6">
-        {% if product.featured_media %}
+        {% if product.featured_image %}
           <div class="product-image-main mb-3">
             <img 
               id="product-main-image"
-              src="{{ product.featured_media | image_url: width: 1200 }}"
-              alt="{{ product.featured_media.alt | escape }}"
+              src="{{ product.featured_image | image_url: width: 1200 }}"
+              alt="{{ product.featured_image.alt | escape }}"
               class="img-fluid w-100"
               style="border-radius: 8px; object-fit: cover; max-height: 800px; cursor: pointer;"
               loading="eager"
               onclick="zoomProductImage(this)">
-          </div>
-        {% else %}
-          <div class="product-image-main mb-3">
-            {{ 'product-1' | placeholder_svg_tag: 'img-fluid w-100' }}
           </div>
         {% endif %}
 
@@ -118,41 +114,39 @@
               <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
             {% endif %}
 
-                        {% comment %}
-                        {% if show_quantity_selector %}
-                          <div class="product-quantity mb-4">
-                            <label for="quantity" class="form-label fw-semibold mb-2">Quantity:</label>
-                            <div class="input-group" style="max-width: 200px;">
-                              <button
-                                type="button"
-                                class="btn btn-outline-secondary"
-                                onclick="decreaseQuantity()"
-                                style="border-color: var(--cream, #FFF8E7);">
-                                -
-                              </button>
-                              <input
-                                type="number"
-                                id="quantity"
-                                name="quantity"
-                                value="1"
-                                min="1"
-                                class="form-control text-center"
-                                style="border-color: var(--cream, #FFF8E7);">
-                              <button
-                                type="button"
-                                class="btn btn-outline-secondary"
-                                onclick="increaseQuantity()"
-                                style="border-color: var(--cream, #FFF8E7);">
-                                +
-                              </button>
-                            </div>
-                          </div>
-                        {% else %}
-                          <input type="hidden" name="quantity" value="1">
-                        {% endif %}
-                        {% endcomment %}
+            {% if show_quantity_selector %}
+              <div class="product-quantity mb-4">
+                <label for="quantity" class="form-label fw-semibold mb-2">Quantity:</label>
+                <div class="input-group" style="max-width: 200px;">
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-secondary"
+                    onclick="decreaseQuantity()"
+                    style="border-color: var(--cream, #FFF8E7);">
+                    -
+                  </button>
+                  <input 
+                    type="number" 
+                    id="quantity" 
+                    name="quantity" 
+                    value="1" 
+                    min="1" 
+                    class="form-control text-center"
+                    style="border-color: var(--cream, #FFF8E7);">
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-secondary"
+                    onclick="increaseQuantity()"
+                    style="border-color: var(--cream, #FFF8E7);">
+                    +
+                  </button>
+                </div>
+              </div>
+            {% else %}
+              <input type="hidden" name="quantity" value="1">
+            {% endif %}
+
             <div class="product-actions">
-              {% comment %}
               <button 
                 type="submit" 
                 name="add" 
@@ -161,7 +155,6 @@
                 id="add-to-cart-btn">
                 Add to Cart
               </button>
-              {% endcomment %}
 
               {% if enable_dynamic_checkout %}
                 {{ form | payment_button }}
