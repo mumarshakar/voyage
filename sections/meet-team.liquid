@@ -83,13 +83,22 @@
     width: 100%;
 }
 
-#shopify-section-{{ section.id }} .section-heading {
-    text-align: center;
-    margin-bottom: 3rem;
+
+
+#shopify-section-{{ section.id }} .meet-team-section-padding {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+}
+
+@media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .meet-team-section-padding {
+        padding-top: {{ section.settings.padding_top_desktop }}px;
+        padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+    }
 }
 </style>
 
-<div class="page-width" style="max-width: {{ section.settings.max_width }}px; padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px 0;">
+<div class="page-width meet-team-section-padding" style="max-width: {{ section.settings.max_width }}px;">
     <h2 class="section-heading">{{ section.settings.heading }}</h2>
 
     <div class="team-cards-row">
@@ -167,6 +176,50 @@
       "unit": "px",
       "label": "Padding Bottom",
       "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Padding Settings (Desktop & Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top (Desktop)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom (Desktop)",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 30
     },
     {
       "type": "range",
