@@ -37,9 +37,8 @@
     assign header_padding_bottom = 16
     assign header_margin_top = 0
     assign header_margin_bottom = 0
-    assign show_search = true
-    assign show_cart = true
-    assign icon_size = 20
+
+
     assign show_mobile_menu = true
     assign mobile_menu_icon_color = '#333333'
     assign mobile_menu_icon_size = 24
@@ -55,7 +54,7 @@
     assign scrolled_padding_bottom = 12
     assign scrolled_shadow = true
     assign scroll_threshold = 50
-    assign show_book_now_button = true
+
     assign book_now_button_text = 'Book Now'
     assign book_now_button_url = ''
     assign book_now_button_bg_color = '#FF6B35'
@@ -136,26 +135,9 @@
     assign header_margin_top = header_settings.header_margin_top | default: 0
     assign header_margin_bottom = header_settings.header_margin_bottom | default: 0
 
-    # Handle checkbox settings explicitly
-    assign show_search_setting = header_settings.show_search
-    if show_search_setting == false
-      assign show_search = false
-    elsif show_search_setting == true
-      assign show_search = true
-    else
-      assign show_search = true
-    endif
 
-    assign show_cart_setting = header_settings.show_cart
-    if show_cart_setting == false
-      assign show_cart = false
-    elsif show_cart_setting == true
-      assign show_cart = true
-    else
-      assign show_cart = true
-    endif
 
-    assign icon_size = header_settings.icon_size | default: 20
+
 
     assign show_mobile_menu_setting = header_settings.show_mobile_menu
     if show_mobile_menu_setting == false
@@ -200,12 +182,7 @@
 
     assign scroll_threshold = header_settings.scroll_threshold | default: 50
 
-    # Handle show_book_now_button checkbox - default to true if not explicitly set to false
-    if header_settings.show_book_now_button == false
-      assign show_book_now_button = false
-    else
-      assign show_book_now_button = true
-    endif
+
 
     assign book_now_button_text = header_settings.book_now_button_text | default: 'Book Now'
     assign book_now_button_url = header_settings.book_now_button_url | default: ''
@@ -312,9 +289,7 @@
         {% endif %}
       </ul>
       
-      {% if show_book_now_button or show_search or show_cart %}
         <div class="navbar-actions d-flex align-items-center ms-auto">
-          {% if show_book_now_button %}
             {%- liquid
               assign button_href = book_now_button_url
               if button_href == blank
@@ -338,29 +313,7 @@
                       align-items: center;">
               {{ book_now_button_text }}
             </a>
-          {% endif %}
-          
-          {% if show_search or show_cart %}
-            <div class="header-icons d-flex align-items-center" style="margin-left: {% if show_book_now_button %}1rem{% else %}0{% endif %};">
-              {% if show_search %}
-                <a href="{{ routes.search_url }}" class="header-icon me-3">
-                  <i class="bi bi-search" style="font-size: {{ icon_size }}px;"></i>
-                </a>
-              {% endif %}
-              {% if show_cart %}
-                <a href="{{ routes.cart_url }}" class="header-icon position-relative">
-                  <i class="bi bi-bag" style="font-size: {{ icon_size }}px;"></i>
-                  {% if cart.item_count > 0 %}
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
-                      {{ cart.item_count }}
-                    </span>
-                  {% endif %}
-                </a>
-              {% endif %}
-            </div>
-          {% endif %}
         </div>
-      {% endif %}
     </div>
   </div>
 </nav>
@@ -403,18 +356,7 @@
     box-shadow: none !important;
   }
   
-  /* Header icon styles - uses theme settings via CSS variables */
-  .header-icon {
-    text-decoration: none;
-    transition: color 0.3s;
-    color: var(--menu-link-color) !important;
-  }
-  
-  .header-icon:hover {
-    color: var(--menu-link-hover-color) !important;
-  }
-  
-  /* Navbar actions container - holds button and icons */
+
   .navbar-actions {
     gap: 0.5rem;
     display: flex;
@@ -456,12 +398,7 @@
       margin-bottom: 0.5rem;
     }
     
-    .header-icons {
-      margin-left: 0 !important;
-      margin-top: 0.5rem;
-      justify-content: center;
-      width: 100%;
-    }
+
   }
   
   /* Initial state for sticky/fixed headers - transparent */

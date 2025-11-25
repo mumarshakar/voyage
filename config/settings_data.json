@@ -44,7 +44,7 @@
           "logo_width": 200,
           "logo_max_height": 60,
           "logo_font_size": 30,
-          "show_book_now_button": true,
+
           "book_now_button_text": "Book Now",
           "book_now_button_url": "shopify://pages/contact",
           "book_now_button_font_size": 16,
@@ -76,9 +76,8 @@
           "header_padding_bottom": 5,
           "header_margin_top": 0,
           "header_margin_bottom": 0,
-          "show_search": true,
-          "show_cart": true,
-          "icon_size": 20,
+
+
           "show_mobile_menu": true,
           "mobile_menu_icon_size": 24,
           "mobile_menu_border_width": 1,
