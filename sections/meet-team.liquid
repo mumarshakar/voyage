@@ -70,12 +70,20 @@
     margin: 0;
 }
 
+/* Desktop Columns */
 #shopify-section-{{ section.id }} .team-cards-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat({{ section.settings.desktop_columns }}, 1fr);
     gap: {{ section.settings.row_gap }}px {{ section.settings.column_gap }}px;
     padding: 0;
     margin: 0;
+}
+
+/* Mobile Columns */
+@media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .team-cards-row {
+        grid-template-columns: repeat({{ section.settings.mobile_columns }}, 1fr);
+    }
 }
 
 #shopify-section-{{ section.id }} .team-card-wrapper {
@@ -133,6 +141,30 @@
       "label": "Section Heading",
       "default": "Meet Our Team"
     },
+
+    {
+      "type": "header",
+      "content": "Column Controls"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Columns on Desktop",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "mobile_columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Columns on Mobile",
+      "default": 1
+    },
+
     {
       "type": "header",
       "content": "Layout Settings"
@@ -157,6 +189,7 @@
       "label": "Row Gap",
       "default": 20
     },
+
     {
       "type": "header",
       "content": "Card Settings"
@@ -171,6 +204,7 @@
       "label": "Card Border Radius",
       "default": 2
     },
+
     {
       "type": "header",
       "content": "Image Settings"
@@ -195,6 +229,7 @@
       "label": "Image Border Radius (Top)",
       "default": 10
     },
+
     {
       "type": "header",
       "content": "Team Member Name"
@@ -245,6 +280,7 @@
       "label": "Letter Spacing",
       "default": 0
     },
+
     {
       "type": "header",
       "content": "Member Designation/Role"
@@ -294,6 +330,7 @@
       "label": "Letter Spacing",
       "default": 0
     },
+
     {
       "type": "header",
       "content": "Team Member Description (Back)"
@@ -341,38 +378,22 @@
       "default": 0
     }
   ],
+
   "blocks": [
     {
       "type": "team_member",
       "name": "Team Member",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Photo"
-        },
-        {
-          "type": "text",
-          "id": "name",
-          "label": "Name",
-          "default": "John Doe"
-        },
-        {
-          "type": "text",
-          "id": "role",
-          "label": "Role",
-          "default": "Senior Developer"
-        },
-        {
-          "type": "textarea",
-          "id": "description",
-          "label": "Description",
-          "default": "Team member bio goes here."
-        }
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "name", "label": "Name", "default": "John Doe" },
+        { "type": "text", "id": "role", "label": "Role", "default": "Senior Developer" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Team member bio goes here." }
       ]
     }
   ],
+
   "max_blocks": 12,
+
   "presets": [
     {
       "name": "Team Flip Cards",
