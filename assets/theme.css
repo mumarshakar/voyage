@@ -197,11 +197,10 @@ body {
   border-radius: 50px;
   text-decoration: none;
   transition: all 0.3s ease;
-  display: inline-block;
-  margin-top: auto;
-  margin-bottom: 10vh;
-  position: relative;
-  z-index: 1;
+    display: inline-block;
+    margin-bottom: 10vh;
+    position: relative;
+    z-index: 1;
 }
 
 .btn-glow-cta:hover {
