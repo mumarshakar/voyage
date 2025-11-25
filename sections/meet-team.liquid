@@ -1,211 +1,144 @@
+{{ 'bootstrap.min.css' | asset_url | stylesheet_tag }}
+
 <style>
-#shopify-section-{{ section.id }} .flip-card {
-    background: transparent;
-    width: 100%;
-    height: 340px;
-    perspective: 1000px;
+.team-section {
+  padding: 60px 0;
 }
 
-#shopify-section-{{ section.id }} .flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
+.team-title {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-#shopify-section-{{ section.id }} .flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
+.flip-card {
+  background-color: transparent;
+  width: auto;
+  perspective: 1000px;
 }
 
-#shopify-section-{{ section.id }} .flip-card-front, 
-#shopify-section-{{ section.id }} .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: {{ section.settings.card_border_radius }}px;
-    background: #ffffff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
 }
 
-#shopify-section-{{ section.id }} .flip-card-front img {
-    height: {{ section.settings.image_height }}px;
-    width: {{ section.settings.image_width }}%;
-    object-fit: cover;
-    margin: 0 auto;
-    display: block;
-    border-radius: {{ section.settings.image_border_radius }}px {{ section.settings.image_border_radius }}px 0 0;
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
 }
 
-#shopify-section-{{ section.id }} .flip-card-front h5 {
-    font-size: {{ section.settings.name_font_size }}px !important;
-    font-weight: {{ section.settings.name_font_weight }} !important;
-    text-transform: {{ section.settings.name_text_transform }} !important;
-    letter-spacing: {{ section.settings.name_letter_spacing }}px !important;
-    margin-top: 1rem;
-    margin-bottom: 0;
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  backface-visibility: hidden;
 }
 
-#shopify-section-{{ section.id }} .flip-card-front p {
-    font-size: {{ section.settings.role_font_size }}px !important;
-    font-weight: {{ section.settings.role_font_weight }} !important;
-    text-transform: {{ section.settings.role_text_transform }} !important;
-    letter-spacing: {{ section.settings.role_letter_spacing }}px !important;
-    color: #6c757d;
+.flip-card-front img {
+  width: {{ section.settings.image_width }}px;
+  height: {{ section.settings.image_height }}px;
+  object-fit: cover;
+  margin: 0 auto;
+  display: block;
+  border-radius: {{ section.settings.image_border_radius }}px {{ section.settings.image_border_radius }}px 0 0;
 }
 
-#shopify-section-{{ section.id }} .flip-card-back {
-    transform: rotateY(180deg);
-    background: #f8f9fa;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.flip-card-front {
+  background: #fff;
+  border-radius: {{ section.settings.image_border_radius }}px;
+  padding-bottom: 20px;
 }
 
-#shopify-section-{{ section.id }} .flip-card-back p {
-    font-size: {{ section.settings.description_font_size }}px !important;
-    font-weight: {{ section.settings.description_font_weight }} !important;
-    line-height: {{ section.settings.description_line_height }} !important;
-    letter-spacing: {{ section.settings.description_letter_spacing }}px !important;
-    margin: 0;
-}
-
-#shopify-section-{{ section.id }} .team-cards-row {
-    display: grid;
-    grid-template-columns: repeat({{ section.settings.desktop_columns }}, 1fr);
-    gap: {{ section.settings.row_gap }}px {{ section.settings.column_gap }}px;
-    padding: 0;
-    margin: 0;
-}
-
-@media screen and (max-width: 749px) {
-    #shopify-section-{{ section.id }} .team-cards-row {
-        grid-template-columns: repeat({{ section.settings.mobile_columns }}, 1fr);
-    }
-}
-
-#shopify-section-{{ section.id }} .team-card-wrapper {
-    width: 100%;
-}
-
-#shopify-section-{{ section.id }} .section-heading {
-    text-align: center;
-    margin-bottom: 3rem;
+.flip-card-back {
+  background-color: {{ section.settings.back_color }};
+  color: white;
+  transform: rotateY(180deg);
+  padding: 20px;
+  border-radius: {{ section.settings.image_border_radius }}px;
 }
 </style>
 
-<div class="page-width" style="padding: 3rem 3rem;">
-    <h2 class="section-heading">{{ section.settings.heading }}</h2>
+<div class="team-section">
+  <h2 class="team-title">{{ section.settings.title }}</h2>
 
-    <div class="team-cards-row">
-        {% for block in section.blocks %}
-        <div class="team-card-wrapper" {{ block.shopify_attributes }}>
-            <div class="flip-card">
+  <div id="teamCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+      {% for block in section.blocks %}
+      {% assign active_class = forloop.first | if: 'active', '' %}
+
+      <div class="carousel-item {{ active_class }}">
+        <div class="container">
+          <div class="row justify-content-center">
+
+            <div class="col-md-4 text-center">
+              <div class="flip-card">
                 <div class="flip-card-inner">
 
-                    <div class="flip-card-front" style="text-align: center;">
-                        {% if block.settings.image != blank %}
-                            <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.name }}">
-                        {% else %}
-                            <div style="height: {{ section.settings.image_height }}px; background: #e9ecef; display: flex; align-items: center; justify-content: center; border-radius: {{ section.settings.image_border_radius }}px {{ section.settings.image_border_radius }}px 0 0;">
-                                <span style="color: #6c757d;">No image</span>
-                            </div>
-                        {% endif %}
+                  <!-- FRONT -->
+                  <div class="flip-card-front">
+                    <img 
+                      src="{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 500 }}{% else %}https://via.placeholder.com/300x300{% endif %}" 
+                      alt="{{ block.settings.name }}"
+                    >
+                    <h4>{{ block.settings.name }}</h4>
+                    <p>{{ block.settings.info }}</p>
+                  </div>
 
-                        <h5>{{ block.settings.name }}</h5>
-                        <p>{{ block.settings.role }}</p>
-                    </div>
-
-                    <div class="flip-card-back">
-                        <p>{{ block.settings.description }}</p>
-                    </div>
+                  <!-- BACK -->
+                  <div class="flip-card-back">
+                    <h4>{{ block.settings.name }}</h4>
+                    <p>{{ block.settings.back_info }}</p>
+                  </div>
 
                 </div>
+              </div>
             </div>
+
+          </div>
         </div>
-        {% endfor %}
+      </div>
+
+      {% endfor %}
+
     </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#teamCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#teamCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
 </div>
 
 {% schema %}
 {
-  "name": "Team Flip Cards",
+  "name": "Meet the Team",
   "settings": [
     {
       "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
+      "id": "title",
+      "label": "Section Title",
       "default": "Meet Our Team"
     },
-
-    {
-      "type": "header",
-      "content": "Column Controls"
-    },
-    {
-      "type": "range",
-      "id": "desktop_columns",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "label": "Columns on Desktop",
-      "default": 4
-    },
-    {
-      "type": "range",
-      "id": "mobile_columns",
-      "min": 1,
-      "max": 3,
-      "step": 1,
-      "label": "Columns on Mobile",
-      "default": 1
-    },
-
-    {
-      "type": "header",
-      "content": "Layout Settings"
-    },
-    {
-      "type": "range",
-      "id": "column_gap",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "unit": "px",
-      "label": "Column Gap",
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "row_gap",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "unit": "px",
-      "label": "Row Gap",
-      "default": 20
-    },
-
-    {
-      "type": "header",
-      "content": "Card Settings"
-    },
-    {
-      "type": "range",
-      "id": "card_border_radius",
-      "min": 0,
-      "max": 50,
-      "step": 1,
-      "unit": "px",
-      "label": "Card Border Radius",
-      "default": 2
-    },
-
     {
       "type": "header",
       "content": "Image Settings"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 100,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Image Width (px)",
+      "default": 300
     },
     {
       "type": "range",
@@ -214,18 +147,8 @@
       "max": 400,
       "step": 10,
       "unit": "px",
-      "label": "Image Height",
-      "default": 180
-    },
-    {
-      "type": "range",
-      "id": "image_width",
-      "min": 100,
-      "max": 400,
-      "step": 5,
-      "unit": "px",
-      "label": "Image Width (%)",
-      "default": 100
+      "label": "Image Height (px)",
+      "default": 300
     },
     {
       "type": "range",
@@ -234,178 +157,51 @@
       "max": 50,
       "step": 1,
       "unit": "px",
-      "label": "Image Border Radius (Top)",
+      "label": "Image Border Radius",
       "default": 10
     },
-
     {
-      "type": "header",
-      "content": "Team Member Name"
-    },
-    {
-      "type": "range",
-      "id": "name_font_size",
-      "min": 12,
-      "max": 48,
-      "step": 1,
-      "unit": "px",
-      "label": "Font Size",
-      "default": 20
-    },
-    {
-      "type": "select",
-      "id": "name_font_weight",
-      "label": "Font Weight",
-      "options": [
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Normal" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi Bold" },
-        { "value": "700", "label": "Bold" },
-        { "value": "800", "label": "Extra Bold" }
-      ],
-      "default": "600"
-    },
-    {
-      "type": "select",
-      "id": "name_text_transform",
-      "label": "Text Transform",
-      "options": [
-        { "value": "none", "label": "None" },
-        { "value": "uppercase", "label": "Uppercase" },
-        { "value": "lowercase", "label": "Lowercase" },
-        { "value": "capitalize", "label": "Capitalize" }
-      ],
-      "default": "none"
-    },
-    {
-      "type": "range",
-      "id": "name_letter_spacing",
-      "min": -2,
-      "max": 10,
-      "step": 0.5,
-      "unit": "px",
-      "label": "Letter Spacing",
-      "default": 0
-    },
-
-    {
-      "type": "header",
-      "content": "Member Designation/Role"
-    },
-    {
-      "type": "range",
-      "id": "role_font_size",
-      "min": 10,
-      "max": 32,
-      "step": 1,
-      "unit": "px",
-      "label": "Font Size",
-      "default": 14
-    },
-    {
-      "type": "select",
-      "id": "role_font_weight",
-      "label": "Font Weight",
-      "options": [
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Normal" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi Bold" },
-        { "value": "700", "label": "Bold" }
-      ],
-      "default": "400"
-    },
-    {
-      "type": "select",
-      "id": "role_text_transform",
-      "label": "Text Transform",
-      "options": [
-        { "value": "none", "label": "None" },
-        { "value": "uppercase", "label": "Uppercase" },
-        { "value": "lowercase", "label": "Lowercase" },
-        { "value": "capitalize", "label": "Capitalize" }
-      ],
-      "default": "none"
-    },
-    {
-      "type": "range",
-      "id": "role_letter_spacing",
-      "min": -2,
-      "max": 10,
-      "step": 0.5,
-      "unit": "px",
-      "label": "Letter Spacing",
-      "default": 0
-    },
-
-    {
-      "type": "header",
-      "content": "Team Member Description (Back)"
-    },
-    {
-      "type": "range",
-      "id": "description_font_size",
-      "min": 10,
-      "max": 24,
-      "step": 1,
-      "unit": "px",
-      "label": "Font Size",
-      "default": 14
-    },
-    {
-      "type": "select",
-      "id": "description_font_weight",
-      "label": "Font Weight",
-      "options": [
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Normal" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi Bold" },
-        { "value": "700", "label": "Bold" }
-      ],
-      "default": "400"
-    },
-    {
-      "type": "range",
-      "id": "description_line_height",
-      "min": 1,
-      "max": 3,
-      "step": 0.1,
-      "label": "Line Height",
-      "default": 1.6
-    },
-    {
-      "type": "range",
-      "id": "description_letter_spacing",
-      "min": -2,
-      "max": 5,
-      "step": 0.5,
-      "unit": "px",
-      "label": "Letter Spacing",
-      "default": 0
+      "type": "color",
+      "id": "back_color",
+      "label": "Back Side Background",
+      "default": "#000000"
     }
   ],
-
   "blocks": [
     {
       "type": "team_member",
       "name": "Team Member",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Photo" },
-        { "type": "text", "id": "name", "label": "Name", "default": "John Doe" },
-        { "type": "text", "id": "role", "label": "Role", "default": "Senior Developer" },
-        { "type": "textarea", "id": "description", "label": "Description", "default": "Team member bio goes here." }
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Team Member Image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "John Doe"
+        },
+        {
+          "type": "textarea",
+          "id": "info",
+          "label": "Front Side Info",
+          "default": "Short description about the member"
+        },
+        {
+          "type": "textarea",
+          "id": "back_info",
+          "label": "Back Side Info",
+          "default": "Additional details shown on flip"
+        }
       ]
     }
   ],
-
-  "max_blocks": 12,
-
+  "max_blocks": 15,
   "presets": [
     {
-      "name": "Team Flip Cards",
-      "category": "Team"
+      "name": "Meet the Team"
     }
   ]
 }
