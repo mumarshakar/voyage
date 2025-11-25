@@ -62,12 +62,17 @@
     line-height: {{ section.settings.description_line_height }};
     letter-spacing: {{ section.settings.description_letter_spacing }}px;
 }
+
+.team-cards-row {
+    row-gap: {{ section.settings.row_gap }}px;
+    column-gap: {{ section.settings.column_gap }}px;
+}
 {% endstylesheet %}
 
 <div class="container py-5">
     <h2 class="text-center mb-5">{{ section.settings.heading }}</h2>
 
-    <div class="row g-4">
+    <div class="row team-cards-row">
 
         {% for block in section.blocks %}
         <div class="col-md-4" {{ block.shopify_attributes }}>
@@ -108,6 +113,30 @@
       "id": "heading",
       "label": "Section Heading",
       "default": "Meet Our Team"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Column Gap",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Row Gap",
+      "default": 20
     },
     {
       "type": "header",
