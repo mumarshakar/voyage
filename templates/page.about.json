@@ -260,51 +260,73 @@
     },
     "meet_team_YGLgdU": {
       "type": "meet-team",
+      "blocks": {
+        "team_member_WVmAhq": {
+          "type": "team_member",
+          "settings": {
+            "image": "shopify://shop_images/AI_Generator_Picture_1__Fotor.jpg",
+            "name": "John Doe",
+            "role": "Senior Developer",
+            "description": "Team member bio goes here."
+          }
+        },
+        "team_member_BPLnVg": {
+          "type": "team_member",
+          "settings": {
+            "image": "shopify://shop_images/AI_Generator_Picture_1__Fotor.jpg",
+            "name": "John Doe",
+            "role": "Senior Developer",
+            "description": "Team member bio goes here."
+          }
+        },
+        "team_member_z9TKAg": {
+          "type": "team_member",
+          "settings": {
+            "image": "shopify://shop_images/AI_Generator_Picture_Fotor_6e908974-e99a-4d11-bd4c-9083651471c8.jpg",
+            "name": "John Doe",
+            "role": "Senior Developer",
+            "description": "Team member bio goes here."
+          }
+        },
+        "team_member_7wENeA": {
+          "type": "team_member",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2025-06-15_at_22.13.03_1.jpg",
+            "name": "John Doe",
+            "role": "Senior Developer",
+            "description": "Team member bio goes here."
+          }
+        },
+        "team_member_VDqTLp": {
+          "type": "team_member",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2025-06-15_at_22.12.58_6.jpg",
+            "name": "John Doe",
+            "role": "Senior Developer",
+            "description": "Team member bio goes here."
+          }
+        },
+        "team_member_FGAd4T": {
+          "type": "team_member",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2025-06-21_at_17.24.09_1_2.jpg",
+            "name": "John Doe",
+            "role": "Senior Developer",
+            "description": "Team member bio goes here."
+          }
+        }
+      },
+      "block_order": [
+        "team_member_WVmAhq",
+        "team_member_BPLnVg",
+        "team_member_z9TKAg",
+        "team_member_7wENeA",
+        "team_member_VDqTLp",
+        "team_member_FGAd4T"
+      ],
       "name": "Meet Team",
       "settings": {
-        "heading": "Meet the Team",
-        "introduction_text": "<p>Glow Deck was founded by Gaby and Nicole — two friends who’ve spent over 15 years in Dubai, working with people, creating experiences, and watching the city evolve into a global hub for lifestyle, wellness, and everything in between.</p>",
-        "quote_text": "<p><em>“We craved more from life — something that didn’t drain us, but elevated us. Glow Deck was born from a simple idea: what if joy, movement, and meaningful connection could exist within a truly luxurious experience?”</em></p>",
-        "image_position": "left",
-        "stack_on_mobile": true,
-        "heading_text_align": "center",
-        "quote_font_style": "italic",
-        "image_fit": "cover",
-        "image_border_radius": 0,
-        "section_bg_color": "#eae7e1",
-        "section_padding_top": 80,
-        "section_padding_bottom": 80,
-        "section_padding_horizontal": 20,
-        "heading_margin_bottom": 50,
-        "column_gap": 40,
-        "text_spacing": 20
-      }
-    },
-    "custom_text_aJh9pV": {
-      "type": "custom-text",
-      "name": "Custom Text",
-      "settings": {
-        "heading": "",
-        "subheading": "",
-        "content_type": "richtext",
-        "text_content": "<h1>Click here to book your Glow Social ticket or to make any enquiries!</h1>",
-        "html_content": "<p>Add your HTML content here. You can use any HTML tags and inline styles.</p>",
-        "link_color": "#333333",
-        "link_hover_color": "#666666",
-        "link_text_decoration": "underline",
-        "custom_css": "",
-        "text_alignment": "center",
-        "content_max_width": 900,
-        "background_color": "#fff8e7",
-        "background_size": "cover",
-        "background_overlay_opacity": 0,
-        "padding_top": 200,
-        "padding_bottom": 200,
-        "padding_horizontal": 20,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "heading_margin_bottom": 20,
-        "subheading_margin_bottom": 20
+        "heading": "Meet the Team"
       }
     }
   },
@@ -314,7 +336,6 @@
     "two_columns_fMeVMy",
     "custom_text_xRqecy",
     "image_carousel_rVKCqM",
-    "meet_team_YGLgdU",
-    "custom_text_aJh9pV"
+    "meet_team_YGLgdU"
   ]
 }
