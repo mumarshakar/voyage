@@ -121,6 +121,16 @@
       "unit": "vh"
     },
     {
+      "type": "range",
+      "id": "hero_height_mobile",
+      "label": "Hero Height (Mobile vh)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 70,
+      "unit": "vh"
+    },
+    {
       "type": "select",
       "id": "background_position",
       "label": "Background Image Position",
@@ -335,7 +345,7 @@
 {% endschema %}
 
 {%- liquid
-    assign hero_height = section.settings.hero_height | default: 100
+    assign hero_height_mobile = section.settings.hero_height_mobile | default: 70
     assign bg_position = section.settings.background_position | default: 'center'
     assign bg_size = section.settings.background_size | default: 'cover'
     assign title_position_top = section.settings.title_position_top | default: 20
@@ -541,3 +551,10 @@
     </div>
   </section>
 
+<style>
+@media screen and (max-width: 767px) {
+  .hero-section.hero-glow {
+      min-height: calc(var(--vh, 1vh) * {{ hero_height_mobile }}) !important;
+  }
+}
+</style>
