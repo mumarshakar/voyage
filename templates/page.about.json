@@ -329,11 +329,9 @@
       "name": "Meet Team",
       "settings": {
         "heading": "Meet    Team",
-        "desktop_columns": 4,
-        "mobile_columns": 2,
         "column_gap": 15,
         "row_gap": 15,
-        "card_border_radius": 8,
+        "card_border_radius": 2,
         "image_height": 250,
         "image_border_radius": 2,
         "name_font_size": 22,
@@ -346,7 +344,7 @@
         "role_letter_spacing": 0,
         "description_font_size": 16,
         "description_font_weight": "500",
-        "description_line_height": 1.6,
+        "description_line_height": 2,
         "description_letter_spacing": 0
       }
     }
