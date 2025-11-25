@@ -31,8 +31,10 @@
 
 #shopify-section-{{ section.id }} .flip-card-front img {
     height: {{ section.settings.image_height }}px;
+    width: {{ section.settings.image_width }}%;
     object-fit: cover;
-    width: 100%;
+    margin: 0 auto;
+    display: block;
     border-radius: {{ section.settings.image_border_radius }}px {{ section.settings.image_border_radius }}px 0 0;
 }
 
@@ -70,7 +72,6 @@
     margin: 0;
 }
 
-/* Desktop Columns */
 #shopify-section-{{ section.id }} .team-cards-row {
     display: grid;
     grid-template-columns: repeat({{ section.settings.desktop_columns }}, 1fr);
@@ -79,7 +80,6 @@
     margin: 0;
 }
 
-/* Mobile Columns */
 @media screen and (max-width: 749px) {
     #shopify-section-{{ section.id }} .team-cards-row {
         grid-template-columns: repeat({{ section.settings.mobile_columns }}, 1fr);
@@ -105,10 +105,9 @@
             <div class="flip-card">
                 <div class="flip-card-inner">
 
-                    <!-- Front -->
                     <div class="flip-card-front" style="text-align: center;">
                         {% if block.settings.image != blank %}
-                            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.name }}">
+                            <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.name }}">
                         {% else %}
                             <div style="height: {{ section.settings.image_height }}px; background: #e9ecef; display: flex; align-items: center; justify-content: center; border-radius: {{ section.settings.image_border_radius }}px {{ section.settings.image_border_radius }}px 0 0;">
                                 <span style="color: #6c757d;">No image</span>
@@ -119,7 +118,6 @@
                         <p>{{ block.settings.role }}</p>
                     </div>
 
-                    <!-- Back -->
                     <div class="flip-card-back">
                         <p>{{ block.settings.description }}</p>
                     </div>
@@ -218,6 +216,16 @@
       "unit": "px",
       "label": "Image Height",
       "default": 180
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Image Width (%)",
+      "default": 100
     },
     {
       "type": "range",
