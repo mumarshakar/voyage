@@ -432,9 +432,9 @@
     endif
   -%}
   
-  <section class="hero-section hero-glow" 
+  <section class="hero-section hero-glow {% if section.settings.background_image != blank %}hero-has-image{% endif %}" 
            style="min-height: calc(var(--vh, 1vh) * {{ section.settings.hero_height }});
-                  {% if background_type == 'image' and section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');{% endif %}
+                  {% if section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');{% endif %}
                   background-position: {{ bg_position }};
                   background-size: {{ bg_size }};
                   padding-top: {{ padding_top }}px;
@@ -457,7 +457,7 @@
       -%}
       
       {% if video_source_type == 'upload' and desktop_video != blank %}
-        <div class="hero-video-container">
+        <div class="hero-video-container" data-has-image="{% if section.settings.background_image != blank %}true{% else %}false{% endif %}">
           {% if mobile_video != blank %}
             <video class="hero-video hero-video-mobile" 
                    playsinline 
@@ -558,3 +558,31 @@
   }
 }
 </style>
+
+<script>
+  (function() {
+    const hero = document.querySelector('#shopify-section-{{ section.id }} .hero-section.hero-glow');
+    if (!hero) return;
+    
+    const videoContainers = hero.querySelectorAll('.hero-video-container');
+    if (!videoContainers.length) return;
+    
+    videoContainers.forEach((container) => {
+      const videos = container.querySelectorAll('video');
+      videos.forEach((video) => {
+        if (!video) return;
+        
+        const revealVideo = () => {
+          video.classList.add('hero-video-ready');
+        };
+        
+        if (video.readyState >= 2) {
+          revealVideo();
+        } else {
+          video.addEventListener('loadeddata', revealVideo, { once: true });
+          video.addEventListener('canplay', revealVideo, { once: true });
+        }
+      });
+    });
+  })();
+</script>
