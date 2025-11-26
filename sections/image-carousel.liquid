@@ -190,6 +190,7 @@
       ]
     }
   ],
+  "max_blocks": 15,
   "presets": [
     {
       "name": "Image Carousel",
@@ -495,9 +496,23 @@
     if (!track || slides.length === 0) return;
     
     const autoplay = wrapper.dataset.autoplay === 'true';
-    const imagesPerView = parseInt(wrapper.dataset.imagesPerView) || 3;
+    const baseImagesPerView = parseInt(wrapper.dataset.imagesPerView) || 3;
     const totalSlides = slides.length;
-    const totalViews = Math.ceil(totalSlides / imagesPerView);
+    
+    function getResponsiveImagesPerView() {
+      const width = window.innerWidth;
+      if (width <= 767) {
+        return 1;
+      }
+      if (width <= 1023) {
+        return Math.min(2, baseImagesPerView);
+      }
+      return baseImagesPerView;
+    }
+    
+    let currentImagesPerView = getResponsiveImagesPerView();
+    let currentSlideWidth = container.offsetWidth / currentImagesPerView;
+    let totalViews = Math.max(1, Math.ceil(totalSlides / currentImagesPerView));
     
     // Pause duration at each view (3 seconds)
     const PAUSE_DURATION = 3000; // 3 seconds
@@ -508,9 +523,17 @@
     let autoplayInterval = null;
     let scrollTimeout = null;
     
-    // Calculate the width of each slide (including gap)
-    const containerWidth = container.offsetWidth;
-    const slideWidth = containerWidth / imagesPerView;
+    function refreshDimensions() {
+      currentImagesPerView = getResponsiveImagesPerView();
+      currentSlideWidth = container.offsetWidth / currentImagesPerView;
+      totalViews = Math.max(1, Math.ceil(totalSlides / currentImagesPerView));
+      if (currentView >= totalViews) {
+        currentView = Math.max(0, totalViews - 1);
+      }
+      const translateX = -(currentView * currentSlideWidth);
+      track.style.transition = 'transform ' + SCROLL_DURATION + 'ms ease-in-out';
+      track.style.transform = `translateX(${translateX}px)`;
+    }
     
     // Function to scroll to a specific view
     function scrollToView(viewIndex) {
@@ -529,7 +552,7 @@
       }
       
       // Calculate the translateX value
-      const translateX = -(viewIndex * slideWidth);
+      const translateX = -(viewIndex * currentSlideWidth);
       track.style.transform = `translateX(${translateX}px)`;
       currentView = viewIndex;
     }
@@ -645,14 +668,12 @@
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        const newContainerWidth = container.offsetWidth;
-        const newSlideWidth = newContainerWidth / imagesPerView;
-        const translateX = -(currentView * newSlideWidth);
-        track.style.transform = `translateX(${translateX}px)`;
+        refreshDimensions();
       }, 250);
     });
     
     // Initialize
+    refreshDimensions();
     scrollToView(0);
     if (autoplay) {
       // Start after initial pause
