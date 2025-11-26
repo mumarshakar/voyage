@@ -73,7 +73,7 @@
 
 #shopify-section-{{ section.id }} .team-cards-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: {{ section.settings.row_gap }}px {{ section.settings.column_gap }}px;
     padding: 0;
     margin: 0;
@@ -97,6 +97,9 @@
 }
 
 @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .team-cards-row {
+        grid-template-columns: repeat(4, 1fr);
+    }
     #shopify-section-{{ section.id }} .meet-team-section-padding {
         padding-top: {{ section.settings.padding_top_desktop }}px;
         padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
