@@ -6,6 +6,9 @@
   assign desktop_columns = section.settings.desktop_cards_per_row | default: '3'
   assign tablet_columns = section.settings.tablet_cards_per_row | default: '2'
   assign mobile_columns = section.settings.mobile_cards_per_row | default: '1'
+  assign desktop_columns_int = desktop_columns | plus: 0
+  assign tablet_columns_int = tablet_columns | plus: 0
+  assign mobile_columns_int = mobile_columns | plus: 0
   assign name_font_size = section.settings.name_font_size | default: 20
   assign name_line_height = section.settings.name_line_height | default: 1.2
   assign role_font_size = section.settings.role_font_size | default: 16
@@ -77,18 +80,22 @@
 .team-grid {
     display: grid;
     gap: 24px;
-    grid-template-columns: repeat(var(--team-desktop-columns, 3), minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#shopify-section-{{ section.id }} .team-grid {
+    grid-template-columns: repeat({{ desktop_columns_int | default: 3 }}, minmax(0, 1fr));
 }
 
 @media (max-width: 1024px) {
-    .team-grid {
-        grid-template-columns: repeat(var(--team-tablet-columns, 2), minmax(0, 1fr));
+    #shopify-section-{{ section.id }} .team-grid {
+        grid-template-columns: repeat({{ tablet_columns_int | default: 2 }}, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 600px) {
-    .team-grid {
-        grid-template-columns: repeat(var(--team-mobile-columns, 1), minmax(0, 1fr));
+    #shopify-section-{{ section.id }} .team-grid {
+        grid-template-columns: repeat({{ mobile_columns_int | default: 1 }}, minmax(0, 1fr));
     }
 }
 {% endstylesheet %}
@@ -103,10 +110,7 @@
             --team-role-font-size: {{ role_font_size }}px;
             --team-role-line-height: {{ role_line_height }};
             --team-info-font-size: {{ info_font_size }}px;
-            --team-info-line-height: {{ info_line_height }};
-            --team-desktop-columns: {{ desktop_columns }};
-            --team-tablet-columns: {{ tablet_columns }};
-            --team-mobile-columns: {{ mobile_columns }};">
+            --team-info-line-height: {{ info_line_height }};">
     <h2 class="text-center mb-5">{{ heading_text }}</h2>
       
     <div class="team-grid">
