@@ -50,7 +50,7 @@
 
         {% for block in section.blocks %}
         <div class="col-md-4" {{ block.shopify_attributes }}>
-            <div class="flip-card" style="border-radius:2px !important;">
+            <div class="flip-card">
                 <div class="flip-card-inner">
 
                     <!-- Front -->
@@ -58,7 +58,7 @@
                         {% if block.settings.image != blank %}
                             <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.name }}">
                         {% else %}
-                            <img src="https://via.placeholder.com/400x250" alt="placeholder" style="border-radius:2px !important;width:300px !important;height:300px; !important">
+                            <img src="https://via.placeholder.com/400x250" alt="placeholder" style="width:300px;height:300px;border-radius:2px;">
                         {% endif %}
 
                         <h5 class="mt-3 mb-0">{{ block.settings.name }}</h5>
