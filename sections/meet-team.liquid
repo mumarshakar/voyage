@@ -77,11 +77,16 @@
     gap: {{ section.settings.row_gap }}px {{ section.settings.column_gap }}px;
     padding: 0;
     margin: 0;
-    justify-content: center !important;
 }
 
 #shopify-section-{{ section.id }} .team-card-wrapper {
     width: 100%;
+}
+
+#shopify-section-{{ section.id }} .page-width {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
