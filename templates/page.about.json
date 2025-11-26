@@ -21,13 +21,13 @@
         "button_text": "BOOK NOW",
         "button_link": "shopify://collections/booking-services",
         "background_type": "image",
-        "background_image": "shopify://shop_images/AI_Generator_Picture_Fotor.jpg",
+        "background_image": "shopify://shop_images/HYPE_CLUB_WELLNESS_HERO.jpg",
         "video_source_type": "upload",
         "background_video_desktop_url": "",
         "background_video_mobile_url": "",
         "video_autoplay": true,
         "video_muted": true,
-        "hero_height": 80,
+        "hero_height": 100,
         "hero_height_mobile": 80,
         "background_position": "center",
         "background_size": "cover",
@@ -40,7 +40,7 @@
         "button_position_bottom": 15,
         "overlay_color": "#000000",
         "overlay_opacity": 0,
-        "padding_top": 120,
+        "padding_top": 180,
         "padding_bottom": 80,
         "padding_horizontal": 20,
         "margin_top": 0,
@@ -83,12 +83,13 @@
         "column_gap_horizontal": 10,
         "column_gap_vertical": 5,
         "vertical_alignment": "center",
-        "column1_content_type": "image",
+        "column1_content_type": "video",
         "column1_image": "shopify://shop_images/AI_Generator_Picture_Fotor.jpg",
         "column1_image_alt": "",
         "column1_image_link": "",
         "column1_image_fit": "cover",
         "column1_video_source": "upload",
+        "column1_video": "shopify://files/videos/Voyage Hype Club 12.mov",
         "column1_video_url": "",
         "column1_video_url_mobile": "",
         "column1_video_autoplay": true,
@@ -110,12 +111,13 @@
         "column1_padding_bottom": 5,
         "column1_padding_left": 5,
         "column1_padding_right": 0,
-        "column2_content_type": "image",
+        "column2_content_type": "video",
         "column2_image": "shopify://shop_images/AI_Generator_Picture_1__Fotor.jpg",
         "column2_image_alt": "",
         "column2_image_link": "",
         "column2_image_fit": "cover",
         "column2_video_source": "upload",
+        "column2_video": "shopify://files/videos/Voyage Hype Club 21.mov",
         "column2_video_url": "",
         "column2_video_url_mobile": "",
         "column2_video_autoplay": true,
@@ -177,7 +179,7 @@
         "image_KKpkzY": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_Fotor_6e908974-e99a-4d11-bd4c-9083651471c8.jpg",
+            "image": "shopify://shop_images/Voyage_hype_club.heic",
             "alt_text": "",
             "image_link": ""
           }
@@ -185,7 +187,7 @@
         "image_4baB4y": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_1__Fotor.jpg",
+            "image": "shopify://shop_images/Voyage_hype_club_2.heic",
             "alt_text": "",
             "image_link": ""
           }
@@ -193,7 +195,7 @@
         "image_ciaPx9": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2025-06-21_at_17.24.09_1_2.jpg",
+            "image": "shopify://shop_images/Voyage_hype_club_1.heic",
             "alt_text": "",
             "image_link": ""
           }
@@ -201,7 +203,7 @@
         "image_bTc4gd": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2025-06-15_at_22.13.03_1.jpg",
+            "image": "shopify://shop_images/Voyage_hype_club_4.heic",
             "alt_text": "",
             "image_link": ""
           }
@@ -209,7 +211,7 @@
         "image_Xdi3mj": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_Fotor_6e908974-e99a-4d11-bd4c-9083651471c8.jpg",
+            "image": "shopify://shop_images/Voyage_Hype_Club_5.heic",
             "alt_text": "",
             "image_link": ""
           }
@@ -217,7 +219,7 @@
         "image_nDJJ4w": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_1__Fotor.jpg",
+            "image": "shopify://shop_images/Voyage_Hype_Club_6.heic",
             "alt_text": "",
             "image_link": ""
           }
@@ -242,12 +244,12 @@
       "name": "Image Carousel",
       "settings": {
         "autoplay": true,
-        "autoplay_speed": 5,
+        "autoplay_speed": 3,
         "show_arrows": true,
         "show_dots": false,
         "images_per_view": 3,
         "image_height": 600,
-        "image_gap": 15,
+        "image_gap": 5,
         "image_fit": "cover",
         "arrows_size": 50,
         "arrows_color": "#8b6f47",
@@ -328,24 +330,7 @@
       ],
       "name": "Meet Team",
       "settings": {
-        "heading": "Meet    Team",
-        "column_gap": 15,
-        "row_gap": 15,
-        "card_border_radius": 2,
-        "image_height": 250,
-        "image_border_radius": 2,
-        "name_font_size": 22,
-        "name_font_weight": "700",
-        "name_text_transform": "uppercase",
-        "name_letter_spacing": 1,
-        "role_font_size": 18,
-        "role_font_weight": "500",
-        "role_text_transform": "capitalize",
-        "role_letter_spacing": 0,
-        "description_font_size": 16,
-        "description_font_weight": "500",
-        "description_line_height": 2,
-        "description_letter_spacing": 0
+        "heading": "Meet    Team"
       }
     }
   },
