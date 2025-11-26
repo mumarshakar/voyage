@@ -434,6 +434,7 @@
   
   <section class="hero-section hero-glow {% if section.settings.background_image != blank %}hero-has-image{% endif %}" 
            style="min-height: calc(var(--vh, 1vh) * {{ section.settings.hero_height }});
+                  --hero-mobile-height-setting: calc(var(--vh, 1vh) * {{ section.settings.hero_height_mobile }});
                   {% if section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');{% endif %}
                   background-position: {{ bg_position }};
                   background-size: {{ bg_size }};
@@ -567,6 +568,33 @@
     const videoContainers = hero.querySelectorAll('.hero-video-container');
     if (!videoContainers.length) return;
     
+    const mobileVideo = hero.querySelector('.hero-video-mobile');
+    const MOBILE_BREAKPOINT = 768;
+    
+    function setHeroHeightFromVideo(video) {
+      if (!video || window.innerWidth > MOBILE_BREAKPOINT) return;
+      const videoWidth = video.videoWidth;
+      const videoHeight = video.videoHeight;
+      if (!videoWidth || !videoHeight) return;
+      const containerWidth = hero.clientWidth || window.innerWidth;
+      const targetHeight = containerWidth * (videoHeight / videoWidth);
+      hero.style.setProperty('--hero-mobile-video-height', `${targetHeight}px`);
+      hero.classList.add('hero-mobile-video-fit');
+    }
+    
+    function clearHeroHeightAdjustment() {
+      hero.classList.remove('hero-mobile-video-fit');
+      hero.style.removeProperty('--hero-mobile-video-height');
+    }
+    
+    function handleResize() {
+      if (window.innerWidth <= MOBILE_BREAKPOINT && mobileVideo) {
+        setHeroHeightFromVideo(mobileVideo);
+      } else {
+        clearHeroHeightAdjustment();
+      }
+    }
+    
     videoContainers.forEach((container) => {
       const videos = container.querySelectorAll('video');
       videos.forEach((video) => {
@@ -582,7 +610,24 @@
           video.addEventListener('loadeddata', revealVideo, { once: true });
           video.addEventListener('canplay', revealVideo, { once: true });
         }
+        
+        if (video === mobileVideo) {
+          const adjust = () => setHeroHeightFromVideo(video);
+          if (video.readyState >= 1) {
+            adjust();
+          } else {
+            video.addEventListener('loadedmetadata', adjust, { once: true });
+          }
+        }
       });
     });
+    
+    window.addEventListener('resize', () => {
+      clearTimeout(hero._mobileVideoResizeTimer);
+      hero._mobileVideoResizeTimer = setTimeout(handleResize, 200);
+    });
+    
+    handleResize();
   })();
 </script>
+

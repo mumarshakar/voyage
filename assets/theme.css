@@ -178,6 +178,11 @@ body {
     object-position: center;
     background-color: #000;
   }
+  
+  .hero-section.hero-glow.hero-mobile-video-fit {
+    min-height: var(--hero-mobile-video-height, var(--hero-mobile-height-setting, calc(var(--vh, 1vh) * 70))) !important;
+    height: var(--hero-mobile-video-height, var(--hero-mobile-height-setting, calc(var(--vh, 1vh) * 70))) !important;
+  }
 }
 
 .hero-glow-content {
