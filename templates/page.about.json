@@ -227,6 +227,7 @@
         "image_apceQw": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/AI_Generator_Picture_Fotor.jpg",
             "alt_text": "",
             "image_link": ""
           }
