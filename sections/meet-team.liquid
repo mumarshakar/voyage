@@ -3,9 +3,9 @@
   assign card_height = section.settings.card_height | default: 360
   assign card_border_radius = section.settings.card_border_radius | default: 2
   assign image_border_radius = section.settings.image_border_radius | default: 2
-  assign desktop_columns = section.settings.desktop_cards_per_row | default: 3
-  assign tablet_columns = section.settings.tablet_cards_per_row | default: 2
-  assign mobile_columns = section.settings.mobile_cards_per_row | default: 1
+  assign desktop_columns = section.settings.desktop_cards_per_row | default: '3'
+  assign tablet_columns = section.settings.tablet_cards_per_row | default: '2'
+  assign mobile_columns = section.settings.mobile_cards_per_row | default: '1'
   assign name_font_size = section.settings.name_font_size | default: 20
   assign name_line_height = section.settings.name_line_height | default: 1.2
   assign role_font_size = section.settings.role_font_size | default: 16
@@ -176,33 +176,33 @@
       "id": "desktop_cards_per_row",
       "label": "Cards Per Row (Desktop)",
       "options": [
-        { "value": 1, "label": "1" },
-        { "value": 2, "label": "2" },
-        { "value": 3, "label": "3" },
-        { "value": 4, "label": "4" }
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
       ],
-      "default": 3
+      "default": "3"
     },
     {
       "type": "select",
       "id": "tablet_cards_per_row",
       "label": "Cards Per Row (Tablet)",
       "options": [
-        { "value": 1, "label": "1" },
-        { "value": 2, "label": "2" },
-        { "value": 3, "label": "3" }
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
       ],
-      "default": 2
+      "default": "2"
     },
     {
       "type": "select",
       "id": "mobile_cards_per_row",
       "label": "Cards Per Row (Mobile)",
       "options": [
-        { "value": 1, "label": "1" },
-        { "value": 2, "label": "2" }
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
       ],
-      "default": 1
+      "default": "1"
     },
     {
       "type": "range",
