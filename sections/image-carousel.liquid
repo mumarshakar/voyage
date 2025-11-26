@@ -1,7 +1,6 @@
 {% schema %}
 {
   "name": "Image Carousel",
-  "max_blocks": 15,
   "settings": [
     {
       "type": "header",
@@ -191,6 +190,7 @@
       ]
     }
   ],
+  "max_blocks": 15,
   "presets": [
     {
       "name": "Image Carousel",
@@ -488,28 +488,16 @@
     const wrapper = carousel.querySelector('.image-carousel-wrapper');
     const container = carousel.querySelector('.image-carousel-container');
     const track = carousel.querySelector('.carousel-track');
+    const slides = carousel.querySelectorAll('.carousel-slide');
     const pauseDot = carousel.querySelector('.carousel-dot-pause');
     const prevArrow = carousel.querySelector('.carousel-arrow-prev');
     const nextArrow = carousel.querySelector('.carousel-arrow-next');
-    const originalSlides = Array.from(carousel.querySelectorAll('.carousel-slide'));
     
-    if (!wrapper || !container || !track || originalSlides.length === 0) return;
+    if (!track || slides.length === 0) return;
     
     const autoplay = wrapper.dataset.autoplay === 'true';
-    const baseImagesPerView = parseInt(wrapper.dataset.imagesPerView, 10) || 3;
-    const PAUSE_DURATION = 3000;
-    const SCROLL_DURATION = 600;
-    const SCROLL_STEP = 1;
-    const TRANSITION_STYLE = `transform ${SCROLL_DURATION}ms ease-in-out`;
-    
-    let currentImagesPerView = 1;
-    let currentSlideWidth = container.offsetWidth;
-    let currentSlideIndex = 0;
-    let currentCloneCount = 0;
-    let isPaused = false;
-    let autoplayTimer = null;
-    let normalizeTimer = null;
-    let resizeTimeout;
+    const baseImagesPerView = parseInt(wrapper.dataset.imagesPerView) || 3;
+    const totalSlides = slides.length;
     
     function getResponsiveImagesPerView() {
       const width = window.innerWidth;
@@ -522,92 +510,107 @@
       return baseImagesPerView;
     }
     
-    function measureSlideWidth() {
-      const referenceSlide = originalSlides[0];
-      if (!referenceSlide) {
-        return container.offsetWidth;
+    let currentImagesPerView = getResponsiveImagesPerView();
+    let currentSlideWidth = container.offsetWidth / currentImagesPerView;
+    let totalViews = Math.max(1, Math.ceil(totalSlides / currentImagesPerView));
+    
+    // Pause duration at each view (3 seconds)
+    const PAUSE_DURATION = 3000; // 3 seconds
+    const SCROLL_DURATION = 600; // 0.6 seconds for smooth transition
+    
+    let currentView = 0;
+    let isPaused = false;
+    let autoplayInterval = null;
+    let scrollTimeout = null;
+    
+    function refreshDimensions() {
+      currentImagesPerView = getResponsiveImagesPerView();
+      currentSlideWidth = container.offsetWidth / currentImagesPerView;
+      totalViews = Math.max(1, Math.ceil(totalSlides / currentImagesPerView));
+      if (currentView >= totalViews) {
+        currentView = Math.max(0, totalViews - 1);
       }
-      const rect = referenceSlide.getBoundingClientRect();
-      const trackStyles = window.getComputedStyle(track);
-      const gap = parseFloat(trackStyles.columnGap || trackStyles.gap || 0) || 0;
-      return rect.width + gap;
+      const translateX = -(currentView * currentSlideWidth);
+      track.style.transition = 'transform ' + SCROLL_DURATION + 'ms ease-in-out';
+      track.style.transform = `translateX(${translateX}px)`;
     }
     
-    function applyTransform(animate = true) {
-      if (!animate) {
+    // Function to scroll to a specific view
+    function scrollToView(viewIndex) {
+      if (isPaused) return;
+      
+      // Reset if we've reached the end (seamlessly loop back)
+      if (viewIndex >= totalViews) {
+        viewIndex = 0;
+        // Reset position immediately (no transition) for seamless loop
         track.style.transition = 'none';
-        track.style.transform = `translateX(-${currentSlideIndex * currentSlideWidth}px)`;
-        // Force reflow so the transition can be reapplied cleanly
+        track.style.transform = 'translateX(0)';
+        // Force reflow
         track.offsetHeight;
-        track.style.transition = TRANSITION_STYLE;
-        return;
+        // Restore transition
+        track.style.transition = 'transform ' + SCROLL_DURATION + 'ms ease-in-out';
       }
       
-      track.style.transition = TRANSITION_STYLE;
-      track.style.transform = `translateX(-${currentSlideIndex * currentSlideWidth}px)`;
+      // Calculate the translateX value
+      const translateX = -(viewIndex * currentSlideWidth);
+      track.style.transform = `translateX(${translateX}px)`;
+      currentView = viewIndex;
     }
     
-    function normalizeIndex() {
-      if (currentCloneCount === 0) return;
-      
-      const minIndex = currentCloneCount;
-      const maxIndex = currentCloneCount + originalSlides.length - 1;
-      
-      if (currentSlideIndex > maxIndex) {
-        currentSlideIndex = minIndex;
-        applyTransform(false);
-      } else if (currentSlideIndex < minIndex) {
-        currentSlideIndex = maxIndex;
-        applyTransform(false);
-      }
+    // Function to move to next view
+    function nextView() {
+      if (isPaused) return;
+      scrollToView(currentView + 1);
     }
     
-    function scheduleNormalize() {
-      clearTimeout(normalizeTimer);
-      normalizeTimer = setTimeout(() => {
-        normalizeIndex();
-      }, SCROLL_DURATION);
-    }
-    
-    function canAdvance() {
-      return originalSlides.length > 1;
-    }
-    
-    function nextSlide(step = SCROLL_STEP) {
-      if (!canAdvance()) return;
-      currentSlideIndex += step;
-      applyTransform(true);
-      scheduleNormalize();
-    }
-    
-    function prevSlide(step = SCROLL_STEP) {
-      if (!canAdvance()) return;
-      currentSlideIndex -= step;
-      applyTransform(true);
-      scheduleNormalize();
-    }
-    
-    function stopAutoplay() {
-      if (autoplayTimer) {
-        clearTimeout(autoplayTimer);
-        autoplayTimer = null;
+    // Function to move to previous view
+    function prevView() {
+      if (isPaused) return;
+      const prevIndex = currentView - 1;
+      if (prevIndex < 0) {
+        scrollToView(totalViews - 1);
+      } else {
+        scrollToView(prevIndex);
       }
     }
     
-    function startAutoplay(initialDelay = PAUSE_DURATION) {
-      if (!autoplay || isPaused || !canAdvance()) return;
-      stopAutoplay();
+    // Start autoplay with pauses
+    function startAutoplay() {
+      if (!autoplay || isPaused) return;
       
-      const advance = () => {
+      function advanceToNext() {
         if (isPaused) return;
-        nextSlide();
-        stopAutoplay();
-        autoplayTimer = setTimeout(advance, PAUSE_DURATION + SCROLL_DURATION);
-      };
+        
+        // Scroll to next view
+        nextView();
+        
+        // Wait for scroll animation to complete, then pause
+        setTimeout(() => {
+          if (!isPaused) {
+            // Pause for 3 seconds at this view
+            scrollTimeout = setTimeout(() => {
+              if (!isPaused) {
+                advanceToNext();
+              }
+            }, PAUSE_DURATION);
+          }
+        }, SCROLL_DURATION);
+      }
       
-      autoplayTimer = setTimeout(advance, initialDelay);
+      // Start the cycle
+      advanceToNext();
     }
     
+    // Stop autoplay
+    function stopAutoplay() {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = null;
+      }
+
+    }
+    
+    // Pause/Play functionality
     function togglePause() {
       isPaused = !isPaused;
       if (isPaused) {
@@ -615,48 +618,11 @@
         stopAutoplay();
       } else {
         track.classList.remove('paused');
-        startAutoplay(PAUSE_DURATION);
+        startAutoplay();
       }
     }
     
-    function setupTrackStructure() {
-      // Remove any existing clones before rebuilding
-      track.querySelectorAll('.carousel-slide-clone').forEach(clone => clone.remove());
-      
-      currentImagesPerView = getResponsiveImagesPerView();
-      const totalRealSlides = originalSlides.length;
-      currentCloneCount = totalRealSlides > 1 ? Math.min(currentImagesPerView, totalRealSlides) : 0;
-      
-      if (currentCloneCount > 0) {
-        const leadingClones = originalSlides.slice(-currentCloneCount);
-        leadingClones.forEach(slide => {
-          const clone = slide.cloneNode(true);
-          clone.classList.add('carousel-slide-clone');
-          track.insertBefore(clone, track.firstChild);
-        });
-        
-        const trailingClones = originalSlides.slice(0, currentCloneCount);
-        trailingClones.forEach(slide => {
-          const clone = slide.cloneNode(true);
-          clone.classList.add('carousel-slide-clone');
-          track.appendChild(clone);
-        });
-      }
-      
-      currentSlideWidth = measureSlideWidth();
-      currentSlideIndex = currentCloneCount > 0 ? currentCloneCount : 0;
-      applyTransform(false);
-    }
-    
-    function rebuildTrack() {
-      const shouldResumeAutoplay = autoplay && !isPaused;
-      stopAutoplay();
-      setupTrackStructure();
-      if (shouldResumeAutoplay) {
-        startAutoplay(PAUSE_DURATION);
-      }
-    }
-    
+    // Event listeners
     if (pauseDot) {
       pauseDot.addEventListener('click', togglePause);
     }
@@ -664,9 +630,9 @@
     if (prevArrow) {
       prevArrow.addEventListener('click', () => {
         stopAutoplay();
-        prevSlide();
+        prevView();
         if (autoplay && !isPaused) {
-          startAutoplay(PAUSE_DURATION);
+          setTimeout(startAutoplay, PAUSE_DURATION + SCROLL_DURATION);
         }
       });
     }
@@ -674,13 +640,14 @@
     if (nextArrow) {
       nextArrow.addEventListener('click', () => {
         stopAutoplay();
-        nextSlide();
+        nextView();
         if (autoplay && !isPaused) {
-          startAutoplay(PAUSE_DURATION);
+          setTimeout(startAutoplay, PAUSE_DURATION + SCROLL_DURATION);
         }
       });
     }
     
+    // Pause on hover
     if (autoplay) {
       wrapper.addEventListener('mouseenter', () => {
         if (!isPaused) {
@@ -692,22 +659,26 @@
       wrapper.addEventListener('mouseleave', () => {
         if (!isPaused) {
           track.classList.remove('paused');
-          startAutoplay(PAUSE_DURATION);
+          startAutoplay();
         }
       });
     }
     
+    // Handle window resize to recalculate positions
+    let resizeTimeout;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        rebuildTrack();
+        refreshDimensions();
       }, 250);
     });
     
     // Initialize
-    rebuildTrack();
+    refreshDimensions();
+    scrollToView(0);
     if (autoplay) {
-      startAutoplay(PAUSE_DURATION);
+      // Start after initial pause
+      setTimeout(startAutoplay, PAUSE_DURATION);
     } else {
       isPaused = true;
       track.classList.add('paused');
