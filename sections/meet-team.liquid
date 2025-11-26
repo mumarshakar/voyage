@@ -2,7 +2,7 @@
 .flip-card {
     background: transparent;
     width: 100%;
-    height: 340px;
+    height: {{ section.settings.card_height }}px;
     perspective: 1000px;
 }
 
@@ -10,47 +10,59 @@
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s;
+    transition: transform {{ section.settings.flip_speed }}s;
     transform-style: preserve-3d;
+    border-radius: {{ section.settings.card_radius }}px;
+    box-shadow: {{ section.settings.enable_shadow | default: true | if_else: "0 4px 10px rgba(0,0,0,0.15)", "none" }};
 }
 
 .flip-card:hover .flip-card-inner {
     transform: rotateY(180deg);
 }
 
-.flip-card-front, 
+.flip-card-front,
 .flip-card-back {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 2px;
-    background: #ffffff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    border-radius: {{ section.settings.card_radius }}px;
+    background: {{ section.settings.card_background }};
 }
 
 .flip-card-front img {
-    height: 180px;
+    height: {{ section.settings.image_height }}px;
     object-fit: cover;
     width: 100%;
-    border-radius: 10px 10px 0 0;
+    border-radius: {{ section.settings.image_radius }}px {{ section.settings.image_radius }}px 0 0;
+}
+
+.flip-card-front h5 {
+    font-size: {{ section.settings.name_size }}px;
+    color: {{ section.settings.name_color }};
+}
+
+.flip-card-front p {
+    font-size: {{ section.settings.role_size }}px;
+    color: {{ section.settings.role_color }};
 }
 
 .flip-card-back {
     transform: rotateY(180deg);
-    background: #f8f9fa;
+    background: {{ section.settings.back_background }};
     padding: 20px;
+    font-size: {{ section.settings.desc_size }}px;
+    color: {{ section.settings.desc_color }};
 }
 {% endstylesheet %}
 
 <div class="container py-5">
     <h2 class="text-center mb-5">{{ section.settings.heading }}</h2>
-      sdjghfhsdkjhfk
-    <div class="row g-4">
 
+    <div class="row g-4">
         {% for block in section.blocks %}
         <div class="col-md-4" {{ block.shopify_attributes }}>
-            <div class="flip-card" style="border-radius:2px !important;">
+            <div class="flip-card">
                 <div class="flip-card-inner">
 
                     <!-- Front -->
@@ -74,7 +86,6 @@
             </div>
         </div>
         {% endfor %}
-
     </div>
 </div>
 
@@ -82,45 +93,50 @@
 {
   "name": "Team Flip Cards",
   "settings": [
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "Meet Our Team"
-    }
+    { "type": "text", "id": "heading", "label": "Section Heading", "default": "Meet Our Team" },
+
+    /* CARD SETTINGS */
+    { "type": "range", "id": "card_height", "label": "Card Height", "min": 250, "max": 600, "step": 10, "default": 340 },
+    { "type": "color", "id": "card_background", "label": "Card Front Background", "default": "#ffffff" },
+    { "type": "color", "id": "back_background", "label": "Card Back Background", "default": "#f8f9fa" },
+    { "type": "range", "id": "card_radius", "label": "Card Border Radius", "min": 0, "max": 30, "default": 2 },
+
+    { "type": "checkbox", "id": "enable_shadow", "label": "Enable Card Shadow", "default": true },
+
+    { "type": "range", "id": "flip_speed", "label": "Flip Animation Speed", "min": 0.2, "max": 2, "step": 0.1, "default": 0.6 },
+
+    /* IMAGE SETTINGS */
+    { "type": "range", "id": "image_height", "label": "Image Height", "min": 100, "max": 400, "step": 10, "default": 180 },
+    { "type": "range", "id": "image_radius", "label": "Image Border Radius (Top)", "min": 0, "max": 50, "default": 10 },
+
+    /* NAME SETTINGS */
+    { "type": "range", "id": "name_size", "label": "Name Font Size", "min": 12, "max": 40, "default": 20 },
+    { "type": "color", "id": "name_color", "label": "Name Text Color", "default": "#000000" },
+
+    /* ROLE SETTINGS */
+    { "type": "range", "id": "role_size", "label": "Role Font Size", "min": 10, "max": 30, "default": 14 },
+    { "type": "color", "id": "role_color", "label": "Role Text Color", "default": "#6c757d" },
+
+    /* DESCRIPTION SETTINGS */
+    { "type": "range", "id": "desc_size", "label": "Description Font Size", "min": 10, "max": 30, "default": 16 },
+    { "type": "color", "id": "desc_color", "label": "Description Text Color", "default": "#000000" }
   ],
+
   "blocks": [
     {
       "type": "team_member",
       "name": "Team Member",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Photo"
-        },
-        {
-          "type": "text",
-          "id": "name",
-          "label": "Name",
-          "default": "John Doe"
-        },
-        {
-          "type": "text",
-          "id": "role",
-          "label": "Role",
-          "default": "Senior Developer"
-        },
-        {
-          "type": "textarea",
-          "id": "description",
-          "label": "Description",
-          "default": "Team member bio goes here."
-        }
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "name", "label": "Name", "default": "John Doe" },
+        { "type": "text", "id": "role", "label": "Role", "default": "Senior Developer" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Team member bio goes here." }
       ]
     }
   ],
+
   "max_blocks": 12,
+
   "presets": [
     {
       "name": "Team Flip Cards",
