@@ -227,6 +227,49 @@
       "default": 360
     },
     {
+      "type": "select",
+      "id": "desktop_cards_per_row",
+      "label": "Cards Per Row (Desktop)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "tablet_cards_per_row",
+      "label": "Cards Per Row (Tablet)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "mobile_cards_per_row",
+      "label": "Cards Per Row (Mobile)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "desktop_cards_visible",
+      "label": "Cards Visible (Desktop)",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 12,
+      "info": "Maximum number of team members shown on screens wider than 1024px."
+    },
+    {
       "type": "range",
       "id": "tablet_cards_visible",
       "label": "Cards Visible (Tablet)",
