@@ -99,13 +99,24 @@
                             <img src="https://via.placeholder.com/400x250" alt="placeholder">
                         {% endif %}
 
-                        <h5 class="mt-3 mb-0">{{ block.settings.name }}</h5>
-                        <p class="text-muted">{{ block.settings.role }}</p>
+                        <h5 class="mt-3 mb-0"
+                            style="font-size: {{ name_font_size }}px !important;
+                                   line-height: {{ name_line_height }} !important;">
+                            {{ block.settings.name }}
+                        </h5>
+                        <p class="text-muted"
+                           style="font-size: {{ role_font_size }}px !important;
+                                  line-height: {{ role_line_height }} !important;">
+                            {{ block.settings.role }}
+                        </p>
                     </div>
 
                     <!-- Back -->
                     <div class="flip-card-back d-flex align-items-center">
-                        <p>{{ block.settings.description }}</p>
+                        <p style="font-size: {{ info_font_size }}px !important;
+                                 line-height: {{ info_line_height }} !important;">
+                            {{ block.settings.description }}
+                        </p>
                     </div>
 
                 </div>
