@@ -56,9 +56,9 @@
                     <!-- Front -->
                     <div class="flip-card-front text-center">
                         {% if block.settings.image != blank %}
-                            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.name }}" style="width:300px;height:300px;border-radius:2px;">
+                            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.name }}" style="width:500px;height:500px;border-radius:2px;">
                         {% else %}
-                            <img src="https://via.placeholder.com/400x250" alt="placeholder" style="width:300px;height:300px;border-radius:2px;">
+                            <img src="https://via.placeholder.com/400x250" alt="placeholder" style="width:500px;height:500px;border-radius:2px;">
                         {% endif %}
 
                         <h5 class="mt-3 mb-0">{{ block.settings.name }}</h5>
