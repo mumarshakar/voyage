@@ -1,9 +1,8 @@
 {%- liquid
   assign heading_text = section.settings.heading
   assign card_height = section.settings.card_height | default: 360
-  assign card_border_radius = section.settings.card_border_radius | default: 12
-  assign image_size = section.settings.image_size | default: 220
-  assign image_border_radius = section.settings.image_border_radius | default: 16
+  assign card_border_radius = section.settings.card_border_radius | default: 2
+  assign image_border_radius = section.settings.image_border_radius | default: 2
 -%}
 
 {% stylesheet %}
@@ -39,11 +38,10 @@
 
 .flip-card-front img {
     display: block;
-    width: var(--team-image-size, 220px);
-    height: var(--team-image-size, 220px);
+    width: 100%;
+    height: calc(var(--team-card-height, 340px) * 0.8);
     object-fit: cover;
-    border-radius: var(--team-image-radius, 12px);
-    margin: 0 auto;
+    border-radius: var(--team-image-radius, 2px);
 }
 
 .flip-card-back {
@@ -57,7 +55,6 @@
      style="height:100vh;
             --team-card-height: {{ card_height }}px;
             --team-card-radius: {{ card_border_radius }}px;
-            --team-image-size: {{ image_size }}px;
             --team-image-radius: {{ image_border_radius }}px;">
     <h2 class="text-center mb-5">{{ heading_text }}</h2>
       
@@ -114,22 +111,12 @@
     },
     {
       "type": "range",
-      "id": "image_size",
-      "label": "Image Size (px)",
-      "min": 140,
-      "max": 320,
-      "step": 10,
-      "default": 220,
-      "info": "Applied to both width and height to keep the image square."
-    },
-    {
-      "type": "range",
       "id": "card_border_radius",
       "label": "Card Border Radius (px)",
       "min": 0,
       "max": 40,
       "step": 2,
-      "default": 12
+      "default": 2
     },
     {
       "type": "range",
@@ -138,7 +125,7 @@
       "min": 0,
       "max": 40,
       "step": 2,
-      "default": 16
+      "default": 2
     }
   ],
   "blocks": [
