@@ -12,9 +12,6 @@
   assign desktop_visible = section.settings.desktop_cards_visible | default: '999'
   assign tablet_visible = section.settings.tablet_cards_visible | default: '999'
   assign mobile_visible = section.settings.mobile_cards_visible | default: '999'
-  assign desktop_visible_int = desktop_visible | plus: 0
-  assign tablet_visible_int = tablet_visible | plus: 0
-  assign mobile_visible_int = mobile_visible | plus: 0
   assign name_font_size = section.settings.name_font_size | default: 20
   assign name_line_height = section.settings.name_line_height | default: 1.2
   assign role_font_size = section.settings.role_font_size | default: 16
@@ -94,38 +91,22 @@
 }
 
 #shopify-section-{{ section.id }} .team-grid-item {
-    display: none;
+    display: block;
 }
 
-#shopify-section-{{ section.id }} .team-grid-item:nth-child(-n + {{ desktop_visible_int | default: 999 }}) {
-    display: block;
+#shopify-section-{{ section.id }} .team-grid-item.is-hidden {
+    display: none;
 }
 
 @media (max-width: 1024px) {
     #shopify-section-{{ section.id }} .team-grid {
         grid-template-columns: repeat({{ tablet_columns_int | default: 2 }}, minmax(0, 1fr));
     }
-    
-    #shopify-section-{{ section.id }} .team-grid-item {
-        display: none;
-    }
-    
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(-n + {{ tablet_visible_int | default: 999 }}) {
-        display: block;
-    }
 }
 
 @media (max-width: 600px) {
     #shopify-section-{{ section.id }} .team-grid {
         grid-template-columns: repeat({{ mobile_columns_int | default: 1 }}, minmax(0, 1fr));
-    }
-    
-    #shopify-section-{{ section.id }} .team-grid-item {
-        display: none;
-    }
-    
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(-n + {{ mobile_visible_int | default: 999 }}) {
-        display: block;
     }
 }
 {% endstylesheet %}
@@ -143,7 +124,7 @@
             --team-info-line-height: {{ info_line_height }};">
     <h2 class="text-center mb-5">{{ heading_text }}</h2>
       
-    <div class="team-grid">
+    <div class="team-grid" data-desktop-visible="{{ desktop_visible }}" data-tablet-visible="{{ tablet_visible }}" data-mobile-visible="{{ mobile_visible }}">
 
         {% for block in section.blocks %}
         <div class="team-grid-item" data-index="{{ forloop.index }}" {{ block.shopify_attributes }}>
@@ -185,6 +166,46 @@
 
     </div>
 </div>
+
+<script>
+  (function() {
+    const section = document.querySelector('#shopify-section-{{ section.id }}');
+    if (!section) return;
+    
+    const grid = section.querySelector('.team-grid');
+    if (!grid) return;
+    
+    const desktopVisible = parseInt(grid.dataset.desktopVisible, 10) || 999;
+    const tabletVisible = parseInt(grid.dataset.tabletVisible, 10) || 999;
+    const mobileVisible = parseInt(grid.dataset.mobileVisible, 10) || 999;
+    const items = Array.from(grid.querySelectorAll('.team-grid-item'));
+    
+    function applyVisibility() {
+      const width = window.innerWidth;
+      let limit = desktopVisible;
+      
+      if (width <= 600) {
+        limit = mobileVisible;
+      } else if (width <= 1024) {
+        limit = tabletVisible;
+      }
+      
+      items.forEach((item, index) => {
+        if (index < limit) {
+          item.classList.remove('is-hidden');
+        } else {
+          item.classList.add('is-hidden');
+        }
+      });
+    }
+    
+    applyVisibility();
+    window.addEventListener('resize', () => {
+      clearTimeout(grid._teamResizeTimeout);
+      grid._teamResizeTimeout = setTimeout(applyVisibility, 150);
+    });
+  })();
+</script>
 
 {% schema %}
 {

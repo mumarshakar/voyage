@@ -1,261 +1,689 @@
-{%- liquid
-  assign heading_text = section.settings.heading
-  assign card_height = section.settings.card_height | default: 360
-  assign card_border_radius = section.settings.card_border_radius | default: 2
-  assign image_border_radius = section.settings.image_border_radius | default: 2
-  assign name_font_size = section.settings.name_font_size | default: 20
-  assign name_line_height = section.settings.name_line_height | default: 1.2
-  assign role_font_size = section.settings.role_font_size | default: 16
-  assign role_line_height = section.settings.role_line_height | default: 1.4
-  assign info_font_size = section.settings.info_font_size | default: 15
-  assign info_line_height = section.settings.info_line_height | default: 1.5
--%}
-
-{% stylesheet %}
-.flip-card {
-    background: transparent;
-    width: 100%;
-    height: var(--team-card-height, 340px);
-    perspective: 1000px;
-}
-
-.flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-}
-
-.flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
-}
-
-.flip-card-front, 
-.flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: var(--team-card-radius, 2px);
-    background: #ffffff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-.flip-card-front img {
-.flip-card-front h5 {
-    font-size: var(--team-name-font-size, 20px);
-    line-height: var(--team-name-line-height, 1.2);
-}
-
-.flip-card-front p {
-    font-size: var(--team-role-font-size, 16px);
-    line-height: var(--team-role-line-height, 1.4);
-}
-
-.flip-card-back p {
-    font-size: var(--team-info-font-size, 15px);
-    line-height: var(--team-info-line-height, 1.5);
-}
-    display: block;
-    width: 100%;
-    height: calc(var(--team-card-height, 340px) * 0.8);
-    object-fit: cover;
-    border-radius: var(--team-image-radius, 2px);
-}
-
-.flip-card-back {
-    transform: rotateY(180deg);
-    background: #f8f9fa;
-    padding: 20px;
-}
-{% endstylesheet %}
-
-<div class="container py-5"
-     style="height:100vh;
-            --team-card-height: {{ card_height }}px;
-            --team-card-radius: {{ card_border_radius }}px;
-            --team-image-radius: {{ image_border_radius }}px;
-            --team-name-font-size: {{ name_font_size }}px;
-            --team-name-line-height: {{ name_line_height }};
-            --team-role-font-size: {{ role_font_size }}px;
-            --team-role-line-height: {{ role_line_height }};
-            --team-info-font-size: {{ info_font_size }}px;
-            --team-info-line-height: {{ info_line_height }};">
-    <h2 class="text-center mb-5">{{ heading_text }}</h2>
-      
-    <div class="row g-4">
-
-        {% for block in section.blocks %}
-        <div class="col-md-4" {{ block.shopify_attributes }}>
-            <div class="flip-card">
-                <div class="flip-card-inner">
-
-                    <!-- Front -->
-                    <div class="flip-card-front text-center">
-                        {% if block.settings.image != blank %}
-                            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.name | escape }}">
-                        {% else %}
-                            <img src="https://via.placeholder.com/400x250" alt="placeholder">
-                        {% endif %}
-
-                        <h5 class="mt-3 mb-0"
-                            style="font-size: {{ name_font_size }}px !important;
-                                   line-height: {{ name_line_height }} !important;">
-                            {{ block.settings.name }}
-                        </h5>
-                        <p class="text-muted"
-                           style="font-size: {{ role_font_size }}px !important;
-                                  line-height: {{ role_line_height }} !important;">
-                            {{ block.settings.role }}
-                        </p>
-                    </div>
-
-                    <!-- Back -->
-                    <div class="flip-card-back d-flex align-items-center">
-                        <p style="font-size: {{ info_font_size }}px !important;
-                                 line-height: {{ info_line_height }} !important;">
-                            {{ block.settings.description }}
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-
-    </div>
-</div>
-
 {% schema %}
 {
-  "name": "Team Flip Cards",
+  "name": "Image Carousel",
   "settings": [
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "Meet Our Team"
+      "type": "header",
+      "content": "Carousel Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable Autoplay",
+      "default": true
     },
     {
       "type": "range",
-      "id": "card_height",
-      "label": "Card Height (px)",
-      "min": 280,
-      "max": 500,
+      "id": "autoplay_speed",
+      "label": "Autoplay Speed (seconds)",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 10,
+      "unit": "s",
+      "info": "Controls scroll speed - lower values = faster scrolling"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show Navigation Arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show Dot Indicators",
+      "default": true,
+      "info": "Show dots below carousel to indicate current slide"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "images_per_view",
+      "label": "Images Per View",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3,
+      "info": "Number of images visible at once"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Image Height (px)",
+      "min": 300,
+      "max": 1000,
+      "step": 50,
+      "default": 600,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "label": "Gap Between Images (px)",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "default": 15,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image Fit",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Cover"
+        },
+        {
+          "value": "contain",
+          "label": "Contain"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "arrows_size",
+      "label": "Arrow Size (px)",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "arrows_color",
+      "label": "Arrows Color",
+      "default": "#8B6F47"
+    },
+    {
+      "type": "color",
+      "id": "arrows_bg_color",
+      "label": "Arrows Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "arrows_opacity",
+      "label": "Arrows Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 90,
+      "unit": "%"
+    },
+    {
+      "type": "color",
+      "id": "dots_color",
+      "label": "Dots Active Color",
+      "default": "#8B6F47"
+    },
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#EAE7E1"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Section Top Padding (px)",
+      "min": 20,
+      "max": 200,
       "step": 10,
-      "default": 360
+      "default": 80,
+      "unit": "px"
     },
     {
       "type": "range",
-      "id": "card_border_radius",
-      "label": "Card Border Radius (px)",
+      "id": "section_padding_bottom",
+      "label": "Section Bottom Padding (px)",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_horizontal",
+      "label": "Section Horizontal Padding (px)",
       "min": 0,
-      "max": 40,
-      "step": 2,
-      "default": 2
-    },
-    {
-      "type": "range",
-      "id": "image_border_radius",
-      "label": "Image Border Radius (px)",
-      "min": 0,
-      "max": 40,
-      "step": 2,
-      "default": 2
-    },
-    {
-      "type": "range",
-      "id": "name_font_size",
-      "label": "Name Font Size (px)",
-      "min": 12,
-      "max": 36,
-      "step": 1,
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "name_line_height",
-      "label": "Name Line Height",
-      "min": 1.0,
-      "max": 2.0,
-      "step": 0.1,
-      "default": 1.2
-    },
-    {
-      "type": "range",
-      "id": "role_font_size",
-      "label": "Designation Font Size (px)",
-      "min": 10,
-      "max": 28,
-      "step": 1,
-      "default": 16
-    },
-    {
-      "type": "range",
-      "id": "role_line_height",
-      "label": "Designation Line Height",
-      "min": 1.0,
-      "max": 2.0,
-      "step": 0.1,
-      "default": 1.4
-    },
-    {
-      "type": "range",
-      "id": "info_font_size",
-      "label": "Info Font Size (px)",
-      "min": 10,
-      "max": 24,
-      "step": 1,
-      "default": 15
-    },
-    {
-      "type": "range",
-      "id": "info_line_height",
-      "label": "Info Line Height",
-      "min": 1.0,
-      "max": 2.0,
-      "step": 0.1,
-      "default": 1.5
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
     }
   ],
   "blocks": [
     {
-      "type": "team_member",
-      "name": "Team Member",
+      "type": "image",
+      "name": "Carousel Image",
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Photo"
+          "label": "Image"
         },
         {
           "type": "text",
-          "id": "name",
-          "label": "Name",
-          "default": "John Doe"
+          "id": "alt_text",
+          "label": "Alt Text",
+          "info": "Image description for accessibility"
         },
         {
-          "type": "text",
-          "id": "role",
-          "label": "Role",
-          "default": "Senior Developer"
-        },
-        {
-          "type": "textarea",
-          "id": "description",
-          "label": "Description",
-          "default": "Team member bio goes here."
+          "type": "url",
+          "id": "image_link",
+          "label": "Image Link",
+          "info": "Optional: Make image clickable"
         }
       ]
     }
   ],
-  "max_blocks": 12,
+  "max_blocks": 15,
   "presets": [
     {
-      "name": "Team Flip Cards",
-      "category": "Team"
+      "name": "Image Carousel",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
     }
   ]
 }
 {% endschema %}
+
+{%- liquid
+  assign autoplay = section.settings.autoplay
+  assign autoplay_speed = section.settings.autoplay_speed | default: 5
+  assign show_arrows = section.settings.show_arrows
+  assign show_dots = section.settings.show_dots
+  assign images_per_view = section.settings.images_per_view | default: 3
+  assign image_height = section.settings.image_height | default: 600
+  assign image_fit = section.settings.image_fit | default: 'cover'
+  assign image_gap = section.settings.image_gap | default: 15
+  assign arrows_size = section.settings.arrows_size | default: 50
+  assign arrows_color = section.settings.arrows_color | default: '#8B6F47'
+  assign arrows_bg_color = section.settings.arrows_bg_color | default: '#FFFFFF'
+  assign arrows_opacity = section.settings.arrows_opacity | default: 90
+  assign dots_color = section.settings.dots_color | default: '#8B6F47'
+  assign section_bg_color = section.settings.section_bg_color | default: '#EAE7E1'
+  assign section_padding_top = section.settings.section_padding_top | default: 80
+  assign section_padding_bottom = section.settings.section_padding_bottom | default: 80
+  assign section_padding_horizontal = section.settings.section_padding_horizontal | default: 20
+  
+  assign arrows_opacity_decimal = arrows_opacity | divided_by: 100.0
+  assign autoplay_interval = autoplay_speed | times: 1000
+-%}
+
+<section class="image-carousel-section" 
+         id="carousel-{{ section.id }}"
+         style="background-color: {{ section_bg_color }};
+                padding-top: {{ section_padding_top }}px;
+                padding-bottom: {{ section_padding_bottom }}px;
+                padding-left: {{ section_padding_horizontal }}px;
+                padding-right: {{ section_padding_horizontal }}px;">
+  
+  <div class="container">
+    <div class="image-carousel-wrapper" 
+         data-autoplay="{{ autoplay }}"
+         data-scroll-speed="{{ autoplay_interval }}"
+         data-images-per-view="{{ images_per_view }}">
+      
+      <div class="image-carousel-container" 
+           style="overflow: hidden;
+                  position: relative;">
+        {% if section.blocks.size > 0 %}
+          <div class="carousel-track" 
+               data-autoplay="{{ autoplay }}"
+               data-scroll-speed="{{ autoplay_interval }}"
+               style="display: flex;
+                      gap: {{ image_gap }}px;
+                      will-change: transform;">
+            {% for block in section.blocks %}
+              <div class="carousel-slide" 
+                   data-slide-index="{{ forloop.index0 }}"
+                   style="flex: 0 0 calc((100% - {{ image_gap | times: images_per_view | minus: image_gap }}px) / {{ images_per_view }});
+                          min-width: 0;"
+                   {{ block.shopify_attributes }}>
+                {% if block.settings.image != blank %}
+                  {% if block.settings.image_link != blank %}
+                    <a href="{{ block.settings.image_link }}" class="carousel-image-link">
+                  {% endif %}
+                  <img src="{{ block.settings.image | image_url: width: 1920 }}" 
+                       alt="{{ block.settings.alt_text | escape }}"
+                       class="carousel-image"
+                       width="1920"
+                       height="{{ image_height }}"
+                       loading="lazy"
+                       style="width: 100%;
+                              height: {{ image_height }}px;
+                              object-fit: {{ image_fit }};
+                              display: block;
+                              border-radius: 2px;">
+                  {% if block.settings.image_link != blank %}
+                    </a>
+                  {% endif %}
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      
+      {% if show_arrows %}
+        <button class="carousel-arrow carousel-arrow-prev" 
+                aria-label="Previous view"
+                style="width: {{ arrows_size }}px;
+                       height: {{ arrows_size }}px;
+                       background-color: {{ arrows_bg_color }};
+                       opacity: {{ arrows_opacity_decimal }};
+                       border-color: {{ arrows_color }};
+                       color: {{ arrows_color }};">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <button class="carousel-arrow carousel-arrow-next" 
+                aria-label="Next view"
+                style="width: {{ arrows_size }}px;
+                       height: {{ arrows_size }}px;
+                       background-color: {{ arrows_bg_color }};
+                       opacity: {{ arrows_opacity_decimal }};
+                       border-color: {{ arrows_color }};
+                       color: {{ arrows_color }};">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      {% endif %}
+      
+      {% if show_dots %}
+        <div class="carousel-dots">
+          <button class="carousel-dot carousel-dot-pause" 
+                  aria-label="Pause/Play carousel"
+                  style="background-color: {{ dots_color }};"
+                  title="Pause/Play">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+            </svg>
+          </button>
+        </div>
+      {% endif %}
+      
+    </div>
+  </div>
+</section>
+
+<style>
+  .image-carousel-section {
+    position: relative;
+  }
+  
+  .image-carousel-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .image-carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  
+  .carousel-track {
+    transition: transform 0.6s ease-in-out;
+  }
+  
+  .carousel-track.paused {
+    transition: none;
+  }
+  
+  .carousel-image {
+    width: 100%;
+    display: block;
+  }
+  
+  .carousel-image-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    border: 2px solid;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  .carousel-arrow:hover {
+    opacity: 1 !important;
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  .carousel-arrow:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+  
+  .carousel-arrow-prev {
+    left: 20px;
+  }
+  
+  .carousel-arrow-next {
+    right: 20px;
+  }
+  
+  .carousel-arrow svg {
+    width: 60%;
+    height: 60%;
+  }
+  
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 0;
+  }
+  
+  .carousel-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid {{ dots_color }};
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+    background-color: {{ arrows_bg_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: {{ dots_color }};
+  }
+  
+  .carousel-dot:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+  
+  .carousel-dot svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  @media (max-width: 767px) {
+    .carousel-arrow-prev {
+      left: 10px;
+    }
+    
+    .carousel-arrow-next {
+      right: 10px;
+    }
+    
+    .carousel-arrow {
+      width: 40px !important;
+      height: 40px !important;
+    }
+    
+    .carousel-dot {
+      width: 36px;
+      height: 36px;
+    }
+    
+    /* Show 1 image per view on mobile */
+    .carousel-slide {
+      flex: 0 0 calc(100% - 10px) !important;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 1023px) {
+    /* Show 2 images per view on tablet */
+    .carousel-slide {
+      flex: 0 0 calc((100% - 15px) / 2) !important;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const carousel = document.getElementById('carousel-{{ section.id }}');
+    if (!carousel) return;
+    
+    const wrapper = carousel.querySelector('.image-carousel-wrapper');
+    const container = carousel.querySelector('.image-carousel-container');
+    const track = carousel.querySelector('.carousel-track');
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const pauseDot = carousel.querySelector('.carousel-dot-pause');
+    const prevArrow = carousel.querySelector('.carousel-arrow-prev');
+    const nextArrow = carousel.querySelector('.carousel-arrow-next');
+    
+    if (!track || slides.length === 0) return;
+    
+    const autoplay = wrapper.dataset.autoplay === 'true';
+    const baseImagesPerView = parseInt(wrapper.dataset.imagesPerView) || 3;
+    const totalSlides = slides.length;
+    
+    function getResponsiveImagesPerView() {
+      const width = window.innerWidth;
+      if (width <= 767) {
+        return 1;
+      }
+      if (width <= 1023) {
+        return Math.min(2, baseImagesPerView);
+      }
+      return baseImagesPerView;
+    }
+    
+    let currentImagesPerView = getResponsiveImagesPerView();
+    let currentSlideWidth = container.offsetWidth / currentImagesPerView;
+    let totalViews = Math.max(1, Math.ceil(totalSlides / currentImagesPerView));
+    
+    // Pause duration at each view (3 seconds)
+    const PAUSE_DURATION = 3000; // 3 seconds
+    const SCROLL_DURATION = 600; // 0.6 seconds for smooth transition
+    
+    let currentView = 0;
+    let isPaused = false;
+    let autoplayInterval = null;
+    let scrollTimeout = null;
+    
+    function refreshDimensions() {
+      currentImagesPerView = getResponsiveImagesPerView();
+      currentSlideWidth = container.offsetWidth / currentImagesPerView;
+      totalViews = Math.max(1, Math.ceil(totalSlides / currentImagesPerView));
+      if (currentView >= totalViews) {
+        currentView = Math.max(0, totalViews - 1);
+      }
+      const translateX = -(currentView * currentSlideWidth);
+      track.style.transition = 'transform ' + SCROLL_DURATION + 'ms ease-in-out';
+      track.style.transform = `translateX(${translateX}px)`;
+    }
+    
+    // Function to scroll to a specific view
+    function scrollToView(viewIndex) {
+      if (isPaused) return;
+      
+      // Reset if we've reached the end (seamlessly loop back)
+      if (viewIndex >= totalViews) {
+        viewIndex = 0;
+        // Reset position immediately (no transition) for seamless loop
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0)';
+        // Force reflow
+        track.offsetHeight;
+        // Restore transition
+        track.style.transition = 'transform ' + SCROLL_DURATION + 'ms ease-in-out';
+      }
+      
+      // Calculate the translateX value
+      const translateX = -(viewIndex * currentSlideWidth);
+      track.style.transform = `translateX(${translateX}px)`;
+      currentView = viewIndex;
+    }
+    
+    // Function to move to next view
+    function nextView() {
+      if (isPaused) return;
+      scrollToView(currentView + 1);
+    }
+    
+    // Function to move to previous view
+    function prevView() {
+      if (isPaused) return;
+      const prevIndex = currentView - 1;
+      if (prevIndex < 0) {
+        scrollToView(totalViews - 1);
+      } else {
+        scrollToView(prevIndex);
+      }
+    }
+    
+    // Start autoplay with pauses
+    function startAutoplay() {
+      if (!autoplay || isPaused) return;
+      
+      function advanceToNext() {
+        if (isPaused) return;
+        
+        // Scroll to next view
+        nextView();
+        
+        // Wait for scroll animation to complete, then pause
+        setTimeout(() => {
+          if (!isPaused) {
+            // Pause for 3 seconds at this view
+            scrollTimeout = setTimeout(() => {
+              if (!isPaused) {
+                advanceToNext();
+              }
+            }, PAUSE_DURATION);
+          }
+        }, SCROLL_DURATION);
+      }
+      
+      // Start the cycle
+      advanceToNext();
+    }
+    
+    // Stop autoplay
+    function stopAutoplay() {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = null;
+      }
+
+    }
+    
+    // Pause/Play functionality
+    function togglePause() {
+      isPaused = !isPaused;
+      if (isPaused) {
+        track.classList.add('paused');
+        stopAutoplay();
+      } else {
+        track.classList.remove('paused');
+        startAutoplay();
+      }
+    }
+    
+    // Event listeners
+    if (pauseDot) {
+      pauseDot.addEventListener('click', togglePause);
+    }
+    
+    if (prevArrow) {
+      prevArrow.addEventListener('click', () => {
+        stopAutoplay();
+        prevView();
+        if (autoplay && !isPaused) {
+          setTimeout(startAutoplay, PAUSE_DURATION + SCROLL_DURATION);
+        }
+      });
+    }
+    
+    if (nextArrow) {
+      nextArrow.addEventListener('click', () => {
+        stopAutoplay();
+        nextView();
+        if (autoplay && !isPaused) {
+          setTimeout(startAutoplay, PAUSE_DURATION + SCROLL_DURATION);
+        }
+      });
+    }
+    
+    // Pause on hover
+    if (autoplay) {
+      wrapper.addEventListener('mouseenter', () => {
+        if (!isPaused) {
+          track.classList.add('paused');
+          stopAutoplay();
+        }
+      });
+      
+      wrapper.addEventListener('mouseleave', () => {
+        if (!isPaused) {
+          track.classList.remove('paused');
+          startAutoplay();
+        }
+      });
+    }
+    
+    // Handle window resize to recalculate positions
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        refreshDimensions();
+      }, 250);
+    });
+    
+    // Initialize
+    refreshDimensions();
+    scrollToView(0);
+    if (autoplay) {
+      // Start after initial pause
+      setTimeout(startAutoplay, PAUSE_DURATION);
+    } else {
+      isPaused = true;
+      track.classList.add('paused');
+    }
+  })();
+</script>
+
+
