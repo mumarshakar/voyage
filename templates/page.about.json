@@ -90,6 +90,7 @@
         "column1_image_fit": "cover",
         "column1_video_source": "upload",
         "column1_video": "shopify://files/videos/Voyage Hype Club 12.mov",
+        "column1_video_mobile": "shopify://files/videos/Voyage Hype Club 12.mov",
         "column1_video_url": "",
         "column1_video_url_mobile": "",
         "column1_video_autoplay": true,
@@ -118,6 +119,7 @@
         "column2_image_fit": "cover",
         "column2_video_source": "upload",
         "column2_video": "shopify://files/videos/Voyage Hype Club 21.mov",
+        "column2_video_mobile": "shopify://files/videos/Voyage Hype Club 21.mov",
         "column2_video_url": "",
         "column2_video_url_mobile": "",
         "column2_video_autoplay": true,
@@ -257,7 +259,7 @@
         "arrows_bg_color": "#ffffff",
         "arrows_opacity": 90,
         "dots_color": "#8b6f47",
-        "section_bg_color": "#FFFFFF",
+        "section_bg_color": "#ffffff",
         "section_padding_top": 80,
         "section_padding_bottom": 80,
         "section_padding_horizontal": 20
@@ -331,7 +333,16 @@
       ],
       "name": "Meet Team",
       "settings": {
-        "heading": "Meet    Team"
+        "heading": "Meet    Team",
+        "card_height": 490,
+        "card_border_radius": 2,
+        "image_border_radius": 2,
+        "name_font_size": 20,
+        "name_line_height": 2,
+        "role_font_size": 16,
+        "role_line_height": 2,
+        "info_font_size": 18,
+        "info_line_height": 2
       }
     }
   },
