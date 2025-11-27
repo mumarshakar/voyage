@@ -83,84 +83,6 @@
           <div class="alert alert-danger mb-4" role="alert">
             This product is currently out of stock.
           </div>
-        {% else %}
-          <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form">
-            {% if product.variants.size > 1 %}
-              <div class="product-variants mb-4">
-                <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
-                {% for option in product.options_with_values %}
-                  <div class="mb-3">
-                    <label for="option-{{ forloop.index }}" class="form-label fw-semibold mb-2">
-                      {{ option.name }}:
-                    </label>
-                    <select 
-                      id="option-{{ forloop.index }}"
-                      class="form-select product-option-select"
-                      required
-                      data-option-index="{{ option.position | minus: 1 }}"
-                      onchange="updateSelectedVariant()">
-                      {% for value in option.values %}
-                        <option 
-                          value="{{ value | escape }}"
-                          {% if option.selected_value == value %}selected{% endif %}>
-                          {{ value }}
-                        </option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                {% endfor %}
-              </div>
-            {% else %}
-              <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
-            {% endif %}
-
-            {% if show_quantity_selector %}
-              <div class="product-quantity mb-4">
-                <label for="quantity" class="form-label fw-semibold mb-2">Quantity:</label>
-                <div class="input-group" style="max-width: 200px;">
-                  <button 
-                    type="button" 
-                    class="btn btn-outline-secondary"
-                    onclick="decreaseQuantity()"
-                    style="border-color: var(--cream, #FFF8E7);">
-                    -
-                  </button>
-                  <input 
-                    type="number" 
-                    id="quantity" 
-                    name="quantity" 
-                    value="1" 
-                    min="1" 
-                    class="form-control text-center"
-                    style="border-color: var(--cream, #FFF8E7);">
-                  <button 
-                    type="button" 
-                    class="btn btn-outline-secondary"
-                    onclick="increaseQuantity()"
-                    style="border-color: var(--cream, #FFF8E7);">
-                    +
-                  </button>
-                </div>
-              </div>
-            {% else %}
-              <input type="hidden" name="quantity" value="1">
-            {% endif %}
-
-            <div class="product-actions">
-              <button 
-                type="submit" 
-                name="add" 
-                class="btn btn-primary btn-lg w-100 mb-3"
-                style="background-color: var(--primary-orange, #FF6B35); border-color: var(--primary-orange, #FF6B35); padding: 14px 32px; font-size: 18px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;"
-                id="add-to-cart-btn">
-                Add to Cart
-              </button>
-
-              {% if enable_dynamic_checkout %}
-                {{ form | payment_button }}
-              {% endif %}
-            </div>
-          </form>
         {% endif %}
       </div>
     </div>
@@ -284,12 +206,6 @@
     }
   }
   
-  // Initialize on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    {% if product.variants.size > 1 %}
-      updateSelectedVariant();
-    {% endif %}
-  });
 </script>
 
 <style>
