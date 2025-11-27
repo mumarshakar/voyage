@@ -18,8 +18,8 @@
       "settings": {
         "title": "We Believe Movement Connects People.",
         "subtitle": "Voyage was created to bring intentional wellness, community, and calm into people’s lives — all through the power of movement on water.",
-        "button_text": "BOOK NOW",
-        "button_link": "shopify://collections/booking-services",
+        "button_text": "",
+        "button_link": "",
         "background_type": "image",
         "image_source_type": "url",
         "background_image": "shopify://shop_images/HYPE_CLUB_WELLNESS_HERO.jpg",
