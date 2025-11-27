@@ -54,10 +54,10 @@
       "type": "custom-text",
       "name": "Custom Text",
       "settings": {
-        "heading": "",
+        "heading": "Voyage is social wellness on water.",
         "subheading": "",
         "content_type": "richtext",
-        "text_content": "<ul><li>Glow Deck isn’t your typical wellness retreat — it’s wellness with a glow-up. Set on the shimmering waters of the UAE, we create elevated, wellness experiences at sea, where movement, connection, and luxury effortlessly collide.<br/></li><li>Born from our belief that wellness should feel just as good as it looks, Glow Deck was created for those who value <span style=\"text-decoration:underline\">balance, beauty, and a little indulgence. </span><br/></li><li>Whether you're planning a private celebration or simply looking for a solo escape with Glow Privé, a corporate off-site with Glow Collective, or joining one of our signature community events with Glow Social — we deliver bespoke wellness with style.</li></ul>",
+        "text_content": "<p>Created for people who want their wellness to feel meaningful — not rushed, performative or repetitive.<br/>What we offer isn’t a class, a cruise or a trend.</p><p>It’s a curated wellness experience built around movement, recovery and connection — designed to make you feel grounded, energised and genuinely good.<br/>Voyage takes everything people love about HYPE’s community and places it in an environment that slows you down, opens you up and brings people together in a way that feels natural, calm and intentional.</p>",
         "html_content": "<p>Add your HTML content here. You can use any HTML tags and inline styles.</p>",
         "link_color": "#333333",
         "link_hover_color": "#666666",
