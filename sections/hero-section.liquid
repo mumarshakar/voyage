@@ -353,6 +353,9 @@
     assign button_position_bottom = section.settings.button_position_bottom | default: 15
     assign overlay_color = section.settings.overlay_color | default: '#000000'
     assign overlay_opacity = section.settings.overlay_opacity | default: 0
+    if overlay_opacity == blank
+      assign overlay_opacity = 0
+    endif
     assign padding_top = section.settings.padding_top | default: 120
     assign padding_bottom = section.settings.padding_bottom | default: 80
     assign padding_horizontal = section.settings.padding_horizontal | default: 20
@@ -425,11 +428,7 @@
         assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
     endcase
     
-    if overlay_opacity > 0
-      assign overlay_opacity_decimal = overlay_opacity | divided_by: 100.0
-    else
-      assign overlay_opacity_decimal = 0
-    endif
+    assign overlay_opacity_decimal = overlay_opacity | divided_by: 100.0
   -%}
   
   <section class="hero-section hero-glow {% if section.settings.background_image != blank %}hero-has-image{% endif %}" 
@@ -513,9 +512,7 @@
         </div>
       {% endif %}
     {% endif %}
-    {% if overlay_opacity > 0 %}
-      <div class="hero-overlay" style="background-color: {{ overlay_color }}; opacity: {{ overlay_opacity_decimal }};"></div>
-    {% endif %}
+    <div class="hero-overlay" style="background-color: {{ overlay_color }}; opacity: {{ overlay_opacity_decimal }};"></div>
     <div class="hero-glow-content" style="text-align: {{ text_align }};">
       <h1 class="hero-glow-title" 
           style="color: {{ title_color }} !important;
