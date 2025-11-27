@@ -132,7 +132,7 @@
         "column2_video_autoplay": true,
         "column2_video_muted": true,
         "column2_video_loop": true,
-        "column2_video_controls": true,
+        "column2_video_controls": false,
         "column2_heading": "",
         "column2_subheading": "",
         "column2_text": "",
