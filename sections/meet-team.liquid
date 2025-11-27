@@ -129,31 +129,52 @@
     gap: 24px;
 }
 
+.team-grid-item-content {
+    width: 100%;
+    height: 100%;
+}
+
+/* Base: Hide all content by default */
+#shopify-section-{{ section.id }} .team-grid-item-content {
+    display: none;
+}
+
+/* Desktop: Show first N items and set grid columns */
 #shopify-section-{{ section.id }} .team-grid {
     grid-template-columns: repeat({{ desktop_columns_int }}, minmax(0, 1fr));
 }
 
-#shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) {
-    display: none;
+#shopify-section-{{ section.id }} .team-grid-item:nth-child(-n + {{ desktop_visible_int }}) .team-grid-item-content {
+    display: block;
 }
 
 @media (max-width: 1024px) {
+    /* Tablet: Reset and show first N items */
     #shopify-section-{{ section.id }} .team-grid {
         grid-template-columns: repeat({{ tablet_columns_int }}, minmax(0, 1fr));
     }
     
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ tablet_hide_start }}) {
+    #shopify-section-{{ section.id }} .team-grid-item-content {
         display: none;
+    }
+    
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(-n + {{ tablet_visible_int }}) .team-grid-item-content {
+        display: block;
     }
 }
 
 @media (max-width: 600px) {
+    /* Mobile: Reset and show first N items */
     #shopify-section-{{ section.id }} .team-grid {
         grid-template-columns: repeat({{ mobile_columns_int }}, minmax(0, 1fr));
     }
     
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ mobile_hide_start }}) {
+    #shopify-section-{{ section.id }} .team-grid-item-content {
         display: none;
+    }
+    
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(-n + {{ mobile_visible_int }}) .team-grid-item-content {
+        display: block;
     }
 }
 {% endstylesheet %}
@@ -175,6 +196,7 @@
 
         {% for block in section.blocks %}
         <div class="team-grid-item" {{ block.shopify_attributes }}>
+            <div class="team-grid-item-content">
             <div class="flip-card">
                 <div class="flip-card-inner">
 
@@ -207,6 +229,7 @@
                     </div>
 
                 </div>
+            </div>
             </div>
         </div>
         {% endfor %}
