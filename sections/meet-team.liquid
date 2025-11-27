@@ -138,6 +138,8 @@
     display: grid !important;
     gap: 24px !important;
     width: 100% !important;
+    /* Base fallback: Mobile - 2 columns (will be overridden by media queries) */
+    grid-template-columns: repeat({{ mobile_columns_int }}, 1fr) !important;
 }
 
 .team-item-wrapper {
@@ -150,51 +152,47 @@
     max-width: 100%;
 }
 
-/* Desktop: 4 cards per row - default for all screens */
-#shopify-section-{{ section.id }} .team-grid {
-    grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
-}
-
-/* Desktop: Show all wrappers first */
-#shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
-    display: block !important;
-}
-
-/* Desktop: Hide wrapper content for items beyond limit */
-#shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
-    display: none !important;
-}
-
-/* Tablet: 3 cards per row - override for 601px to 991px */
-@media (min-width: 601px) and (max-width: 991px) {
-    #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ tablet_columns_int }}, 1fr) !important;
-    }
-    
-    /* Tablet: Show all wrappers first */
-    #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
-        display: block !important;
-    }
-    
-    /* Tablet: Then hide wrappers for items beyond limit */
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ tablet_hide_start }}) .team-item-wrapper {
-        display: none !important;
-    }
-}
-
-/* Mobile: 2 cards per row - override for max-width 600px */
+/* Mobile: 2 cards per row - for screens up to 600px */
 @media (max-width: 600px) {
     #shopify-section-{{ section.id }} .team-grid {
         grid-template-columns: repeat({{ mobile_columns_int }}, 1fr) !important;
     }
     
-    /* Mobile: Show all wrappers first */
     #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
         display: block !important;
     }
     
-    /* Mobile: Then hide wrappers for items beyond limit */
     #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ mobile_hide_start }}) .team-item-wrapper {
+        display: none !important;
+    }
+}
+
+/* Tablet: 3 cards per row - for screens between 601px and 991px */
+@media (min-width: 601px) and (max-width: 991px) {
+    #shopify-section-{{ section.id }} .team-grid {
+        grid-template-columns: repeat({{ tablet_columns_int }}, 1fr) !important;
+    }
+    
+    #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
+        display: block !important;
+    }
+    
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ tablet_hide_start }}) .team-item-wrapper {
+        display: none !important;
+    }
+}
+
+/* Desktop: 4 cards per row - for screens 992px and above */
+@media (min-width: 992px) {
+    #shopify-section-{{ section.id }} .team-grid {
+        grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
+    }
+    
+    #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
+        display: block !important;
+    }
+    
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
         display: none !important;
     }
 }
