@@ -47,9 +47,43 @@
         "margin_top": 0,
         "margin_bottom": 0
       }
+    },
+    "custom_text_McHh6h": {
+      "type": "custom-text",
+      "name": "Custom Text",
+      "settings": {
+        "heading": "We Believe Movement Connects People.",
+        "subheading": "",
+        "content_type": "richtext",
+        "text_content": "<p>Voyage was created to bring intentional wellness, community, and calm into people’s lives — all through the power of movement on water.</p>",
+        "html_content": "<p>Add your HTML content here. You can use any HTML tags and inline styles.</p>",
+        "link_color": "#333333",
+        "link_hover_color": "#666666",
+        "link_text_decoration": "underline",
+        "custom_css": "",
+        "text_alignment": "left",
+        "content_max_width": 800,
+        "background_color": "#FFFFFF",
+        "background_size": "cover",
+        "background_overlay_opacity": 0,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "heading_margin_bottom": 20,
+        "subheading_margin_bottom": 20,
+        "section_height_desktop": 400,
+        "section_height_mobile": 300,
+        "list_line_height": 3,
+        "list_font_size": 18,
+        "list_font_weight": 400,
+        "list_text_align": "justify"
+      }
     }
   },
   "order": [
-    "hero_section"
+    "hero_section",
+    "custom_text_McHh6h"
   ]
 }
