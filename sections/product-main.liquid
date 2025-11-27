@@ -6,9 +6,19 @@
   assign show_thumbnails = section.settings.show_thumbnails | default: true
   assign section_height_desktop = section.settings.section_height_desktop | default: 600
   assign section_height_mobile = section.settings.section_height_mobile | default: 400
+  assign padding_top_desktop = section.settings.padding_top_desktop | default: 60
+  assign padding_bottom_desktop = section.settings.padding_bottom_desktop | default: 60
+  assign padding_horizontal_desktop = section.settings.padding_horizontal_desktop | default: 20
+  assign margin_top_desktop = section.settings.margin_top_desktop | default: 0
+  assign margin_bottom_desktop = section.settings.margin_bottom_desktop | default: 0
+  assign padding_top_mobile = section.settings.padding_top_mobile | default: 40
+  assign padding_bottom_mobile = section.settings.padding_bottom_mobile | default: 40
+  assign padding_horizontal_mobile = section.settings.padding_horizontal_mobile | default: 20
+  assign margin_top_mobile = section.settings.margin_top_mobile | default: 0
+  assign margin_bottom_mobile = section.settings.margin_bottom_mobile | default: 0
 -%}
 
-<div class="product-main-section" style="padding: 60px 0;">
+<div class="product-main-section" style="padding-top: {{ padding_top_desktop }}px; padding-bottom: {{ padding_bottom_desktop }}px; padding-left: {{ padding_horizontal_desktop }}px; padding-right: {{ padding_horizontal_desktop }}px; margin-top: {{ margin_top_desktop }}px; margin-bottom: {{ margin_bottom_desktop }}px;">
   <div class="container">
     <div class="row g-5 align-items-start">
       <!-- Product Images Column -->
@@ -239,13 +249,18 @@
   
   @media (max-width: 991px) {
     .product-main-section {
-      padding: 40px 0 !important;
+      padding-top: {{ padding_top_mobile }}px !important;
+      padding-bottom: {{ padding_bottom_mobile }}px !important;
+      padding-left: {{ padding_horizontal_mobile }}px !important;
+      padding-right: {{ padding_horizontal_mobile }}px !important;
+      margin-top: {{ margin_top_mobile }}px !important;
+      margin-bottom: {{ margin_bottom_mobile }}px !important;
       min-height: {{ section_height_mobile }}px !important;
       height: {{ section_height_mobile }}px !important;
     }
   }
   
-  /* Desktop: Section Height */
+  /* Desktop: Section Height and Spacing */
   @media (min-width: 992px) {
     .product-main-section {
       min-height: {{ section_height_desktop }}px !important;
@@ -326,6 +341,114 @@
       "default": 400,
       "unit": "px",
       "info": "Height of section on mobile screens (below 992px)"
+    },
+    {
+      "type": "header",
+      "content": "Spacing - Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Top Padding - Desktop (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Bottom Padding - Desktop (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal_desktop",
+      "label": "Horizontal Padding - Desktop (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_desktop",
+      "label": "Top Margin - Desktop (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_desktop",
+      "label": "Bottom Margin - Desktop (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Spacing - Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top Padding - Mobile (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom Padding - Mobile (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal_mobile",
+      "label": "Horizontal Padding - Mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "label": "Top Margin - Mobile (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "label": "Bottom Margin - Mobile (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
     }
   ],
   "presets": [
