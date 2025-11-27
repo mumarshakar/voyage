@@ -138,8 +138,14 @@
     display: grid !important;
     gap: 24px !important;
     width: 100% !important;
-    /* Base fallback: Mobile - 2 columns (will be overridden by media queries) */
-    grid-template-columns: repeat({{ mobile_columns_int }}, 1fr) !important;
+    grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
+}
+
+.team-grid {
+    display: grid !important;
+    gap: 24px !important;
+    width: 100% !important;
+    grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
 }
 
 .team-item-wrapper {
