@@ -46,10 +46,45 @@
       "default": "image"
     },
     {
+      "type": "select",
+      "id": "image_source_type",
+      "label": "Image Source",
+      "options": [
+        {
+          "value": "upload",
+          "label": "Upload to Shopify"
+        },
+        {
+          "value": "url",
+          "label": "External URL"
+        }
+      ],
+      "default": "upload",
+      "info": "Choose how to provide the image (when background type is Image)"
+    },
+    {
       "type": "image_picker",
       "id": "background_image",
-      "label": "Background Image",
-      "info": "Used when background type is Image"
+      "label": "Desktop Background Image",
+      "info": "Upload image for desktop (used when image source is Upload)"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Mobile Background Image",
+      "info": "Upload image for mobile (optional, falls back to desktop if not set)"
+    },
+    {
+      "type": "text",
+      "id": "background_image_desktop_url",
+      "label": "Desktop Background Image URL",
+      "info": "External image URL for desktop (e.g., https://example.com/image.jpg). Used when image source is External URL"
+    },
+    {
+      "type": "text",
+      "id": "background_image_mobile_url",
+      "label": "Mobile Background Image URL",
+      "info": "External image URL for mobile (optional, falls back to desktop if not set)"
     },
     {
       "type": "select",
@@ -362,9 +397,38 @@
     assign margin_top = section.settings.margin_top | default: 0
     assign margin_bottom = section.settings.margin_bottom | default: 0
     assign background_type = section.settings.background_type | default: 'image'
+    assign image_source_type = section.settings.image_source_type | default: 'upload'
     assign video_source_type = section.settings.video_source_type | default: 'upload'
     assign video_autoplay = section.settings.video_autoplay | default: true
     assign video_muted = section.settings.video_muted | default: true
+    
+    # Handle image sources (upload or URL)
+    if background_type == 'image'
+      if image_source_type == 'upload'
+        assign desktop_image = section.settings.background_image
+        assign mobile_image = section.settings.background_image_mobile
+        if desktop_image != blank
+          assign desktop_image_url = desktop_image | image_url: width: 1920
+        endif
+        if mobile_image != blank
+          assign mobile_image_url = mobile_image | image_url: width: 768
+        else
+          assign mobile_image_url = desktop_image_url
+        endif
+      else
+        assign desktop_image_url = section.settings.background_image_desktop_url
+        assign mobile_image_url = section.settings.background_image_mobile_url
+        if mobile_image_url == blank
+          assign mobile_image_url = desktop_image_url
+        endif
+      endif
+      assign has_background_image = true
+      if desktop_image_url == blank
+        assign has_background_image = false
+      endif
+    else
+      assign has_background_image = false
+    endif
     
     # Get heading theme settings for typography
     assign heading_color = settings.heading_color | default: '#333333'
@@ -431,12 +495,14 @@
     assign overlay_opacity_decimal = overlay_opacity | divided_by: 100.0
   -%}
   
-  <section class="hero-section hero-glow {% if section.settings.background_image != blank %}hero-has-image{% endif %}" 
+  <section class="hero-section hero-glow {% if has_background_image %}hero-has-image{% endif %}" 
            style="min-height: calc(var(--vh, 1vh) * {{ section.settings.hero_height }});
                   --hero-mobile-height-setting: calc(var(--vh, 1vh) * {{ section.settings.hero_height_mobile }});
-                  {% if section.settings.background_image != blank %}background-image: url('{{ section.settings.background_image | image_url: width: 1920 }}');{% endif %}
+                  {% if has_background_image and desktop_image_url != blank %}--hero-bg-image-desktop: url('{{ desktop_image_url }}');{% endif %}
+                  {% if has_background_image and mobile_image_url != blank %}--hero-bg-image-mobile: url('{{ mobile_image_url }}');{% endif %}
                   background-position: {{ bg_position }};
                   background-size: {{ bg_size }};
+                  {% if has_background_image %}background-image: var(--hero-bg-image-desktop);{% endif %}
                   padding-top: {{ padding_top }}px;
                   padding-bottom: {{ padding_bottom }}px;
                   padding-left: {{ padding_horizontal }}px;
@@ -468,7 +534,8 @@
                    {% if mobile_video.width %}width="{{ mobile_video.width }}"{% endif %}
                    {% if mobile_video.height %}height="{{ mobile_video.height }}"{% endif %}>
               {% comment %} theme-check-disable RemoteAsset {% endcomment %}
-              {% for source in mobile_video.sources %}
+              {% assign mobile_sources_reversed = mobile_video.sources | reverse %}
+              {% for source in mobile_sources_reversed %}
                 <source src="{{ source.url }}" type="{{ source.mime_type }}">
               {% endfor %}
               {% comment %} theme-check-enable RemoteAsset {% endcomment %}
@@ -483,7 +550,8 @@
                  {% if desktop_video.width %}width="{{ desktop_video.width }}"{% endif %}
                  {% if desktop_video.height %}height="{{ desktop_video.height }}"{% endif %}>
             {% comment %} theme-check-disable RemoteAsset {% endcomment %}
-            {% for source in desktop_video.sources %}
+            {% assign desktop_sources_reversed = desktop_video.sources | reverse %}
+            {% for source in desktop_sources_reversed %}
               <source src="{{ source.url }}" type="{{ source.mime_type }}">
             {% endfor %}
             {% comment %} theme-check-enable RemoteAsset {% endcomment %}
@@ -557,7 +625,16 @@
 @media screen and (max-width: 767px) {
   .hero-section.hero-glow {
       min-height: calc(var(--vh, 1vh) * {{ section.settings.hero_height_mobile }}) !important;
+      {% if has_background_image and mobile_image_url != blank %}
+      background-image: var(--hero-bg-image-mobile) !important;
+      {% endif %}
   }
+}
+#shopify-section-{{ section.id }} .hero-section.hero-glow {
+    {% if has_background_image %}
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    {% endif %}
 }
 </style>
 
@@ -596,10 +673,36 @@
       }
     }
     
+    function forceHighestQualitySource(video) {
+      if (!video) return;
+      
+      // Get all source elements (already reversed in Liquid, so first is highest)
+      const sources = Array.from(video.querySelectorAll('source'));
+      if (sources.length === 0) return;
+      
+      // Use the first source (highest quality after reverse) as primary src
+      const bestSource = sources[0];
+      
+      if (bestSource && bestSource.src) {
+        // Set as primary src attribute to prioritize highest quality
+        // Browser will use this before checking <source> elements
+        video.setAttribute('src', bestSource.src);
+        
+        // Ensure preload is set for quality detection
+        video.preload = 'auto';
+        
+        // Load the video
+        video.load();
+      }
+    }
+    
     videoContainers.forEach((container) => {
       const videos = container.querySelectorAll('video');
       videos.forEach((video) => {
         if (!video) return;
+        
+        // Force highest quality source for Shopify videos
+        forceHighestQualitySource(video);
         
         const revealVideo = () => {
           video.classList.add('hero-video-ready');
