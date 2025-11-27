@@ -142,5 +142,10 @@
       }
     },
     "content_for_index": []
+  },
+  "platform_customizations": {
+    "custom_css": [
+      "#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {display: flex; justify-content: center;}"
+    ]
   }
 }
