@@ -16,8 +16,8 @@
       ],
       "name": "Hero Section",
       "settings": {
-        "title": "Behind The Wellness Club",
-        "subtitle": "Your perfect journey starts here. Book your next adventure with ease.",
+        "title": "We Believe Movement Connects People.",
+        "subtitle": "Voyage was created to bring intentional wellness, community, and calm into people’s lives — all through the power of movement on water.",
         "button_text": "BOOK NOW",
         "button_link": "shopify://collections/booking-services",
         "background_type": "image",
@@ -34,8 +34,8 @@
         "hero_height_mobile": 80,
         "background_position": "center",
         "background_size": "cover",
-        "title_color": "#69e0dc",
-        "subtitle_color": "#69e0dc",
+        "title_color": "#FFFFFF",
+        "subtitle_color": "#ffffff",
         "title_font_size": 50,
         "subtitle_font_size": 25,
         "title_position_top": 5,
@@ -76,7 +76,11 @@
         "heading_margin_bottom": 20,
         "subheading_margin_bottom": 20,
         "section_height_desktop": 700,
-        "section_height_mobile": 700
+        "section_height_mobile": 700,
+        "list_line_height": 3,
+        "list_font_size": 18,
+        "list_font_weight": 400,
+        "list_text_align": "justify"
       }
     },
     "two_columns_fMeVMy": {
@@ -177,12 +181,24 @@
         "heading_margin_bottom": 20,
         "subheading_margin_bottom": 20,
         "section_height_desktop": 800,
-        "section_height_mobile": 700
+        "section_height_mobile": 700,
+        "list_line_height": 3,
+        "list_font_size": 18,
+        "list_font_weight": 400,
+        "list_text_align": "justify"
       }
     },
     "image_carousel_rVKCqM": {
       "type": "image-carousel",
       "blocks": {
+        "image_Xk9RHd": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Voyage_Hype_Club_6.heic",
+            "alt_text": "",
+            "image_link": ""
+          }
+        },
         "image_KKpkzY": {
           "type": "image",
           "settings": {
@@ -222,31 +238,15 @@
             "alt_text": "",
             "image_link": ""
           }
-        },
-        "image_nDJJ4w": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/Voyage_Hype_Club_6.heic",
-            "alt_text": "",
-            "image_link": ""
-          }
-        },
-        "image_apceQw": {
-          "type": "image",
-          "settings": {
-            "alt_text": "",
-            "image_link": ""
-          }
         }
       },
       "block_order": [
+        "image_Xk9RHd",
         "image_KKpkzY",
         "image_4baB4y",
         "image_ciaPx9",
         "image_bTc4gd",
-        "image_Xdi3mj",
-        "image_nDJJ4w",
-        "image_apceQw"
+        "image_Xdi3mj"
       ],
       "name": "Image Carousel",
       "settings": {
