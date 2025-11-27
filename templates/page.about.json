@@ -68,13 +68,15 @@
         "background_color": "#ffffff",
         "background_size": "cover",
         "background_overlay_opacity": 0,
-        "padding_top": 80,
-        "padding_bottom": 80,
+        "padding_top": 200,
+        "padding_bottom": 150,
         "padding_horizontal": 20,
         "margin_top": 0,
         "margin_bottom": 0,
         "heading_margin_bottom": 20,
-        "subheading_margin_bottom": 20
+        "subheading_margin_bottom": 20,
+        "section_height_desktop": 800,
+        "section_height_mobile": 800
       }
     },
     "two_columns_fMeVMy": {
@@ -87,7 +89,6 @@
         "column_gap_vertical": 5,
         "vertical_alignment": "center",
         "column1_content_type": "video",
-        "column1_image": "shopify://shop_images/AI_Generator_Picture_Fotor.jpg",
         "column1_image_alt": "",
         "column1_image_link": "",
         "column1_image_fit": "cover",
@@ -116,7 +117,6 @@
         "column1_padding_left": 5,
         "column1_padding_right": 0,
         "column2_content_type": "video",
-        "column2_image": "shopify://shop_images/AI_Generator_Picture_1__Fotor.jpg",
         "column2_image_alt": "",
         "column2_image_link": "",
         "column2_image_fit": "cover",
@@ -175,7 +175,9 @@
         "margin_top": 0,
         "margin_bottom": 0,
         "heading_margin_bottom": 20,
-        "subheading_margin_bottom": 20
+        "subheading_margin_bottom": 20,
+        "section_height_desktop": 400,
+        "section_height_mobile": 300
       }
     },
     "image_carousel_rVKCqM": {
@@ -232,7 +234,6 @@
         "image_apceQw": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_Fotor.jpg",
             "alt_text": "",
             "image_link": ""
           }
@@ -271,10 +272,28 @@
     "meet_team_YGLgdU": {
       "type": "meet-team",
       "blocks": {
+        "team_member_6VaWzM": {
+          "type": "team_member",
+          "settings": {
+            "image": "shopify://shop_images/placeholder-image-for-a-team-member.png",
+            "name": "John Doe",
+            "role": "Senior Developer",
+            "description": "Team member bio goes here."
+          }
+        },
+        "team_member_ftckDY": {
+          "type": "team_member",
+          "settings": {
+            "image": "shopify://shop_images/placeholder-image-for-a-team-member.png",
+            "name": "John Doe",
+            "role": "Senior Developer",
+            "description": "Team member bio goes here."
+          }
+        },
         "team_member_WVmAhq": {
           "type": "team_member",
           "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_1__Fotor.jpg",
+            "image": "shopify://shop_images/placeholder-image-for-a-team-member.png",
             "name": "John Doe",
             "role": "Senior Developer",
             "description": "Team member bio goes here.  Team member bio goes here.  Team member bio goes here.  Team member bio goes here."
@@ -283,16 +302,25 @@
         "team_member_BPLnVg": {
           "type": "team_member",
           "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_1__Fotor.jpg",
+            "image": "shopify://shop_images/placeholder-image-for-a-team-member.png",
             "name": "John Doe",
             "role": "Senior Developer",
             "description": "Team member bio goes here.  Team member bio goes here.  Team member bio goes here.  Team member bio goes here."
           }
         },
+        "team_member_dXX9rq": {
+          "type": "team_member",
+          "settings": {
+            "image": "shopify://shop_images/placeholder-image-for-a-team-member.png",
+            "name": "John Doe",
+            "role": "Senior Developer",
+            "description": "Team member bio goes here."
+          }
+        },
         "team_member_z9TKAg": {
           "type": "team_member",
           "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_Fotor_6e908974-e99a-4d11-bd4c-9083651471c8.jpg",
+            "image": "shopify://shop_images/placeholder-image-for-a-team-member.png",
             "name": "John Doe",
             "role": "Senior Developer",
             "description": "Team member bio goes here.  Team member bio goes here.  Team member bio goes here.  Team member bio goes here."
@@ -301,38 +329,31 @@
         "team_member_7wENeA": {
           "type": "team_member",
           "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_Fotor_6e908974-e99a-4d11-bd4c-9083651471c8.jpg",
+            "image": "shopify://shop_images/placeholder-image-for-a-team-member.png",
             "name": "John Doe",
             "role": "Senior Developer",
             "description": "Team member bio goes here.  Team member bio goes here.  Team member bio goes here.  Team member bio goes here."
           }
         },
-        "team_member_VDqTLp": {
+        "team_member_wV4K9B": {
           "type": "team_member",
           "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_1__Fotor.jpg",
+            "image": "shopify://shop_images/placeholder-image-for-a-team-member.png",
             "name": "John Doe",
             "role": "Senior Developer",
-            "description": "Team member bio goes here.  Team member bio goes here.  Team member bio goes here.  Team member bio goes here."
-          }
-        },
-        "team_member_FGAd4T": {
-          "type": "team_member",
-          "settings": {
-            "image": "shopify://shop_images/AI_Generator_Picture_Fotor.jpg",
-            "name": "John Doe",
-            "role": "Senior Developer",
-            "description": "Team member bio goes here.  Team member bio goes here.  Team member bio goes here.  Team member bio goes here."
+            "description": "Team member bio goes here."
           }
         }
       },
       "block_order": [
+        "team_member_6VaWzM",
+        "team_member_ftckDY",
         "team_member_WVmAhq",
         "team_member_BPLnVg",
+        "team_member_dXX9rq",
         "team_member_z9TKAg",
         "team_member_7wENeA",
-        "team_member_VDqTLp",
-        "team_member_FGAd4T"
+        "team_member_wV4K9B"
       ],
       "name": "Meet Team",
       "settings": {
