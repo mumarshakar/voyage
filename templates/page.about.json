@@ -75,8 +75,8 @@
         "margin_bottom": 0,
         "heading_margin_bottom": 20,
         "subheading_margin_bottom": 20,
-        "section_height_desktop": 800,
-        "section_height_mobile": 800
+        "section_height_desktop": 700,
+        "section_height_mobile": 700
       }
     },
     "two_columns_fMeVMy": {
