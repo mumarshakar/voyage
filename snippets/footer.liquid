@@ -9,7 +9,7 @@
         <h5 class="footer-title">Quick Links</h5>
         <ul class="list-unstyled">
           {% for link in linklists.footer.links %}
-            <li><a href="{{ link.url }}" class="text-white-50 text-decoration-none">{{ link.title }}</a></li>
+            <li><a target="_blank" href="{{ link.url }}" class="text-white-50 text-decoration-none">{{ link.title }}</a></li>
           {% endfor %}
         </ul>
       </div>
