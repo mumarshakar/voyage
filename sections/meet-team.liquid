@@ -124,9 +124,20 @@
     padding: 20px;
 }
 
+/* Override Bootstrap container max-width for this section */
+#shopify-section-{{ section.id }} .container {
+    max-width: 1600px !important;
+    width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .team-grid {
     display: grid;
     gap: 24px;
+    width: 100%;
 }
 
 .team-item-wrapper {
@@ -134,20 +145,27 @@
     height: 100%;
 }
 
-/* Desktop: Set grid columns */
-#shopify-section-{{ section.id }} .team-grid {
-    grid-template-columns: repeat({{ desktop_columns_int }}, minmax(0, 1fr));
+.team-grid-item {
+    min-width: 0;
+    max-width: 100%;
 }
 
-/* Desktop: Hide wrapper content for items beyond limit */
-#shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
-    display: none;
+/* Desktop: Explicit media query for screens wider than 1024px */
+@media (min-width: 1025px) {
+    #shopify-section-{{ section.id }} .team-grid {
+        grid-template-columns: repeat({{ desktop_columns_int }}, minmax(0, 1fr)) !important;
+    }
+    
+    /* Desktop: Hide wrapper content for items beyond limit */
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
+        display: none;
+    }
 }
 
 @media (max-width: 1024px) {
     /* Tablet: Set grid columns */
     #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ tablet_columns_int }}, minmax(0, 1fr));
+        grid-template-columns: repeat({{ tablet_columns_int }}, minmax(0, 1fr)) !important;
     }
     
     /* Tablet: Show all wrappers first */
@@ -164,7 +182,7 @@
 @media (max-width: 600px) {
     /* Mobile: Set grid columns */
     #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ mobile_columns_int }}, minmax(0, 1fr));
+        grid-template-columns: repeat({{ mobile_columns_int }}, minmax(0, 1fr)) !important;
     }
     
     /* Mobile: Show all wrappers first */
@@ -180,8 +198,7 @@
 {% endstylesheet %}
 
 <div class="container py-5"
-     style="height:100vh;
-            --team-card-height: {{ card_height }}px;
+     style="--team-card-height: {{ card_height }}px;
             --team-card-radius: {{ card_border_radius }}px;
             --team-image-radius: {{ image_border_radius }}px;
             --team-name-font-size: {{ name_font_size }}px;
