@@ -277,6 +277,67 @@
       "default": 300,
       "unit": "px",
       "info": "Height of section on mobile screens (below 992px)"
+    },
+    {
+      "type": "header",
+      "content": "List Styling (ul, ol)"
+    },
+    {
+      "type": "range",
+      "id": "list_line_height",
+      "label": "List Line Height (rem)",
+      "min": 1.0,
+      "max": 5.0,
+      "step": 0.5,
+      "default": 3.0,
+      "unit": "rem",
+      "info": "Line height for unordered and ordered lists"
+    },
+    {
+      "type": "range",
+      "id": "list_font_size",
+      "label": "List Font Size (px)",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "default": 18,
+      "unit": "px",
+      "info": "Font size for list items"
+    },
+    {
+      "type": "range",
+      "id": "list_font_weight",
+      "label": "List Font Weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "default": 400,
+      "info": "Font weight for list items (100-900)"
+    },
+    {
+      "type": "select",
+      "id": "list_text_align",
+      "label": "List Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "justify",
+          "label": "Justify"
+        }
+      ],
+      "default": "justify",
+      "info": "Text alignment for list items"
     }
   ],
   "presets": [
@@ -334,6 +395,10 @@
   assign subheading_margin_bottom = section.settings.subheading_margin_bottom | default: 20
   assign section_height_desktop = section.settings.section_height_desktop | default: 400
   assign section_height_mobile = section.settings.section_height_mobile | default: 300
+  assign list_line_height = section.settings.list_line_height | default: 3.0
+  assign list_font_size = section.settings.list_font_size | default: 18
+  assign list_font_weight = section.settings.list_font_weight | default: 400
+  assign list_text_align = section.settings.list_text_align | default: 'justify'
   
   case heading_font_family
     when 'playfair'
@@ -548,6 +613,10 @@
   .custom-text-body ol {
     margin-bottom: 1rem;
     padding-left: 2rem;
+    line-height: {{ list_line_height }}rem;
+    font-size: {{ list_font_size }}px;
+    font-weight: {{ list_font_weight }};
+    text-align: {{ list_text_align }};
   }
   
   .custom-text-body li {
