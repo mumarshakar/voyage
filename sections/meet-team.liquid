@@ -138,7 +138,6 @@
     display: grid !important;
     gap: 24px !important;
     width: 100% !important;
-    grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
 }
 
 .team-item-wrapper {
@@ -151,27 +150,25 @@
     max-width: 100%;
 }
 
-/* Desktop: Bootstrap lg breakpoint (992px) and above */
-@media (min-width: 992px) {
-    #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
-    }
-    
-    /* Desktop: Show all wrappers first */
-    #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
-        display: block !important;
-    }
-    
-    /* Desktop: Hide wrapper content for items beyond limit */
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
-        display: none !important;
-    }
+/* Desktop: 4 cards per row - default for all screens */
+#shopify-section-{{ section.id }} .team-grid {
+    grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
 }
 
+/* Desktop: Show all wrappers first */
+#shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
+    display: block !important;
+}
+
+/* Desktop: Hide wrapper content for items beyond limit */
+#shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
+    display: none !important;
+}
+
+/* Tablet: 3 cards per row - override for 601px to 991px */
 @media (min-width: 601px) and (max-width: 991px) {
-    /* Tablet: Set grid columns */
     #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ tablet_columns_int }}, minmax(0, 1fr)) !important;
+        grid-template-columns: repeat({{ tablet_columns_int }}, 1fr) !important;
     }
     
     /* Tablet: Show all wrappers first */
@@ -185,10 +182,10 @@
     }
 }
 
+/* Mobile: 2 cards per row - override for max-width 600px */
 @media (max-width: 600px) {
-    /* Mobile: Set grid columns to 2 */
     #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ mobile_columns_int }}, minmax(0, 1fr)) !important;
+        grid-template-columns: repeat({{ mobile_columns_int }}, 1fr) !important;
     }
     
     /* Mobile: Show all wrappers first */
@@ -215,7 +212,7 @@
             --team-info-line-height: {{ info_line_height }};">
     <h2 class="text-center mb-5">{{ heading_text }}</h2>
       
-    <div class="team-grid" style="display: grid !important; grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important; gap: 24px !important;">
+    <div class="team-grid">
 
         {% for block in section.blocks %}
         <div class="team-grid-item" {{ block.shopify_attributes }}>
