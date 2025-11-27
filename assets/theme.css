@@ -146,6 +146,11 @@ body {
   transform: translate(-50%, -50%);
   object-fit: cover;
   z-index: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform;
 }
 
 .hero-video:not(.hero-video-ready) {

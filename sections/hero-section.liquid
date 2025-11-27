@@ -464,7 +464,9 @@
                    {% if video_autoplay %}autoplay{% endif %} 
                    {% if video_muted %}muted{% endif %} 
                    loop 
-                   preload="metadata">
+                   preload="auto"
+                   {% if mobile_video.width %}width="{{ mobile_video.width }}"{% endif %}
+                   {% if mobile_video.height %}height="{{ mobile_video.height }}"{% endif %}>
               {% comment %} theme-check-disable RemoteAsset {% endcomment %}
               {% for source in mobile_video.sources %}
                 <source src="{{ source.url }}" type="{{ source.mime_type }}">
@@ -477,7 +479,9 @@
                  {% if video_autoplay %}autoplay{% endif %} 
                  {% if video_muted %}muted{% endif %} 
                  loop 
-                 preload="metadata">
+                 preload="auto"
+                 {% if desktop_video.width %}width="{{ desktop_video.width }}"{% endif %}
+                 {% if desktop_video.height %}height="{{ desktop_video.height }}"{% endif %}>
             {% comment %} theme-check-disable RemoteAsset {% endcomment %}
             {% for source in desktop_video.sources %}
               <source src="{{ source.url }}" type="{{ source.mime_type }}">
@@ -493,7 +497,7 @@
                    {% if video_autoplay %}autoplay{% endif %} 
                    {% if video_muted %}muted{% endif %} 
                    loop 
-                   preload="metadata">
+                   preload="auto">
               {% comment %} theme-check-disable RemoteAsset {% endcomment %}
               <source src="{{ mobile_video_url }}" type="video/mp4">
               {% comment %} theme-check-enable RemoteAsset {% endcomment %}
@@ -504,7 +508,7 @@
                  {% if video_autoplay %}autoplay{% endif %} 
                  {% if video_muted %}muted{% endif %} 
                  loop 
-                 preload="metadata">
+                 preload="auto">
             {% comment %} theme-check-disable RemoteAsset {% endcomment %}
             <source src="{{ desktop_video_url }}" type="video/mp4">
             {% comment %} theme-check-enable RemoteAsset {% endcomment %}
