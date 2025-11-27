@@ -160,7 +160,7 @@
       "name": "Custom Text",
       "settings": {
         "heading": "Motion. Connection. Intention.",
-        "subheading": "While no two events are exactly the same, here’s what you can usually expect — give or take a few surprises. Everything is designed to be inclusive and welcoming across all ages.",
+        "subheading": "",
         "content_type": "richtext",
         "text_content": "<p><strong>Motion</strong><br/>Movement is where everything starts.<br/>From mobility and Pilates-inspired flow to breathwork and recovery, our sessions are designed to open the body and clear the mind — without pressure, ego or comparison.<br/><br/><strong>Connection</strong><br/>Wellness lands deeper when it’s shared.<br/>Voyage is built around community: talking, laughing, reflecting and simply being around people who are choosing the same thing you are — to live with more intention.<br/><br/><strong>Intention</strong><br/>Nothing is accidental.<br/>The timing, the flow, the environment on board — every detail is curated so you can step away from the noise, slow down, and come back to yourself.</p>",
         "html_content": "<p>Add your HTML content here. You can use any HTML tags and inline styles.</p>",
