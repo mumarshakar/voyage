@@ -3,18 +3,59 @@
   assign card_height = section.settings.card_height | default: 360
   assign card_border_radius = section.settings.card_border_radius | default: 2
   assign image_border_radius = section.settings.image_border_radius | default: 2
-  assign desktop_columns = section.settings.desktop_cards_per_row | default: '3'
-  assign tablet_columns = section.settings.tablet_cards_per_row | default: '2'
+  assign desktop_columns = section.settings.desktop_cards_per_row | default: '4'
+  assign tablet_columns = section.settings.tablet_cards_per_row | default: '3'
   assign mobile_columns = section.settings.mobile_cards_per_row | default: '1'
   assign desktop_columns_int = desktop_columns | plus: 0
   assign tablet_columns_int = tablet_columns | plus: 0
   assign mobile_columns_int = mobile_columns | plus: 0
-  assign desktop_visible = section.settings.desktop_cards_visible | default: '999'
-  assign tablet_visible = section.settings.tablet_cards_visible | default: '999'
-  assign mobile_visible = section.settings.mobile_cards_visible | default: '999'
-  assign desktop_visible_int = desktop_visible | plus: 0
-  assign tablet_visible_int = tablet_visible | plus: 0
-  assign mobile_visible_int = mobile_visible | plus: 0
+  assign desktop_visible = section.settings.desktop_cards_visible | default: '4'
+  assign tablet_visible = section.settings.tablet_cards_visible | default: '3'
+  assign mobile_visible = section.settings.mobile_cards_visible | default: '2'
+  
+  # Ensure values are valid integers, with safe defaults
+  if desktop_visible == blank or desktop_visible == 0
+    assign desktop_visible_int = 4
+  else
+    assign desktop_visible_int = desktop_visible | plus: 0
+    if desktop_visible_int < 1
+      assign desktop_visible_int = 4
+    endif
+  endif
+  
+  if tablet_visible == blank or tablet_visible == 0
+    assign tablet_visible_int = 3
+  else
+    assign tablet_visible_int = tablet_visible | plus: 0
+    if tablet_visible_int < 1
+      assign tablet_visible_int = 3
+    endif
+  endif
+  
+  if mobile_visible == blank or mobile_visible == 0
+    assign mobile_visible_int = 2
+  else
+    assign mobile_visible_int = mobile_visible | plus: 0
+    if mobile_visible_int < 1
+      assign mobile_visible_int = 2
+    endif
+  endif
+  
+  # Ensure column values are valid
+  if desktop_columns_int < 1
+    assign desktop_columns_int = 4
+  endif
+  if tablet_columns_int < 1
+    assign tablet_columns_int = 3
+  endif
+  if mobile_columns_int < 1
+    assign mobile_columns_int = 1
+  endif
+  
+  # Calculate hide-start index (items beyond this will be hidden)
+  assign desktop_hide_start = desktop_visible_int | plus: 1
+  assign tablet_hide_start = tablet_visible_int | plus: 1
+  assign mobile_hide_start = mobile_visible_int | plus: 1
   assign name_font_size = section.settings.name_font_size | default: 20
   assign name_line_height = section.settings.name_line_height | default: 1.2
   assign role_font_size = section.settings.role_font_size | default: 16
@@ -86,46 +127,33 @@
 .team-grid {
     display: grid;
     gap: 24px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 #shopify-section-{{ section.id }} .team-grid {
-    grid-template-columns: repeat({{ desktop_columns_int | default: 3 }}, minmax(0, 1fr));
+    grid-template-columns: repeat({{ desktop_columns_int }}, minmax(0, 1fr));
 }
 
-#shopify-section-{{ section.id }} .team-grid-item {
+#shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) {
     display: none;
-}
-
-#shopify-section-{{ section.id }} .team-grid-item:nth-child(-n + {{ desktop_visible_int | default: 999 }}) {
-    display: block;
 }
 
 @media (max-width: 1024px) {
     #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ tablet_columns_int | default: 2 }}, minmax(0, 1fr));
+        grid-template-columns: repeat({{ tablet_columns_int }}, minmax(0, 1fr));
     }
     
-    #shopify-section-{{ section.id }} .team-grid-item {
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ tablet_hide_start }}) {
         display: none;
-    }
-    
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(-n + {{ tablet_visible_int | default: 999 }}) {
-        display: block;
     }
 }
 
 @media (max-width: 600px) {
     #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ mobile_columns_int | default: 1 }}, minmax(0, 1fr));
+        grid-template-columns: repeat({{ mobile_columns_int }}, minmax(0, 1fr));
     }
     
-    #shopify-section-{{ section.id }} .team-grid-item {
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ mobile_hide_start }}) {
         display: none;
-    }
-    
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(-n + {{ mobile_visible_int | default: 999 }}) {
-        display: block;
     }
 }
 {% endstylesheet %}
@@ -146,7 +174,7 @@
     <div class="team-grid">
 
         {% for block in section.blocks %}
-        <div class="team-grid-item" data-index="{{ forloop.index }}" {{ block.shopify_attributes }}>
+        <div class="team-grid-item" {{ block.shopify_attributes }}>
             <div class="flip-card">
                 <div class="flip-card-inner">
 
@@ -215,7 +243,7 @@
         { "value": "3", "label": "3" },
         { "value": "4", "label": "4" }
       ],
-      "default": "3"
+      "default": "4"
     },
     {
       "type": "select",
@@ -226,7 +254,7 @@
         { "value": "2", "label": "2" },
         { "value": "3", "label": "3" }
       ],
-      "default": "2"
+      "default": "3"
     },
     {
       "type": "select",
@@ -245,7 +273,7 @@
       "min": 1,
       "max": 12,
       "step": 1,
-      "default": 12,
+      "default": 4,
       "info": "Maximum number of team members shown on screens wider than 1024px."
     },
     {
@@ -255,7 +283,7 @@
       "min": 1,
       "max": 12,
       "step": 1,
-      "default": 12,
+      "default": 3,
       "info": "Maximum number of team members shown between 601px and 1024px."
     },
     {
@@ -265,7 +293,7 @@
       "min": 1,
       "max": 12,
       "step": 1,
-      "default": 12,
+      "default": 2,
       "info": "Maximum number of team members shown at 600px and below."
     },
     {
