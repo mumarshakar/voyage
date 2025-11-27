@@ -4,6 +4,8 @@
   assign show_quantity_selector = section.settings.show_quantity_selector | default: true
   assign enable_dynamic_checkout = section.settings.enable_dynamic_checkout | default: false
   assign show_thumbnails = section.settings.show_thumbnails | default: true
+  assign section_height_desktop = section.settings.section_height_desktop | default: 600
+  assign section_height_mobile = section.settings.section_height_mobile | default: 400
 -%}
 
 <div class="product-main-section" style="padding: 60px 0;">
@@ -238,6 +240,16 @@
   @media (max-width: 991px) {
     .product-main-section {
       padding: 40px 0 !important;
+      min-height: {{ section_height_mobile }}px !important;
+      height: {{ section_height_mobile }}px !important;
+    }
+  }
+  
+  /* Desktop: Section Height */
+  @media (min-width: 992px) {
+    .product-main-section {
+      min-height: {{ section_height_desktop }}px !important;
+      height: {{ section_height_desktop }}px !important;
     }
   }
 </style>
@@ -288,6 +300,32 @@
       "label": "Enable Dynamic Checkout Buttons",
       "default": false,
       "info": "Show payment provider buttons (PayPal, Apple Pay, etc.)"
+    },
+    {
+      "type": "header",
+      "content": "Section Height"
+    },
+    {
+      "type": "range",
+      "id": "section_height_desktop",
+      "label": "Section Height - Desktop (px)",
+      "min": 200,
+      "max": 1500,
+      "step": 50,
+      "default": 600,
+      "unit": "px",
+      "info": "Height of section on desktop screens (992px and above)"
+    },
+    {
+      "type": "range",
+      "id": "section_height_mobile",
+      "label": "Section Height - Mobile (px)",
+      "min": 200,
+      "max": 1000,
+      "step": 50,
+      "default": 400,
+      "unit": "px",
+      "info": "Height of section on mobile screens (below 992px)"
     }
   ],
   "presets": [
