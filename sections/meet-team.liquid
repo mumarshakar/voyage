@@ -129,47 +129,52 @@
     gap: 24px;
 }
 
+.team-item-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
 /* Desktop: Set grid columns */
 #shopify-section-{{ section.id }} .team-grid {
     grid-template-columns: repeat({{ desktop_columns_int }}, minmax(0, 1fr));
 }
 
-/* Hide items beyond desktop limit */
-#shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) {
-    display: none !important;
+/* Desktop: Hide wrapper content for items beyond limit */
+#shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
+    display: none;
 }
 
 @media (max-width: 1024px) {
-    /* Tablet: Set grid columns and reset visibility */
+    /* Tablet: Set grid columns */
     #shopify-section-{{ section.id }} .team-grid {
         grid-template-columns: repeat({{ tablet_columns_int }}, minmax(0, 1fr));
     }
     
-    /* Reset all items - remove display property so grid handles it */
-    #shopify-section-{{ section.id }} .team-grid-item {
-        display: unset !important;
+    /* Tablet: Show all wrappers first */
+    #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
+        display: block;
     }
     
-    /* Then hide items beyond tablet limit */
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ tablet_hide_start }}) {
-        display: none !important;
+    /* Tablet: Then hide wrappers for items beyond limit */
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ tablet_hide_start }}) .team-item-wrapper {
+        display: none;
     }
 }
 
 @media (max-width: 600px) {
-    /* Mobile: Set grid columns and reset visibility */
+    /* Mobile: Set grid columns */
     #shopify-section-{{ section.id }} .team-grid {
         grid-template-columns: repeat({{ mobile_columns_int }}, minmax(0, 1fr));
     }
     
-    /* Reset all items - remove display property so grid handles it */
-    #shopify-section-{{ section.id }} .team-grid-item {
-        display: unset !important;
+    /* Mobile: Show all wrappers first */
+    #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
+        display: block;
     }
     
-    /* Then hide items beyond mobile limit */
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ mobile_hide_start }}) {
-        display: none !important;
+    /* Mobile: Then hide wrappers for items beyond limit */
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ mobile_hide_start }}) .team-item-wrapper {
+        display: none;
     }
 }
 {% endstylesheet %}
@@ -191,6 +196,7 @@
 
         {% for block in section.blocks %}
         <div class="team-grid-item" {{ block.shopify_attributes }}>
+            <div class="team-item-wrapper">
             <div class="flip-card">
                 <div class="flip-card-inner">
 
@@ -223,6 +229,7 @@
                     </div>
 
                 </div>
+            </div>
             </div>
         </div>
         {% endfor %}
