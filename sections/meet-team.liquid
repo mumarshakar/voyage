@@ -5,7 +5,7 @@
   assign image_border_radius = section.settings.image_border_radius | default: 2
   assign desktop_columns = section.settings.desktop_cards_per_row | default: '4'
   assign tablet_columns = section.settings.tablet_cards_per_row | default: '3'
-  assign mobile_columns = section.settings.mobile_cards_per_row | default: '1'
+  assign mobile_columns = section.settings.mobile_cards_per_row | default: '2'
   assign desktop_columns_int = desktop_columns | plus: 0
   assign tablet_columns_int = tablet_columns | plus: 0
   assign mobile_columns_int = mobile_columns | plus: 0
@@ -49,7 +49,7 @@
     assign tablet_columns_int = 3
   endif
   if mobile_columns_int < 1
-    assign mobile_columns_int = 1
+    assign mobile_columns_int = 2
   endif
   
   # Calculate hide-start index (items beyond this will be hidden)
@@ -186,19 +186,19 @@
 }
 
 @media (max-width: 600px) {
-    /* Mobile: Set grid columns */
+    /* Mobile: Set grid columns to 2 */
     #shopify-section-{{ section.id }} .team-grid {
         grid-template-columns: repeat({{ mobile_columns_int }}, minmax(0, 1fr)) !important;
     }
     
     /* Mobile: Show all wrappers first */
     #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
-        display: block;
+        display: block !important;
     }
     
     /* Mobile: Then hide wrappers for items beyond limit */
     #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ mobile_hide_start }}) .team-item-wrapper {
-        display: none;
+        display: none !important;
     }
 }
 {% endstylesheet %}
@@ -310,7 +310,7 @@
         { "value": "1", "label": "1" },
         { "value": "2", "label": "2" }
       ],
-      "default": "1"
+      "default": "2"
     },
     {
       "type": "range",
