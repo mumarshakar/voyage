@@ -150,21 +150,21 @@
     max-width: 100%;
 }
 
-/* Desktop: 4 cards per row - default for large screens */
+/* Mobile: 2 cards per row - default/base for all screens */
 #shopify-section-{{ section.id }} .team-grid {
-    grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
+    grid-template-columns: repeat({{ mobile_columns_int }}, 1fr) !important;
 }
 
 #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
     display: block !important;
 }
 
-#shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
+#shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ mobile_hide_start }}) .team-item-wrapper {
     display: none !important;
 }
 
-/* Tablet: 3 cards per row - for screens between 601px and 991px */
-@media (min-width: 601px) and (max-width: 991px) {
+/* Tablet: 3 cards per row - for screens 601px and above */
+@media (min-width: 601px) {
     #shopify-section-{{ section.id }} .team-grid {
         grid-template-columns: repeat({{ tablet_columns_int }}, 1fr) !important;
     }
@@ -178,17 +178,17 @@
     }
 }
 
-/* Mobile: 2 cards per row - for screens up to 600px */
-@media (max-width: 600px) {
+/* Desktop: 4 cards per row - for screens 992px and above */
+@media (min-width: 992px) {
     #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ mobile_columns_int }}, 1fr) !important;
+        grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
     }
     
     #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
         display: block !important;
     }
     
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ mobile_hide_start }}) .team-item-wrapper {
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
         display: none !important;
     }
 }
@@ -206,7 +206,7 @@
             --team-info-line-height: {{ info_line_height }};">
     <h2 class="text-center mb-5">{{ heading_text }}</h2>
       
-    <div class="team-grid">
+    <div class="team-grid" style="display: grid !important; gap: 24px !important;">
 
         {% for block in section.blocks %}
         <div class="team-grid-item" {{ block.shopify_attributes }}>
@@ -250,6 +250,32 @@
 
     </div>
 </div>
+
+<style>
+/* Force desktop: 4 columns on large screens */
+@media (min-width: 992px) {
+    #shopify-section-{{ section.id }} .team-grid {
+        grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
+        display: grid !important;
+    }
+}
+
+/* Force tablet: 3 columns on medium screens */
+@media (min-width: 601px) and (max-width: 991px) {
+    #shopify-section-{{ section.id }} .team-grid {
+        grid-template-columns: repeat({{ tablet_columns_int }}, 1fr) !important;
+        display: grid !important;
+    }
+}
+
+/* Force mobile: 2 columns on small screens */
+@media (max-width: 600px) {
+    #shopify-section-{{ section.id }} .team-grid {
+        grid-template-columns: repeat({{ mobile_columns_int }}, 1fr) !important;
+        display: grid !important;
+    }
+}
+</style>
 
 {% schema %}
 {
