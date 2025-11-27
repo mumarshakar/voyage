@@ -57,7 +57,7 @@
           {% if settings.footer_phone != blank %}
             <p>{{ settings.footer_phone }}</p>
           {% else %}
-            <p>+1 (555) 123-4567</p>
+            <p>{{shop.phone}}</p>
           {% endif %}
           <p class="text-muted">Mon - Fri: 9:00 AM - 6:00 PM</p>
         </div>
@@ -87,14 +87,14 @@
             <div class="contact-card">
               <i class="bi bi-instagram contact-icon"></i>
               <h4>Follow Us</h4>
-              <p class="text-muted">Connect with us on Instagram</p>
+              <p class="text-muted">Connect with us on Instagram<br></p>
             </div>
           </a>
         {% else %}
           <div class="contact-card">
             <i class="bi bi-instagram contact-icon"></i>
             <h4>Follow Us</h4>
-            <p class="text-muted">Connect with us on Instagram</p>
+            <p class="text-muted">Connect with us on Instagram<br></p>
           </div>
         {% endif %}
       </div>
