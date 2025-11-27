@@ -138,14 +138,6 @@
     display: grid !important;
     gap: 24px !important;
     width: 100% !important;
-    grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
-}
-
-.team-grid {
-    display: grid !important;
-    gap: 24px !important;
-    width: 100% !important;
-    grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
 }
 
 .team-item-wrapper {
@@ -158,19 +150,17 @@
     max-width: 100%;
 }
 
-/* Mobile: 2 cards per row - for screens up to 600px */
-@media (max-width: 600px) {
-    #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ mobile_columns_int }}, 1fr) !important;
-    }
-    
-    #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
-        display: block !important;
-    }
-    
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ mobile_hide_start }}) .team-item-wrapper {
-        display: none !important;
-    }
+/* Desktop: 4 cards per row - default for large screens */
+#shopify-section-{{ section.id }} .team-grid {
+    grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
+}
+
+#shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
+    display: block !important;
+}
+
+#shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
+    display: none !important;
 }
 
 /* Tablet: 3 cards per row - for screens between 601px and 991px */
@@ -188,17 +178,17 @@
     }
 }
 
-/* Desktop: 4 cards per row - for screens 992px and above */
-@media (min-width: 992px) {
+/* Mobile: 2 cards per row - for screens up to 600px */
+@media (max-width: 600px) {
     #shopify-section-{{ section.id }} .team-grid {
-        grid-template-columns: repeat({{ desktop_columns_int }}, 1fr) !important;
+        grid-template-columns: repeat({{ mobile_columns_int }}, 1fr) !important;
     }
     
     #shopify-section-{{ section.id }} .team-grid-item .team-item-wrapper {
         display: block !important;
     }
     
-    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ desktop_hide_start }}) .team-item-wrapper {
+    #shopify-section-{{ section.id }} .team-grid-item:nth-child(n + {{ mobile_hide_start }}) .team-item-wrapper {
         display: none !important;
     }
 }
