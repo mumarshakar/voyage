@@ -4,25 +4,125 @@
 {
   "name": "Footer",
   "tag": "footer",
+  "max_blocks": 10,
+  "blocks": [
+    {
+      "type": "social_media",
+      "name": "Social Media",
+      "settings": [
+        {
+          "type": "select",
+          "id": "platform",
+          "label": "Platform",
+          "options": [
+            {
+              "value": "instagram",
+              "label": "Instagram"
+            },
+            {
+              "value": "facebook",
+              "label": "Facebook"
+            },
+            {
+              "value": "youtube",
+              "label": "YouTube"
+            },
+            {
+              "value": "twitter",
+              "label": "Twitter/X"
+            },
+            {
+              "value": "tiktok",
+              "label": "TikTok"
+            },
+            {
+              "value": "linkedin",
+              "label": "LinkedIn"
+            },
+            {
+              "value": "pinterest",
+              "label": "Pinterest"
+            },
+            {
+              "value": "snapchat",
+              "label": "Snapchat"
+            }
+          ],
+          "default": "instagram"
+        },
+        {
+          "type": "url",
+          "id": "social_url",
+          "label": "Profile URL",
+          "info": "Link to your profile on this platform"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom Icon",
+          "info": "Upload custom icon. Leave empty to use default platform icon."
+        }
+      ]
+    }
+  ],
   "settings": [
     {
       "type": "header",
-      "content": "Content"
+      "content": "Social Media Icons"
     },
     {
-      "type": "text",
-      "id": "footer_text",
-      "label": "Footer Text",
-      "default": "Follow us on instagram!"
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon Size - Desktop (px)",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
     },
     {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
+      "type": "range",
+      "id": "icon_size_mobile",
+      "label": "Icon Size - Mobile (px)",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "icon_gap",
+      "label": "Spacing Between Icons (px)",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "icon_alignment",
+      "label": "Icon Alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     },
     {
       "type": "header",
-      "content": "Styling"
+      "content": "Footer Styling"
     },
     {
       "type": "color",
@@ -34,39 +134,8 @@
       "type": "color",
       "id": "footer_text_color",
       "label": "Text Color",
-      "default": "#6B5B4F"
-    },
-    {
-      "type": "select",
-      "id": "footer_font_family",
-      "label": "Font Family",
-      "options": [
-        {
-          "value": "serif",
-          "label": "Serif (Playfair Display)"
-        },
-        {
-          "value": "sans-serif",
-          "label": "Sans-serif (Default)"
-        }
-      ],
-      "default": "serif"
-    },
-    {
-      "type": "range",
-      "id": "footer_font_size",
-      "label": "Font Size (px)",
-      "min": 14,
-      "max": 32,
-      "step": 1,
-      "default": 18,
-      "unit": "px"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_underline",
-      "label": "Show Underline",
-      "default": true
+      "default": "#6B5B4F",
+      "info": "Used for placeholder icons if custom icons not provided"
     },
     {
       "type": "range",
