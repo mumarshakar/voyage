@@ -735,6 +735,17 @@
   assign section_padding_horizontal = section.settings.section_padding_horizontal | default: 20
   assign section_min_height = section.settings.section_min_height | default: 400
   
+  # Get typography settings from theme
+  assign heading_font_size = settings.heading_font_size | default: 36
+  assign heading_font_weight = settings.heading_font_weight | default: '600'
+  assign heading_line_height = settings.heading_line_height | default: 1.2
+  assign subheading_font_size = settings.subheading_font_size | default: 20
+  assign subheading_font_weight = settings.subheading_font_weight | default: '400'
+  assign subheading_line_height = settings.subheading_line_height | default: 1.4
+  assign body_font_size = settings.body_font_size | default: 16
+  assign body_font_weight = settings.body_font_weight | default: '400'
+  assign body_line_height = settings.body_line_height | default: 1.6
+  
 -%}
 
 <section class="two-columns-section" 
@@ -876,13 +887,26 @@
     }
   }
   
-  /* Text, Heading, and Subheading styling */
+  /* Ensure theme typography settings apply with maximum specificity */
   #shopify-section-{{ section.id }} .two-column-heading,
+  #shopify-section-{{ section.id }} h2.two-column-heading {
+    font-size: {{ heading_font_size }}px !important;
+    font-weight: {{ heading_font_weight }} !important;
+    line-height: {{ heading_line_height }} !important;
+  }
+  
   #shopify-section-{{ section.id }} .two-column-subheading,
+  #shopify-section-{{ section.id }} h3.two-column-subheading {
+    font-size: {{ subheading_font_size }}px !important;
+    font-weight: {{ subheading_font_weight }} !important;
+    line-height: {{ subheading_line_height }} !important;
+  }
+  
   #shopify-section-{{ section.id }} .two-column-body,
   #shopify-section-{{ section.id }} .two-column-body p {
-    font-size: 20px !important;
-    line-height: 3rem !important;
+    font-size: {{ body_font_size }}px !important;
+    font-weight: {{ body_font_weight }} !important;
+    line-height: {{ body_line_height }} !important;
   }
 </style>
 

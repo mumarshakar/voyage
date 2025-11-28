@@ -232,24 +232,8 @@
       "info": "Change the color of the hero section subtitle"
     },
     {
-      "type": "range",
-      "id": "title_font_size",
-      "label": "Title Font Size (px)",
-      "min": 24,
-      "max": 72,
-      "step": 2,
-      "default": 40,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "subtitle_font_size",
-      "label": "Subtitle Font Size (px)",
-      "min": 14,
-      "max": 32,
-      "step": 1,
-      "default": 18,
-      "unit": "px"
+      "type": "paragraph",
+      "content": "Typography (font size, line height, font weight, font family) is controlled by Theme Settings > Typography"
     },
     {
       "type": "range",
@@ -454,21 +438,7 @@
       assign subtitle_color = '#FFFFFF'
     endif
     
-    # Use section title_font_size if provided, otherwise use theme heading_font_size
-    assign section_title_font_size = section.settings.title_font_size
-    if section_title_font_size != blank and section_title_font_size > 0
-      assign title_font_size = section_title_font_size
-    else
-      assign title_font_size = heading_font_size
-    endif
-    
-    # Use section subtitle_font_size if provided, otherwise default to 18px
-    assign section_subtitle_font_size = section.settings.subtitle_font_size
-    if section_subtitle_font_size != blank and section_subtitle_font_size > 0
-      assign subtitle_font_size = section_subtitle_font_size
-    else
-      assign subtitle_font_size = 18
-    endif
+    # All typography comes from theme settings - no section-specific font sizes
     
     # Convert heading font family setting to CSS value
     case heading_font_family
@@ -588,11 +558,6 @@
     <div class="hero-glow-content" style="text-align: {{ text_align }};">
       <h1 class="hero-glow-title" 
           style="color: {{ title_color }} !important;
-                 font-size: {{ title_font_size }}px !important;
-                 font-weight: {{ heading_font_weight }};
-                 font-family: {{ heading_font_family_value }};
-                 line-height: {{ heading_line_height }};
-                 letter-spacing: {{ heading_letter_spacing }}px;
                  margin-top: {{ title_position_top }}%;
                  margin-bottom: {% if section.settings.subtitle != blank %}20px{% else %}0{% endif %};">
         {{ section.settings.title }}
@@ -600,10 +565,6 @@
       {% if section.settings.subtitle != blank %}
         <p class="hero-glow-subtitle" 
            style="color: {{ subtitle_color }} !important;
-                  font-size: {{ subtitle_font_size }}px !important;
-                  font-weight: 400;
-                  font-family: {{ heading_font_family_value }};
-                  line-height: 1.6;
                   margin-bottom: 30px;
                   max-width: 800px;
                   margin-left: auto;

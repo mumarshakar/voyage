@@ -56,12 +56,7 @@
   assign desktop_hide_start = desktop_visible_int | plus: 1
   assign tablet_hide_start = tablet_visible_int | plus: 1
   assign mobile_hide_start = mobile_visible_int | plus: 1
-  assign name_font_size = section.settings.name_font_size | default: 20
-  assign name_line_height = section.settings.name_line_height | default: 1.2
-  assign role_font_size = section.settings.role_font_size | default: 16
-  assign role_line_height = section.settings.role_line_height | default: 1.4
-  assign info_font_size = section.settings.info_font_size | default: 15
-  assign info_line_height = section.settings.info_line_height | default: 1.5
+  # Typography comes from theme settings via theme.liquid - no section-specific values
 -%}
 
 {% stylesheet %}
@@ -103,20 +98,7 @@
     border-radius: var(--team-image-radius, 2px);
 }
 
-.flip-card-front h5 {
-    font-size: var(--team-name-font-size, 20px);
-    line-height: var(--team-name-line-height, 1.2);
-}
-
-.flip-card-front p {
-    font-size: var(--team-role-font-size, 16px);
-    line-height: var(--team-role-line-height, 1.4);
-}
-
-.flip-card-back p {
-    font-size: var(--team-info-font-size, 15px);
-    line-height: var(--team-info-line-height, 1.5);
-}
+/* Typography for h5 and p tags comes from theme settings via theme.liquid */
 
 .flip-card-back {
     transform: rotateY(180deg);
@@ -197,13 +179,7 @@
 <div class="container py-5"
      style="--team-card-height: {{ card_height }}px;
             --team-card-radius: {{ card_border_radius }}px;
-            --team-image-radius: {{ image_border_radius }}px;
-            --team-name-font-size: {{ name_font_size }}px;
-            --team-name-line-height: {{ name_line_height }};
-            --team-role-font-size: {{ role_font_size }}px;
-            --team-role-line-height: {{ role_line_height }};
-            --team-info-font-size: {{ info_font_size }}px;
-            --team-info-line-height: {{ info_line_height }};">
+            --team-image-radius: {{ image_border_radius }}px;">
     <h2 class="text-center mb-5">{{ heading_text }}</h2>
       
     <div class="team-grid" style="display: grid !important; gap: 24px !important;">
@@ -222,22 +198,17 @@
                             <img src="https://via.placeholder.com/400x250" alt="placeholder">
                         {% endif %}
 
-                        <h5 class="mt-3 mb-0"
-                            style="font-size: {{ name_font_size }}px !important;
-                                   line-height: {{ name_line_height }} !important;">
+                        <h5 class="mt-3 mb-0">
                             {{ block.settings.name }}
                         </h5>
-                        <p class="text-muted"
-                           style="font-size: {{ role_font_size }}px !important;
-                                  line-height: {{ role_line_height }} !important;">
+                        <p class="text-muted">
                             {{ block.settings.role }}
                         </p>
                     </div>
 
                     <!-- Back -->
                     <div class="flip-card-back d-flex align-items-center">
-                        <p style="font-size: {{ info_font_size }}px !important;
-                                 line-height: {{ info_line_height }} !important;">
+                        <p>
                             {{ block.settings.description }}
                         </p>
                     </div>
@@ -376,60 +347,6 @@
       "max": 40,
       "step": 2,
       "default": 2
-    },
-    {
-      "type": "range",
-      "id": "name_font_size",
-      "label": "Name Font Size (px)",
-      "min": 12,
-      "max": 36,
-      "step": 1,
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "name_line_height",
-      "label": "Name Line Height",
-      "min": 1.0,
-      "max": 2.0,
-      "step": 0.1,
-      "default": 1.2
-    },
-    {
-      "type": "range",
-      "id": "role_font_size",
-      "label": "Designation Font Size (px)",
-      "min": 10,
-      "max": 28,
-      "step": 1,
-      "default": 16
-    },
-    {
-      "type": "range",
-      "id": "role_line_height",
-      "label": "Designation Line Height",
-      "min": 1.0,
-      "max": 2.0,
-      "step": 0.1,
-      "default": 1.4
-    },
-    {
-      "type": "range",
-      "id": "info_font_size",
-      "label": "Info Font Size (px)",
-      "min": 10,
-      "max": 24,
-      "step": 1,
-      "default": 15
-    },
-    {
-      "type": "range",
-      "id": "info_line_height",
-      "label": "Info Line Height",
-      "min": 1.0,
-      "max": 2.0,
-      "step": 0.1,
-      "default": 1.5
     }
   ],
   "blocks": [

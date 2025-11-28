@@ -354,28 +354,7 @@
   assign content_type = section.settings.content_type | default: 'richtext'
   assign text_content = section.settings.text_content | default: ''
   assign html_content = section.settings.html_content | default: ''
-  # Use theme settings ONLY for all typography (no section-level overrides)
-  assign heading_color = settings.heading_color | default: '#333333'
-  assign heading_font_size = settings.heading_font_size | default: 36
-  assign heading_font_weight = settings.heading_font_weight | default: '600'
-  assign heading_font_family = settings.heading_font_family | default: 'segoe'
-  assign heading_line_height = settings.heading_line_height | default: 1.2
-  assign heading_letter_spacing = settings.heading_letter_spacing | default: 0
-  
-  assign subheading_color = settings.subheading_color | default: '#666666'
-  assign subheading_font_size = settings.subheading_font_size | default: 20
-  assign subheading_font_weight = settings.subheading_font_weight | default: '400'
-  assign subheading_font_family = settings.subheading_font_family | default: 'segoe'
-  assign subheading_line_height = settings.subheading_line_height | default: 1.4
-  assign subheading_letter_spacing = settings.subheading_letter_spacing | default: 0
-  
-  assign text_color = settings.body_text_color | default: '#333333'
-  assign text_font_size = settings.body_font_size | default: 16
-  assign text_font_weight = settings.body_font_weight | default: '400'
-  assign text_font_family = settings.body_font_family | default: 'segoe'
-  assign text_line_height = settings.body_line_height | default: 1.6
-  assign text_letter_spacing = settings.body_letter_spacing | default: 0
-  assign text_word_spacing = settings.body_word_spacing | default: 0
+  # All typography comes from theme settings via theme.liquid - no hardcoded values
   assign link_color = section.settings.link_color | default: '#333333'
   assign link_hover_color = section.settings.link_hover_color | default: '#666666'
   assign link_text_decoration = section.settings.link_text_decoration | default: 'underline'
@@ -399,69 +378,6 @@
   assign list_font_size = section.settings.list_font_size | default: 18
   assign list_font_weight = section.settings.list_font_weight | default: 400
   assign list_text_align = section.settings.list_text_align | default: 'justify'
-  
-  case heading_font_family
-    when 'playfair'
-      assign heading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
-    when 'merriweather'
-      assign heading_font_family_value = "'Merriweather', Georgia, serif"
-    when 'georgia'
-      assign heading_font_family_value = "Georgia, 'Times New Roman', serif"
-    when 'times'
-      assign heading_font_family_value = "'Times New Roman', Times, serif"
-    when 'arial'
-      assign heading_font_family_value = "Arial, Helvetica, sans-serif"
-    when 'helvetica'
-      assign heading_font_family_value = "Helvetica, Arial, sans-serif"
-    when 'verdana'
-      assign heading_font_family_value = "Verdana, Geneva, sans-serif"
-    when 'courier'
-      assign heading_font_family_value = "'Courier New', Courier, monospace"
-    else
-      assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-  endcase
-  
-  case subheading_font_family
-    when 'playfair'
-      assign subheading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
-    when 'merriweather'
-      assign subheading_font_family_value = "'Merriweather', Georgia, serif"
-    when 'georgia'
-      assign subheading_font_family_value = "Georgia, 'Times New Roman', serif"
-    when 'times'
-      assign subheading_font_family_value = "'Times New Roman', Times, serif"
-    when 'arial'
-      assign subheading_font_family_value = "Arial, Helvetica, sans-serif"
-    when 'helvetica'
-      assign subheading_font_family_value = "Helvetica, Arial, sans-serif"
-    when 'verdana'
-      assign subheading_font_family_value = "Verdana, Geneva, sans-serif"
-    when 'courier'
-      assign subheading_font_family_value = "'Courier New', Courier, monospace"
-    else
-      assign subheading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-  endcase
-  
-  case text_font_family
-    when 'playfair'
-      assign text_font_family_value = "'Playfair Display', 'Times New Roman', serif"
-    when 'merriweather'
-      assign text_font_family_value = "'Merriweather', Georgia, serif"
-    when 'georgia'
-      assign text_font_family_value = "Georgia, 'Times New Roman', serif"
-    when 'times'
-      assign text_font_family_value = "'Times New Roman', Times, serif"
-    when 'arial'
-      assign text_font_family_value = "Arial, Helvetica, sans-serif"
-    when 'helvetica'
-      assign text_font_family_value = "Helvetica, Arial, sans-serif"
-    when 'verdana'
-      assign text_font_family_value = "Verdana, Geneva, sans-serif"
-    when 'courier'
-      assign text_font_family_value = "'Courier New', Courier, monospace"
-    else
-      assign text_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-  endcase
   
   if background_overlay_opacity > 0
     assign overlay_opacity_decimal = background_overlay_opacity | divided_by: 100.0
@@ -494,54 +410,24 @@
     <div class="custom-text-content" style="max-width: {{ content_max_width }}px; margin: 0 auto; text-align: {{ text_alignment }};">
       {% if heading != blank %}
         <h2 class="custom-text-heading" 
-            style="color: {{ heading_color }};
-                   font-size: {{ heading_font_size }}px;
-                   font-weight: {{ heading_font_weight }};
-                   font-family: {{ heading_font_family_value }};
-                   line-height: {{ heading_line_height }};
-                   letter-spacing: {{ heading_letter_spacing }}px;
-                   margin-bottom: {{ heading_margin_bottom }}px;
-                   margin-top: 0;">
+            style="margin-bottom: {{ heading_margin_bottom }}px; margin-top: 0;">
           {{ heading }}
         </h2>
       {% endif %}
       
       {% if subheading != blank %}
         <h3 class="custom-text-subheading" 
-            style="color: {{ subheading_color }};
-                   font-size: {{ subheading_font_size }}px;
-                   font-weight: {{ subheading_font_weight }};
-                   font-family: {{ subheading_font_family_value }};
-                   line-height: {{ subheading_line_height }};
-                   letter-spacing: {{ subheading_letter_spacing }}px;
-                   margin-bottom: {{ subheading_margin_bottom }}px;
-                   margin-top: 0;">
+            style="margin-bottom: {{ subheading_margin_bottom }}px; margin-top: 0;">
           {{ subheading }}
         </h3>
       {% endif %}
       
       {% if content_type == 'html' and html_content != blank %}
-        <div class="custom-text-body custom-text-html" 
-             style="color: {{ text_color }};
-                    font-size: {{ text_font_size }}px;
-                    font-weight: {{ text_font_weight }};
-                    font-family: {{ text_font_family_value }};
-                    line-height: {{ text_line_height }};
-                    letter-spacing: {{ text_letter_spacing }}px;
-                    word-spacing: {{ text_word_spacing }}px;
-                    margin: 0;">
+        <div class="custom-text-body custom-text-html" style="margin: 0;">
           {{ html_content }}
         </div>
       {% elsif content_type == 'richtext' and text_content != blank %}
-        <div class="custom-text-body custom-text-richtext" 
-             style="color: {{ text_color }};
-                    font-size: {{ text_font_size }}px;
-                    font-weight: {{ text_font_weight }};
-                    font-family: {{ text_font_family_value }};
-                    line-height: {{ text_line_height }};
-                    letter-spacing: {{ text_letter_spacing }}px;
-                    word-spacing: {{ text_word_spacing }}px;
-                    margin: 0;">
+        <div class="custom-text-body custom-text-richtext" style="margin: 0;">
           {{ text_content }}
         </div>
       {% endif %}
@@ -613,10 +499,7 @@
   .custom-text-body ol {
     margin-bottom: 1rem;
     padding-left: 2rem;
-    line-height: {{ list_line_height }}rem;
-    font-size: {{ list_font_size }}px;
-    font-weight: {{ list_font_weight }};
-    text-align: {{ list_text_align }};
+    /* Typography styles (font-size, line-height, font-weight, text-align) come from theme settings via theme.liquid */
   }
   
   .custom-text-body li {

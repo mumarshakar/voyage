@@ -193,10 +193,19 @@
     html body h5, 
     html body h6,
     html body .custom-text-heading,
+    /* Headings - Apply to all heading elements and classes with maximum specificity */
+    html body h2.two-column-heading,
+    html body h2.two-column-heading,
+    html body .two-columns-section h2.two-column-heading,
+    html body .two-column-text h2.two-column-heading,
+    html body .two-column-text-content h2.two-column-heading,
+    html body [class*="shopify-section"] h2.two-column-heading,
     html body .two-column-heading,
     html body .hero-title,
+    html body .hero-glow-title,
     html body .page-title,
     html body .section-title,
+    html body .custom-text-heading,
     html body main h1,
     html body main h2,
     html body main h3,
@@ -217,26 +226,25 @@
       letter-spacing: {{ heading_letter_spacing }}px !important;
     }
     
-    /* Hero glow title is excluded from global typography - it uses section-specific settings */
-    /* Color and font-size are controlled by hero section settings via inline styles */
-    html body .hero-glow-title {
-      /* Only apply typography defaults that aren't overridden by section settings */
-      font-weight: {{ heading_font_weight }} !important;
-      font-family: {{ heading_font_family_css }} !important;
-      line-height: {{ heading_line_height }} !important;
-      letter-spacing: {{ heading_letter_spacing }}px !important;
-    }
-    
+    /* Subheadings - Apply to all subheading elements and classes with maximum specificity */
+    html body h3.two-column-subheading,
+    html body .two-columns-section h3.two-column-subheading,
+    html body .two-column-text h3.two-column-subheading,
+    html body .two-column-text-content h3.two-column-subheading,
+    html body [class*="shopify-section"] h3.two-column-subheading,
     html body .custom-text-subheading,
     html body .two-column-subheading,
     html body .hero-subtitle,
+    html body .hero-glow-subtitle,
     html body .page-subtitle,
     html body main .custom-text-subheading,
     html body main .two-column-subheading,
     html body main .hero-subtitle,
+    html body main .hero-glow-subtitle,
     html body .container .custom-text-subheading,
     html body .container .two-column-subheading,
-    html body .container .hero-subtitle {
+    html body .container .hero-subtitle,
+    html body .container .hero-glow-subtitle {
       color: {{ subheading_color }} !important;
       font-size: {{ subheading_font_size }}px !important;
       font-weight: {{ subheading_font_weight }} !important;
@@ -245,14 +253,30 @@
       letter-spacing: {{ subheading_letter_spacing }}px !important;
     }
     
+    /* Body Text - Apply to all body text elements with maximum specificity */
+    html body .two-column-body,
+    html body .two-columns-section .two-column-body,
+    html body .two-column-text .two-column-body,
+    html body .two-column-text-content .two-column-body,
+    html body [class*="shopify-section"] .two-column-body,
+    html body .two-column-body p,
+    html body .two-column-body *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6),
     html body,
     html body .custom-text-body,
-    html body .two-column-body,
     html body p,
     html body main p,
     html body .container p,
     html body main .custom-text-body,
-    html body main .two-column-body {
+    html body main .two-column-body,
+    html body ul,
+    html body ol,
+    html body li,
+    html body .custom-text-body ul,
+    html body .custom-text-body ol,
+    html body .custom-text-body li,
+    html body .two-column-body ul,
+    html body .two-column-body ol,
+    html body .two-column-body li {
       color: {{ body_text_color }} !important;
       font-size: {{ body_font_size }}px !important;
       font-weight: {{ body_font_weight }} !important;
