@@ -150,7 +150,7 @@
         "heading_margin_bottom": 20,
         "subheading_margin_bottom": 20,
         "section_height_desktop": 600,
-        "section_height_mobile": 600,
+        "section_height_mobile": 1200,
         "list_line_height": 3,
         "list_font_size": 18,
         "list_font_weight": 400,
