@@ -67,7 +67,7 @@
         "slider_height_desktop": 90,
         "slider_height_mobile": 100,
         "content_alignment": "center",
-        "content_max_width": 800,
+        "content_max_width": 900,
         "overlay_color": "#000000",
         "overlay_opacity": 40,
         "button_bg_color": "#ff6b35",
