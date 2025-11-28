@@ -65,7 +65,7 @@
         "show_dots": true,
         "transition_effect": "fade",
         "slider_height_desktop": 90,
-        "slider_height_mobile": 70,
+        "slider_height_mobile": 100,
         "content_alignment": "center",
         "content_max_width": 800,
         "overlay_color": "#000000",
