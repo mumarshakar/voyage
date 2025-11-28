@@ -15,15 +15,34 @@
       "default": "Your perfect journey starts here. Book your next adventure with ease."
     },
     {
+      "type": "header",
+      "content": "Button 1 Settings"
+    },
+    {
       "type": "text",
       "id": "button_text",
-      "label": "Button Text",
+      "label": "Button 1 Text",
       "default": "BOOK YOUR GLOW"
     },
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button Link"
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "header",
+      "content": "Button 2 Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Button 2 Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 Link"
     },
     {
       "type": "header",
@@ -267,18 +286,18 @@
     },
     {
       "type": "header",
-      "content": "Button Settings"
+      "content": "Button Position"
     },
     {
       "type": "range",
       "id": "button_position_bottom",
-      "label": "Button Position from Bottom (%)",
+      "label": "Buttons Position from Bottom (%)",
       "min": 5,
       "max": 30,
       "step": 1,
       "default": 15,
       "unit": "%",
-      "info": "Button styling (colors, borders) is controlled by Theme Settings > Buttons"
+      "info": "Position for both buttons. Button styling (colors, borders) is controlled by Theme Settings > Buttons"
     },
     {
       "type": "header",
@@ -370,6 +389,8 @@
     assign title_position_top = section.settings.title_position_top | default: 20
     assign text_align = section.settings.text_alignment | default: 'center'
     assign button_position_bottom = section.settings.button_position_bottom | default: 15
+    assign button_2_text = section.settings.button_2_text | default: ''
+    assign button_2_link = section.settings.button_2_link | default: ''
     assign overlay_color = section.settings.overlay_color | default: '#000000'
     assign overlay_opacity = section.settings.overlay_opacity | default: 0
     if overlay_opacity == blank
@@ -572,12 +593,19 @@
           {{ section.settings.subtitle }}
         </p>
       {% endif %}
-      {% if section.settings.button_link != blank %}
-        <a href="{{ section.settings.button_link }}" 
-           class="btn-glow-cta"
-           style="margin-bottom: {{ button_position_bottom }}%;">
-          {{ section.settings.button_text }}
-        </a>
+      {% if section.settings.button_link != blank or section.settings.button_2_link != blank %}
+        <div class="hero-buttons-wrapper" style="margin-bottom: {{ button_position_bottom }}%;">
+          {% if section.settings.button_link != blank %}
+            <a href="{{ section.settings.button_link }}" class="btn-glow-cta btn-glow-cta-primary">
+              {{ section.settings.button_text }}
+            </a>
+          {% endif %}
+          {% if section.settings.button_2_link != blank %}
+            <a href="{{ section.settings.button_2_link }}" class="btn-glow-cta btn-glow-cta-secondary">
+              {{ section.settings.button_2_text }}
+            </a>
+          {% endif %}
+        </div>
       {% endif %}
     </div>
   </section>
@@ -596,6 +624,33 @@
     background-repeat: no-repeat;
     background-attachment: scroll;
     {% endif %}
+}
+
+/* Hero Buttons Wrapper - Side by side layout */
+.hero-buttons-wrapper {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.hero-buttons-wrapper .btn-glow-cta {
+  margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  .hero-buttons-wrapper {
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .hero-buttons-wrapper .btn-glow-cta {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 </style>
 
