@@ -132,7 +132,7 @@
         "subheading": "",
         "content_type": "html",
         "text_content": "",
-        "html_content": "<div style=\"background-color:#FFF !important; padding:60px;\">\n<h5 style=\"font-size:25px;\">DOCKSIDE WELLNESS</h5>\n<p style=\"line-height:3rem !important;\">Our services are designed to help you move, breathe and connect in a way that feels grounding, energising and genuinely enjoyable. Whether you join us for a calm morning practice or our signature weekend cruise, every experience is built around movement, recovery and intention.Each service has its own rhythm, but they all share the same purpose: to help you feel better in your body and more connected in your life.</p>\n</div>",
+        "html_content": "<div style=\"background-color:#FFF !important; padding:60px;\">\n<h5 style=\"font-size:25px !important;\">DOCKSIDE WELLNESS</h5>\n<p style=\"line-height:3rem !important;\">Our services are designed to help you move, breathe and connect in a way that feels grounding, energising and genuinely enjoyable. Whether you join us for a calm morning practice or our signature weekend cruise, every experience is built around movement, recovery and intention.Each service has its own rhythm, but they all share the same purpose: to help you feel better in your body and more connected in your life.</p>\n</div>",
         "link_color": "#333333",
         "link_hover_color": "#666666",
         "link_text_decoration": "underline",
