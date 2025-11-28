@@ -573,6 +573,7 @@
     },
     "custom_text_DcwPVR": {
       "type": "custom-text",
+      "disabled": true,
       "name": "Services Introduction",
       "settings": {
         "heading": "",
