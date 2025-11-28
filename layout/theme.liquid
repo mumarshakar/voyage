@@ -203,8 +203,6 @@
     html body .two-column-heading,
     html body .hero-title,
     html body .hero-glow-title,
-    html body .full-width-slider-title,
-    html body .slide-title,
     html body .page-title,
     html body .section-title,
     html body .custom-text-heading,
@@ -228,6 +226,17 @@
       letter-spacing: {{ heading_letter_spacing }}px !important;
     }
     
+    /* Full Width Slider titles - Typography only, no color (uses per-slide colors) */
+    html body .full-width-slider-title,
+    html body .slide-title {
+      font-size: {{ heading_font_size }}px !important;
+      font-weight: {{ heading_font_weight }} !important;
+      font-family: {{ heading_font_family_css }} !important;
+      line-height: {{ heading_line_height }} !important;
+      letter-spacing: {{ heading_letter_spacing }}px !important;
+      /* Color is set inline per slide via block.settings.title_color */
+    }
+    
     /* Subheadings - Apply to all subheading elements and classes with maximum specificity */
     html body h3.two-column-subheading,
     html body .two-columns-section h3.two-column-subheading,
@@ -238,8 +247,6 @@
     html body .two-column-subheading,
     html body .hero-subtitle,
     html body .hero-glow-subtitle,
-    html body .full-width-slider-subtitle,
-    html body .slide-subtitle,
     html body .page-subtitle,
     html body main .custom-text-subheading,
     html body main .two-column-subheading,
@@ -255,6 +262,17 @@
       font-family: {{ subheading_font_family_css }} !important;
       line-height: {{ subheading_line_height }} !important;
       letter-spacing: {{ subheading_letter_spacing }}px !important;
+    }
+    
+    /* Full Width Slider subtitles - Typography only, no color (uses per-slide colors) */
+    html body .full-width-slider-subtitle,
+    html body .slide-subtitle {
+      font-size: {{ subheading_font_size }}px !important;
+      font-weight: {{ subheading_font_weight }} !important;
+      font-family: {{ subheading_font_family_css }} !important;
+      line-height: {{ subheading_line_height }} !important;
+      letter-spacing: {{ subheading_letter_spacing }}px !important;
+      /* Color is set inline per slide via block.settings.subtitle_color */
     }
     
     /* Body Text - Apply to all body text elements with maximum specificity */

@@ -163,7 +163,7 @@
       "min": 20,
       "max": 60,
       "step": 5,
-      "default": 32,
+      "default": 30,
       "unit": "px"
     },
     {
@@ -316,7 +316,7 @@
   assign button_bg_color = section.settings.button_bg_color | default: '#FF6B35'
   assign button_text_color = section.settings.button_text_color | default: '#FFFFFF'
   assign button_padding_vertical = section.settings.button_padding_vertical | default: 14
-  assign button_padding_horizontal = section.settings.button_padding_horizontal | default: 32
+  assign button_padding_horizontal = section.settings.button_padding_horizontal | default: 30
   assign button_border_radius = section.settings.button_border_radius | default: 2
   assign arrow_size = section.settings.arrow_size | default: 50
   assign arrow_color = section.settings.arrow_color | default: '#FFFFFF'
@@ -346,13 +346,13 @@
               
               <div class="slide-content" style="max-width: {{ content_max_width }}px; text-align: {{ content_alignment }};">
                 {%- if block.settings.title != blank -%}
-                  <h2 class="slide-title full-width-slider-title" style="color: {{ block.settings.title_color }};">
+                  <h2 class="slide-title full-width-slider-title" style="color: {{ block.settings.title_color }} !important;">
                     {{ block.settings.title }}
                   </h2>
                 {%- endif -%}
                 
                 {%- if block.settings.subtitle != blank -%}
-                  <p class="slide-subtitle full-width-slider-subtitle" style="color: {{ block.settings.subtitle_color }};">
+                  <p class="slide-subtitle full-width-slider-subtitle" style="color: {{ block.settings.subtitle_color }} !important;">
                     {{ block.settings.subtitle }}
                   </p>
                 {%- endif -%}
