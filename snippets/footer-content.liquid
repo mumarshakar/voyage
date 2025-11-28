@@ -32,13 +32,18 @@
 
   comment
     Count social media blocks
+    Make sure section.blocks exists and is accessible
   endcomment
   assign social_blocks_count = 0
-  for block in section.blocks
-    if block.type == 'social_media' and block.settings.social_url != blank
-      assign social_blocks_count = social_blocks_count | plus: 1
-    endif
-  endfor
+  if section.blocks != blank
+    for block in section.blocks
+      if block.type == 'social_media'
+        if block.settings.social_url != blank
+          assign social_blocks_count = social_blocks_count | plus: 1
+        endif
+      endif
+    endfor
+  endif
 -%}
 
 <footer style="background-color: {{ footer_bg_color }};
@@ -58,65 +63,69 @@
                 --icon-size: {{ icon_size }}px;
                 --icon-size-mobile: {{ icon_size_mobile }}px;">
       
-      {% for block in section.blocks %}
-        {% if block.type == 'social_media' and block.settings.social_url != blank %}
-          {%- liquid
-            assign platform = block.settings.platform | default: 'instagram'
-            assign social_url = block.settings.social_url
-            assign custom_icon = block.settings.custom_icon
-            assign use_custom = false
-            
-            if custom_icon != blank
-              assign use_custom = true
-            endif
-          -%}
-          
-          <a href="{{ social_url }}" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="social-icon-link"
-             aria-label="Visit our {{ platform | capitalize }} profile">
-            
-            {% if use_custom %}
-              <img src="{{ custom_icon | image_url: width: icon_size }}"
-                   srcset="{{ custom_icon | image_url: width: icon_size }} 1x, {{ custom_icon | image_url: width: icon_size | times: 2 }} 2x"
-                   alt="{{ platform | capitalize }}"
-                   width="{{ icon_size }}"
-                   height="{{ icon_size }}"
-                   loading="lazy"
-                   class="social-icon-img">
-            {% else %}
+      {% if section.blocks != blank and section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'social_media' %}
+            {% if block.settings.social_url != blank %}
               {%- liquid
-                comment Generate placeholder SVG based on platform endcomment
-                case platform
-                  when 'instagram'
-                    assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>'
-                  when 'facebook'
-                    assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>'
-                  when 'youtube'
-                    assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>'
-                  when 'twitter'
-                    assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>'
-                  when 'tiktok'
-                    assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"></path></svg>'
-                  when 'linkedin'
-                    assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>'
-                  when 'pinterest'
-                    assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.487.535 6.624 0 11.99-5.367 11.99-11.987C23.97 5.39 18.592.026 11.966.026L12.017 0z"></path></svg>'
-                  when 'snapchat'
-                    assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.15c-.012.71-.017 1.38.009 1.933.047.962.136 1.514.136 1.514s.225.195.523.285c.365.11.731.06.927-.014.39-.148.833-.634 1.097-1.405a6.13 6.13 0 0 0 .09-2.64l.505.044c.192.017.46.046.698.123 1.021.329 1.641 1.017 1.76 2.043.119 1.026-.244 1.864-.879 2.28-.317.208-.664.279-.938.295l-1.228.032c-.254.555-.664 1.05-1.26 1.343-.812.399-1.793.5-2.685.39-.194-.024-.394-.056-.57-.1-.235-.06-.448-.139-.592-.22-.035-.02-.062-.037-.08-.05l-.013-.01-.003-.002c-.036-.017-.062-.028-.096-.039a3.47 3.47 0 0 0-.287-.062c-.55-.105-1.09-.11-1.378-.11H12.206c-.288 0-.828.005-1.378.11a3.47 3.47 0 0 0-.287.062c-.034.011-.06.022-.096.04l-.003.002-.013.009c-.018.012-.045.03-.08.05-.144.08-.357.16-.592.22-.176.044-.376.076-.57.1-.892.11-1.873.009-2.685-.39-.596-.293-1.006-.788-1.26-1.343l-1.228-.032c-.274-.016-.62-.087-.938-.295-.635-.416-.998-1.254-.879-2.28.119-1.026.739-1.714 1.76-2.043.238-.077.506-.106.698-.123l.505-.044a6.13 6.13 0 0 0 .09 2.64c.264.771.707 1.257 1.097 1.405.196.074.562.124.927.014.298-.09.523-.285.523-.285s.089-.552.136-1.514c.026-.553.021-1.223.009-1.933l-.003-.15c-.104-1.628-.23-3.654.299-4.847C7.859 1.069 11.216.793 12.206.793z"></path></svg>'
-                  else
-                    assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
-                endcase
+                assign platform = block.settings.platform | default: 'instagram'
+                assign social_url = block.settings.social_url
+                assign custom_icon = block.settings.custom_icon
+                assign use_custom = false
+                
+                if custom_icon != blank
+                  assign use_custom = true
+                endif
               -%}
               
-              <span class="social-icon-placeholder" style="color: {{ footer_text_color }};">
-                {{ placeholder_svg }}
-              </span>
+              <a href="{{ social_url }}" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="social-icon-link"
+                 aria-label="Visit our {{ platform | capitalize }} profile">
+                
+                {% if use_custom %}
+                  <img src="{{ custom_icon | image_url: width: icon_size }}"
+                       srcset="{{ custom_icon | image_url: width: icon_size }} 1x, {{ custom_icon | image_url: width: icon_size | times: 2 }} 2x"
+                       alt="{{ platform | capitalize }}"
+                       width="{{ icon_size }}"
+                       height="{{ icon_size }}"
+                       loading="lazy"
+                       class="social-icon-img">
+                {% else %}
+                  {%- liquid
+                    comment Generate placeholder SVG based on platform endcomment
+                    case platform
+                      when 'instagram'
+                        assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>'
+                      when 'facebook'
+                        assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>'
+                      when 'youtube'
+                        assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>'
+                      when 'twitter'
+                        assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>'
+                      when 'tiktok'
+                        assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"></path></svg>'
+                      when 'linkedin'
+                        assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>'
+                      when 'pinterest'
+                        assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.487.535 6.624 0 11.99-5.367 11.99-11.987C23.97 5.39 18.592.026 11.966.026L12.017 0z"></path></svg>'
+                      when 'snapchat'
+                        assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.15c-.012.71-.017 1.38.009 1.933.047.962.136 1.514.136 1.514s.225.195.523.285c.365.11.731.06.927-.014.39-.148.833-.634 1.097-1.405a6.13 6.13 0 0 0 .09-2.64l.505.044c.192.017.46.046.698.123 1.021.329 1.641 1.017 1.76 2.043.119 1.026-.244 1.864-.879 2.28-.317.208-.664.279-.938.295l-1.228.032c-.254.555-.664 1.05-1.26 1.343-.812.399-1.793.5-2.685.39-.194-.024-.394-.056-.57-.1-.235-.06-.448-.139-.592-.22-.035-.02-.062-.037-.08-.05l-.013-.01-.003-.002c-.036-.017-.062-.028-.096-.039a3.47 3.47 0 0 0-.287-.062c-.55-.105-1.09-.11-1.378-.11H12.206c-.288 0-.828.005-1.378.11a3.47 3.47 0 0 0-.287.062c-.034.011-.06.022-.096.04l-.003.002-.013.009c-.018.012-.045.03-.08.05-.144.08-.357.16-.592.22-.176.044-.376.076-.57.1-.892.11-1.873.009-2.685-.39-.596-.293-1.006-.788-1.26-1.343l-1.228-.032c-.274-.016-.62-.087-.938-.295-.635-.416-.998-1.254-.879-2.28.119-1.026.739-1.714 1.76-2.043.238-.077.506-.106.698-.123l.505-.044a6.13 6.13 0 0 0 .09 2.64c.264.771.707 1.257 1.097 1.405.196.074.562.124.927.014.298-.09.523-.285.523-.285s.089-.552.136-1.514c.026-.553.021-1.223.009-1.933l-.003-.15c-.104-1.628-.23-3.654.299-4.847C7.859 1.069 11.216.793 12.206.793z"></path></svg>'
+                      else
+                        assign placeholder_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
+                    endcase
+                  -%}
+                  
+                  <span class="social-icon-placeholder" style="color: {{ footer_text_color }};">
+                    {{ placeholder_svg }}
+                  </span>
+                {% endif %}
+              </a>
             {% endif %}
-          </a>
-        {% endif %}
-      {% endfor %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
     </div>
   {% endif %}
 </footer>
