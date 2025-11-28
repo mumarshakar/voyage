@@ -25,10 +25,10 @@
     "dropdown_hover_color": "#FF6B35",
     "button_background_color": "#333333",
     "button_text_color": "#FFFFFF",
-    "button_border_color": "#000000",
+    "button_border_color": "#333333",
     "button_border_style": "solid",
     "button_border_width": 1,
-    "button_hover_background_color": "#333333",
+    "button_hover_background_color": "#000000",
     "button_hover_text_color": "#FFFFFF",
     "button_hover_border_color": "#000000",
     "button_hover_border_style": "solid",
@@ -128,14 +128,34 @@
       },
       "footer": {
         "type": "footer",
+        "blocks": {
+          "social_media_6j8Lhr": {
+            "type": "social_media",
+            "settings": {
+              "platform": "instagram",
+              "social_url": "",
+              "custom_icon": "shopify://shop_images/instagram-icon-with-brand-color.png"
+            }
+          },
+          "social_media_ekG9X9": {
+            "type": "social_media",
+            "settings": {
+              "platform": "facebook",
+              "social_url": ""
+            }
+          }
+        },
+        "block_order": [
+          "social_media_6j8Lhr",
+          "social_media_ekG9X9"
+        ],
         "settings": {
-          "footer_text": "Follow us on instagram!",
-          "instagram_url": "https://www.instagram.com/thehypeclubofficial?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr",
+          "icon_size": 40,
+          "icon_size_mobile": 32,
+          "icon_gap": 16,
+          "icon_alignment": "center",
           "footer_bg_color": "#ffffff",
           "footer_text_color": "#333333",
-          "footer_font_family": "serif",
-          "footer_font_size": 25,
-          "show_underline": true,
           "footer_vertical_padding": 80
         }
       }
