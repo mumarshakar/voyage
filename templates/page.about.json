@@ -20,6 +20,8 @@
         "subtitle": "Voyage was created to bring intentional wellness, community, and calm into people’s lives — all through the power of movement on water.",
         "button_text": "",
         "button_link": "",
+        "button_2_text": "Learn More",
+        "button_2_link": "",
         "background_type": "image",
         "image_source_type": "url",
         "background_image": "shopify://shop_images/HYPE_CLUB_WELLNESS_HERO.jpg",
@@ -34,10 +36,8 @@
         "hero_height_mobile": 80,
         "background_position": "center",
         "background_size": "cover",
-        "title_color": "#FFFFFF",
+        "title_color": "#ffffff",
         "subtitle_color": "#ffffff",
-        "title_font_size": 50,
-        "subtitle_font_size": 25,
         "title_position_top": 5,
         "text_alignment": "center",
         "button_position_bottom": 15,
@@ -355,6 +355,7 @@
         "team_member_7wENeA",
         "team_member_wV4K9B"
       ],
+      "disabled": true,
       "name": "Meet Team",
       "settings": {
         "heading": "Meet    Team",
@@ -366,13 +367,7 @@
         "tablet_cards_visible": 3,
         "mobile_cards_visible": 2,
         "card_border_radius": 2,
-        "image_border_radius": 2,
-        "name_font_size": 20,
-        "name_line_height": 2,
-        "role_font_size": 16,
-        "role_line_height": 2,
-        "info_font_size": 18,
-        "info_line_height": 2
+        "image_border_radius": 2
       }
     }
   },
