@@ -141,7 +141,8 @@
             "type": "social_media",
             "settings": {
               "platform": "facebook",
-              "social_url": ""
+              "social_url": "",
+              "custom_icon": "shopify://shop_images/facebook-icon-image-with-brand-colors.png"
             }
           }
         },
