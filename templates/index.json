@@ -31,7 +31,7 @@
         "video_autoplay": true,
         "video_muted": true,
         "hero_height": 100,
-        "hero_height_mobile": 90,
+        "hero_height_mobile": 100,
         "background_position": "bottom",
         "background_size": "cover",
         "title_color": "#ffffff",
