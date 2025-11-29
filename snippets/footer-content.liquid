@@ -21,6 +21,7 @@
     assign icon_gap = 16
     assign icon_alignment = 'center'
     assign heading_text = 'Join our community'
+    assign heading_font_size = 24
     assign heading_alignment = 'center'
   else
     assign footer_bg_color = footer_settings.footer_bg_color | default: '#EAE7E0'
@@ -31,6 +32,7 @@
     assign icon_gap = footer_settings.icon_gap | default: 16
     assign icon_alignment = footer_settings.icon_alignment | default: 'center'
     assign heading_text = footer_settings.heading_text | default: 'Join our community'
+    assign heading_font_size = footer_settings.heading_font_size | default: 24
     assign heading_alignment = footer_settings.heading_alignment | default: 'center'
   endif
 
@@ -68,7 +70,7 @@
           style="color: {{ footer_text_color }};
                  text-align: {{ heading_alignment }};
                  margin: 0 0 20px 0;
-                 font-size: 1.5rem;
+                 font-size: {{ heading_font_size }}px;
                  font-weight: 600;">
         {{ heading_text }}
       </h3>
