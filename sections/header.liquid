@@ -406,7 +406,15 @@
       "max": 48,
       "step": 2,
       "default": 24,
-      "unit": "px"
+      "unit": "px",
+      "info": "Size of the hamburger icon lines"
+    },
+    {
+      "type": "color",
+      "id": "mobile_menu_icon_color",
+      "label": "Hamburger Icon Color",
+      "default": "#333333",
+      "info": "Color of the hamburger icon lines"
     },
     {
       "type": "range",
@@ -417,6 +425,13 @@
       "step": 1,
       "default": 1,
       "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "mobile_menu_border_color",
+      "label": "Hamburger Button Border Color",
+      "default": "#333333",
+      "info": "Color of the button border"
     },
     {
       "type": "range",
@@ -436,6 +451,13 @@
       "info": "Uncheck to use a custom background color"
     },
     {
+      "type": "color",
+      "id": "mobile_menu_bg_color",
+      "label": "Hamburger Button Background Color",
+      "default": "#FFFFFF",
+      "info": "Background color when transparent is disabled"
+    },
+    {
       "type": "range",
       "id": "mobile_menu_padding",
       "label": "Hamburger Button Padding (px)",
@@ -443,16 +465,19 @@
       "max": 20,
       "step": 1,
       "default": 8,
-      "unit": "px"
+      "unit": "px",
+      "info": "Internal padding around the icon"
     },
     {
       "type": "range",
       "id": "mobile_menu_stroke_width",
-      "label": "Hamburger Icon Stroke Width",
+      "label": "Hamburger Icon Line Thickness (px)",
       "min": 1,
       "max": 5,
       "step": 1,
-      "default": 2
+      "default": 2,
+      "unit": "px",
+      "info": "Thickness of the hamburger icon lines"
     }
   ]
 }

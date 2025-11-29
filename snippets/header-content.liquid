@@ -148,9 +148,9 @@
       assign show_mobile_menu = true
     endif
 
-    assign mobile_menu_icon_color = settings.mobile_menu_icon_color | default: '#333333'
+    assign mobile_menu_icon_color = header_settings.mobile_menu_icon_color | default: '#333333'
     assign mobile_menu_icon_size = header_settings.mobile_menu_icon_size | default: 24
-    assign mobile_menu_border_color = settings.mobile_menu_border_color | default: '#333333'
+    assign mobile_menu_border_color = header_settings.mobile_menu_border_color | default: '#333333'
     assign mobile_menu_border_width = header_settings.mobile_menu_border_width | default: 1
     assign mobile_menu_border_radius = header_settings.mobile_menu_border_radius | default: 4
 
@@ -163,7 +163,7 @@
       assign mobile_menu_bg_transparent = true
     endif
 
-    assign mobile_menu_bg_color = settings.mobile_menu_bg_color | default: '#FFFFFF'
+    assign mobile_menu_bg_color = header_settings.mobile_menu_bg_color | default: '#FFFFFF'
     assign mobile_menu_padding = header_settings.mobile_menu_padding | default: 8
     assign mobile_menu_stroke_width = header_settings.mobile_menu_stroke_width | default: 2
 
