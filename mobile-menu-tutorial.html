@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Menu Tutorial - Current vs New Strategy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 968px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-current {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .badge-new {
+            background: #51cf66;
+            color: white;
+        }
+
+        .demo-frame {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: white;
+            position: relative;
+            height: 600px;
+        }
+
+        .demo-content {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* CURRENT MENU STYLES */
+        .current-navbar {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .current-logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3577ff;
+            text-decoration: none;
+        }
+
+        .current-hamburger {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .current-hamburger:hover {
+            background: #f5f5f5;
+        }
+
+        .current-menu {
+            background: white;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .current-menu.active {
+            max-height: 500px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .current-menu-item {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .current-menu-link {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+
+        .current-menu-link:hover {
+            background: #f8f8f8;
+        }
+
+        .current-cta {
+            display: block;
+            margin: 15px 20px;
+            padding: 12px 24px;
+            background: #3577ff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .current-content {
+            padding: 20px;
+            color: #666;
+        }
+
+        /* NEW MENU STYLES */
+        .new-navbar {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .new-logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3577ff;
+            text-decoration: none;
+        }
+
+        .new-hamburger {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 22px;
+            transition: all 0.3s;
+        }
+
+        .new-hamburger.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .new-hamburger.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .new-hamburger.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .hamburger-line {
+            width: 100%;
+            height: 2px;
+            background: #333;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .new-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .new-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+
+        .new-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .new-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 85%;
+            max-width: 350px;
+            height: 100%;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .new-overlay.active .new-panel {
+            transform: translateX(0);
+        }
+
+        .new-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e5e5e5;
+            flex-shrink: 0;
+        }
+
+        .new-menu-logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3577ff;
+            text-decoration: none;
+        }
+
+        .new-menu-close {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            font-size: 20px;
+            width: 32px;
+            height: 32px;
+        }
+
+        .new-menu-close:hover {
+            background-color: #f5f5f5;
+        }
+
+        .new-menu-nav {
+            flex: 1;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .new-menu-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .new-menu-item {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .new-menu-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+            min-height: 48px;
+        }
+
+        .new-menu-link:hover {
+            background-color: #f8f8f8;
+            color: #3577ff;
+        }
+
+        .menu-link-text {
+            flex: 1;
+        }
+
+        .menu-link-arrow {
+            opacity: 0.5;
+            transition: transform 0.2s, opacity 0.2s;
+            font-size: 14px;
+        }
+
+        .new-menu-link:hover .menu-link-arrow {
+            transform: translateX(4px);
+            opacity: 1;
+        }
+
+        .new-menu-footer {
+            padding: 20px;
+            border-top: 1px solid #e5e5e5;
+            flex-shrink: 0;
+            background: #fafafa;
+        }
+
+        .new-menu-cta {
+            display: block;
+            width: 100%;
+            padding: 16px 24px;
+            background: #3577ff;
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .new-menu-cta:hover {
+            background: #2a5fcc;
+            transform: translateY(-1px);
+        }
+
+        .new-content {
+            padding: 20px;
+            color: #666;
+        }
+
+        .code-section {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .code-section h3 {
+            color: #4ec9b0;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-keyword {
+            color: #569cd6;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        .code-selector {
+            color: #d7ba7d;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #333;
+        }
+
+        .info-box li {
+            margin: 5px 0;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background: #3577ff;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .check {
+            color: #51cf66;
+            font-weight: bold;
+        }
+
+        .cross {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Mobile Menu Tutorial</h1>
+        <p class="subtitle">Interactive Comparison: Current Implementation vs New Strategy</p>
+
+        <div class="comparison-grid">
+            <!-- CURRENT MENU -->
+            <div class="demo-section">
+                <h2 class="demo-title">
+                    Current Menu
+                    <span class="badge badge-current">Current</span>
+                </h2>
+                <div class="demo-frame">
+                    <div class="demo-content">
+                        <nav class="current-navbar">
+                            <a href="#" class="current-logo">VOYAGE BY HYPE</a>
+                            <button class="current-hamburger" id="currentToggle">☰</button>
+                        </nav>
+                        <ul class="current-menu" id="currentMenu">
+                            <li class="current-menu-item">
+                                <a href="#" class="current-menu-link">Home</a>
+                            </li>
+                            <li class="current-menu-item">
+                                <a href="#" class="current-menu-link">About Us</a>
+                            </li>
+                            <li class="current-menu-item">
+                                <a href="#" class="current-menu-link">Services</a>
+                            </li>
+                            <li class="current-menu-item">
+                                <a href="#" class="current-menu-link">Contact Us</a>
+                            </li>
+                        </ul>
+                        <a href="#" class="current-cta">Book Now</a>
+                        <div class="current-content">
+                            <h3>Page Content</h3>
+                            <p>Notice how the menu pushes this content down when opened. The menu expands inline below the header.</p>
+                            <p style="margin-top: 10px;">This creates a jarring experience and takes up valuable screen space.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <h3>Current Issues:</h3>
+                    <ul>
+                        <li>Menu expands inline, pushing content down</li>
+                        <li>No overlay or backdrop</li>
+                        <li>Abrupt show/hide animation</li>
+                        <li>No close button</li>
+                        <li>Book Now button mixed with menu items</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- NEW MENU -->
+            <div class="demo-section">
+                <h2 class="demo-title">
+                    New Menu Strategy
+                    <span class="badge badge-new">Recommended</span>
+                </h2>
+                <div class="demo-frame">
+                    <div class="demo-content">
+                        <nav class="new-navbar">
+                            <a href="#" class="new-logo">VOYAGE BY HYPE</a>
+                            <button class="new-hamburger" id="newToggle">
+                                <span class="hamburger-line"></span>
+                                <span class="hamburger-line"></span>
+                                <span class="hamburger-line"></span>
+                            </button>
+                        </nav>
+                        <div class="new-overlay" id="newOverlay">
+                            <div class="new-backdrop" id="newBackdrop"></div>
+                            <div class="new-panel">
+                                <div class="new-menu-header">
+                                    <a href="#" class="new-menu-logo">VOYAGE BY HYPE</a>
+                                    <button class="new-menu-close" id="newClose">✕</button>
+                                </div>
+                                <nav class="new-menu-nav">
+                                    <ul class="new-menu-list">
+                                        <li class="new-menu-item">
+                                            <a href="#" class="new-menu-link">
+                                                <span class="menu-link-text">Home</span>
+                                                <span class="menu-link-arrow">→</span>
+                                            </a>
+                                        </li>
+                                        <li class="new-menu-item">
+                                            <a href="#" class="new-menu-link">
+                                                <span class="menu-link-text">About Us</span>
+                                                <span class="menu-link-arrow">→</span>
+                                            </a>
+                                        </li>
+                                        <li class="new-menu-item">
+                                            <a href="#" class="new-menu-link">
+                                                <span class="menu-link-text">Services</span>
+                                                <span class="menu-link-arrow">→</span>
+                                            </a>
+                                        </li>
+                                        <li class="new-menu-item">
+                                            <a href="#" class="new-menu-link">
+                                                <span class="menu-link-text">Contact Us</span>
+                                                <span class="menu-link-arrow">→</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <div class="new-menu-footer">
+                                    <a href="#" class="new-menu-cta">Book Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="new-content">
+                            <h3>Page Content</h3>
+                            <p>Notice how the content stays in place when the menu opens. The menu slides over the content as an overlay.</p>
+                            <p style="margin-top: 10px;">This creates a smooth, modern experience that doesn't disrupt the page flow.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <h3>New Features:</h3>
+                    <ul>
+                        <li>Slide-out sidebar from right</li>
+                        <li>Dark backdrop with blur effect</li>
+                        <li>Smooth 300ms animations</li>
+                        <li>Close button (X) in header</li>
+                        <li>Book Now button at bottom</li>
+                        <li>Hamburger animates to X</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMPARISON TABLE -->
+        <div class="demo-section">
+            <h2 class="demo-title">Feature Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Current Menu</th>
+                        <th>New Menu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Menu Position</strong></td>
+                        <td class="cross">Inline (pushes content)</td>
+                        <td class="check">Overlay (slides over)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Backdrop</strong></td>
+                        <td class="cross">None</td>
+                        <td class="check">Dark with blur</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Animation</strong></td>
+                        <td class="cross">Abrupt (instant)</td>
+                        <td class="check">Smooth (300ms)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Close Button</strong></td>
+                        <td class="cross">No (click hamburger)</td>
+                        <td class="check">Yes (X button)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Book Now Placement</strong></td>
+                        <td class="cross">Mixed with items</td>
+                        <td class="check">Bottom (prominent)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hamburger Animation</strong></td>
+                        <td class="cross">Static</td>
+                        <td class="check">Transforms to X</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Touch Targets</strong></td>
+                        <td class="cross">Small (15px padding)</td>
+                        <td class="check">Large (48px min)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Visual Hierarchy</strong></td>
+                        <td class="cross">Flat</td>
+                        <td class="check">Clear (logo/items/CTA)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CODE EXAMPLES -->
+        <div class="demo-section">
+            <h2 class="demo-title">Code Structure Comparison</h2>
+            
+            <div class="code-section">
+                <h3>Current HTML Structure:</h3>
+                <pre><code><span class="code-comment">&lt;!-- Current: Bootstrap Collapse --&gt;</span>
+<span class="code-keyword">&lt;nav</span> <span class="code-selector">class</span>=<span class="code-string">"navbar"</span><span class="code-keyword">&gt;</span>
+  <span class="code-keyword">&lt;button</span> <span class="code-selector">data-bs-toggle</span>=<span class="code-string">"collapse"</span><span class="code-keyword">&gt;</span>☰<span class="code-keyword">&lt;/button&gt;</span>
+  <span class="code-keyword">&lt;div</span> <span class="code-selector">class</span>=<span class="code-string">"collapse navbar-collapse"</span><span class="code-keyword">&gt;</span>
+    <span class="code-comment">&lt;!-- Menu expands inline below header --&gt;</span>
+    <span class="code-keyword">&lt;ul&gt;</span>
+      <span class="code-keyword">&lt;li&gt;&lt;a</span> <span class="code-selector">href</span>=<span class="code-string">"/"</span><span class="code-keyword">&gt;</span>Home<span class="code-keyword">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="code-keyword">&lt;/ul&gt;</span>
+  <span class="code-keyword">&lt;/div&gt;</span>
+<span class="code-keyword">&lt;/nav&gt;</span></code></pre>
+            </div>
+
+            <div class="code-section" style="margin-top: 20px;">
+                <h3>New HTML Structure:</h3>
+                <pre><code><span class="code-comment">&lt;!-- New: Slide-Out Overlay --&gt;</span>
+<span class="code-keyword">&lt;nav</span> <span class="code-selector">class</span>=<span class="code-string">"navbar"</span><span class="code-keyword">&gt;</span>
+  <span class="code-keyword">&lt;button</span> <span class="code-selector">id</span>=<span class="code-string">"menuToggle"</span><span class="code-keyword">&gt;</span>
+    <span class="code-comment">&lt;!-- Hamburger icon --&gt;</span>
+  <span class="code-keyword">&lt;/button&gt;</span>
+<span class="code-keyword">&lt;/nav&gt;</span>
+
+<span class="code-comment">&lt;!-- Overlay (fixed position, outside navbar) --&gt;</span>
+<span class="code-keyword">&lt;div</span> <span class="code-selector">class</span>=<span class="code-string">"mobile-menu-overlay"</span><span class="code-keyword">&gt;</span>
+  <span class="code-keyword">&lt;div</span> <span class="code-selector">class</span>=<span class="code-string">"backdrop"</span><span class="code-keyword">&gt;&lt;/div&gt;</span>
+  <span class="code-keyword">&lt;div</span> <span class="code-selector">class</span>=<span class="code-string">"menu-panel"</span><span class="code-keyword">&gt;</span>
+    <span class="code-comment">&lt;!-- Menu slides in from right --&gt;</span>
+    <span class="code-keyword">&lt;div</span> <span class="code-selector">class</span>=<span class="code-string">"menu-header"</span><span class="code-keyword">&gt;</span>
+      <span class="code-keyword">&lt;a</span> <span class="code-selector">href</span>=<span class="code-string">"/"</span><span class="code-keyword">&gt;</span>Logo<span class="code-keyword">&lt;/a&gt;</span>
+      <span class="code-keyword">&lt;button</span> <span class="code-selector">id</span>=<span class="code-string">"closeBtn"</span><span class="code-keyword">&gt;</span>✕<span class="code-keyword">&lt;/button&gt;</span>
+    <span class="code-keyword">&lt;/div&gt;</span>
+    <span class="code-keyword">&lt;nav</span> <span class="code-selector">class</span>=<span class="code-string">"menu-nav"</span><span class="code-keyword">&gt;</span>
+      <span class="code-keyword">&lt;ul&gt;&lt;li&gt;&lt;a</span> <span class="code-selector">href</span>=<span class="code-string">"/"</span><span class="code-keyword">&gt;</span>Home<span class="code-keyword">&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</span>
+    <span class="code-keyword">&lt;/nav&gt;</span>
+    <span class="code-keyword">&lt;div</span> <span class="code-selector">class</span>=<span class="code-string">"menu-footer"</span><span class="code-keyword">&gt;</span>
+      <span class="code-keyword">&lt;a</span> <span class="code-selector">href</span>=<span class="code-string">"#"</span> <span class="code-selector">class</span>=<span class="code-string">"cta-button"</span><span class="code-keyword">&gt;</span>Book Now<span class="code-keyword">&lt;/a&gt;</span>
+    <span class="code-keyword">&lt;/div&gt;</span>
+  <span class="code-keyword">&lt;/div&gt;</span>
+<span class="code-keyword">&lt;/div&gt;</span></code></pre>
+            </div>
+        </div>
+
+        <!-- KEY DIFFERENCES -->
+        <div class="demo-section">
+            <h2 class="demo-title">Key Implementation Differences</h2>
+            <div class="info-box">
+                <h3>1. Structure</h3>
+                <p><strong>Current:</strong> Menu is inside navbar, uses Bootstrap collapse</p>
+                <p><strong>New:</strong> Menu is separate overlay component, uses custom JavaScript</p>
+            </div>
+            <div class="info-box">
+                <h3>2. Positioning</h3>
+                <p><strong>Current:</strong> <code>position: relative</code> - expands inline</p>
+                <p><strong>New:</strong> <code>position: fixed</code> - overlays entire screen</p>
+            </div>
+            <div class="info-box">
+                <h3>3. Animation</h3>
+                <p><strong>Current:</strong> Bootstrap's instant collapse/expand</p>
+                <p><strong>New:</strong> CSS transform with cubic-bezier easing (300ms)</p>
+            </div>
+            <div class="info-box">
+                <h3>4. User Interaction</h3>
+                <p><strong>Current:</strong> Click hamburger to toggle (same button)</p>
+                <p><strong>New:</strong> Click hamburger to open, X button or backdrop to close</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Current Menu Toggle
+        const currentToggle = document.getElementById('currentToggle');
+        const currentMenu = document.getElementById('currentMenu');
+        
+        currentToggle.addEventListener('click', function() {
+            currentMenu.classList.toggle('active');
+        });
+
+        // New Menu Toggle
+        const newToggle = document.getElementById('newToggle');
+        const newOverlay = document.getElementById('newOverlay');
+        const newBackdrop = document.getElementById('newBackdrop');
+        const newClose = document.getElementById('newClose');
+        
+        function openNewMenu() {
+            newOverlay.classList.add('active');
+            newToggle.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeNewMenu() {
+            newOverlay.classList.remove('active');
+            newToggle.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        newToggle.addEventListener('click', openNewMenu);
+        newClose.addEventListener('click', closeNewMenu);
+        newBackdrop.addEventListener('click', closeNewMenu);
+        
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && newOverlay.classList.contains('active')) {
+                closeNewMenu();
+            }
+        });
+    </script>
+</body>
+</html>
+

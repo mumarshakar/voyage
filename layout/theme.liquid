@@ -328,18 +328,41 @@
       color: var(--menu-link-hover-color) !important;
     }
     
-    /* Dropdown Menu Styles from Theme Settings */
+    /* Dropdown Menu Styles from Theme Settings - High Specificity to Override Bootstrap */
+    html body .navbar .dropdown-menu,
+    html body .navbar-nav .dropdown-menu,
+    html body .nav-item .dropdown-menu,
     html body .dropdown-menu {
       background-color: var(--dropdown-bg-color) !important;
+      border-color: rgba(0, 0, 0, 0.1) !important;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
     }
     
+    html body .navbar .dropdown-item,
+    html body .navbar-nav .dropdown-item,
+    html body .nav-item .dropdown-item,
+    html body .dropdown-menu .dropdown-item,
     html body .dropdown-item {
       color: var(--dropdown-link-color) !important;
-      transition: all 0.3s ease;
+      transition: background-color 0.3s ease, color 0.3s ease !important;
+      padding: 0.5rem 1rem !important;
     }
     
+    html body .navbar .dropdown-item:hover,
+    html body .navbar-nav .dropdown-item:hover,
+    html body .nav-item .dropdown-item:hover,
+    html body .dropdown-menu .dropdown-item:hover,
     html body .dropdown-item:hover,
-    html body .dropdown-item:focus {
+    html body .navbar .dropdown-item:focus,
+    html body .navbar-nav .dropdown-item:focus,
+    html body .nav-item .dropdown-item:focus,
+    html body .dropdown-menu .dropdown-item:focus,
+    html body .dropdown-item:focus,
+    html body .navbar .dropdown-item.active,
+    html body .navbar-nav .dropdown-item.active,
+    html body .nav-item .dropdown-item.active,
+    html body .dropdown-menu .dropdown-item.active,
+    html body .dropdown-item.active {
       background-color: var(--dropdown-hover-bg-color) !important;
       color: var(--dropdown-hover-color) !important;
     }

@@ -265,11 +265,15 @@
                    data-bs-toggle="dropdown">
                   {{ link.title }}
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" 
+                    style="background-color: {{ dropdown_bg_color }} !important;
+                           border-color: rgba(0, 0, 0, 0.1) !important;">
                   {% for childlink in link.links %}
                     <li>
                       <a class="dropdown-item" 
-                         href="{{ childlink.url }}">
+                         href="{{ childlink.url }}"
+                         style="color: {{ dropdown_link_color }} !important;
+                                transition: background-color 0.3s ease, color 0.3s ease;">
                         {{ childlink.title }}
                       </a>
                     </li>
@@ -377,6 +381,37 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   
+  /* Dropdown Menu Styles - Direct Liquid Variables for Maximum Specificity */
+  .navbar .dropdown-menu,
+  .navbar-nav .dropdown-menu,
+  .nav-item .dropdown-menu {
+    background-color: {{ dropdown_bg_color }} !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .navbar .dropdown-item,
+  .navbar-nav .dropdown-item,
+  .nav-item .dropdown-item,
+  .dropdown-menu .dropdown-item {
+    color: {{ dropdown_link_color }} !important;
+  }
+  
+  .navbar .dropdown-item:hover,
+  .navbar-nav .dropdown-item:hover,
+  .nav-item .dropdown-item:hover,
+  .dropdown-menu .dropdown-item:hover,
+  .navbar .dropdown-item:focus,
+  .navbar-nav .dropdown-item:focus,
+  .nav-item .dropdown-item:focus,
+  .dropdown-menu .dropdown-item:focus,
+  .navbar .dropdown-item.active,
+  .navbar-nav .dropdown-item.active,
+  .nav-item .dropdown-item.active,
+  .dropdown-menu .dropdown-item.active {
+    background-color: {{ dropdown_hover_bg_color }} !important;
+    color: {{ dropdown_hover_color }} !important;
+  }
+
   /* Mobile responsive adjustments for Book Now button */
   @media (max-width: 991.98px) {
     .navbar-actions {
