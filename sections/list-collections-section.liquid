@@ -1,3 +1,11 @@
+<style>
+  .list-collections-card-title {
+    font-size: {{ section.settings.title_font_size | default: 20 }}px !important;
+    line-height: {{ section.settings.title_line_height | default: 1.2 }} !important;
+    text-transform: {{ section.settings.title_text_transform | default: 'none' }} !important;
+  }
+</style>
+
 <div class="container py-5">
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     {% for collection in collections %}
@@ -12,7 +20,7 @@
             {% endif %}
           </a>
           <div class="card-body d-flex flex-column">
-            <h2 class="card-title h5" style="font-size: {{ section.settings.title_font_size }}px; line-height: {{ section.settings.title_line_height }}; text-transform: {{ section.settings.title_text_transform }};">{{ collection.title }}</h2>
+            <h2 class="card-title list-collections-card-title">{{ collection.title }}</h2>
             <div class="card-text rte">
               {{ collection.description | truncatewords: 20 }}
             </div>
