@@ -150,7 +150,7 @@
           "icon_alignment": "left",
           "footer_bg_color": "#ffffff",
           "footer_text_color": "#333333",
-          "footer_vertical_padding": 40
+          "footer_vertical_padding": 60
         }
       }
     },
