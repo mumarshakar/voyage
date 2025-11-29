@@ -260,10 +260,11 @@
           {% for link in linklists[menu].links %}
             {% if link.links != blank %}
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" 
+                <a class="nav-link dropdown-toggle desktop-menu-link" 
                    href="{{ link.url }}" 
                    role="button" 
-                   data-bs-toggle="dropdown">
+                   data-bs-toggle="dropdown"
+                   style="color: {{ desktop_menu_color_before_scroll }} !important;">
                   {{ link.title }}
                 </a>
                 <ul class="dropdown-menu" 
@@ -283,9 +284,9 @@
               </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link {% if link.active or request.page_type == 'index' and link.title == 'Home' %}active{% endif %}" 
+                <a class="nav-link desktop-menu-link {% if link.active or request.page_type == 'index' and link.title == 'Home' %}active{% endif %}" 
                    href="{{ link.url }}"
-                   style="margin: 0 var(--menu-link-spacing);">
+                   style="margin: 0 var(--menu-link-spacing); color: {{ desktop_menu_color_before_scroll }} !important;">
                   {{ link.title }}
                 </a>
               </li>
@@ -823,29 +824,33 @@
   /* ============================================
      DESKTOP MENU COLORS (Scroll-Based)
      Only affects desktop menu, NOT mobile menu
-     High specificity to override theme.liquid styles
+     Ultra-high specificity to override theme.liquid CSS variables
      ============================================ */
   
-  /* Desktop menu links - Before scroll (default) - Maximum specificity */
-  html body .navbar .nav-link,
-  html body .navbar-nav .nav-link,
-  html body .nav-item .nav-link,
-  html body .navbar .nav-link.dropdown-toggle {
-    color: {{ desktop_menu_color_before_scroll }} !important;
-    transition: color 0.3s ease;
+  /* Desktop menu links - Before scroll (default) - Ultra-high specificity */
+  html body .navbar .navbar-nav .nav-item .nav-link.desktop-menu-link,
+  html body .navbar .navbar-nav .nav-link.desktop-menu-link,
+  html body .navbar .nav-item .nav-link.desktop-menu-link,
+  html body .navbar .nav-link.dropdown-toggle.desktop-menu-link,
+  html body .navbar-nav .nav-link.desktop-menu-link,
+  html body .nav-item .nav-link.desktop-menu-link {
+    transition: color 0.3s ease !important;
   }
   
-  /* Desktop menu links - After scroll - Maximum specificity */
-  html body .navbar-scrolled .nav-link,
-  html body .navbar-scrolled .navbar-nav .nav-link,
-  html body .navbar-scrolled .nav-item .nav-link,
-  html body .navbar-scrolled .nav-link.dropdown-toggle {
+  /* Desktop menu links - After scroll - Ultra-high specificity */
+  html body .navbar-scrolled .navbar-nav .nav-item .nav-link.desktop-menu-link,
+  html body .navbar-scrolled .navbar-nav .nav-link.desktop-menu-link,
+  html body .navbar-scrolled .nav-item .nav-link.desktop-menu-link,
+  html body .navbar-scrolled .nav-link.dropdown-toggle.desktop-menu-link,
+  html body .navbar-scrolled .navbar-nav .nav-link.desktop-menu-link,
+  html body .navbar-scrolled .nav-item .nav-link.desktop-menu-link {
     color: {{ desktop_menu_color_after_scroll }} !important;
   }
   
   /* Ensure mobile menu is NOT affected - keep original colors */
   .mobile-menu-link,
-  .mobile-menu-nav .mobile-menu-link {
+  .mobile-menu-nav .mobile-menu-link,
+  .mobile-menu-overlay .mobile-menu-link {
     color: {{ menu_link_color }} !important;
   }
 </style>
