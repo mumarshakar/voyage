@@ -92,10 +92,16 @@
               assign platform = block.settings.platform | default: 'instagram'
               assign social_url = block.settings.social_url
               assign custom_icon = block.settings.custom_icon
+              
+              # Debug: Check if custom_icon exists
+              assign has_custom_icon = false
+              if custom_icon != blank and custom_icon != null
+                assign has_custom_icon = true
+              endif
             -%}
             
             {%- comment -%} Only render if block has either URL or custom icon {%- endcomment -%}
-            {% if social_url != blank or custom_icon != blank %}
+            {% if social_url != blank or has_custom_icon %}
             <a href="{{ social_url | default: '#' }}" 
                {% if social_url != blank %}
                target="_blank" 
@@ -104,15 +110,28 @@
                class="social-icon-link"
                aria-label="Visit our {{ platform | capitalize }} profile">
               
-              {% if custom_icon != blank %}
-                <img src="{{ custom_icon | image_url: width: icon_size }}"
-                     srcset="{{ custom_icon | image_url: width: icon_size }} 1x, {{ custom_icon | image_url: width: icon_size | times: 2 }} 2x"
+              {% if has_custom_icon and custom_icon != blank %}
+                {%- liquid
+                  assign image_url_single = custom_icon | image_url: width: icon_size
+                  assign image_url_double = custom_icon | image_url: width: icon_size | times: 2
+                -%}
+                <img src="{{ image_url_single }}"
+                     srcset="{{ image_url_single }} 1x, {{ image_url_double }} 2x"
                      alt="{{ platform | capitalize }}"
                      width="{{ icon_size }}"
                      height="{{ icon_size }}"
-                     loading="lazy"
+                     loading="eager"
                      class="social-icon-img"
-                     style="display: block !important; width: 100% !important; height: 100% !important; object-fit: contain !important; max-width: {{ icon_size }}px !important; max-height: {{ icon_size }}px !important;">
+                     style="display: block !important; 
+                            width: {{ icon_size }}px !important; 
+                            height: {{ icon_size }}px !important; 
+                            min-width: {{ icon_size }}px !important;
+                            min-height: {{ icon_size }}px !important;
+                            object-fit: contain !important; 
+                            max-width: {{ icon_size }}px !important; 
+                            max-height: {{ icon_size }}px !important;
+                            visibility: visible !important;
+                            opacity: 1 !important;">
               {% else %}
                 {%- comment -%}
                   Generate placeholder SVG based on platform
@@ -190,10 +209,19 @@
   }
   
   .social-icon-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-width: var(--icon-size, 40px) !important;
+    min-height: var(--icon-size, 40px) !important;
+  }
+  
+  .social-icon-img[src=""],
+  .social-icon-img:not([src]) {
+    display: none !important;
   }
   
   .social-icon-placeholder {
