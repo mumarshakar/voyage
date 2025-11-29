@@ -9,6 +9,48 @@
  */
 {
   "sections": {
+    "hero_section_BRfpTm": {
+      "type": "hero-section",
+      "custom_css": [
+        ".hero-section{margin-top:-35px !important;}"
+      ],
+      "name": "Hero Section",
+      "settings": {
+        "title": "{{ product.title }}",
+        "subtitle": "",
+        "button_text": "BOOK YOUR GLOW",
+        "button_link": "",
+        "button_2_text": "Learn More",
+        "button_2_link": "",
+        "background_type": "image",
+        "image_source_type": "upload",
+        "background_image": "{{ product.featured_image }}",
+        "background_image_mobile": "{{ product.featured_image }}",
+        "background_image_desktop_url": "",
+        "background_image_mobile_url": "",
+        "video_source_type": "upload",
+        "background_video_desktop_url": "",
+        "background_video_mobile_url": "",
+        "video_autoplay": true,
+        "video_muted": true,
+        "hero_height": 75,
+        "hero_height_mobile": 70,
+        "background_position": "center",
+        "background_size": "cover",
+        "title_color": "#FFFFFF",
+        "subtitle_color": "#FFFFFF",
+        "title_position_top": 20,
+        "text_alignment": "center",
+        "button_position_bottom": 15,
+        "overlay_color": "#000000",
+        "overlay_opacity": 0,
+        "padding_top": 120,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
     "product_main": {
       "type": "product-main",
       "settings": {
@@ -61,6 +103,7 @@
     }
   },
   "order": [
+    "hero_section_BRfpTm",
     "product_main",
     "176363517991952302"
   ]
