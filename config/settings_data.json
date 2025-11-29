@@ -76,11 +76,14 @@
           "header_margin_bottom": 0,
           "show_mobile_menu": true,
           "mobile_menu_icon_size": 24,
+          "mobile_menu_icon_color": "#FFFFFF",
           "mobile_menu_border_width": 1,
+          "mobile_menu_border_color": "#333333",
           "mobile_menu_border_radius": 4,
           "mobile_menu_bg_transparent": true,
-          "mobile_menu_padding": 8,
-          "mobile_menu_stroke_width": 2
+          "mobile_menu_bg_color": "#FFFFFF",
+          "mobile_menu_padding": 10,
+          "mobile_menu_stroke_width": 3
         }
       },
       "hero-section": {
@@ -133,7 +136,8 @@
             "type": "social_media",
             "settings": {
               "platform": "instagram",
-              "social_url": "https://www.instagram.com/thehypeclubofficial/?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr#"
+              "social_url": "https://www.instagram.com/thehypeclubofficial/?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr#",
+              "custom_icon_url": "https://cdn.shopify.com/s/files/1/0778/3818/8777/files/instagram_Voyage_Hype_Club.webp?v=1764395422"
             }
           }
         },
