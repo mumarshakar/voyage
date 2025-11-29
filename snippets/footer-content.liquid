@@ -40,7 +40,9 @@
   if section.blocks != blank
     for block in section.blocks
       if block.type == 'social_media'
-        if block.settings.social_url != blank or block.settings.custom_icon != blank
+        assign block_url = block.settings.social_url
+        assign block_icon = block.settings.custom_icon
+        if block_url != blank or block_icon != blank
           assign social_blocks_count = social_blocks_count | plus: 1
         endif
       endif
@@ -72,22 +74,10 @@
               assign platform = block.settings.platform | default: 'instagram'
               assign social_url = block.settings.social_url
               assign custom_icon = block.settings.custom_icon
-              assign use_custom = false
-              
-              # Check if custom_icon exists and is not blank
-              # In Shopify, image_picker returns an image object, so we check if it exists
-              if custom_icon != blank and custom_icon != null
-                assign use_custom = true
-              endif
-              
-              # Only render if block has either URL or custom icon
-              assign should_render = false
-              if social_url != blank or use_custom
-                assign should_render = true
-              endif
             -%}
             
-            {% if should_render %}
+            {%- comment -%} Only render if block has either URL or custom icon {%- endcomment -%}
+            {% if social_url != blank or custom_icon != blank %}
             <a href="{{ social_url | default: '#' }}" 
                {% if social_url != blank %}
                target="_blank" 
@@ -96,7 +86,7 @@
                class="social-icon-link"
                aria-label="Visit our {{ platform | capitalize }} profile">
               
-              {% if use_custom and custom_icon != blank %}
+              {% if custom_icon != blank %}
                 <img src="{{ custom_icon | image_url: width: icon_size }}"
                      srcset="{{ custom_icon | image_url: width: icon_size }} 1x, {{ custom_icon | image_url: width: icon_size | times: 2 }} 2x"
                      alt="{{ platform | capitalize }}"
@@ -104,7 +94,7 @@
                      height="{{ icon_size }}"
                      loading="lazy"
                      class="social-icon-img"
-                     style="display: block;">
+                     style="display: block !important; width: 100% !important; height: 100% !important; object-fit: contain !important; max-width: {{ icon_size }}px !important; max-height: {{ icon_size }}px !important;">
               {% else %}
                 {%- comment -%}
                   Generate placeholder SVG based on platform
