@@ -133,7 +133,8 @@
             "type": "social_media",
             "settings": {
               "platform": "instagram",
-              "social_url": "https://www.instagram.com/thehypeclubofficial/?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr#"
+              "social_url": "https://www.instagram.com/thehypeclubofficial/?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr#",
+              "custom_icon": "shopify://shop_images/instagram_Voyage_Hype_Club.webp"
             }
           }
         },
