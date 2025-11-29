@@ -67,11 +67,11 @@
   {% if social_blocks_count > 0 %}
     {% if heading_text != blank %}
       <h3 class="footer-social-heading" 
-          style="color: {{ footer_text_color }};
+          style="color: {{ footer_text_color }} !important;
                  text-align: {{ heading_alignment }};
                  margin: 0 0 20px 0;
-                 font-size: {{ heading_font_size }}px;
-                 font-weight: 600;">
+                 font-size: {{ heading_font_size }}px !important;
+                 font-weight: 600 !important;">
         {{ heading_text }}
       </h3>
     {% endif %}
@@ -154,6 +154,12 @@
 </footer>
 
 <style>
+  .footer-social-heading {
+    font-size: {{ heading_font_size }}px !important;
+    color: {{ footer_text_color }} !important;
+    font-weight: 600 !important;
+  }
+  
   .social-icons-container {
     display: flex;
     gap: var(--icon-gap, 16px);
