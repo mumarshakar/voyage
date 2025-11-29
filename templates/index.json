@@ -13,8 +13,8 @@
       "type": "hero-section",
       "custom_css": [
         ".hero-glow {margin-top: -35px !important;}",
-        ".hero-glow-title{line-height:60px !important;}",
-        ".hero-glow-subtitle{margin-top:-35px !important; line-height:50px !important;}"
+        ".hero-glow-title {line-height: 60px !important;}",
+        ".hero-glow-subtitle {margin-top: -20px !important; line-height: 50px !important;}"
       ],
       "settings": {
         "title": "WELLNESS ON WATER, REIMAGINED",
