@@ -133,7 +133,7 @@
             "type": "social_media",
             "settings": {
               "platform": "instagram",
-              "social_url": "",
+              "social_url": "shopify://collections",
               "custom_icon": "shopify://shop_images/instagram-icon-with-brand-color.png"
             }
           },
@@ -141,7 +141,7 @@
             "type": "social_media",
             "settings": {
               "platform": "facebook",
-              "social_url": "",
+              "social_url": "shopify://collections",
               "custom_icon": "shopify://shop_images/facebook-icon-image-with-brand-colors.png"
             }
           }
