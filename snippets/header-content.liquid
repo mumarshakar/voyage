@@ -264,7 +264,8 @@
                    href="{{ link.url }}" 
                    role="button" 
                    data-bs-toggle="dropdown"
-                   style="color: {{ desktop_menu_color_before_scroll }} !important;">
+                   data-desktop-menu-color-before="{{ desktop_menu_color_before_scroll }}"
+                   data-desktop-menu-color-after="{{ desktop_menu_color_after_scroll }}">
                   {{ link.title }}
                 </a>
                 <ul class="dropdown-menu" 
@@ -286,7 +287,9 @@
               <li class="nav-item">
                 <a class="nav-link desktop-menu-link {% if link.active or request.page_type == 'index' and link.title == 'Home' %}active{% endif %}" 
                    href="{{ link.url }}"
-                   style="margin: 0 var(--menu-link-spacing); color: {{ desktop_menu_color_before_scroll }} !important;">
+                   style="margin: 0 var(--menu-link-spacing);"
+                   data-desktop-menu-color-before="{{ desktop_menu_color_before_scroll }}"
+                   data-desktop-menu-color-after="{{ desktop_menu_color_after_scroll }}">
                   {{ link.title }}
                 </a>
               </li>
@@ -420,6 +423,15 @@
 </div>
 
 <style>
+  /* ============================================
+     DESKTOP MENU COLOR CSS VARIABLES
+     Define our own CSS variables to override theme.liquid
+     ============================================ */
+  :root {
+    --desktop-menu-color-before-scroll: {{ desktop_menu_color_before_scroll }};
+    --desktop-menu-color-after-scroll: {{ desktop_menu_color_after_scroll }};
+  }
+  
   .navbar-sticky {
     position: sticky;
     top: 0;
@@ -828,22 +840,22 @@
      ============================================ */
   
   /* Desktop menu links - Before scroll (default) - Ultra-high specificity */
-  html body .navbar .navbar-nav .nav-item .nav-link.desktop-menu-link,
-  html body .navbar .navbar-nav .nav-link.desktop-menu-link,
-  html body .navbar .nav-item .nav-link.desktop-menu-link,
-  html body .navbar .nav-link.dropdown-toggle.desktop-menu-link,
-  html body .navbar-nav .nav-link.desktop-menu-link,
-  html body .nav-item .nav-link.desktop-menu-link {
+  /* Using direct color values to override theme.liquid CSS variables */
+  html body .navbar:not(.navbar-scrolled) .navbar-nav .nav-item .nav-link.desktop-menu-link,
+  html body .navbar:not(.navbar-scrolled) .navbar-nav .nav-link.desktop-menu-link,
+  html body .navbar:not(.navbar-scrolled) .nav-item .nav-link.desktop-menu-link,
+  html body .navbar:not(.navbar-scrolled) .nav-link.dropdown-toggle.desktop-menu-link,
+  html body .navbar .navbar-nav .nav-item .nav-link.desktop-menu-link:not(.navbar-scrolled),
+  html body .navbar .navbar-nav .nav-link.desktop-menu-link:not(.navbar-scrolled) {
+    color: {{ desktop_menu_color_before_scroll }} !important;
     transition: color 0.3s ease !important;
   }
   
   /* Desktop menu links - After scroll - Ultra-high specificity */
-  html body .navbar-scrolled .navbar-nav .nav-item .nav-link.desktop-menu-link,
-  html body .navbar-scrolled .navbar-nav .nav-link.desktop-menu-link,
-  html body .navbar-scrolled .nav-item .nav-link.desktop-menu-link,
-  html body .navbar-scrolled .nav-link.dropdown-toggle.desktop-menu-link,
-  html body .navbar-scrolled .navbar-nav .nav-link.desktop-menu-link,
-  html body .navbar-scrolled .nav-item .nav-link.desktop-menu-link {
+  html body .navbar.navbar-scrolled .navbar-nav .nav-item .nav-link.desktop-menu-link,
+  html body .navbar.navbar-scrolled .navbar-nav .nav-link.desktop-menu-link,
+  html body .navbar.navbar-scrolled .nav-item .nav-link.desktop-menu-link,
+  html body .navbar.navbar-scrolled .nav-link.dropdown-toggle.desktop-menu-link {
     color: {{ desktop_menu_color_after_scroll }} !important;
   }
   
@@ -869,10 +881,23 @@
     function handleScroll() {
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
       
+      // Get all desktop menu links
+      const desktopMenuLinks = navbar.querySelectorAll('.desktop-menu-link');
+      const beforeScrollColor = '{{ desktop_menu_color_before_scroll }}';
+      const afterScrollColor = '{{ desktop_menu_color_after_scroll }}';
+      
       if (scrollY > scrollThreshold) {
         navbar.classList.add('navbar-scrolled');
+        // Directly set color via JavaScript as backup
+        desktopMenuLinks.forEach(link => {
+          link.style.setProperty('color', afterScrollColor, 'important');
+        });
       } else {
         navbar.classList.remove('navbar-scrolled');
+        // Directly set color via JavaScript as backup
+        desktopMenuLinks.forEach(link => {
+          link.style.setProperty('color', beforeScrollColor, 'important');
+        });
       }
     }
     
