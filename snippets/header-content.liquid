@@ -823,30 +823,23 @@
   /* ============================================
      DESKTOP MENU COLORS (Scroll-Based)
      Only affects desktop menu, NOT mobile menu
+     High specificity to override theme.liquid styles
      ============================================ */
   
-  /* Desktop menu links - Before scroll (default) */
-  .navbar .nav-link,
-  .navbar-nav .nav-link,
-  .nav-item .nav-link {
+  /* Desktop menu links - Before scroll (default) - Maximum specificity */
+  html body .navbar .nav-link,
+  html body .navbar-nav .nav-link,
+  html body .nav-item .nav-link,
+  html body .navbar .nav-link.dropdown-toggle {
     color: {{ desktop_menu_color_before_scroll }} !important;
     transition: color 0.3s ease;
   }
   
-  /* Desktop menu links - After scroll */
-  .navbar-scrolled .nav-link,
-  .navbar-scrolled .navbar-nav .nav-link,
-  .navbar-scrolled .nav-item .nav-link {
-    color: {{ desktop_menu_color_after_scroll }} !important;
-  }
-  
-  /* Desktop dropdown toggle - Before scroll */
-  .navbar .nav-link.dropdown-toggle {
-    color: {{ desktop_menu_color_before_scroll }} !important;
-  }
-  
-  /* Desktop dropdown toggle - After scroll */
-  .navbar-scrolled .nav-link.dropdown-toggle {
+  /* Desktop menu links - After scroll - Maximum specificity */
+  html body .navbar-scrolled .nav-link,
+  html body .navbar-scrolled .navbar-nav .nav-link,
+  html body .navbar-scrolled .nav-item .nav-link,
+  html body .navbar-scrolled .nav-link.dropdown-toggle {
     color: {{ desktop_menu_color_after_scroll }} !important;
   }
   
