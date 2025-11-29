@@ -18,6 +18,8 @@
     assign menu_link_spacing = settings.menu_link_spacing | default: 8
     assign menu_link_color = settings.menu_link_color | default: '#8B6F47'
     assign menu_link_hover_color = settings.menu_link_hover_color | default: '#FF6B35'
+    assign desktop_menu_color_before_scroll = '#8B6F47'
+    assign desktop_menu_color_after_scroll = '#333333'
     assign dropdown_bg_color = settings.dropdown_bg_color | default: '#FFFFFF'
     assign dropdown_link_color = settings.dropdown_link_color | default: '#333333'
     assign dropdown_hover_bg_color = settings.dropdown_hover_bg_color | default: '#FFF8E7'
@@ -89,6 +91,8 @@
     assign menu_link_spacing = settings.menu_link_spacing | default: 8
     assign menu_link_color = settings.menu_link_color | default: '#8B6F47'
     assign menu_link_hover_color = settings.menu_link_hover_color | default: '#FF6B35'
+    assign desktop_menu_color_before_scroll = '#8B6F47'
+    assign desktop_menu_color_after_scroll = '#333333'
     assign dropdown_bg_color = settings.dropdown_bg_color | default: '#FFFFFF'
     assign dropdown_link_color = settings.dropdown_link_color | default: '#333333'
     assign dropdown_hover_bg_color = settings.dropdown_hover_bg_color | default: '#FFF8E7'
@@ -814,6 +818,42 @@
   /* Ensure scrolled styles override transparent styles */
   .navbar-scrollable.navbar-scrolled.navbar-transparent {
     background-color: {% if scrolled_bg_color != blank %}{{ scrolled_bg_color }}{% else %}{{ header_bg_color }}{% endif %} !important;
+  }
+  
+  /* ============================================
+     DESKTOP MENU COLORS (Scroll-Based)
+     Only affects desktop menu, NOT mobile menu
+     ============================================ */
+  
+  /* Desktop menu links - Before scroll (default) */
+  .navbar .nav-link,
+  .navbar-nav .nav-link,
+  .nav-item .nav-link {
+    color: {{ desktop_menu_color_before_scroll }} !important;
+    transition: color 0.3s ease;
+  }
+  
+  /* Desktop menu links - After scroll */
+  .navbar-scrolled .nav-link,
+  .navbar-scrolled .navbar-nav .nav-link,
+  .navbar-scrolled .nav-item .nav-link {
+    color: {{ desktop_menu_color_after_scroll }} !important;
+  }
+  
+  /* Desktop dropdown toggle - Before scroll */
+  .navbar .nav-link.dropdown-toggle {
+    color: {{ desktop_menu_color_before_scroll }} !important;
+  }
+  
+  /* Desktop dropdown toggle - After scroll */
+  .navbar-scrolled .nav-link.dropdown-toggle {
+    color: {{ desktop_menu_color_after_scroll }} !important;
+  }
+  
+  /* Ensure mobile menu is NOT affected - keep original colors */
+  .mobile-menu-link,
+  .mobile-menu-nav .mobile-menu-link {
+    color: {{ menu_link_color }} !important;
   }
 </style>
 
