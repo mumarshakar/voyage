@@ -232,7 +232,10 @@
       {% endif %}
     </a>
     {% if show_mobile_menu %}
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+    <button class="mobile-menu-toggle" 
+            type="button" 
+            id="mobileMenuToggle" 
+            aria-label="Toggle menu"
             style="border-color: {{ mobile_menu_border_color }};
                    border-width: {{ mobile_menu_border_width }}px;
                    border-radius: {{ mobile_menu_border_radius }}px;
@@ -240,20 +243,14 @@
                    padding: {{ mobile_menu_padding }}px;
                    width: {{ mobile_menu_icon_size | plus: mobile_menu_padding | plus: mobile_menu_padding }}px;
                    height: {{ mobile_menu_icon_size | plus: mobile_menu_padding | plus: mobile_menu_padding }}px;">
-      {%- liquid
-        assign svg_color = mobile_menu_icon_color | url_encode
-        assign svg_stroke = mobile_menu_stroke_width
-        assign svg_path = 'M4 7h22M4 15h22M4 23h22' | url_encode
-        assign svg_base = 'data:image/svg+xml,'
-        assign svg_start = '%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 30 30%27%3e'
-        assign svg_path_tag = '%3cpath stroke=%27' | append: svg_color | append: '%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 stroke-width=%27' | append: svg_stroke | append: '%27 d=%27' | append: svg_path | append: '%27/%3e'
-        assign svg_end = '%3c/svg%3e'
-        assign svg_data = svg_base | append: svg_start | append: svg_path_tag | append: svg_end
-      -%}
-      <span class="navbar-toggler-icon" style="background-image: url('{{ svg_data }}'); width: {{ mobile_menu_icon_size }}px; height: {{ mobile_menu_icon_size }}px; background-size: {{ mobile_menu_icon_size }}px {{ mobile_menu_icon_size }}px;"></span>
+      <span class="hamburger-icon" style="width: {{ mobile_menu_icon_size }}px; height: {{ mobile_menu_icon_size }}px;">
+        <span class="hamburger-line" style="background-color: {{ mobile_menu_icon_color }};"></span>
+        <span class="hamburger-line" style="background-color: {{ mobile_menu_icon_color }};"></span>
+        <span class="hamburger-line" style="background-color: {{ mobile_menu_icon_color }};"></span>
+      </span>
     </button>
     {% endif %}
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse d-none d-lg-block" id="navbarNav">
       <ul class="navbar-nav {% if menu_alignment == 'left' %}me-auto{% elsif menu_alignment == 'right' %}ms-auto{% else %}mx-auto{% endif %}">
         {% if menu != blank %}
           {% for link in linklists[menu].links %}
@@ -321,6 +318,101 @@
     </div>
   </div>
 </nav>
+
+<!-- Mobile Menu Overlay (Slide-out from LEFT) -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
+  <div class="mobile-menu-panel" id="mobileMenuPanel">
+    <!-- Menu Header with Logo -->
+    <div class="mobile-menu-header">
+      <a class="mobile-menu-logo" href="{{ routes.root_url }}" style="color: {{ logo_color }}; font-size: {{ logo_font_size }}px;">
+        {% if logo_image != blank %}
+          <img src="{{ logo_image | image_url: width: logo_width }}" 
+               alt="{{ logo_text }}"
+               style="max-height: {{ logo_max_height }}px; width: auto;">
+        {% elsif two_line_logo %}
+          <div class="logo-two-line">
+            <span class="logo-line1">{{ logo_line1 }}</span>
+            <span class="logo-line2">{{ logo_line2 }}</span>
+          </div>
+        {% else %}
+          {{ logo_text }}
+        {% endif %}
+      </a>
+      <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Menu Navigation -->
+    <nav class="mobile-menu-nav">
+      <ul class="mobile-menu-list">
+        {% if menu != blank %}
+          {% for link in linklists[menu].links %}
+            {% if link.links != blank %}
+              <li class="mobile-menu-item mobile-menu-item-dropdown">
+                <a class="mobile-menu-link mobile-menu-link-dropdown" 
+                   href="{{ link.url }}"
+                   data-dropdown-toggle="{{ link.handle }}">
+                  <span class="menu-link-text">{{ link.title }}</span>
+                  <svg class="menu-link-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor">
+                    <path d="M6 12l4-4-4-4"></path>
+                  </svg>
+                </a>
+                <ul class="mobile-menu-submenu" id="submenu-{{ link.handle }}">
+                  {% for childlink in link.links %}
+                    <li class="mobile-menu-subitem">
+                      <a class="mobile-menu-sublink" href="{{ childlink.url }}">
+                        {{ childlink.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% else %}
+              <li class="mobile-menu-item">
+                <a class="mobile-menu-link {% if link.active %}active{% endif %}" 
+                   href="{{ link.url }}"
+                   style="color: {{ menu_link_color }};
+                          font-family: var(--menu-font-family, inherit);
+                          font-size: var(--menu-font-size, 16px);
+                          font-weight: var(--menu-font-weight, 500);">
+                  <span class="menu-link-text">{{ link.title }}</span>
+                  <svg class="menu-link-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor">
+                    <path d="M6 12l4-4-4-4"></path>
+                  </svg>
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </nav>
+    
+    <!-- Menu Footer with Book Now Button -->
+    <div class="mobile-menu-footer">
+      {%- liquid
+        assign button_href = book_now_button_url
+        if button_href == blank
+          assign button_href = '#'
+        endif
+      -%}
+      <a href="{{ button_href }}" 
+         class="mobile-menu-cta"
+         style="background-color: {{ book_now_button_bg_color }};
+                color: {{ book_now_button_text_color }} !important;
+                font-size: {{ book_now_button_font_size }}px;
+                font-weight: {{ book_now_button_font_weight }};
+                padding: {{ book_now_button_padding_y }}px {{ book_now_button_padding_x }}px;
+                border-radius: {{ book_now_button_border_radius }}px;">
+        {{ book_now_button_text }}
+      </a>
+    </div>
+  </div>
+</div>
 
 <style>
   .navbar-sticky {
@@ -411,6 +503,275 @@
     background-color: {{ dropdown_hover_bg_color }} !important;
     color: {{ dropdown_hover_color }} !important;
   }
+  
+  /* ============================================
+     MOBILE MENU OVERLAY (Slide from LEFT)
+     ============================================ */
+  
+  /* Mobile Menu Overlay Container */
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+  
+  /* Dark Backdrop with Blur */
+  .mobile-menu-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  
+  /* Slide-Out Menu Panel (from LEFT) */
+  .mobile-menu-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 85%;
+    max-width: 400px;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .mobile-menu-overlay.active .mobile-menu-panel {
+    transform: translateX(0);
+  }
+  
+  /* Menu Header */
+  .mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e5e5e5;
+    flex-shrink: 0;
+  }
+  
+  .mobile-menu-logo {
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .mobile-menu-close {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    width: 32px;
+    height: 32px;
+  }
+  
+  .mobile-menu-close:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .mobile-menu-close svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Menu Navigation */
+  .mobile-menu-nav {
+    flex: 1;
+    padding: 20px 0;
+    overflow-y: auto;
+  }
+  
+  .mobile-menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .mobile-menu-item {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .mobile-menu-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    min-height: 48px;
+  }
+  
+  .mobile-menu-link:hover,
+  .mobile-menu-link:active {
+    background-color: #f8f8f8;
+  }
+  
+  .mobile-menu-link.active {
+    font-weight: 600;
+    color: {{ menu_link_hover_color }} !important;
+  }
+  
+  .menu-link-text {
+    flex: 1;
+  }
+  
+  .menu-link-arrow {
+    opacity: 0.5;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  
+  .mobile-menu-link:hover .menu-link-arrow {
+    transform: translateX(4px);
+    opacity: 1;
+  }
+  
+  /* Dropdown Submenu Support */
+  .mobile-menu-item-dropdown {
+    position: relative;
+  }
+  
+  .mobile-menu-link-dropdown {
+    cursor: pointer;
+  }
+  
+  .mobile-menu-submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background-color: #fafafa;
+  }
+  
+  .mobile-menu-submenu.active {
+    max-height: 500px;
+  }
+  
+  .mobile-menu-subitem {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .mobile-menu-sublink {
+    display: block;
+    padding: 14px 20px 14px 40px;
+    text-decoration: none;
+    color: {{ dropdown_link_color }};
+    font-size: 15px;
+    transition: background-color 0.2s, color 0.2s;
+    min-height: 44px;
+  }
+  
+  .mobile-menu-sublink:hover {
+    background-color: {{ dropdown_hover_bg_color }};
+    color: {{ dropdown_hover_color }};
+  }
+  
+  /* Menu Footer with CTA */
+  .mobile-menu-footer {
+    padding: 20px;
+    border-top: 1px solid #e5e5e5;
+    flex-shrink: 0;
+    background: #fafafa;
+  }
+  
+  .mobile-menu-cta {
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+    border: none;
+  }
+  
+  .mobile-menu-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .mobile-menu-cta:active {
+    transform: translateY(0);
+  }
+  
+  /* Hamburger Icon Animation */
+  .hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .hamburger-line {
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Animate hamburger to X when menu is open */
+  .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
+  }
+  
+  .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  
+  .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
+  }
+  
+  /* Prevent body scroll when menu is open */
+  body.menu-open {
+    overflow: hidden;
+  }
+  
+  /* Hide mobile menu on desktop */
+  @media (min-width: 992px) {
+    .mobile-menu-overlay {
+      display: none !important;
+    }
+    
+    .mobile-menu-toggle {
+      display: none !important;
+    }
+  }
+  
+  /* Show desktop menu on desktop */
+  @media (min-width: 992px) {
+    .collapse.navbar-collapse.d-none.d-lg-block {
+      display: flex !important;
+    }
+  }
 
   /* Mobile responsive adjustments for Book Now button */
   @media (max-width: 991.98px) {
@@ -490,6 +851,92 @@
         });
         ticking = true;
       }
+    });
+  })();
+  
+  // ============================================
+  // MOBILE MENU FUNCTIONALITY (Slide from LEFT)
+  // ============================================
+  (function() {
+    const toggle = document.getElementById('mobileMenuToggle');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    const backdrop = document.getElementById('mobileMenuBackdrop');
+    const panel = document.getElementById('mobileMenuPanel');
+    const closeBtn = document.getElementById('mobileMenuClose');
+    const body = document.body;
+    
+    if (!toggle || !overlay) return; // Exit if elements don't exist
+    
+    function openMenu() {
+      overlay.classList.add('active');
+      toggle.classList.add('active');
+      body.classList.add('menu-open');
+      document.documentElement.style.overflow = 'hidden';
+    }
+    
+    function closeMenu() {
+      overlay.classList.remove('active');
+      toggle.classList.remove('active');
+      body.classList.remove('menu-open');
+      document.documentElement.style.overflow = '';
+    }
+    
+    // Open menu
+    toggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      openMenu();
+    });
+    
+    // Close menu
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeMenu();
+      });
+    }
+    
+    if (backdrop) {
+      backdrop.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeMenu();
+      });
+    }
+    
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+    
+    // Close menu when clicking a link (non-dropdown)
+    const menuLinks = document.querySelectorAll('.mobile-menu-link:not(.mobile-menu-link-dropdown)');
+    menuLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        setTimeout(closeMenu, 100);
+      });
+    });
+    
+    // Dropdown submenu toggle
+    const dropdownToggles = document.querySelectorAll('.mobile-menu-link-dropdown');
+    dropdownToggles.forEach(toggle => {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        const dropdownId = this.getAttribute('data-dropdown-toggle');
+        const submenu = document.getElementById('submenu-' + dropdownId);
+        
+        if (submenu) {
+          submenu.classList.toggle('active');
+          const arrow = this.querySelector('.menu-link-arrow');
+          if (arrow) {
+            arrow.style.transform = submenu.classList.contains('active') 
+              ? 'rotate(90deg)' 
+              : 'rotate(0deg)';
+          }
+        }
+      });
     });
   })();
 </script>
