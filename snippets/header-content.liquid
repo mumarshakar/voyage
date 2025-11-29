@@ -7,10 +7,14 @@
     assign logo_line2 = 'DECK'
     assign two_line_logo = false
     assign logo_image = blank
+    assign logo_image_before_scroll = blank
+    assign logo_image_after_scroll = blank
     assign logo_width = 200
     assign logo_max_height = 60
     assign logo_font_size = 24
     assign logo_color = '#8B6F47'
+    assign logo_color_before_scroll = '#8B6F47'
+    assign logo_color_after_scroll = '#000000'
     assign menu = 'main-menu'
     assign menu_alignment = 'right'
     assign menu_font_size = settings.menu_font_size | default: 16
@@ -80,10 +84,14 @@
       assign two_line_logo = false
     endif
     assign logo_image = header_settings.logo_image
+    assign logo_image_before_scroll = header_settings.logo_image_before_scroll
+    assign logo_image_after_scroll = header_settings.logo_image_after_scroll
     assign logo_width = header_settings.logo_width | default: 200
     assign logo_max_height = header_settings.logo_max_height | default: 60
     assign logo_font_size = header_settings.logo_font_size | default: 24
     assign logo_color = header_settings.logo_color | default: '#8B6F47'
+    assign logo_color_before_scroll = header_settings.logo_color_before_scroll | default: '#8B6F47'
+    assign logo_color_after_scroll = header_settings.logo_color_after_scroll | default: '#000000'
     assign menu = header_settings.menu | default: 'main-menu'
     assign menu_alignment = header_settings.menu_alignment | default: 'right'
     assign menu_font_size = settings.menu_font_size | default: 16
@@ -218,14 +226,37 @@
             {% endif %}
             {% if header_shadow %}{% if make_header_transparent or transparent_on_homepage and template.name == 'index' %}box-shadow: none;{% else %}box-shadow: 0 2px 10px rgba(0,0,0,0.1);{% endif %}{% else %}box-shadow: none;{% endif %}">
   <div class="container">
-    <a class="navbar-brand" href="{{ routes.root_url }}" style="font-size: {{ logo_font_size }}px; color: {{ logo_color }} !important;">
-      {% if logo_image != blank %}
-          <img src="{{ logo_image | image_url: width: logo_width }}" 
+    <a class="navbar-brand desktop-logo" href="{{ routes.root_url }}" style="font-size: {{ logo_font_size }}px; color: {{ logo_color_before_scroll }} !important;" data-logo-color-before="{{ logo_color_before_scroll }}" data-logo-color-after="{{ logo_color_after_scroll }}">
+      {%- liquid
+        assign logo_to_show_before = logo_image_before_scroll
+        if logo_to_show_before == blank
+          assign logo_to_show_before = logo_image
+        endif
+        
+        assign logo_to_show_after = logo_image_after_scroll
+        if logo_to_show_after == blank
+          assign logo_to_show_after = logo_image
+        endif
+      -%}
+      
+      {% if logo_to_show_before != blank %}
+        {%- comment -%} Logo Image - Before Scroll (shown by default) {%- endcomment -%}
+        <img src="{{ logo_to_show_before | image_url: width: logo_width }}" 
+             alt="{{ logo_text }}"
+             class="logo-image logo-image-before-scroll"
+             width="{{ logo_width }}"
+             height="{{ logo_max_height }}"
+             style="max-height: {{ logo_max_height }}px; width: auto; display: block;">
+        
+        {%- comment -%} Logo Image - After Scroll (hidden by default, shown when scrolled) {%- endcomment -%}
+        {% if logo_to_show_after != blank and logo_to_show_after != logo_to_show_before %}
+          <img src="{{ logo_to_show_after | image_url: width: logo_width }}" 
                alt="{{ logo_text }}"
-               class="logo-image"
+               class="logo-image logo-image-after-scroll"
                width="{{ logo_width }}"
                height="{{ logo_max_height }}"
-               style="max-height: {{ logo_max_height }}px; width: auto;">
+               style="max-height: {{ logo_max_height }}px; width: auto; display: none;">
+        {% endif %}
       {% elsif two_line_logo %}
         <div class="logo-two-line">
           <span class="logo-line1">{{ logo_line1 }}</span>
@@ -865,6 +896,58 @@
   .mobile-menu-overlay .mobile-menu-link {
     color: {{ menu_link_color }} !important;
   }
+  
+  /* ============================================
+     LOGO COLORS (Scroll-Based)
+     Only affects desktop logo text, NOT logo images
+     ============================================ */
+  
+  /* Logo - Before scroll (default) - Maximum specificity */
+  html body .navbar:not(.navbar-scrolled) .navbar-brand.desktop-logo,
+  html body .navbar .navbar-brand.desktop-logo:not(.navbar-scrolled) {
+    color: {{ logo_color_before_scroll }} !important;
+    transition: color 0.3s ease !important;
+  }
+  
+  /* Logo - After scroll - Maximum specificity */
+  html body .navbar.navbar-scrolled .navbar-brand.desktop-logo {
+    color: {{ logo_color_after_scroll }} !important;
+  }
+  
+  /* Logo text elements (for two-line logos) - Before scroll */
+  html body .navbar:not(.navbar-scrolled) .navbar-brand.desktop-logo .logo-line1,
+  html body .navbar:not(.navbar-scrolled) .navbar-brand.desktop-logo .logo-line2 {
+    color: {{ logo_color_before_scroll }} !important;
+  }
+  
+  /* Logo text elements (for two-line logos) - After scroll */
+  html body .navbar.navbar-scrolled .navbar-brand.desktop-logo .logo-line1,
+  html body .navbar.navbar-scrolled .navbar-brand.desktop-logo .logo-line2 {
+    color: {{ logo_color_after_scroll }} !important;
+  }
+  
+  /* ============================================
+     LOGO IMAGE SWAPPING (Scroll-Based)
+     Show/hide different logo images on scroll
+     ============================================ */
+  
+  /* Logo image - Before scroll (shown by default) */
+  html body .navbar:not(.navbar-scrolled) .logo-image-before-scroll {
+    display: block !important;
+  }
+  
+  html body .navbar.navbar-scrolled .logo-image-before-scroll {
+    display: none !important;
+  }
+  
+  /* Logo image - After scroll (hidden by default, shown when scrolled) */
+  html body .navbar:not(.navbar-scrolled) .logo-image-after-scroll {
+    display: none !important;
+  }
+  
+  html body .navbar.navbar-scrolled .logo-image-after-scroll {
+    display: block !important;
+  }
 </style>
 
 <script>
@@ -883,21 +966,62 @@
       
       // Get all desktop menu links
       const desktopMenuLinks = navbar.querySelectorAll('.desktop-menu-link');
-      const beforeScrollColor = '{{ desktop_menu_color_before_scroll }}';
-      const afterScrollColor = '{{ desktop_menu_color_after_scroll }}';
+      const menuBeforeScrollColor = '{{ desktop_menu_color_before_scroll }}';
+      const menuAfterScrollColor = '{{ desktop_menu_color_after_scroll }}';
+      
+      // Get logo element
+      const logo = navbar.querySelector('.navbar-brand.desktop-logo');
+      const logoBeforeScrollColor = '{{ logo_color_before_scroll }}';
+      const logoAfterScrollColor = '{{ logo_color_after_scroll }}';
+      
+      // Get logo images
+      const logoImageBefore = navbar.querySelector('.logo-image-before-scroll');
+      const logoImageAfter = navbar.querySelector('.logo-image-after-scroll');
       
       if (scrollY > scrollThreshold) {
         navbar.classList.add('navbar-scrolled');
-        // Directly set color via JavaScript as backup
+        // Directly set menu color via JavaScript as backup
         desktopMenuLinks.forEach(link => {
-          link.style.setProperty('color', afterScrollColor, 'important');
+          link.style.setProperty('color', menuAfterScrollColor, 'important');
         });
+        // Directly set logo color via JavaScript as backup (for text logos)
+        if (logo) {
+          logo.style.setProperty('color', logoAfterScrollColor, 'important');
+          // Also update logo text elements if they exist
+          const logoLines = logo.querySelectorAll('.logo-line1, .logo-line2');
+          logoLines.forEach(line => {
+            line.style.setProperty('color', logoAfterScrollColor, 'important');
+          });
+        }
+        // Swap logo images
+        if (logoImageBefore) {
+          logoImageBefore.style.setProperty('display', 'none', 'important');
+        }
+        if (logoImageAfter) {
+          logoImageAfter.style.setProperty('display', 'block', 'important');
+        }
       } else {
         navbar.classList.remove('navbar-scrolled');
-        // Directly set color via JavaScript as backup
+        // Directly set menu color via JavaScript as backup
         desktopMenuLinks.forEach(link => {
-          link.style.setProperty('color', beforeScrollColor, 'important');
+          link.style.setProperty('color', menuBeforeScrollColor, 'important');
         });
+        // Directly set logo color via JavaScript as backup (for text logos)
+        if (logo) {
+          logo.style.setProperty('color', logoBeforeScrollColor, 'important');
+          // Also update logo text elements if they exist
+          const logoLines = logo.querySelectorAll('.logo-line1, .logo-line2');
+          logoLines.forEach(line => {
+            line.style.setProperty('color', logoBeforeScrollColor, 'important');
+          });
+        }
+        // Swap logo images back
+        if (logoImageBefore) {
+          logoImageBefore.style.setProperty('display', 'block', 'important');
+        }
+        if (logoImageAfter) {
+          logoImageAfter.style.setProperty('display', 'none', 'important');
+        }
       }
     }
     

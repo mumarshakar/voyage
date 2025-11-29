@@ -36,7 +36,28 @@
     {
       "type": "image_picker",
       "id": "logo_image",
-      "label": "Logo Image"
+      "label": "Logo Image",
+      "info": "Default logo image (used as fallback)"
+    },
+    {
+      "type": "header",
+      "content": "Logo Images (Scroll-Based)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Upload different logo images for before and after scroll. If not set, the default logo image will be used."
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image_before_scroll",
+      "label": "Logo Image (Before Scroll)",
+      "info": "Logo image shown when at top of page (not scrolled)"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image_after_scroll",
+      "label": "Logo Image (After Scroll)",
+      "info": "Logo image shown when user has scrolled down"
     },
     {
       "type": "range",
@@ -69,7 +90,30 @@
       "type": "color",
       "id": "logo_color",
       "label": "Logo Color",
-      "default": "#000000"
+      "default": "#000000",
+      "info": "Default logo color (used as fallback)"
+    },
+    {
+      "type": "header",
+      "content": "Logo Colors (Scroll-Based)"
+    },
+    {
+      "type": "paragraph",
+      "content": "These colors apply to the logo text. Logo images are not affected."
+    },
+    {
+      "type": "color",
+      "id": "logo_color_before_scroll",
+      "label": "Logo Color (Before Scroll)",
+      "default": "#8B6F47",
+      "info": "Logo color when at top of page (not scrolled)"
+    },
+    {
+      "type": "color",
+      "id": "logo_color_after_scroll",
+      "label": "Logo Color (After Scroll)",
+      "default": "#000000",
+      "info": "Logo color when user has scrolled down"
     },
     {
       "type": "header",
