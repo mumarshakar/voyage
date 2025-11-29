@@ -74,11 +74,20 @@
               assign custom_icon = block.settings.custom_icon
               assign use_custom = false
               
-              if custom_icon != blank
+              # Check if custom_icon exists and is not blank
+              # In Shopify, image_picker returns an image object, so we check if it exists
+              if custom_icon != blank and custom_icon != null
                 assign use_custom = true
+              endif
+              
+              # Only render if block has either URL or custom icon
+              assign should_render = false
+              if social_url != blank or use_custom
+                assign should_render = true
               endif
             -%}
             
+            {% if should_render %}
             <a href="{{ social_url | default: '#' }}" 
                {% if social_url != blank %}
                target="_blank" 
@@ -87,14 +96,15 @@
                class="social-icon-link"
                aria-label="Visit our {{ platform | capitalize }} profile">
               
-              {% if use_custom %}
+              {% if use_custom and custom_icon != blank %}
                 <img src="{{ custom_icon | image_url: width: icon_size }}"
                      srcset="{{ custom_icon | image_url: width: icon_size }} 1x, {{ custom_icon | image_url: width: icon_size | times: 2 }} 2x"
                      alt="{{ platform | capitalize }}"
                      width="{{ icon_size }}"
                      height="{{ icon_size }}"
                      loading="lazy"
-                     class="social-icon-img">
+                     class="social-icon-img"
+                     style="display: block;">
               {% else %}
                 {%- comment -%}
                   Generate placeholder SVG based on platform
@@ -127,6 +137,7 @@
                 </span>
               {% endif %}
             </a>
+            {% endif %}
           {% endif %}
         {% endfor %}
       {% endif %}
