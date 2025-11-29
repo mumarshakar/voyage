@@ -91,8 +91,8 @@
     assign menu_link_spacing = settings.menu_link_spacing | default: 8
     assign menu_link_color = settings.menu_link_color | default: '#8B6F47'
     assign menu_link_hover_color = settings.menu_link_hover_color | default: '#FF6B35'
-    assign desktop_menu_color_before_scroll = '#8B6F47'
-    assign desktop_menu_color_after_scroll = '#333333'
+    assign desktop_menu_color_before_scroll = header_settings.desktop_menu_color_before_scroll | default: '#8B6F47'
+    assign desktop_menu_color_after_scroll = header_settings.desktop_menu_color_after_scroll | default: '#333333'
     assign dropdown_bg_color = settings.dropdown_bg_color | default: '#FFFFFF'
     assign dropdown_link_color = settings.dropdown_link_color | default: '#333333'
     assign dropdown_hover_bg_color = settings.dropdown_hover_bg_color | default: '#FFF8E7'
