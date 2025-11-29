@@ -11,6 +11,9 @@
   "sections": {
     "hero_section_XNTJHK": {
       "type": "hero-section",
+      "custom_css": [
+        ".hero-section{margin-top:-35px !important;}"
+      ],
       "name": "Hero Section",
       "settings": {
         "title": "{{ product.title }}",
