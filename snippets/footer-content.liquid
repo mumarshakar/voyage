@@ -110,8 +110,10 @@
               # Determine which image source to use (uploaded takes priority)
               assign use_uploaded_image = has_custom_icon
               assign use_url_image = false
-              if has_custom_icon_url and not has_custom_icon
-                assign use_url_image = true
+              if has_custom_icon_url
+                if has_custom_icon == false
+                  assign use_url_image = true
+                endif
               endif
             -%}
             
