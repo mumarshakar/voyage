@@ -12,7 +12,7 @@
     "hero_section_hTFPC9": {
       "type": "hero-section",
       "custom_css": [
-        ".hero-section{margin-top:-35px !important;}"
+        ".hero-section {margin-top: -35px !important;}"
       ],
       "name": "Hero Section",
       "settings": {
@@ -55,7 +55,7 @@
       "type": "list-collections-section",
       "settings": {
         "subheading_text": "Discover our collection of",
-        "title_font_size": 20,
+        "title_font_size": 25,
         "title_line_height": 1.2,
         "title_text_transform": "none"
       }
