@@ -13,7 +13,27 @@
   {% paginate collection.products by section.settings.products_per_page %}
     {% if collection.products.size > 0 %}
       {% assign product_count = collection.products.size %}
-      <div class="row row-cols-{{ section.settings.columns_mobile }} row-cols-sm-{{ section.settings.columns_tablet }} row-cols-lg-{{ section.settings.columns_desktop }} g-4 alignment-{{ section.settings.alignment }}{% if product_count == 1 %} single-card{% endif %}">
+      {% if section.settings.columns_mobile %}
+        {% assign columns_mobile = section.settings.columns_mobile %}
+      {% else %}
+        {% assign columns_mobile = 1 %}
+      {% endif %}
+      {% if section.settings.columns_tablet %}
+        {% assign columns_tablet = section.settings.columns_tablet %}
+      {% else %}
+        {% assign columns_tablet = 2 %}
+      {% endif %}
+      {% if section.settings.columns_desktop %}
+        {% assign columns_desktop = section.settings.columns_desktop %}
+      {% else %}
+        {% assign columns_desktop = 4 %}
+      {% endif %}
+      {% if section.settings.alignment %}
+        {% assign alignment = section.settings.alignment %}
+      {% else %}
+        {% assign alignment = 'flex-start' %}
+      {% endif %}
+      <div class="row row-cols-{{ columns_mobile }} row-cols-md-{{ columns_tablet }} row-cols-lg-{{ columns_desktop }} g-4 alignment-{{ alignment }}{% if product_count == 1 %} single-card{% endif %}">
         {% for product in collection.products %}
           <div class="col">
             <div class="card h-100 {% if section.settings.card_shadow %}shadow-sm{% endif %}">
