@@ -1,5 +1,12 @@
+{% assign collection_count = 0 %}
+{% for collection in collections %}
+  {% if collection.handle != 'all' %}
+    {% assign collection_count = collection_count | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
 <div class="container py-5 list-collections-section">
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  <div class="row row-cols-{{ section.settings.columns_mobile }} row-cols-md-{{ section.settings.columns_tablet }} row-cols-lg-{{ section.settings.columns_desktop }} g-4 alignment-{{ section.settings.alignment }}{% if collection_count == 1 %} single-card{% endif %}">
     {% for collection in collections %}
       {% if collection.handle == 'all' %}{% continue %}{% endif %}
       <div class="col">
@@ -29,6 +36,23 @@
     font-size: {{ section.settings.title_font_size }}px !important;
     line-height: {{ section.settings.title_line_height }} !important;
     text-transform: {{ section.settings.title_text_transform }} !important;
+  }
+  
+  .list-collections-section .row.alignment-flex-start {
+    justify-content: flex-start !important;
+  }
+  
+  .list-collections-section .row.alignment-center {
+    justify-content: center !important;
+  }
+  
+  .list-collections-section .row.alignment-flex-end {
+    justify-content: flex-end !important;
+  }
+  
+  /* Center single card */
+  .list-collections-section .row.single-card {
+    justify-content: center !important;
   }
 </style>
 
@@ -84,6 +108,58 @@
         }
       ],
       "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Number of Cards on Mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "label": "Number of Cards on Tablet",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Number of Cards on Desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Card Alignment",
+      "info": "When there is only one card, it will be centered automatically",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "flex-start"
     }
   ],
   "presets": [
