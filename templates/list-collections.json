@@ -57,7 +57,11 @@
         "subheading_text": "Discover our collection of",
         "title_font_size": 25,
         "title_line_height": 1.2,
-        "title_text_transform": "none"
+        "title_text_transform": "none",
+        "columns_mobile": 1,
+        "columns_tablet": 2,
+        "columns_desktop": 3,
+        "alignment": "center"
       }
     }
   },
