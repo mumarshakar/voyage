@@ -1,4 +1,4 @@
-<div class="container py-5">
+<div class="container py-5 main-collection">
   <div class="row">
     <div class="col-12 text-center mb-5">
       <h1 class="display-4">{{ collection.title }}</h1>
@@ -12,7 +12,8 @@
 
   {% paginate collection.products by section.settings.products_per_page %}
     {% if collection.products.size > 0 %}
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-{{ section.settings.products_per_row }} g-4">
+      {% assign product_count = collection.products.size %}
+      <div class="row row-cols-{{ section.settings.columns_mobile }} row-cols-sm-{{ section.settings.columns_tablet }} row-cols-lg-{{ section.settings.columns_desktop }} g-4 alignment-{{ section.settings.alignment }}{% if product_count == 1 %} single-card{% endif %}">
         {% for product in collection.products %}
           <div class="col">
             <div class="card h-100 {% if section.settings.card_shadow %}shadow-sm{% endif %}">
@@ -112,6 +113,23 @@
     --vendor-font-weight: {{ section.settings.vendor_font_weight }};
     --vendor-color: {{ section.settings.vendor_color }};
   }
+  
+  .main-collection .row.alignment-flex-start {
+    justify-content: flex-start !important;
+  }
+  
+  .main-collection .row.alignment-center {
+    justify-content: center !important;
+  }
+  
+  .main-collection .row.alignment-flex-end {
+    justify-content: flex-end !important;
+  }
+  
+  /* Center single card */
+  .main-collection .row.single-card {
+    justify-content: center !important;
+  }
 </style>
 
 {% schema %}
@@ -132,13 +150,56 @@
         "default": 12
       },
       {
+        "type": "header",
+        "content": "Layout Settings"
+      },
+      {
         "type": "range",
-        "id": "products_per_row",
-        "label": "Products per row (Desktop)",
+        "id": "columns_mobile",
+        "label": "Number of Cards on Mobile",
         "min": 1,
-        "max": 5,
+        "max": 3,
+        "step": 1,
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "columns_tablet",
+        "label": "Number of Cards on Tablet",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "columns_desktop",
+        "label": "Number of Cards on Desktop",
+        "min": 1,
+        "max": 6,
         "step": 1,
         "default": 4
+      },
+      {
+        "type": "select",
+        "id": "alignment",
+        "label": "Card Alignment",
+        "info": "When there is only one card, it will be centered automatically",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "flex-end",
+            "label": "Right"
+          }
+        ],
+        "default": "flex-start"
       },
       {
         "type": "select",
