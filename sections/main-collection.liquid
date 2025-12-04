@@ -119,19 +119,55 @@
 </div>
 
 <style>
-  :root {
-    --card-bg-color: {{ section.settings.card_bg_color }};
-    --card-border-radius: {{ section.settings.card_border_radius }}px;
-    --image-border-radius: {{ section.settings.image_border_radius }}px;
-    --title-font-size: {{ section.settings.title_font_size }}px;
-    --title-font-weight: {{ section.settings.title_font_weight }};
-    --title-color: {{ section.settings.title_color }};
-    --price-font-size: {{ section.settings.price_font_size }}px;
-    --price-font-weight: {{ section.settings.price_font_weight }};
-    --price-color: {{ section.settings.price_color }};
-    --vendor-font-size: {{ section.settings.vendor_font_size }}px;
-    --vendor-font-weight: {{ section.settings.vendor_font_weight }};
-    --vendor-color: {{ section.settings.vendor_color }};
+  .main-collection {
+    --card-bg-color: {{ section.settings.card_bg_color | default: 'white' }};
+    --card-border-radius: {{ section.settings.card_border_radius | default: 8 }}px;
+    --image-border-radius: {{ section.settings.image_border_radius | default: 4 }}px;
+    --title-font-size: {{ section.settings.title_font_size | default: 18 }}px;
+    --title-font-weight: {{ section.settings.title_font_weight | default: '600' }};
+    --title-color: {{ section.settings.title_color | default: '#212529' }};
+    --price-font-size: {{ section.settings.price_font_size | default: 16 }}px;
+    --price-font-weight: {{ section.settings.price_font_weight | default: '500' }};
+    --price-color: {{ section.settings.price_color | default: '#000000' }};
+    --vendor-font-size: {{ section.settings.vendor_font_size | default: 14 }}px;
+    --vendor-font-weight: {{ section.settings.vendor_font_weight | default: '400' }};
+    --vendor-color: {{ section.settings.vendor_color | default: '#6c757d' }};
+  }
+  
+  /* Apply card styles */
+  .main-collection .card {
+    background-color: var(--card-bg-color) !important;
+    border-radius: var(--card-border-radius) !important;
+    overflow: hidden;
+  }
+  
+  /* Apply image styles */
+  .main-collection .card-img-top {
+    border-top-left-radius: var(--image-border-radius) !important;
+    border-top-right-radius: var(--image-border-radius) !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+  
+  /* Apply title styles */
+  .main-collection .card-title {
+    font-size: var(--title-font-size) !important;
+    font-weight: var(--title-font-weight) !important;
+    color: var(--title-color) !important;
+  }
+  
+  /* Apply price styles - target card-text that is not text-muted (price) */
+  .main-collection .card-body .card-text:not(.text-muted) {
+    font-size: var(--price-font-size) !important;
+    font-weight: var(--price-font-weight) !important;
+    color: var(--price-color) !important;
+  }
+  
+  /* Apply vendor styles - target the text-muted card-text (vendor) */
+  .main-collection .card-body .card-text.text-muted {
+    font-size: var(--vendor-font-size) !important;
+    font-weight: var(--vendor-font-weight) !important;
+    color: var(--vendor-color) !important;
   }
   
   .main-collection .row.alignment-flex-start {
