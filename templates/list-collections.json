@@ -55,8 +55,8 @@
       "type": "list-collections-section",
       "settings": {
         "subheading_text": "Discover our collection of",
-        "title_font_size": 25,
-        "title_line_height": 1.2,
+        "title_font_size": 22,
+        "title_line_height": 2,
         "title_text_transform": "none",
         "columns_mobile": 1,
         "columns_tablet": 2,
