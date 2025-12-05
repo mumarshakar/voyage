@@ -74,7 +74,7 @@
         "margin_bottom": 0,
         "heading_margin_bottom": 20,
         "subheading_margin_bottom": 20,
-        "section_height_desktop": 1500,
+        "section_height_desktop": 700,
         "section_height_mobile": 800,
         "list_line_height": 5,
         "list_font_size": 20,
