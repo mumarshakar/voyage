@@ -1,0 +1,90 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_section_mJUjfe": {
+      "type": "hero-section",
+      "custom_css": [
+        ".hero-section {margin-top: -35px !important;}"
+      ],
+      "name": "Hero Section",
+      "settings": {
+        "title": "Cookie Policy",
+        "subtitle": "",
+        "button_text": "",
+        "button_link": "",
+        "button_2_text": "Learn More",
+        "button_2_link": "",
+        "background_type": "image",
+        "image_source_type": "upload",
+        "background_image_desktop_url": "",
+        "background_image_mobile_url": "",
+        "video_source_type": "upload",
+        "background_video_desktop_url": "",
+        "background_video_mobile_url": "",
+        "video_autoplay": false,
+        "video_muted": false,
+        "hero_height": 75,
+        "hero_height_mobile": 70,
+        "background_position": "center",
+        "background_size": "cover",
+        "title_color": "#ffffff",
+        "subtitle_color": "#ffffff",
+        "title_position_top": 20,
+        "text_alignment": "center",
+        "button_position_bottom": 15,
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "padding_top": 120,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "custom_text_jmbgNP": {
+      "type": "custom-text",
+      "name": "Custom Text",
+      "settings": {
+        "heading": "Read Our Terms Carefully",
+        "subheading": "",
+        "content_type": "richtext",
+        "text_content": "<h1><strong>Cookie Policy</strong></h1><p><strong>Last updated: 01 Decmber 2025</strong></p><h2>1. Introduction</h2><p>This Cookie Policy explains how <strong>[Your Company Name]</strong> (“Company”, “we”, “us”, or “our”) uses cookies and similar technologies on our website <strong>[yourwebsite.com]</strong> (“Website”). By continuing to browse or use our Website, you agree that we can store and access cookies as described in this policy.</p><h2>2. What Are Cookies?</h2><p>Cookies are small data files placed on your device when you visit a website. They are widely used to make websites work, improve user experience, and provide information to site owners.</p><h2>3. Types of Cookies We Use</h2><h3><strong>a. Essential Cookies</strong></h3><p>These cookies are necessary for the Website to function properly. They enable core features such as security, network management, and accessibility.</p><h3><strong>b. Performance & Analytics Cookies</strong></h3><p>These cookies help us understand how visitors use the Website by collecting information about page traffic and user behavior. This helps us improve functionality and user experience.</p><h3><strong>c. Functionality Cookies</strong></h3><p>These cookies allow the Website to remember choices you make (such as your language preferences) and provide enhanced features.</p><h3><strong>d. Advertising & Targeting Cookies</strong></h3><p>These cookies may be set by us or third-party partners to deliver relevant advertisements and measure the effectiveness of ad campaigns.</p><h2>4. Third-Party Cookies</h2><p>We may use third-party service providers (such as analytics or advertising partners) who also place cookies on your device. These third parties may collect information about your online activities over time and across different websites.</p><h2>5. How to Manage Cookies</h2><p>You can control and/or delete cookies through your browser settings. Most browsers allow you to:</p><ul><li><br/>View which cookies are stored<br/></li><li><br/>Delete cookies<br/></li><li><br/>Block cookies from being set<br/></li><li><br/>Set preferences for certain websites<br/></li></ul><p>Please note that disabling certain cookies may impact your experience on our Website.</p><h2>6. Changes to This Cookie Policy</h2><p>We may update this Cookie Policy from time to time. Any changes will be posted on this page with an updated “Last updated” date.</p><h2>7. Contact Us</h2><p>If you have questions about this Cookie Policy or our use of cookies, please contact us at:<br/><br/><strong>Email:</strong> [<a>support@yourwebsite.com</a>]<br/><br/><strong>Address:</strong> [Your Company Address]</p>",
+        "html_content": "",
+        "link_color": "#333333",
+        "link_hover_color": "#666666",
+        "link_text_decoration": "underline",
+        "custom_css": "",
+        "text_alignment": "left",
+        "content_max_width": 800,
+        "background_color": "#ffffff",
+        "background_size": "cover",
+        "background_overlay_opacity": 0,
+        "padding_top": 120,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "heading_margin_bottom": 20,
+        "subheading_margin_bottom": 20,
+        "section_height_desktop": 800,
+        "section_height_mobile": 800,
+        "list_line_height": 5,
+        "list_font_size": 20,
+        "list_font_weight": 400,
+        "list_text_align": "justify"
+      }
+    }
+  },
+  "order": [
+    "hero_section_mJUjfe",
+    "custom_text_jmbgNP"
+  ]
+}
