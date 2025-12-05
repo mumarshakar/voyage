@@ -55,9 +55,9 @@
       "settings": {
         "heading": "Read Our Terms Carefully",
         "subheading": "",
-        "content_type": "richtext",
-        "text_content": "<p>We use cookies to improve your browsing experience, analyze website traffic, and personalize content. Cookies are small files stored on your device that help our site function properly and remember your preferences. We use essential cookies for core functionality, performance cookies to understand how visitors use our site, and optional cookies for customization and advertising. By continuing to use our website, you consent to our use of cookies. You can manage or disable cookies at any time through your browser settings, though some features may not work correctly. For questions, contact us at josh@hypeclub.com</p>",
-        "html_content": "",
+        "content_type": "html",
+        "text_content": "",
+        "html_content": "<div style=\"line-height:3rem;font-size:20px;\">We use cookies to improve your browsing experience, analyze website traffic, and personalize content. Cookies are small files stored on your device that help our site function properly and remember your preferences. We use essential cookies for core functionality, performance cookies to understand how visitors use our site, and optional cookies for customization and advertising. By continuing to use our website, you consent to our use of cookies. You can manage or disable cookies at any time through your browser settings, though some features may not work correctly. For questions, contact us at josh@hypeclub.com</div>",
         "link_color": "#333333",
         "link_hover_color": "#666666",
         "link_text_decoration": "underline",
