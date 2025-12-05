@@ -1,0 +1,90 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_section_mJUjfe": {
+      "type": "hero-section",
+      "custom_css": [
+        ".hero-section {margin-top: -35px !important;}"
+      ],
+      "name": "Hero Section",
+      "settings": {
+        "title": "Terms & Conditions",
+        "subtitle": "",
+        "button_text": "",
+        "button_link": "",
+        "button_2_text": "Learn More",
+        "button_2_link": "",
+        "background_type": "image",
+        "image_source_type": "upload",
+        "background_image_desktop_url": "",
+        "background_image_mobile_url": "",
+        "video_source_type": "upload",
+        "background_video_desktop_url": "",
+        "background_video_mobile_url": "",
+        "video_autoplay": false,
+        "video_muted": false,
+        "hero_height": 75,
+        "hero_height_mobile": 70,
+        "background_position": "center",
+        "background_size": "cover",
+        "title_color": "#FFFFFF",
+        "subtitle_color": "#ffffff",
+        "title_position_top": 20,
+        "text_alignment": "center",
+        "button_position_bottom": 15,
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "padding_top": 120,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "custom_text_jmbgNP": {
+      "type": "custom-text",
+      "name": "Custom Text",
+      "settings": {
+        "heading": "Read Our Terms Carefully",
+        "subheading": "",
+        "content_type": "richtext",
+        "text_content": "<ul><li>“<strong>HYPE PERFORMANCE AND RECOVERY CLUB - L.L.C - S.P.C”</strong> maintains the <a href=\"http://www.website.com/\" target=\"_blank\">https://voyage.hypeclub.com/</a> Website (\"Site\").</li><li>“United Arab of Emirates is our country of domicile” and stipulate that the <strong>governing law</strong> is the local law.</li><li>“Any purchase, dispute or claim arising out of or in connection with this website shall be governed and construed in accordance with the laws of UAE”</li><li>‘’Visa or MasterCard debit and credit cards in <strong>AED </strong>will be accepted for payment’’</li><li>‘’The displayed price and currency at the checkout page, will be the same price and currency printed on the Transaction Receipt and the amount charged to the card will be shown in your card currency”.</li><li>‘’We will not trade with or provide any services to <strong>OFAC and sanctioned</strong> countries’’</li><li>‘’Customer using the website who are Minor /under the <strong>age of 18</strong> shall not register as a User of the website and shall not transact on or use the website’’</li><li>‘’Cardholder must retain a copy of <strong>transaction records</strong> and <a href=\"http://www.website.com/\" target=\"_blank\">https://voyage.hypeclub.com/</a> policies and rules’’</li><li>‘’User is responsible for maintaining the <strong>confidentiality</strong> of his account’’ </li></ul>",
+        "html_content": "",
+        "link_color": "#333333",
+        "link_hover_color": "#666666",
+        "link_text_decoration": "underline",
+        "custom_css": "",
+        "text_alignment": "left",
+        "content_max_width": 800,
+        "background_color": "#FFFFFF",
+        "background_size": "cover",
+        "background_overlay_opacity": 0,
+        "padding_top": 120,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "heading_margin_bottom": 20,
+        "subheading_margin_bottom": 20,
+        "section_height_desktop": 800,
+        "section_height_mobile": 800,
+        "list_line_height": 5,
+        "list_font_size": 20,
+        "list_font_weight": 400,
+        "list_text_align": "justify"
+      }
+    }
+  },
+  "order": [
+    "hero_section_mJUjfe",
+    "custom_text_jmbgNP"
+  ]
+}
