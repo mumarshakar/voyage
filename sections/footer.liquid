@@ -16,6 +16,10 @@
           "label": "Platform",
           "options": [
             {
+              "value": "whatsapp",
+              "label": "WhatsApp"
+            },
+            {
               "value": "instagram",
               "label": "Instagram"
             },
@@ -55,18 +59,6 @@
           "id": "social_url",
           "label": "Profile URL",
           "info": "Link to your profile on this platform"
-        },
-        {
-          "type": "image_picker",
-          "id": "custom_icon",
-          "label": "Custom Icon (Upload)",
-          "info": "Upload custom icon. Leave empty to use image URL or default platform icon."
-        },
-        {
-          "type": "text",
-          "id": "custom_icon_url",
-          "label": "Custom Icon URL",
-          "info": "Alternatively, paste a direct image URL (e.g., https://example.com/icon.png). This will be used if no image is uploaded."
         }
       ]
     }
@@ -74,96 +66,37 @@
   "settings": [
     {
       "type": "header",
-      "content": "Social Media Icons"
-    },
-    {
-      "type": "text",
-      "id": "heading_text",
-      "label": "Heading Text",
-      "default": "Join our community",
-      "info": "Text displayed above the social media icons"
+      "content": "Layout Settings"
     },
     {
       "type": "range",
-      "id": "heading_font_size",
-      "label": "Heading Font Size (px)",
-      "min": 14,
-      "max": 48,
-      "step": 2,
-      "default": 24,
-      "unit": "px",
-      "info": "Font size for the heading text"
-    },
-    {
-      "type": "select",
-      "id": "heading_alignment",
-      "label": "Heading Alignment",
-      "options": [
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center",
-      "info": "Alignment of the heading text"
+      "id": "columns_desktop",
+      "label": "Number of Columns on Desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "info": "Number of footer sections per row on desktop"
     },
     {
       "type": "range",
-      "id": "icon_size",
-      "label": "Icon Size - Desktop (px)",
-      "min": 24,
-      "max": 80,
-      "step": 2,
-      "default": 40,
-      "unit": "px"
+      "id": "columns_tablet",
+      "label": "Number of Columns on Tablet",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2,
+      "info": "Number of footer sections per row on tablet"
     },
     {
       "type": "range",
-      "id": "icon_size_mobile",
-      "label": "Icon Size - Mobile (px)",
-      "min": 24,
-      "max": 60,
-      "step": 2,
-      "default": 32,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "icon_gap",
-      "label": "Spacing Between Icons (px)",
-      "min": 8,
-      "max": 40,
-      "step": 2,
-      "default": 16,
-      "unit": "px"
-    },
-    {
-      "type": "select",
-      "id": "icon_alignment",
-      "label": "Icon Alignment",
-      "options": [
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "center"
+      "id": "columns_mobile",
+      "label": "Number of Columns on Mobile",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "default": 1,
+      "info": "Number of footer sections per row on mobile"
     },
     {
       "type": "header",
@@ -173,14 +106,14 @@
       "type": "color",
       "id": "footer_bg_color",
       "label": "Background Color",
-      "default": "#EAE7E0"
+      "default": "#6B4C93"
     },
     {
       "type": "color",
       "id": "footer_text_color",
       "label": "Text Color",
-      "default": "#6B5B4F",
-      "info": "Used for placeholder icons if custom icons not provided"
+      "default": "#FFFFFF",
+      "info": "Color for headings and text"
     },
     {
       "type": "range",
@@ -189,9 +122,170 @@
       "min": 40,
       "max": 200,
       "step": 10,
-      "default": 80,
+      "default": 60,
       "unit": "px",
       "info": "Top and bottom padding"
+    },
+    {
+      "type": "header",
+      "content": "Social Media Section"
+    },
+    {
+      "type": "text",
+      "id": "social_heading",
+      "label": "Social Media Heading",
+      "default": "Follow us"
+    },
+    {
+      "type": "range",
+      "id": "social_heading_font_size",
+      "label": "Social Heading Font Size (px)",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "social_heading_font_weight",
+      "label": "Social Heading Font Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter Section"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter Heading",
+      "default": "Subscribe to newsletter"
+    },
+    {
+      "type": "range",
+      "id": "newsletter_heading_font_size",
+      "label": "Newsletter Heading Font Size (px)",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "newsletter_heading_font_weight",
+      "label": "Newsletter Heading Font Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_button_text",
+      "label": "Newsletter Button Text",
+      "default": "SIGN UP"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_button_color",
+      "label": "Newsletter Button Background Color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_button_text_color",
+      "label": "Newsletter Button Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Links Styling"
+    },
+    {
+      "type": "color",
+      "id": "footer_link_color",
+      "label": "Link Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "footer_link_hover_color",
+      "label": "Link Hover Color",
+      "default": "#FFFFFF",
+      "info": "Color when hovering over links"
+    },
+    {
+      "type": "range",
+      "id": "footer_link_font_size",
+      "label": "Link Font Size (px)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "footer_link_font_weight",
+      "label": "Link Font Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
     }
   ]
 }
