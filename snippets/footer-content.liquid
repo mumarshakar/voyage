@@ -245,21 +245,18 @@
           </h5>
         {% endif %}
         
-        {% if link_blocks_count > 0 %}
+        {%- assign link_blocks = section.blocks | where: 'type', 'link' -%}
+        {% if link_blocks != blank and link_blocks.size > 0 %}
           <div class="footer-links-list">
-            {% if section.blocks != blank and section.blocks.size > 0 %}
-              {% for block in section.blocks %}
-                {% if block.type == 'link' %}
-                  {% assign link_text = block.settings.link_text | default: 'Link' %}
-                  {% assign link_url = block.settings.link_url | default: '#' %}
-                  <a href="{{ link_url }}" 
-                     class="footer-link"
-                     style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: {{ footer_link_spacing }}px;">
-                    {{ link_text | upcase }}
-                  </a>
-                {% endif %}
-              {% endfor %}
-            {% endif %}
+            {% for block in link_blocks %}
+              {% assign link_text = block.settings.link_text | default: 'Link' %}
+              {% assign link_url = block.settings.link_url | default: '#' %}
+              <a href="{{ link_url }}" 
+                 class="footer-link"
+                 style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: {{ footer_link_spacing }}px;">
+                {{ link_text | upcase }}
+              </a>
+            {% endfor %}
           </div>
         {% endif %}
       </div>
