@@ -236,33 +236,19 @@
         {%- liquid
           assign link_blocks = section.blocks | where: 'type', 'link'
           assign total_link_blocks = link_blocks.size
-          assign half_links = total_link_blocks | divided_by: 2 | ceil
         -%}
         
         {% if total_link_blocks > 0 %}
-          <div class="footer-links-wrapper" style="gap: {{ footer_links_column_gap }}px;">
-            <div class="footer-links-column">
-              {% for block in link_blocks limit: half_links %}
-                {% if block.settings.link_url != blank and block.settings.link_text != blank %}
-                  <a href="{{ block.settings.link_url }}" 
-                     class="footer-link"
-                     style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: {{ footer_link_spacing }}px;">
-                    {{ block.settings.link_text | upcase }}
-                  </a>
-                {% endif %}
-              {% endfor %}
-            </div>
-            <div class="footer-links-column">
-              {% for block in link_blocks offset: half_links %}
-                {% if block.settings.link_url != blank and block.settings.link_text != blank %}
-                  <a href="{{ block.settings.link_url }}" 
-                     class="footer-link"
-                     style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: {{ footer_link_spacing }}px;">
-                    {{ block.settings.link_text | upcase }}
-                  </a>
-                {% endif %}
-              {% endfor %}
-            </div>
+          <div class="footer-links-list">
+            {% for block in link_blocks %}
+              {% if block.settings.link_url != blank and block.settings.link_text != blank %}
+                <a href="{{ block.settings.link_url }}" 
+                   class="footer-link"
+                   style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: {{ footer_link_spacing }}px;">
+                  {{ block.settings.link_text | upcase }}
+                </a>
+              {% endif %}
+            {% endfor %}
           </div>
         {% endif %}
       </div>
@@ -358,16 +344,10 @@
     opacity: {{ newsletter_button_hover_opacity }};
   }
   
-  .footer-links-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-  
-  .footer-links-column {
+  .footer-links-list {
     display: flex;
     flex-direction: column;
-    min-width: 120px;
+    width: 100%;
   }
   
   .footer-link {
@@ -406,13 +386,5 @@
       height: {{ social_icon_size_mobile }}px !important;
     }
     
-    .footer-links-wrapper {
-      gap: 20px !important;
-    }
-    
-    .footer-links-column {
-      min-width: auto;
-      flex: 1;
-    }
   }
 </style>
