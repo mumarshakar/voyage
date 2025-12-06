@@ -144,6 +144,38 @@
       "info": "Top and bottom padding"
     },
     {
+      "type": "range",
+      "id": "footer_horizontal_padding",
+      "label": "Horizontal Padding (px)",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "default": 20,
+      "unit": "px",
+      "info": "Left and right padding"
+    },
+    {
+      "type": "range",
+      "id": "footer_section_spacing",
+      "label": "Section Spacing (px)",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "default": 30,
+      "unit": "px",
+      "info": "Margin bottom between footer sections"
+    },
+    {
+      "type": "range",
+      "id": "footer_heading_margin_bottom",
+      "label": "Heading Margin Bottom (px)",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
       "type": "header",
       "content": "Social Media Section"
     },
@@ -186,6 +218,57 @@
         }
       ],
       "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "social_icon_size",
+      "label": "Social Icon Size - Desktop (px)",
+      "min": 32,
+      "max": 80,
+      "step": 2,
+      "default": 48,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "social_icon_size_mobile",
+      "label": "Social Icon Size - Mobile (px)",
+      "min": 28,
+      "max": 60,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "social_icon_gap",
+      "label": "Spacing Between Icons (px)",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "social_icon_border_radius",
+      "label": "Icon Border Radius (px)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "social_icon_inner_size",
+      "label": "Icon Inner Size (SVG) (px)",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "default": 24,
+      "unit": "px",
+      "info": "Size of the icon inside the square"
     },
     {
       "type": "header",
@@ -248,6 +331,124 @@
       "id": "newsletter_button_text_color",
       "label": "Newsletter Button Text Color",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_placeholder",
+      "label": "Newsletter Input Placeholder",
+      "default": "Your e-mail address"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_input_bg_color",
+      "label": "Newsletter Input Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_input_text_color",
+      "label": "Newsletter Input Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_input_placeholder_color",
+      "label": "Newsletter Input Placeholder Color",
+      "default": "#999999"
+    },
+    {
+      "type": "range",
+      "id": "newsletter_input_border_radius",
+      "label": "Newsletter Input Border Radius (px)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "newsletter_input_padding",
+      "label": "Newsletter Input Padding (px)",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "newsletter_button_border_radius",
+      "label": "Newsletter Button Border Radius (px)",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "newsletter_button_padding_horizontal",
+      "label": "Newsletter Button Horizontal Padding (px)",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "newsletter_button_padding_vertical",
+      "label": "Newsletter Button Vertical Padding (px)",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "newsletter_button_font_size",
+      "label": "Newsletter Button Font Size (px)",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "newsletter_button_font_weight",
+      "label": "Newsletter Button Font Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "newsletter_input_button_gap",
+      "label": "Gap Between Input and Button (px)",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "default": 8,
+      "unit": "px"
     },
     {
       "type": "header",
@@ -347,6 +548,84 @@
         }
       ],
       "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "footer_link_spacing",
+      "label": "Link Spacing (px)",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 12,
+      "unit": "px",
+      "info": "Margin bottom between links"
+    },
+    {
+      "type": "range",
+      "id": "footer_links_column_gap",
+      "label": "Links Column Gap (px)",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "default": 40,
+      "unit": "px",
+      "info": "Gap between the two link columns"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "text",
+      "id": "footer_font_family",
+      "label": "Font Family",
+      "default": "sans-serif",
+      "info": "CSS font-family value (e.g., 'Arial, sans-serif' or 'Roboto')"
+    },
+    {
+      "type": "header",
+      "content": "Hover Effects"
+    },
+    {
+      "type": "range",
+      "id": "social_icon_hover_opacity",
+      "label": "Social Icon Hover Opacity",
+      "min": 0.5,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.9,
+      "info": "Opacity when hovering over social icons"
+    },
+    {
+      "type": "range",
+      "id": "social_icon_hover_lift",
+      "label": "Social Icon Hover Lift (px)",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 2,
+      "unit": "px",
+      "info": "How much the icon moves up on hover"
+    },
+    {
+      "type": "range",
+      "id": "newsletter_button_hover_opacity",
+      "label": "Newsletter Button Hover Opacity",
+      "min": 0.5,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.9,
+      "info": "Opacity when hovering over newsletter button"
+    },
+    {
+      "type": "range",
+      "id": "footer_link_hover_opacity",
+      "label": "Link Hover Opacity",
+      "min": 0.5,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.8,
+      "info": "Opacity when hovering over links"
     }
   ]
 }

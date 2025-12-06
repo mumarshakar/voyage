@@ -20,15 +20,42 @@
     assign footer_link_font_size = 14
     assign footer_link_font_weight = '400'
     assign footer_vertical_padding = 60
+    assign footer_horizontal_padding = 20
+    assign footer_section_spacing = 30
+    assign footer_heading_margin_bottom = 20
     assign columns_desktop = 3
     assign columns_tablet = 2
     assign columns_mobile = 1
     assign social_heading = 'Follow us'
+    assign social_icon_size = 48
+    assign social_icon_size_mobile = 40
+    assign social_icon_gap = 12
+    assign social_icon_border_radius = 8
+    assign social_icon_inner_size = 24
+    assign social_icon_hover_opacity = 0.9
+    assign social_icon_hover_lift = 2
     assign newsletter_heading = 'Subscribe to our newsletter'
-    assign useful_links_heading = 'Useful links'
+    assign newsletter_placeholder = 'Your e-mail address'
+    assign newsletter_input_bg_color = '#FFFFFF'
+    assign newsletter_input_text_color = '#333333'
+    assign newsletter_input_placeholder_color = '#999999'
+    assign newsletter_input_border_radius = 4
+    assign newsletter_input_padding = 12
     assign newsletter_button_text = 'SIGN UP'
     assign newsletter_button_color = '#FFD700'
     assign newsletter_button_text_color = '#FFFFFF'
+    assign newsletter_button_border_radius = 4
+    assign newsletter_button_padding_horizontal = 24
+    assign newsletter_button_padding_vertical = 12
+    assign newsletter_button_font_size = 14
+    assign newsletter_button_font_weight = '600'
+    assign newsletter_input_button_gap = 8
+    assign newsletter_button_hover_opacity = 0.9
+    assign useful_links_heading = 'Useful links'
+    assign footer_link_spacing = 12
+    assign footer_links_column_gap = 40
+    assign footer_font_family = 'sans-serif'
+    assign footer_link_hover_opacity = 0.8
   else
     assign footer_bg_color = footer_settings.footer_bg_color | default: '#6B4C93'
     assign footer_text_color = footer_settings.footer_text_color | default: '#FFFFFF'
@@ -37,15 +64,42 @@
     assign footer_link_font_size = footer_settings.footer_link_font_size | default: 14
     assign footer_link_font_weight = footer_settings.footer_link_font_weight | default: '400'
     assign footer_vertical_padding = footer_settings.footer_vertical_padding | default: 60
+    assign footer_horizontal_padding = footer_settings.footer_horizontal_padding | default: 20
+    assign footer_section_spacing = footer_settings.footer_section_spacing | default: 30
+    assign footer_heading_margin_bottom = footer_settings.footer_heading_margin_bottom | default: 20
     assign columns_desktop = footer_settings.columns_desktop | default: 3
     assign columns_tablet = footer_settings.columns_tablet | default: 2
     assign columns_mobile = footer_settings.columns_mobile | default: 1
     assign social_heading = footer_settings.social_heading | default: 'Follow us'
+    assign social_icon_size = footer_settings.social_icon_size | default: 48
+    assign social_icon_size_mobile = footer_settings.social_icon_size_mobile | default: 40
+    assign social_icon_gap = footer_settings.social_icon_gap | default: 12
+    assign social_icon_border_radius = footer_settings.social_icon_border_radius | default: 8
+    assign social_icon_inner_size = footer_settings.social_icon_inner_size | default: 24
+    assign social_icon_hover_opacity = footer_settings.social_icon_hover_opacity | default: 0.9
+    assign social_icon_hover_lift = footer_settings.social_icon_hover_lift | default: 2
     assign newsletter_heading = footer_settings.newsletter_heading | default: 'Subscribe to our newsletter'
-    assign useful_links_heading = footer_settings.useful_links_heading | default: 'Useful links'
+    assign newsletter_placeholder = footer_settings.newsletter_placeholder | default: 'Your e-mail address'
+    assign newsletter_input_bg_color = footer_settings.newsletter_input_bg_color | default: '#FFFFFF'
+    assign newsletter_input_text_color = footer_settings.newsletter_input_text_color | default: '#333333'
+    assign newsletter_input_placeholder_color = footer_settings.newsletter_input_placeholder_color | default: '#999999'
+    assign newsletter_input_border_radius = footer_settings.newsletter_input_border_radius | default: 4
+    assign newsletter_input_padding = footer_settings.newsletter_input_padding | default: 12
     assign newsletter_button_text = footer_settings.newsletter_button_text | default: 'SIGN UP'
     assign newsletter_button_color = footer_settings.newsletter_button_color | default: '#FFD700'
     assign newsletter_button_text_color = footer_settings.newsletter_button_text_color | default: '#FFFFFF'
+    assign newsletter_button_border_radius = footer_settings.newsletter_button_border_radius | default: 4
+    assign newsletter_button_padding_horizontal = footer_settings.newsletter_button_padding_horizontal | default: 24
+    assign newsletter_button_padding_vertical = footer_settings.newsletter_button_padding_vertical | default: 12
+    assign newsletter_button_font_size = footer_settings.newsletter_button_font_size | default: 14
+    assign newsletter_button_font_weight = footer_settings.newsletter_button_font_weight | default: '600'
+    assign newsletter_input_button_gap = footer_settings.newsletter_input_button_gap | default: 8
+    assign newsletter_button_hover_opacity = footer_settings.newsletter_button_hover_opacity | default: 0.9
+    assign useful_links_heading = footer_settings.useful_links_heading | default: 'Useful links'
+    assign footer_link_spacing = footer_settings.footer_link_spacing | default: 12
+    assign footer_links_column_gap = footer_settings.footer_links_column_gap | default: 40
+    assign footer_font_family = footer_settings.footer_font_family | default: 'sans-serif'
+    assign footer_link_hover_opacity = footer_settings.footer_link_hover_opacity | default: 0.8
   endif
 
   comment
@@ -64,19 +118,19 @@
   endif
 -%}
 
-<footer class="custom-footer" style="background-color: {{ footer_bg_color }}; padding: {{ footer_vertical_padding }}px 20px;">
+<footer class="custom-footer" style="background-color: {{ footer_bg_color }}; padding: {{ footer_vertical_padding }}px {{ footer_horizontal_padding }}px;">
   <div class="container">
     <div class="row g-4">
       <!-- Social Media Section -->
       <div class="col-12 col-md-{{ 12 | divided_by: columns_tablet }} col-lg-{{ 12 | divided_by: columns_desktop }} footer-section">
         {% if social_heading != blank %}
-          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ footer_settings.social_heading_font_size | default: 18 }}px; font-weight: {{ footer_settings.social_heading_font_weight | default: '600' }}; margin-bottom: 20px;">
+          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ footer_settings.social_heading_font_size | default: 18 }}px; font-weight: {{ footer_settings.social_heading_font_weight | default: '600' }}; margin-bottom: {{ footer_heading_margin_bottom }}px;">
             {{ social_heading }}
           </h5>
         {% endif %}
         
         {% if social_blocks_count > 0 %}
-          <div class="social-icons-wrapper">
+          <div class="social-icons-wrapper" style="gap: {{ social_icon_gap }}px;">
             {% if section.blocks != blank and section.blocks.size > 0 %}
               {% for block in section.blocks %}
                 {% if block.type == 'social_media' %}
@@ -116,23 +170,23 @@
                        target="_blank" 
                        rel="noopener noreferrer"
                        class="social-icon-square"
-                       style="background-color: {{ platform_color }};"
+                       style="background-color: {{ platform_color }}; width: {{ social_icon_size }}px; height: {{ social_icon_size }}px; border-radius: {{ social_icon_border_radius }}px;"
                        aria-label="Visit our {{ platform | capitalize }} profile">
                       {%- liquid
                         case platform
                           when 'whatsapp'
-                            assign icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>'
+                            assign icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' | append: social_icon_inner_size | append: '" height="' | append: social_icon_inner_size | append: '" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>'
                           when 'facebook'
-                            assign icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>'
+                            assign icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' | append: social_icon_inner_size | append: '" height="' | append: social_icon_inner_size | append: '" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>'
                           when 'instagram'
-                            assign icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>'
+                            assign icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' | append: social_icon_inner_size | append: '" height="' | append: social_icon_inner_size | append: '" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>'
                           when 'youtube'
-                            assign icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>'
+                            assign icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' | append: social_icon_inner_size | append: '" height="' | append: social_icon_inner_size | append: '" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>'
                           else
-                            assign icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="10"/></svg>'
+                            assign icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' | append: social_icon_inner_size | append: '" height="' | append: social_icon_inner_size | append: '" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="10"/></svg>'
                         endcase
                       -%}
-                      <span class="social-icon-inner">{{ icon_svg }}</span>
+                      <span class="social-icon-inner" style="width: {{ social_icon_inner_size }}px; height: {{ social_icon_inner_size }}px;">{{ icon_svg }}</span>
                     </a>
                   {% endif %}
                 {% endif %}
@@ -145,22 +199,22 @@
       <!-- Newsletter Section -->
       <div class="col-12 col-md-{{ 12 | divided_by: columns_tablet }} col-lg-{{ 12 | divided_by: columns_desktop }} footer-section">
         {% if newsletter_heading != blank %}
-          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ footer_settings.newsletter_heading_font_size | default: 18 }}px; font-weight: {{ footer_settings.newsletter_heading_font_weight | default: '600' }}; margin-bottom: 20px;">
+          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ footer_settings.newsletter_heading_font_size | default: 18 }}px; font-weight: {{ footer_settings.newsletter_heading_font_weight | default: '600' }}; margin-bottom: {{ footer_heading_margin_bottom }}px;">
             {{ newsletter_heading }}
           </h5>
         {% endif %}
         
         <form class="newsletter-form" action="{{ routes.cart_url }}" method="post" enctype="multipart/form-data">
-          <div class="newsletter-input-group">
+          <div class="newsletter-input-group" style="gap: {{ newsletter_input_button_gap }}px;">
             <input type="email" 
                    name="contact[email]" 
-                   placeholder="Your e-mail address" 
+                   placeholder="{{ newsletter_placeholder }}" 
                    class="newsletter-input"
-                   style="background-color: #FFFFFF; color: #333333; border-radius: 4px; padding: 12px 16px; border: none; flex: 1;"
+                   style="background-color: {{ newsletter_input_bg_color }}; color: {{ newsletter_input_text_color }}; border-radius: {{ newsletter_input_border_radius }}px; padding: {{ newsletter_input_padding }}px; border: none; flex: 1; font-size: 14px;"
                    required>
             <button type="submit" 
                     class="newsletter-button"
-                    style="background-color: {{ newsletter_button_color }}; color: {{ newsletter_button_text_color }}; border-radius: 4px; padding: 12px 24px; border: none; font-weight: 600; text-transform: uppercase; white-space: nowrap; margin-left: 8px;">
+                    style="background-color: {{ newsletter_button_color }}; color: {{ newsletter_button_text_color }}; border-radius: {{ newsletter_button_border_radius }}px; padding: {{ newsletter_button_padding_vertical }}px {{ newsletter_button_padding_horizontal }}px; border: none; font-weight: {{ newsletter_button_font_weight }}; font-size: {{ newsletter_button_font_size }}px; text-transform: uppercase; white-space: nowrap;">
               {{ newsletter_button_text }}
             </button>
           </div>
@@ -170,7 +224,7 @@
       <!-- Useful Links Section -->
       <div class="col-12 col-md-{{ 12 | divided_by: columns_tablet }} col-lg-{{ 12 | divided_by: columns_desktop }} footer-section">
         {% if useful_links_heading != blank %}
-          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ footer_settings.useful_links_heading_font_size | default: 18 }}px; font-weight: {{ footer_settings.useful_links_heading_font_weight | default: '600' }}; margin-bottom: 20px;">
+          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ footer_settings.useful_links_heading_font_size | default: 18 }}px; font-weight: {{ footer_settings.useful_links_heading_font_weight | default: '600' }}; margin-bottom: {{ footer_heading_margin_bottom }}px;">
             {{ useful_links_heading }}
           </h5>
         {% endif %}
@@ -182,13 +236,13 @@
         -%}
         
         {% if total_link_blocks > 0 %}
-          <div class="footer-links-wrapper">
+          <div class="footer-links-wrapper" style="gap: {{ footer_links_column_gap }}px;">
             <div class="footer-links-column">
               {% for block in link_blocks limit: half_links %}
                 {% if block.settings.link_url != blank and block.settings.link_text != blank %}
                   <a href="{{ block.settings.link_url }}" 
                      class="footer-link"
-                     style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">
+                     style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: {{ footer_link_spacing }}px;">
                     {{ block.settings.link_text | upcase }}
                   </a>
                 {% endif %}
@@ -199,7 +253,7 @@
                 {% if block.settings.link_url != blank and block.settings.link_text != blank %}
                   <a href="{{ block.settings.link_url }}" 
                      class="footer-link"
-                     style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">
+                     style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: {{ footer_link_spacing }}px;">
                     {{ block.settings.link_text | upcase }}
                   </a>
                 {% endif %}
@@ -214,22 +268,21 @@
 
 <style>
   .custom-footer {
-    font-family: sans-serif;
+    font-family: {{ footer_font_family }};
     --footer-link-hover-color: {{ footer_link_hover_color }};
   }
   
   .footer-section {
-    margin-bottom: 30px;
+    margin-bottom: {{ footer_section_spacing }}px;
   }
   
   .footer-heading {
-    font-family: sans-serif;
+    font-family: {{ footer_font_family }};
     text-transform: none;
   }
   
   .social-icons-wrapper {
     display: flex;
-    gap: 12px;
     flex-wrap: wrap;
   }
   
@@ -237,24 +290,19 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
     text-decoration: none;
     transition: transform 0.2s ease, opacity 0.2s ease;
   }
   
   .social-icon-square:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
+    transform: translateY(-{{ social_icon_hover_lift }}px);
+    opacity: {{ social_icon_hover_opacity }};
   }
   
   .social-icon-inner {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
   }
   
   .social-icon-inner svg {
@@ -271,12 +319,8 @@
     align-items: center;
   }
   
-  .newsletter-input {
-    font-size: 14px;
-  }
-  
   .newsletter-input::placeholder {
-    color: #999999;
+    color: {{ newsletter_input_placeholder_color }};
   }
   
   .newsletter-button {
@@ -285,12 +329,11 @@
   }
   
   .newsletter-button:hover {
-    opacity: 0.9;
+    opacity: {{ newsletter_button_hover_opacity }};
   }
   
   .footer-links-wrapper {
     display: flex;
-    gap: 40px;
     flex-wrap: wrap;
   }
   
@@ -304,7 +347,7 @@
   }
   
   .footer-link:hover {
-    opacity: 0.8;
+    opacity: {{ footer_link_hover_opacity }};
     color: var(--footer-link-hover-color) !important;
   }
   
@@ -314,18 +357,12 @@
     }
     
     .newsletter-button {
-      margin-left: 0;
-      margin-top: 8px;
       width: 100%;
     }
     
-    .footer-links-wrapper {
-      gap: 20px;
-    }
-    
     .social-icon-square {
-      width: 40px;
-      height: 40px;
+      width: {{ social_icon_size_mobile }}px !important;
+      height: {{ social_icon_size_mobile }}px !important;
     }
   }
 </style>
