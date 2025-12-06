@@ -61,6 +61,23 @@
           "info": "Link to your profile on this platform"
         }
       ]
+    },
+    {
+      "type": "link",
+      "name": "Useful Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Link"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
     }
   ],
   "settings": [
@@ -178,7 +195,7 @@
       "type": "text",
       "id": "newsletter_heading",
       "label": "Newsletter Heading",
-      "default": "Subscribe to newsletter"
+      "default": "Subscribe to our newsletter"
     },
     {
       "type": "range",
@@ -231,6 +248,50 @@
       "id": "newsletter_button_text_color",
       "label": "Newsletter Button Text Color",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Useful Links Section"
+    },
+    {
+      "type": "text",
+      "id": "useful_links_heading",
+      "label": "Useful Links Heading",
+      "default": "Useful links"
+    },
+    {
+      "type": "range",
+      "id": "useful_links_heading_font_size",
+      "label": "Useful Links Heading Font Size (px)",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "useful_links_heading_font_weight",
+      "label": "Useful Links Heading Font Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
     },
     {
       "type": "header",

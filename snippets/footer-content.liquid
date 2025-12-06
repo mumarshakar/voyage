@@ -24,7 +24,8 @@
     assign columns_tablet = 2
     assign columns_mobile = 1
     assign social_heading = 'Follow us'
-    assign newsletter_heading = 'Subscribe to newsletter'
+    assign newsletter_heading = 'Subscribe to our newsletter'
+    assign useful_links_heading = 'Useful links'
     assign newsletter_button_text = 'SIGN UP'
     assign newsletter_button_color = '#FFD700'
     assign newsletter_button_text_color = '#FFFFFF'
@@ -40,7 +41,8 @@
     assign columns_tablet = footer_settings.columns_tablet | default: 2
     assign columns_mobile = footer_settings.columns_mobile | default: 1
     assign social_heading = footer_settings.social_heading | default: 'Follow us'
-    assign newsletter_heading = footer_settings.newsletter_heading | default: 'Subscribe to newsletter'
+    assign newsletter_heading = footer_settings.newsletter_heading | default: 'Subscribe to our newsletter'
+    assign useful_links_heading = footer_settings.useful_links_heading | default: 'Useful links'
     assign newsletter_button_text = footer_settings.newsletter_button_text | default: 'SIGN UP'
     assign newsletter_button_color = footer_settings.newsletter_button_color | default: '#FFD700'
     assign newsletter_button_text_color = footer_settings.newsletter_button_text_color | default: '#FFFFFF'
@@ -165,46 +167,46 @@
         </form>
       </div>
 
-      <!-- Navigation Links Section -->
+      <!-- Useful Links Section -->
       <div class="col-12 col-md-{{ 12 | divided_by: columns_tablet }} col-lg-{{ 12 | divided_by: columns_desktop }} footer-section">
-        <div class="footer-links-wrapper">
-          <div class="footer-links-column">
-            {% if linklists.footer.links.size > 0 %}
-              {% assign total_links = linklists.footer.links.size %}
-              {% assign half_links = total_links | divided_by: 2 | ceil %}
-              {% for link in linklists.footer.links limit: half_links %}
-                <a href="{{ link.url }}" 
-                   class="footer-link"
-                   style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">
-                  {{ link.title | upcase }}
-                </a>
+        {% if useful_links_heading != blank %}
+          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ footer_settings.useful_links_heading_font_size | default: 18 }}px; font-weight: {{ footer_settings.useful_links_heading_font_weight | default: '600' }}; margin-bottom: 20px;">
+            {{ useful_links_heading }}
+          </h5>
+        {% endif %}
+        
+        {%- liquid
+          assign link_blocks = section.blocks | where: 'type', 'link'
+          assign total_link_blocks = link_blocks.size
+          assign half_links = total_link_blocks | divided_by: 2 | ceil
+        -%}
+        
+        {% if total_link_blocks > 0 %}
+          <div class="footer-links-wrapper">
+            <div class="footer-links-column">
+              {% for block in link_blocks limit: half_links %}
+                {% if block.settings.link_url != blank and block.settings.link_text != blank %}
+                  <a href="{{ block.settings.link_url }}" 
+                     class="footer-link"
+                     style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">
+                    {{ block.settings.link_text | upcase }}
+                  </a>
+                {% endif %}
               {% endfor %}
-            {% else %}
-              <a href="/pages/about-us" class="footer-link" style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">ABOUT US</a>
-              <a href="/pages/contact-us" class="footer-link" style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">CONTACT US</a>
-              <a href="/pages/privacy" class="footer-link" style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">PRIVACY</a>
-              <a href="/pages/client-feedback" class="footer-link" style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">CLIENT FEEDBACK</a>
-            {% endif %}
-          </div>
-          <div class="footer-links-column">
-            {% if linklists.footer.links.size > 0 %}
-              {% assign total_links = linklists.footer.links.size %}
-              {% assign half_links = total_links | divided_by: 2 | ceil %}
-              {% for link in linklists.footer.links offset: half_links %}
-                <a href="{{ link.url }}" 
-                   class="footer-link"
-                   style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">
-                  {{ link.title | upcase }}
-                </a>
+            </div>
+            <div class="footer-links-column">
+              {% for block in link_blocks offset: half_links %}
+                {% if block.settings.link_url != blank and block.settings.link_text != blank %}
+                  <a href="{{ block.settings.link_url }}" 
+                     class="footer-link"
+                     style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">
+                    {{ block.settings.link_text | upcase }}
+                  </a>
+                {% endif %}
               {% endfor %}
-            {% else %}
-              <a href="/pages/blog" class="footer-link" style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">BLOG</a>
-              <a href="/pages/delivery" class="footer-link" style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">DELIVERY</a>
-              <a href="/pages/terms" class="footer-link" style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">T'S & C'S</a>
-              <a href="/pages/size-guide" class="footer-link" style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: 12px;">SIZE GUIDE</a>
-            {% endif %}
+            </div>
           </div>
-        </div>
+        {% endif %}
       </div>
     </div>
   </div>
