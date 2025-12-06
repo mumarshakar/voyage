@@ -13,23 +13,25 @@
     Set default values if footer_settings is not available
   endcomment
   if footer_settings == blank
-    assign footer_bg_color = '#6B4C93'
-    assign footer_text_color = '#FFFFFF'
-    assign footer_link_color = '#FFFFFF'
-    assign footer_link_hover_color = '#FFFFFF'
+    assign footer_bg_color = '#FFFFFF'
+    assign footer_text_color = '#333333'
+    assign footer_link_color = '#333333'
+    assign footer_link_hover_color = '#333333'
     assign footer_link_font_size = 14
     assign footer_link_font_weight = '400'
-    assign footer_vertical_padding = 60
+    assign footer_vertical_padding = 110
     assign footer_horizontal_padding = 20
     assign footer_section_spacing = 30
     assign footer_heading_margin_bottom = 20
     assign columns_desktop = 3
     assign columns_tablet = 2
     assign columns_mobile = 1
-    assign social_heading = 'Follow us'
+    assign social_heading = 'Join Our Community'
+    assign social_heading_alignment = 'center'
     assign social_icon_size = 48
-    assign social_icon_size_mobile = 40
-    assign social_icon_gap = 12
+    assign social_icon_size_mobile = 32
+    assign social_icon_gap = 16
+    assign social_icon_alignment = 'center'
     assign social_icon_border_radius = 8
     assign social_icon_inner_size = 24
     assign social_icon_hover_opacity = 0.9
@@ -57,23 +59,25 @@
     assign footer_font_family = 'sans-serif'
     assign footer_link_hover_opacity = 0.8
   else
-    assign footer_bg_color = footer_settings.footer_bg_color | default: '#6B4C93'
-    assign footer_text_color = footer_settings.footer_text_color | default: '#FFFFFF'
-    assign footer_link_color = footer_settings.footer_link_color | default: '#FFFFFF'
-    assign footer_link_hover_color = footer_settings.footer_link_hover_color | default: '#FFFFFF'
+    assign footer_bg_color = footer_settings.footer_bg_color | default: '#FFFFFF'
+    assign footer_text_color = footer_settings.footer_text_color | default: '#333333'
+    assign footer_link_color = footer_settings.footer_link_color | default: '#333333'
+    assign footer_link_hover_color = footer_settings.footer_link_hover_color | default: '#333333'
     assign footer_link_font_size = footer_settings.footer_link_font_size | default: 14
     assign footer_link_font_weight = footer_settings.footer_link_font_weight | default: '400'
-    assign footer_vertical_padding = footer_settings.footer_vertical_padding | default: 60
+    assign footer_vertical_padding = footer_settings.footer_vertical_padding | default: 110
     assign footer_horizontal_padding = footer_settings.footer_horizontal_padding | default: 20
     assign footer_section_spacing = footer_settings.footer_section_spacing | default: 30
     assign footer_heading_margin_bottom = footer_settings.footer_heading_margin_bottom | default: 20
     assign columns_desktop = footer_settings.columns_desktop | default: 3
     assign columns_tablet = footer_settings.columns_tablet | default: 2
     assign columns_mobile = footer_settings.columns_mobile | default: 1
-    assign social_heading = footer_settings.social_heading | default: 'Follow us'
+    assign social_heading = footer_settings.social_heading | default: 'Join Our Community'
+    assign social_heading_alignment = footer_settings.social_heading_alignment | default: 'center'
     assign social_icon_size = footer_settings.social_icon_size | default: 48
-    assign social_icon_size_mobile = footer_settings.social_icon_size_mobile | default: 40
-    assign social_icon_gap = footer_settings.social_icon_gap | default: 12
+    assign social_icon_size_mobile = footer_settings.social_icon_size_mobile | default: 32
+    assign social_icon_gap = footer_settings.social_icon_gap | default: 16
+    assign social_icon_alignment = footer_settings.social_icon_alignment | default: 'center'
     assign social_icon_border_radius = footer_settings.social_icon_border_radius | default: 8
     assign social_icon_inner_size = footer_settings.social_icon_inner_size | default: 24
     assign social_icon_hover_opacity = footer_settings.social_icon_hover_opacity | default: 0.9
@@ -124,13 +128,13 @@
       <!-- Social Media Section -->
       <div class="col-12 col-md-{{ 12 | divided_by: columns_tablet }} col-lg-{{ 12 | divided_by: columns_desktop }} footer-section">
         {% if social_heading != blank %}
-          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ footer_settings.social_heading_font_size | default: 18 }}px; font-weight: {{ footer_settings.social_heading_font_weight | default: '600' }}; margin-bottom: {{ footer_heading_margin_bottom }}px;">
+          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ footer_settings.social_heading_font_size | default: 18 }}px; font-weight: {{ footer_settings.social_heading_font_weight | default: '600' }}; margin-bottom: {{ footer_heading_margin_bottom }}px; text-align: {{ social_heading_alignment }};">
             {{ social_heading }}
           </h5>
         {% endif %}
         
         {% if social_blocks_count > 0 %}
-          <div class="social-icons-wrapper" style="gap: {{ social_icon_gap }}px;">
+          <div class="social-icons-wrapper" style="gap: {{ social_icon_gap }}px; justify-content: {{ social_icon_alignment }};">
             {% if section.blocks != blank and section.blocks.size > 0 %}
               {% for block in section.blocks %}
                 {% if block.type == 'social_media' %}

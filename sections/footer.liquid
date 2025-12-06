@@ -123,14 +123,14 @@
       "type": "color",
       "id": "footer_bg_color",
       "label": "Background Color",
-      "default": "#6B4C93"
+      "default": "#FFFFFF"
     },
     {
       "type": "color",
       "id": "footer_text_color",
       "label": "Text Color",
-      "default": "#FFFFFF",
-      "info": "Color for headings and text"
+      "default": "#333333",
+      "info": "Used for placeholder icons if custom icons not provided"
     },
     {
       "type": "range",
@@ -139,7 +139,7 @@
       "min": 40,
       "max": 200,
       "step": 10,
-      "default": 60,
+      "default": 110,
       "unit": "px",
       "info": "Top and bottom padding"
     },
@@ -182,18 +182,41 @@
     {
       "type": "text",
       "id": "social_heading",
-      "label": "Social Media Heading",
-      "default": "Follow us"
+      "label": "Heading Text",
+      "default": "Join Our Community",
+      "info": "Text displayed above the social media icons"
     },
     {
       "type": "range",
       "id": "social_heading_font_size",
-      "label": "Social Heading Font Size (px)",
+      "label": "Heading Font Size (px)",
       "min": 14,
       "max": 32,
       "step": 1,
       "default": 18,
-      "unit": "px"
+      "unit": "px",
+      "info": "Font size for the heading text"
+    },
+    {
+      "type": "select",
+      "id": "social_heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "info": "Alignment of the heading text"
     },
     {
       "type": "select",
@@ -222,7 +245,7 @@
     {
       "type": "range",
       "id": "social_icon_size",
-      "label": "Social Icon Size - Desktop (px)",
+      "label": "Icon Size - Desktop (px)",
       "min": 32,
       "max": 80,
       "step": 2,
@@ -232,11 +255,11 @@
     {
       "type": "range",
       "id": "social_icon_size_mobile",
-      "label": "Social Icon Size - Mobile (px)",
+      "label": "Icon Size - Mobile (px)",
       "min": 28,
       "max": 60,
       "step": 2,
-      "default": 40,
+      "default": 32,
       "unit": "px"
     },
     {
@@ -246,8 +269,28 @@
       "min": 4,
       "max": 24,
       "step": 2,
-      "default": 12,
+      "default": 16,
       "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "social_icon_alignment",
+      "label": "Icon Alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
     },
     {
       "type": "range",
