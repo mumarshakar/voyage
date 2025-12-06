@@ -41,8 +41,6 @@
           "logo_line1": "Voyage BY",
           "logo_line2": "HYPE CLUB",
           "two_line_logo": false,
-          "logo_image_before_scroll": "shopify://shop_images/logog_white.png",
-          "logo_image_after_scroll": "shopify://shop_images/HYPE_LOGO_533581f3-40d7-4d3d-824a-c88b954f8ecc.png",
           "logo_width": 300,
           "logo_max_height": 100,
           "logo_font_size": 30,
@@ -137,29 +135,101 @@
       "footer": {
         "type": "footer",
         "blocks": {
+          "social_media_9hm9cC": {
+            "type": "social_media",
+            "settings": {
+              "platform": "facebook",
+              "social_url": "shopify://policies/privacy-policy"
+            }
+          },
+          "social_media_BWnBij": {
+            "type": "social_media",
+            "settings": {
+              "platform": "tiktok",
+              "social_url": "shopify://policies/privacy-policy"
+            }
+          },
+          "link_aPfRwU": {
+            "type": "link",
+            "settings": {
+              "link_text": "Privacy Policy",
+              "link_url": "shopify://policies/privacy-policy"
+            }
+          },
+          "link_WjphbE": {
+            "type": "link",
+            "settings": {
+              "link_text": "Terms & Conditions",
+              "link_url": "shopify://pages/data-sharing-opt-out"
+            }
+          },
           "social_media_6j8Lhr": {
             "type": "social_media",
             "settings": {
               "platform": "instagram",
-              "social_url": "https://www.instagram.com/thehypeclubofficial/?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr#",
-              "custom_icon_url": "https://cdn.shopify.com/s/files/1/0778/3818/8777/files/instagram_Voyage_Hype_Club.webp?v=1764395422"
+              "social_url": "https://www.instagram.com/thehypeclubofficial/?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr#"
             }
           }
         },
         "block_order": [
+          "social_media_9hm9cC",
+          "social_media_BWnBij",
+          "link_aPfRwU",
+          "link_WjphbE",
           "social_media_6j8Lhr"
         ],
         "settings": {
-          "heading_text": "Join Our Community",
-          "heading_font_size": 26,
-          "heading_alignment": "center",
-          "icon_size": 60,
-          "icon_size_mobile": 32,
-          "icon_gap": 16,
-          "icon_alignment": "left",
-          "footer_bg_color": "#ffffff",
+          "columns_desktop": 3,
+          "columns_tablet": 2,
+          "columns_mobile": 1,
+          "footer_bg_color": "#f2f2f2",
           "footer_text_color": "#333333",
-          "footer_vertical_padding": 60
+          "footer_vertical_padding": 110,
+          "footer_horizontal_padding": 20,
+          "footer_section_spacing": 30,
+          "footer_heading_margin_bottom": 20,
+          "social_heading": "Join Our Community",
+          "social_heading_font_size": 18,
+          "social_heading_alignment": "center",
+          "social_heading_font_weight": "600",
+          "social_icon_size": 48,
+          "social_icon_size_mobile": 32,
+          "social_icon_gap": 16,
+          "social_icon_alignment": "center",
+          "social_icon_border_radius": 8,
+          "social_icon_inner_size": 24,
+          "newsletter_heading": "Subscribe to our newsletter",
+          "newsletter_heading_font_size": 18,
+          "newsletter_heading_font_weight": "600",
+          "newsletter_button_text": "SIGN UP",
+          "newsletter_button_color": "#ffd700",
+          "newsletter_button_text_color": "#ffffff",
+          "newsletter_placeholder": "Your e-mail address",
+          "newsletter_input_bg_color": "#ffffff",
+          "newsletter_input_text_color": "#333333",
+          "newsletter_input_placeholder_color": "#999999",
+          "newsletter_input_border_radius": 4,
+          "newsletter_input_padding": 12,
+          "newsletter_button_border_radius": 4,
+          "newsletter_button_padding_horizontal": 24,
+          "newsletter_button_padding_vertical": 12,
+          "newsletter_button_font_size": 14,
+          "newsletter_button_font_weight": "600",
+          "newsletter_input_button_gap": 8,
+          "useful_links_heading": "Useful links",
+          "useful_links_heading_font_size": 18,
+          "useful_links_heading_font_weight": "600",
+          "footer_link_color": "#000000",
+          "footer_link_hover_color": "#333333",
+          "footer_link_font_size": 16,
+          "footer_link_font_weight": "400",
+          "footer_link_spacing": 12,
+          "footer_links_column_gap": 40,
+          "footer_font_family": "sans-serif",
+          "social_icon_hover_opacity": 0.9,
+          "social_icon_hover_lift": 2,
+          "newsletter_button_hover_opacity": 0.9,
+          "footer_link_hover_opacity": 0.8
         }
       }
     },
@@ -167,7 +237,7 @@
   },
   "platform_customizations": {
     "custom_css": [
-      "#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {display: flex; justify-content: center; position:relative !important; left:250px !important;}"
+      "#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {display: flex; justify-content: center; position: relative !important; left: 250px !important;}"
     ]
   }
 }
