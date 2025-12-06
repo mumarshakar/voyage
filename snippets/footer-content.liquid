@@ -234,19 +234,29 @@
         {% endif %}
         
         {%- liquid
-          assign link_blocks = section.blocks | where: 'type', 'link'
-          assign total_link_blocks = link_blocks.size
+          assign link_blocks_count = 0
+          if section.blocks != blank
+            for block in section.blocks
+              if block.type == 'link'
+                assign link_blocks_count = link_blocks_count | plus: 1
+              endif
+            endfor
+          endif
         -%}
         
-        {% if total_link_blocks > 0 %}
+        {% if link_blocks_count > 0 %}
           <div class="footer-links-list">
-            {% for block in link_blocks %}
-              {% if block.settings.link_url != blank and block.settings.link_text != blank %}
-                <a href="{{ block.settings.link_url }}" 
-                   class="footer-link"
-                   style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: {{ footer_link_spacing }}px;">
-                  {{ block.settings.link_text | upcase }}
-                </a>
+            {% for block in section.blocks %}
+              {% if block.type == 'link' %}
+                {% assign link_text = block.settings.link_text | default: 'Link' %}
+                {% assign link_url = block.settings.link_url | default: '#' %}
+                {% if link_text != blank %}
+                  <a href="{{ link_url }}" 
+                     class="footer-link"
+                     style="color: {{ footer_link_color }}; font-size: {{ footer_link_font_size }}px; font-weight: {{ footer_link_font_weight }}; text-decoration: none; display: block; margin-bottom: {{ footer_link_spacing }}px;">
+                    {{ link_text | upcase }}
+                  </a>
+                {% endif %}
               {% endif %}
             {% endfor %}
           </div>
