@@ -124,7 +124,7 @@
 
 <footer class="custom-footer" style="background-color: {{ footer_bg_color }}; padding: {{ footer_vertical_padding }}px {{ footer_horizontal_padding }}px;">
   <div class="container">
-    <div class="row g-4">
+    <div class="row g-4 align-items-start">
       <!-- Social Media Section -->
       <div class="col-12 col-md-{{ 12 | divided_by: columns_tablet }} col-lg-{{ 12 | divided_by: columns_desktop }} footer-section">
         {% if social_heading != blank %}
@@ -214,11 +214,11 @@
                    name="contact[email]" 
                    placeholder="{{ newsletter_placeholder }}" 
                    class="newsletter-input"
-                   style="background-color: {{ newsletter_input_bg_color }}; color: {{ newsletter_input_text_color }}; border-radius: {{ newsletter_input_border_radius }}px; padding: {{ newsletter_input_padding }}px; border: none; flex: 1; font-size: 14px;"
+                   style="background-color: {{ newsletter_input_bg_color }}; color: {{ newsletter_input_text_color }}; border-radius: {{ newsletter_input_border_radius }}px; padding: {{ newsletter_input_padding }}px; border: none; flex: 1; font-size: 14px; width: 100%; box-sizing: border-box;"
                    required>
             <button type="submit" 
                     class="newsletter-button"
-                    style="background-color: {{ newsletter_button_color }}; color: {{ newsletter_button_text_color }}; border-radius: {{ newsletter_button_border_radius }}px; padding: {{ newsletter_button_padding_vertical }}px {{ newsletter_button_padding_horizontal }}px; border: none; font-weight: {{ newsletter_button_font_weight }}; font-size: {{ newsletter_button_font_size }}px; text-transform: uppercase; white-space: nowrap;">
+                    style="background-color: {{ newsletter_button_color }}; color: {{ newsletter_button_text_color }}; border-radius: {{ newsletter_button_border_radius }}px; padding: {{ newsletter_button_padding_vertical }}px {{ newsletter_button_padding_horizontal }}px; border: none; font-weight: {{ newsletter_button_font_weight }}; font-size: {{ newsletter_button_font_size }}px; text-transform: uppercase; white-space: nowrap; box-sizing: border-box;">
               {{ newsletter_button_text }}
             </button>
           </div>
@@ -274,20 +274,31 @@
   .custom-footer {
     font-family: {{ footer_font_family }};
     --footer-link-hover-color: {{ footer_link_hover_color }};
+    width: 100%;
+  }
+  
+  .custom-footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
   }
   
   .footer-section {
     margin-bottom: {{ footer_section_spacing }}px;
+    display: flex;
+    flex-direction: column;
   }
   
   .footer-heading {
     font-family: {{ footer_font_family }};
     text-transform: none;
+    margin: 0;
+    line-height: 1.4;
   }
   
   .social-icons-wrapper {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
   }
   
   .social-icon-square {
@@ -296,6 +307,7 @@
     justify-content: center;
     text-decoration: none;
     transition: transform 0.2s ease, opacity 0.2s ease;
+    flex-shrink: 0;
   }
   
   .social-icon-square:hover {
@@ -312,24 +324,34 @@
   .social-icon-inner svg {
     width: 100%;
     height: 100%;
+    display: block;
   }
   
   .newsletter-form {
-    margin-top: 10px;
+    margin-top: 0;
+    width: 100%;
   }
   
   .newsletter-input-group {
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    width: 100%;
+  }
+  
+  .newsletter-input {
+    flex: 1;
+    min-width: 0;
   }
   
   .newsletter-input::placeholder {
     color: {{ newsletter_input_placeholder_color }};
+    opacity: 1;
   }
   
   .newsletter-button {
     cursor: pointer;
     transition: opacity 0.2s ease;
+    flex-shrink: 0;
   }
   
   .newsletter-button:hover {
@@ -339,15 +361,18 @@
   .footer-links-wrapper {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
   }
   
   .footer-links-column {
     display: flex;
     flex-direction: column;
+    min-width: 120px;
   }
   
   .footer-link {
     transition: opacity 0.2s ease, color 0.2s ease;
+    line-height: 1.6;
   }
   
   .footer-link:hover {
@@ -355,18 +380,39 @@
     color: var(--footer-link-hover-color) !important;
   }
   
+  .footer-link:last-child {
+    margin-bottom: 0 !important;
+  }
+  
+  @media (max-width: 991px) {
+    .footer-section {
+      margin-bottom: {{ footer_section_spacing | plus: 10 }}px;
+    }
+  }
+  
   @media (max-width: 767px) {
     .newsletter-input-group {
       flex-direction: column;
+      align-items: stretch;
     }
     
     .newsletter-button {
       width: 100%;
+      margin-left: 0 !important;
     }
     
     .social-icon-square {
       width: {{ social_icon_size_mobile }}px !important;
       height: {{ social_icon_size_mobile }}px !important;
+    }
+    
+    .footer-links-wrapper {
+      gap: 20px !important;
+    }
+    
+    .footer-links-column {
+      min-width: auto;
+      flex: 1;
     }
   }
 </style>
