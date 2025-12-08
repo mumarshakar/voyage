@@ -319,11 +319,14 @@
         <div class="col-12 col-md-6 footer-payment-icons" style="text-align: right; margin-bottom: 15px;">
           {% if show_payment_icons %}
             <div class="payment-icons-wrapper" style="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: {{ payment_icon_gap }}px;">
-              {% for type in shop.enabled_payment_types %}
-                <span class="payment-icon-wrapper" style="display: inline-block;">
-                  {{ type | payment_type_svg_tag: class: 'payment-icon' }}
-                </span>
-              {% endfor %}
+              {%- for type in shop.enabled_payment_types -%}
+                {%- assign type_string = type | downcase -%}
+                {%- if type_string == 'visa' or type_string == 'master' or type_string == 'american_express' -%}
+                  <span class="payment-icon-wrapper" style="display: inline-block;">
+                    {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+                  </span>
+                {%- endif -%}
+              {%- endfor -%}
             </div>
           {% endif %}
         </div>
