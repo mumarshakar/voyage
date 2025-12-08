@@ -152,7 +152,7 @@
       <!-- Social Media Section -->
       <div class="col-12 col-md-{{ 12 | divided_by: columns_tablet }} col-lg-{{ 12 | divided_by: columns_desktop }} footer-section">
         {% if social_heading != blank %}
-          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ social_heading_font_size }}px; font-weight: {{ social_heading_font_weight }}; margin-bottom: {{ footer_heading_margin_bottom }}px; text-align: {{ social_heading_alignment }};">
+          <h5 class="footer-heading footer-heading-social" style="color: {{ footer_text_color }}; font-size: {{ social_heading_font_size }}px; font-weight: {{ social_heading_font_weight }}; margin-bottom: {{ footer_heading_margin_bottom }}px; text-align: {{ social_heading_alignment }};">
             {{ social_heading }}
           </h5>
         {% endif %}
@@ -227,7 +227,7 @@
       <!-- Newsletter Section -->
       <div class="col-12 col-md-{{ 12 | divided_by: columns_tablet }} col-lg-{{ 12 | divided_by: columns_desktop }} footer-section">
         {% if newsletter_heading != blank %}
-          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ newsletter_heading_font_size }}px; font-weight: {{ newsletter_heading_font_weight }}; margin-bottom: {{ footer_heading_margin_bottom }}px;">
+          <h5 class="footer-heading footer-heading-newsletter" style="color: {{ footer_text_color }}; font-size: {{ newsletter_heading_font_size }}px; font-weight: {{ newsletter_heading_font_weight }}; margin-bottom: {{ footer_heading_margin_bottom }}px;">
             {{ newsletter_heading }}
           </h5>
         {% endif %}
@@ -252,7 +252,7 @@
       <!-- Useful Links Section -->
       <div class="col-12 col-md-{{ 12 | divided_by: columns_tablet }} col-lg-{{ 12 | divided_by: columns_desktop }} footer-section">
         {% if useful_links_heading != blank %}
-          <h5 class="footer-heading" style="color: {{ footer_text_color }}; font-size: {{ useful_links_heading_font_size }}px; font-weight: {{ useful_links_heading_font_weight }}; margin-bottom: {{ footer_heading_margin_bottom }}px;">
+          <h5 class="footer-heading footer-heading-links" style="color: {{ footer_text_color }}; font-size: {{ useful_links_heading_font_size }}px; font-weight: {{ useful_links_heading_font_weight }}; margin-bottom: {{ footer_heading_margin_bottom }}px;">
             {{ useful_links_heading }}
           </h5>
         {% endif %}
@@ -299,6 +299,26 @@
     text-transform: none;
     margin: 0;
     line-height: 1.4;
+  }
+  
+  /* Override global heading styles for footer headings with maximum specificity */
+  /* These rules ensure inline styles take precedence over global !important rules */
+  html body .custom-footer .footer-heading-social,
+  html body .custom-footer h5.footer-heading-social {
+    font-size: {{ social_heading_font_size }}px !important;
+    font-weight: {{ social_heading_font_weight }} !important;
+  }
+  
+  html body .custom-footer .footer-heading-newsletter,
+  html body .custom-footer h5.footer-heading-newsletter {
+    font-size: {{ newsletter_heading_font_size }}px !important;
+    font-weight: {{ newsletter_heading_font_weight }} !important;
+  }
+  
+  html body .custom-footer .footer-heading-links,
+  html body .custom-footer h5.footer-heading-links {
+    font-size: {{ useful_links_heading_font_size }}px !important;
+    font-weight: {{ useful_links_heading_font_weight }} !important;
   }
   
   .social-icons-wrapper {
