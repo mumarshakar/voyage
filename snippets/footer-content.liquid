@@ -127,9 +127,19 @@
     if footer_settings.copyright_text != blank and footer_settings.copyright_text != ''
       assign copyright_text = footer_settings.copyright_text
       assign current_year = 'now' | date: '%Y'
-      assign copyright_text = copyright_text | replace: '{{ shop.name }}', shop.name
-      assign copyright_text = copyright_text | replace: "{{ 'now' | date: '%Y' }}", current_year
-      assign copyright_text = copyright_text | replace: "{{ 'now' | date: \"%Y\" }}", current_year
+      comment
+        Replace shop.name placeholder
+      endcomment
+      assign shop_name_placeholder = '{{ shop.name }}'
+      assign copyright_text = copyright_text | replace: shop_name_placeholder, shop.name
+      comment
+        Replace year placeholders (various formats)
+      endcomment
+      assign year_placeholder1 = '2024'
+      assign year_placeholder2 = 'now' | date: '%Y'
+      if copyright_text contains year_placeholder1
+        assign copyright_text = copyright_text | replace: year_placeholder1, current_year
+      endif
     else
       assign current_year = 'now' | date: '%Y'
       assign copyright_text = '© ' | append: current_year | append: ' ' | append: shop.name | append: '. All rights reserved.'
