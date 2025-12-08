@@ -671,6 +671,71 @@
       "step": 0.1,
       "default": 0.8,
       "info": "Opacity when hovering over links"
+    },
+    {
+      "type": "header",
+      "content": "Copyright & Payment Icons"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "",
+      "info": "Copyright text displayed on the left side. Leave empty to use default: '© [Year] [Store Name]. All rights reserved.' You can use {{ shop.name }} for store name."
+    },
+    {
+      "type": "range",
+      "id": "copyright_font_size",
+      "label": "Copyright Font Size (px)",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "copyright_text_color",
+      "label": "Copyright Text Color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "copyright_padding_top",
+      "label": "Copyright Row Top Padding (px)",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "default": 30,
+      "unit": "px",
+      "info": "Space between main footer content and copyright row"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show Payment Icons",
+      "default": true,
+      "info": "Display payment method icons on the right side"
+    },
+    {
+      "type": "range",
+      "id": "payment_icon_size",
+      "label": "Payment Icon Size (px)",
+      "min": 24,
+      "max": 48,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "payment_icon_gap",
+      "label": "Spacing Between Payment Icons (px)",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "default": 8,
+      "unit": "px"
     }
   ]
 }

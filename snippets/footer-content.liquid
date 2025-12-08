@@ -64,6 +64,14 @@
     assign footer_links_column_gap = 40
     assign footer_font_family = 'sans-serif'
     assign footer_link_hover_opacity = 0.8
+    assign current_year = 'now' | date: '%Y'
+    assign copyright_text = '© ' | append: current_year | append: ' ' | append: shop.name | append: '. All rights reserved.'
+    assign copyright_font_size = 14
+    assign copyright_text_color = '#666666'
+    assign copyright_padding_top = 30
+    assign show_payment_icons = true
+    assign payment_icon_size = 32
+    assign payment_icon_gap = 8
   else
     assign footer_bg_color = footer_settings.footer_bg_color | default: '#FFFFFF'
     assign footer_text_color = footer_settings.footer_text_color | default: '#333333'
@@ -116,6 +124,22 @@
     assign footer_links_column_gap = footer_settings.footer_links_column_gap | default: 40
     assign footer_font_family = footer_settings.footer_font_family | default: 'sans-serif'
     assign footer_link_hover_opacity = footer_settings.footer_link_hover_opacity | default: 0.8
+    if footer_settings.copyright_text != blank and footer_settings.copyright_text != ''
+      assign copyright_text = footer_settings.copyright_text
+      assign current_year = 'now' | date: '%Y'
+      assign copyright_text = copyright_text | replace: '{{ shop.name }}', shop.name
+      assign copyright_text = copyright_text | replace: "{{ 'now' | date: '%Y' }}", current_year
+      assign copyright_text = copyright_text | replace: "{{ 'now' | date: \"%Y\" }}", current_year
+    else
+      assign current_year = 'now' | date: '%Y'
+      assign copyright_text = '© ' | append: current_year | append: ' ' | append: shop.name | append: '. All rights reserved.'
+    endif
+    assign copyright_font_size = footer_settings.copyright_font_size | default: 14
+    assign copyright_text_color = footer_settings.copyright_text_color | default: '#666666'
+    assign copyright_padding_top = footer_settings.copyright_padding_top | default: 30
+    assign show_payment_icons = footer_settings.show_payment_icons | default: true
+    assign payment_icon_size = footer_settings.payment_icon_size | default: 32
+    assign payment_icon_gap = footer_settings.payment_icon_gap | default: 8
   endif
 
   comment
@@ -273,6 +297,28 @@
         {% endif %}
       </div>
     </div>
+    
+    <!-- Copyright & Payment Icons Row -->
+    <div class="footer-copyright-row" style="padding-top: {{ copyright_padding_top }}px; border-top: 1px solid rgba(0,0,0,0.1); margin-top: {{ footer_section_spacing }}px;">
+      <div class="row align-items-center">
+        <div class="col-12 col-md-6 footer-copyright-text" style="text-align: left; margin-bottom: 15px;">
+          <p style="color: {{ copyright_text_color }}; font-size: {{ copyright_font_size }}px; margin: 0; font-family: {{ footer_font_family }};">
+            {{ copyright_text }}
+          </p>
+        </div>
+        <div class="col-12 col-md-6 footer-payment-icons" style="text-align: right; margin-bottom: 15px;">
+          {% if show_payment_icons %}
+            <div class="payment-icons-wrapper" style="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: {{ payment_icon_gap }}px;">
+              {% for type in shop.enabled_payment_types %}
+                <span class="payment-icon-wrapper" style="display: inline-block;">
+                  {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+                </span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </div>
 </footer>
 
@@ -410,6 +456,42 @@
     }
   }
   
+  .footer-copyright-row {
+    width: 100%;
+  }
+  
+  .footer-copyright-text {
+    text-align: left;
+  }
+  
+  .footer-payment-icons {
+    text-align: right;
+  }
+  
+  .payment-icons-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .payment-icon-wrapper {
+    display: inline-block;
+    line-height: 0;
+  }
+  
+  .payment-icon {
+    height: {{ payment_icon_size }}px;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    display: block;
+  }
+  
+  .payment-icon:hover {
+    opacity: 1;
+  }
+  
   @media (max-width: 767px) {
     .newsletter-input-group {
       flex-direction: column;
@@ -426,5 +508,14 @@
       height: {{ social_icon_size_mobile }}px !important;
     }
     
+    .footer-copyright-text,
+    .footer-payment-icons {
+      text-align: center !important;
+      margin-bottom: 15px;
+    }
+    
+    .payment-icons-wrapper {
+      justify-content: center;
+    }
   }
 </style>
