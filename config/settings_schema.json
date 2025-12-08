@@ -653,6 +653,22 @@
         "info": "Currency code (e.g., AED, USD, EUR)"
       }
     ]
+  },
+  {
+    "name": "Google Tag Manager",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Google Tag Manager Integration"
+      },
+      {
+        "type": "text",
+        "id": "gtm_container_id",
+        "label": "GTM Container ID",
+        "info": "Enter your Google Tag Manager Container ID (e.g., GTM-XXXXXXX). Leave empty to disable GTM.",
+        "placeholder": "GTM-XXXXXXX"
+      }
+    ]
   }
 ]
 
