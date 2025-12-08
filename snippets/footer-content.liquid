@@ -318,46 +318,33 @@
         </div>
         <div class="col-12 col-md-6 footer-payment-icons" style="text-align: right; margin-bottom: 15px;">
           {% if show_payment_icons %}
-            {%- liquid
-              assign payment_types_found = 0
-              assign visa_found = false
-              assign mastercard_found = false
-              assign amex_found = false
-              
-              for type in shop.enabled_payment_types
-                assign type_string = type | downcase
-                if type_string == 'visa' or type_string contains 'visa'
-                  assign visa_found = true
-                  assign payment_types_found = payment_types_found | plus: 1
-                elsif type_string == 'master' or type_string == 'mastercard' or type_string contains 'master'
-                  assign mastercard_found = true
-                  assign payment_types_found = payment_types_found | plus: 1
-                elsif type_string == 'american_express' or type_string == 'amex' or type_string contains 'american' or type_string contains 'amex'
-                  assign amex_found = true
-                  assign payment_types_found = payment_types_found | plus: 1
-                endif
-              endfor
-            -%}
             <div class="payment-icons-wrapper" style="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: {{ payment_icon_gap }}px;">
-              {%- for type in shop.enabled_payment_types -%}
-                {%- liquid
-                  assign type_string = type | downcase
-                  assign should_show = false
-                  
-                  if type_string == 'visa' or type_string contains 'visa'
-                    assign should_show = true
-                  elsif type_string == 'master' or type_string == 'mastercard' or type_string contains 'master'
-                    assign should_show = true
-                  elsif type_string == 'american_express' or type_string == 'amex' or type_string contains 'american' or type_string contains 'amex'
-                    assign should_show = true
-                  endif
-                -%}
-                {%- if should_show -%}
-                  <span class="payment-icon-wrapper" style="display: inline-block;">
-                    {{ type | payment_type_svg_tag: class: 'payment-icon' }}
-                  </span>
-                {%- endif -%}
-              {%- endfor -%}
+              <!-- Visa Icon -->
+              <span class="payment-icon-wrapper" style="display: inline-block;">
+                <svg class="payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32" width="{{ payment_icon_size }}" height="{{ payment_icon_size }}" style="height: {{ payment_icon_size }}px; width: auto;">
+                  <rect width="48" height="32" rx="4" fill="#1434CB"/>
+                  <path d="M20.5 10.5h-3.5l-2.2 11.2h3.5l2.2-11.2zm8.5 7.2c0-2.8-3.9-3-3.9-4.3 0-.4.4-.8 1.2-.8 1 0 2.7.3 3.8.6l.7-4c-.9-.2-2.2-.5-3.7-.5-3.9 0-6.5 2-6.5 4.9 0 2.1 1.9 3.3 3.3 4 1.5.7 2 1.2 2 1.9 0 1-1.2 1.5-2.3 1.5-2 0-3.1-.5-4-1l-.7 4.1c.9.4 2.5.7 4.7.7 4.2 0 6.9-2 7-5.1zm10.2-7.2l-2.7 11.2h3.3l2.7-11.2h-3.3z" fill="#fff"/>
+                  <path d="M13.5 10.5c-1-.4-2.5-.7-4.4-.7-4.4 0-7.5 2.4-7.5 5.8 0 2.5 2.2 3.9 3.9 4.7 1.7.9 2.3 1.5 2.3 2.3 0 1.2-1.4 1.8-2.7 1.8-2.3 0-3.6-.6-4.6-1.1l-.8 3.8c1 .5 2.8.9 5.4.9 4.7 0 7.7-2.4 7.7-6.2 0-2-1.2-3.5-3.5-4.7-1.5-.8-2.4-1.3-2.4-2.1 0-.7.6-1.4 1.9-1.4 1.1 0 1.9.3 2.5.6l.8-3.7z" fill="#fff"/>
+                </svg>
+              </span>
+              
+              <!-- Mastercard Icon -->
+              <span class="payment-icon-wrapper" style="display: inline-block;">
+                <svg class="payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32" width="{{ payment_icon_size }}" height="{{ payment_icon_size }}" style="height: {{ payment_icon_size }}px; width: auto;">
+                  <rect width="48" height="32" rx="4" fill="#000"/>
+                  <circle cx="18" cy="16" r="7" fill="#EB001B"/>
+                  <circle cx="30" cy="16" r="7" fill="#F79E1B"/>
+                  <path d="M24 9.5c2.2 1.6 3.5 4.1 3.5 6.8s-1.3 5.2-3.5 6.8c-2.2-1.6-3.5-4.1-3.5-6.8s1.3-5.2 3.5-6.8z" fill="#FF5F00"/>
+                </svg>
+              </span>
+              
+              <!-- American Express Icon -->
+              <span class="payment-icon-wrapper" style="display: inline-block;">
+                <svg class="payment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32" width="{{ payment_icon_size }}" height="{{ payment_icon_size }}" style="height: {{ payment_icon_size }}px; width: auto;">
+                  <rect width="48" height="32" rx="4" fill="#006FCF"/>
+                  <path d="M8.5 12.5h2.5l1.2 4.5 1.3-4.5h2.3l1.3 4.5 1.2-4.5h2.5l-2.2 7.5h-2.5l-1.2-4-1.2 4H8.5l-2.2-7.5zm11.5 0h5.5v1.3h-3.2v1.8h3v1.3h-3v1.9h3.2v1.3H20v-7.6zm10.5 0h2.5l2.2 5.5 2.2-5.5h2.5v7.5h-1.8v-5.8l-2.1 5.8h-1.3l-2.1-5.8v5.8H30.5v-7.5z" fill="#fff"/>
+                </svg>
+              </span>
             </div>
           {% endif %}
         </div>
