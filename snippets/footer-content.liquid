@@ -181,7 +181,7 @@
 -%}
 
 <footer class="custom-footer" style="background-color: {{ footer_bg_color }}; padding: {{ footer_vertical_padding }}px {{ footer_horizontal_padding }}px;">
-  <div class="container">
+  <div class="container-fluid">
     <div class="row g-4 align-items-start">
       <!-- Social Media Section -->
       <div class="col-12 col-md-{{ 12 | divided_by: columns_tablet }} col-lg-{{ 12 | divided_by: columns_desktop }} footer-section">
@@ -375,9 +375,10 @@
     width: 100%;
   }
   
-  .custom-footer .container {
-    max-width: 1200px;
-    margin: 0 auto;
+  .custom-footer .container-fluid {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
   }
   
   .footer-section {
