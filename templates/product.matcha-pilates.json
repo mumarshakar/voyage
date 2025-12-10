@@ -104,7 +104,6 @@
     },
     "product_info_PQxDb6": {
       "type": "product-info",
-      "disabled": true,
       "name": "Product Info",
       "settings": {
         "show_vendor": false,
