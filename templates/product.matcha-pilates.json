@@ -58,7 +58,7 @@
         "show_vendor": true,
         "show_sku": false,
         "show_quantity_selector": true,
-        "enable_dynamic_checkout": false,
+        "enable_dynamic_checkout": true,
         "section_height_desktop": 800,
         "section_height_mobile": 800,
         "padding_top_desktop": 200,
