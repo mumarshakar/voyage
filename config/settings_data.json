@@ -143,7 +143,7 @@
             "settings": {
               "platform": "tiktok",
               "social_url": "https://tiktok.com",
-              "custom_icon_image": "shopify://shop_images/tiktok.png",
+              "custom_icon_image": "shopify://shop_images/2.png",
               "custom_icon_url": ""
             }
           },
@@ -152,7 +152,7 @@
             "settings": {
               "platform": "whatsapp",
               "social_url": "https://chat.whatsapp.com/LDceNECtoaJ3MIQvoQTUmP",
-              "custom_icon_image": "shopify://shop_images/whatsap.png",
+              "custom_icon_image": "shopify://shop_images/1.png",
               "custom_icon_url": ""
             }
           },
@@ -189,7 +189,7 @@
             "settings": {
               "platform": "instagram",
               "social_url": "https://www.instagram.com/thehypeclubofficial/?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr#",
-              "custom_icon_image": "shopify://shop_images/instagram.png",
+              "custom_icon_image": "shopify://shop_images/3.png",
               "custom_icon_url": ""
             }
           }
