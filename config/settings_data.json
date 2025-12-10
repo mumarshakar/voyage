@@ -170,20 +170,6 @@
               "link_url": "shopify://pages/privacy-policy"
             }
           },
-          "link_rTg9H9": {
-            "type": "link",
-            "settings": {
-              "link_text": "Refund Policy",
-              "link_url": "shopify://pages/refund-policy"
-            }
-          },
-          "link_g79Vnm": {
-            "type": "link",
-            "settings": {
-              "link_text": "Cookie Policy",
-              "link_url": "shopify://pages/cookie-policy"
-            }
-          },
           "social_media_6j8Lhr": {
             "type": "social_media",
             "settings": {
@@ -199,8 +185,6 @@
           "social_media_CFHY8i",
           "link_6CbD76",
           "link_MCEdKC",
-          "link_rTg9H9",
-          "link_g79Vnm",
           "social_media_6j8Lhr"
         ],
         "custom_css": [],
@@ -280,8 +264,8 @@
   "platform_customizations": {
     "custom_css": [
       "/* Base (mobile-first): centered, no left offset */#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {display: flex; justify-content: center; position: relative; left: 0; /* Reset for small screens */}",
-      "/* Tablet and above (≥768px) */@media (min-width: 768px) {#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {left: 120px; /* Adjust as needed */ }}",
-      "/* Desktop and above (≥1024px) */@media (min-width: 1024px) {#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {left: 250px; /* Original left offset */ }}"
+      " /* Tablet and above (≥768px) */@media (min-width: 768px) {#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {left: 120px; /* Adjust as needed */ }}",
+      " /* Desktop and above (≥1024px) */@media (min-width: 1024px) {#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {left: 250px; /* Original left offset */ }}"
     ]
   }
 }
