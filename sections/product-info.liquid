@@ -7,8 +7,20 @@
 
 <div class="product-info-section" style="padding: 40px 0;">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-6 offset-lg-6">
+    <div class="row g-4">
+      <!-- Left Column: Product Description -->
+      <div class="col-lg-6">
+        {% if product.description != blank %}
+          <div class="product-description-content">
+            {{ product.description }}
+          </div>
+        {% else %}
+          <p class="text-muted">No description available for this product.</p>
+        {% endif %}
+      </div>
+
+      <!-- Right Column: Product Title, Price, and Buttons -->
+      <div class="col-lg-6">
         {% if show_vendor and product.vendor != blank %}
           <div class="product-vendor mb-2" style="font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.1em;">
             {{ product.vendor }}
@@ -128,6 +140,50 @@
     </div>
   </div>
 </div>
+
+<style>
+  .product-description-content {
+    line-height: 1.8;
+    color: #333;
+  }
+  
+  .product-description-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+  
+  .product-description-content p {
+    margin-bottom: 1.5rem;
+  }
+  
+  .product-description-content h1,
+  .product-description-content h2,
+  .product-description-content h3,
+  .product-description-content h4,
+  .product-description-content h5,
+  .product-description-content h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .product-description-content ul,
+  .product-description-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+  }
+  
+  .product-description-content li {
+    margin-bottom: 0.5rem;
+  }
+  
+  @media (max-width: 991px) {
+    .product-info-section .row {
+      flex-direction: column-reverse;
+    }
+  }
+</style>
 
 <script>
   const productVariants = [
