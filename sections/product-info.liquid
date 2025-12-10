@@ -7,20 +7,17 @@
 
 <div class="product-info-section" style="padding: 40px 0;">
   <div class="container">
-    <div class="row g-4">
-      <!-- Left Column: Product Description -->
-      <div class="col-lg-6">
+    <div class="row">
+      <div class="col-12">
+        <!-- Product Description (Top) -->
         {% if product.description != blank %}
-          <div class="product-description-content">
+          <div class="product-description-content mb-5">
             {{ product.description }}
           </div>
-        {% else %}
-          <p class="text-muted">No description available for this product.</p>
         {% endif %}
-      </div>
 
-      <!-- Right Column: Product Title, Price, and Buttons -->
-      <div class="col-lg-6">
+        <!-- Product Title, Price, and Buttons (Below Description) -->
+        <div class="product-info-content">
         {% if show_vendor and product.vendor != blank %}
           <div class="product-vendor mb-2" style="font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.1em;">
             {{ product.vendor }}
@@ -136,6 +133,7 @@
             </div>
           </form>
         {% endif %}
+        </div>
       </div>
     </div>
   </div>
@@ -178,10 +176,9 @@
     margin-bottom: 0.5rem;
   }
   
-  @media (max-width: 991px) {
-    .product-info-section .row {
-      flex-direction: column-reverse;
-    }
+  .product-info-content {
+    max-width: 600px;
+    margin: 0 auto;
   }
 </style>
 
