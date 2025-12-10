@@ -221,6 +221,43 @@
     }
   }
   
+  // Handle add to cart form submission
+  const productForm = document.getElementById('product-form');
+  if (productForm) {
+    productForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(productForm);
+      const addToCartBtn = document.getElementById('add-to-cart-btn');
+      const originalText = addToCartBtn ? addToCartBtn.textContent : 'Add to Cart';
+      
+      // Disable button and show loading state
+      if (addToCartBtn) {
+        addToCartBtn.disabled = true;
+        addToCartBtn.textContent = 'Adding...';
+      }
+      
+      fetch('{{ routes.cart_add_url }}', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Redirect to cart page after successful add
+        window.location.href = '{{ routes.cart_url }}';
+      })
+      .catch((error) => {
+        console.error('Error adding to cart:', error);
+        // Re-enable button on error
+        if (addToCartBtn) {
+          addToCartBtn.disabled = false;
+          addToCartBtn.textContent = originalText;
+        }
+        alert('There was an error adding the product to your cart. Please try again.');
+      });
+    });
+  }
+  
   // Initialize on page load
   document.addEventListener('DOMContentLoaded', function() {
     {% if product.variants.size > 1 %}

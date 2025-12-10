@@ -330,6 +330,42 @@
       </ul>
       
         <div class="navbar-actions d-flex align-items-center ms-auto">
+            <!-- Cart Icon -->
+            <a href="{{ routes.cart_url }}" 
+               class="cart-icon-link header-icon me-3"
+               aria-label="Cart"
+               style="position: relative;
+                      display: inline-flex;
+                      align-items: center;
+                      text-decoration: none;
+                      color: var(--menu-link-color, {{ menu_link_color }}) !important;
+                      transition: color 0.3s ease;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              {% if cart.item_count > 0 %}
+                <span class="cart-count-badge" 
+                      style="position: absolute;
+                             top: -8px;
+                             right: -8px;
+                             background-color: var(--primary-orange, #FF6B35);
+                             color: #FFFFFF;
+                             border-radius: 50%;
+                             width: 20px;
+                             height: 20px;
+                             display: flex;
+                             align-items: center;
+                             justify-content: center;
+                             font-size: 11px;
+                             font-weight: 600;
+                             line-height: 1;">
+                  {{ cart.item_count }}
+                </span>
+              {% endif %}
+            </a>
+            
             {%- liquid
               assign button_href = book_now_button_url
               if button_href == blank
@@ -431,8 +467,45 @@
       </ul>
     </nav>
     
-    <!-- Menu Footer with Book Now Button -->
+    <!-- Menu Footer with Cart and Book Now Button -->
     <div class="mobile-menu-footer">
+      <!-- Cart Icon for Mobile -->
+      <a href="{{ routes.cart_url }}" 
+         class="mobile-cart-link"
+         aria-label="Cart"
+         style="display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 12px;
+                margin-right: 10px;
+                text-decoration: none;
+                color: {{ menu_link_color }};
+                position: relative;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        {% if cart.item_count > 0 %}
+          <span style="position: absolute;
+                        top: 8px;
+                        right: 8px;
+                        background-color: var(--primary-orange, #FF6B35);
+                        color: #FFFFFF;
+                        border-radius: 50%;
+                        width: 18px;
+                        height: 18px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 10px;
+                        font-weight: 600;
+                        line-height: 1;">
+            {{ cart.item_count }}
+          </span>
+        {% endif %}
+      </a>
+      
       {%- liquid
         assign button_href = book_now_button_url
         if button_href == blank

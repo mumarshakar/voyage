@@ -122,14 +122,36 @@ document.addEventListener('DOMContentLoaded', function() {
           // Update the line price for the specific item
           const updatedItem = data.items.find(item => item.key === key);
           if (updatedItem) {
-            cartItem.querySelector('.col-md-2.col-4.text-end p').textContent = Shopify.formatMoney(updatedItem.line_price);
+            const linePriceElement = cartItem.querySelector('.col-md-2.col-4.text-end p');
+            if (linePriceElement) {
+              // Use Shopify.formatMoney if available, otherwise format manually
+              if (typeof Shopify !== 'undefined' && typeof Shopify.formatMoney === 'function') {
+                linePriceElement.textContent = Shopify.formatMoney(updatedItem.line_price);
+              } else {
+                // Fallback: format money manually
+                const price = (updatedItem.line_price / 100).toFixed(2);
+                linePriceElement.textContent = '{{ cart.currency.symbol }}' + parseFloat(price).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+              }
+            }
           }
         }
-        document.querySelector('.cart-total').textContent = Shopify.formatMoney(data.total_price);
+        const cartTotalElement = document.querySelector('.cart-total');
+        if (cartTotalElement) {
+          // Use Shopify.formatMoney if available, otherwise format manually
+          if (typeof Shopify !== 'undefined' && typeof Shopify.formatMoney === 'function') {
+            cartTotalElement.textContent = Shopify.formatMoney(data.total_price);
+          } else {
+            // Fallback: format money manually
+            const total = (data.total_price / 100).toFixed(2);
+            cartTotalElement.textContent = '{{ cart.currency.symbol }}' + parseFloat(total).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+          }
+        }
       }
     })
     .catch((error) => {
       console.error('Error:', error);
+      // Reload page on error to ensure cart state is correct
+      location.reload();
     });
   }
 });
