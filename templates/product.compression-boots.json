@@ -118,7 +118,7 @@
         "ai_gen_block_ecf2a9d_73F7XY": {
           "type": "ai_gen_block_ecf2a9d",
           "settings": {
-            "custom_liquid": "<div style=\"display: flex; justify-content: flex-end; margin-right: 400px;\">\n  <sesami-experience\n      shop-id=\"77838188777\"\n      service-id=\"9122551660777\"\n      experience=\"v2\"\n      auto-add-to-cart\n      skip-cart\n      button-label=\"Book Now\"\n      button-style=\"%7B%22width%22%3A%22300px%22%2C%22height%22%3A%2250px%22%2C%22font_size%22%3A18%2C%22color%22%3A%22%23FFF%22%2C%22color_background%22%3A%22%23333333%22%2C%22border_width%22%3A1%2C%22border_color%22%3A%22%23333333%22%2C%22border_radius%22%3A12%2C%22alignment%22%3A%22flex-end%22%7D\"\n  ></sesami-experience>\n</div>"
+            "custom_liquid": "<div style=\"display: flex; justify-content: flex-end; margin-right: 400px;\">\n  <sesami-experience\n      shop-id=\"77838188777\"\n      service-id=\"9135139455209\"\n      experience=\"v2\"\n      auto-add-to-cart\n      skip-cart\n      button-label=\"Book Now\"\n      button-style=\"%7B%22width%22%3A%22300px%22%2C%22height%22%3A%2250px%22%2C%22font_size%22%3A18%2C%22color%22%3A%22%23FFF%22%2C%22color_background%22%3A%22%23333333%22%2C%22border_width%22%3A1%2C%22border_color%22%3A%22%23333333%22%2C%22border_radius%22%3A12%2C%22alignment%22%3A%22flex-end%22%7D\"\n  ></sesami-experience>\n</div>"
           },
           "blocks": {}
         }
