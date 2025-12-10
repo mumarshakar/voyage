@@ -124,6 +124,9 @@
 
                 <!-- Sesami Booking Experience Card (INSIDE FORM for auto-add-to-cart) -->
                 <!-- Sesami will inject hidden fields here for booking properties (Date, Time, Timezone, etc.) -->
+                <!-- Container for Sesami hidden fields - Sesami will populate this automatically -->
+                <div id="sesami-form-fields" style="display: none;"></div>
+                
                 <div class="card mb-3" style="background-color: #f8f9fa;">
                   <div class="card-body">
                     <div class="d-flex justify-content-center">
@@ -336,6 +339,34 @@
       // Don't add any submit handler - let Sesami handle everything
       console.log('Sesami component detected - allowing native form handling');
       
+      // Ensure Sesami can properly access form data for auto-add-to-cart
+      // Sesami needs to read variant ID and quantity, and inject booking properties
+      const ensureSesamiFormAccess = function() {
+        const variantInput = document.getElementById('selected-variant-id');
+        const quantityInput = document.getElementById('quantity');
+        
+        if (variantInput && quantityInput) {
+          // Ensure variant ID is accessible
+          if (!variantInput.value) {
+            variantInput.value = '{{ product.selected_or_first_available_variant.id }}';
+          }
+          
+          // Ensure quantity is accessible
+          if (!quantityInput.value || quantityInput.value < 1) {
+            quantityInput.value = '1';
+          }
+          
+          console.log('Form data ready for Sesami:', {
+            variantId: variantInput.value,
+            quantity: quantityInput.value
+          });
+        }
+      };
+      
+      // Run immediately and after a short delay to ensure form is ready
+      ensureSesamiFormAccess();
+      setTimeout(ensureSesamiFormAccess, 500);
+      
       // Monitor Sesami button state and form properties to debug booking properties
       const observer = new MutationObserver(function(mutations) {
         const sesamiButton = document.querySelector('.sesami-calendar');
@@ -357,7 +388,7 @@
               console.log('  -', field.name, '=', field.value);
             });
             
-            // Also check for Sesami's hidden fields wrapper
+            // Also check for Sesami's hidden fields wrapper (Sesami injects fields here)
             const sesamiWrapper = form.querySelector('.sesami-hidden-fields-wrapper');
             if (sesamiWrapper) {
               const sesamiFields = sesamiWrapper.querySelectorAll('input[type="hidden"]');
@@ -365,9 +396,33 @@
               sesamiFields.forEach(function(field) {
                 console.log('  -', field.name, '=', field.value);
               });
+              
+              // Verify critical properties exist
+              const hasDate = Array.from(sesamiFields).some(f => f.name.includes('Date') && f.value);
+              const hasTime = Array.from(sesamiFields).some(f => f.name.includes('Time') && f.value);
+              
+              if (!hasDate || !hasTime) {
+                console.error('❌ Missing critical booking properties!');
+                console.error('Date property:', hasDate ? '✓' : '✗');
+                console.error('Time property:', hasTime ? '✓' : '✗');
+                console.error('This will cause the "No time slot selected" warning.');
+              } else {
+                console.log('✓ All critical booking properties present');
+              }
             } else {
               console.warn('⚠️ Sesami hidden fields wrapper not found in form!');
-              console.warn('This may cause booking properties to not be included in cart.');
+              console.warn('Sesami may not have injected booking properties yet.');
+              console.warn('Waiting for Sesami to inject fields...');
+              
+              // Wait a bit and check again
+              setTimeout(function() {
+                const wrapper = form.querySelector('.sesami-hidden-fields-wrapper');
+                if (wrapper) {
+                  console.log('✓ Sesami wrapper found after delay');
+                } else {
+                  console.error('❌ Sesami wrapper still not found - properties may not be included');
+                }
+              }, 1000);
             }
             
             console.log('Waiting for Sesami checkout redirect...');
@@ -384,14 +439,67 @@
                     if (cart.items.length > 0) {
                       const lastItem = cart.items[cart.items.length - 1];
                       console.log('Last cart item properties:', lastItem.properties);
+                      
                       if (!lastItem.properties || Object.keys(lastItem.properties).length === 0) {
                         console.error('❌ Cart item has NO booking properties!');
                         console.error('This is why Sesami shows the warning.');
+                        console.error('Sesami auto-add-to-cart may not be reading properties from form.');
+                        
+                        // Try to get properties from form and update cart item
+                        const form = document.getElementById('product-form');
+                        const sesamiWrapper = form.querySelector('.sesami-hidden-fields-wrapper');
+                        if (sesamiWrapper) {
+                          const properties = {};
+                          sesamiWrapper.querySelectorAll('input[type="hidden"]').forEach(function(field) {
+                            if (field.name && field.value) {
+                              // Convert properties[Date] to Date
+                              const propName = field.name.replace('properties[', '').replace(']', '');
+                              properties[propName] = field.value;
+                            }
+                          });
+                          
+                          if (Object.keys(properties).length > 0) {
+                            console.log('Found properties in form, attempting to update cart item...');
+                            // Update cart item with properties
+                            fetch('/cart/update.js', {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify({
+                                updates: {
+                                  [lastItem.key]: {
+                                    properties: properties
+                                  }
+                                }
+                              })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                              console.log('Cart item updated with properties:', data);
+                              // Redirect to checkout after update
+                              if (window.location.pathname !== '/checkout') {
+                                window.location.href = '/checkout';
+                              }
+                            })
+                            .catch(err => {
+                              console.error('Error updating cart item:', err);
+                            });
+                          }
+                        }
                       } else {
                         console.log('✓ Cart item has properties:', lastItem.properties);
-                      }
-                      if (window.location.pathname !== '/checkout') {
-                        console.warn('Item in cart, but no redirect. Sesami skip-cart may not be working.');
+                        // Properties exist, redirect should happen
+                        if (window.location.pathname !== '/checkout') {
+                          console.warn('Item in cart with properties, but no redirect. Sesami skip-cart may not be working.');
+                          // Manually redirect if skip-cart isn't working
+                          setTimeout(function() {
+                            if (window.location.pathname !== '/checkout') {
+                              console.log('Manually redirecting to checkout...');
+                              window.location.href = '/checkout';
+                            }
+                          }, 2000);
+                        }
                       }
                     } else {
                       console.error('No items in cart. Sesami auto-add-to-cart may have failed.');
