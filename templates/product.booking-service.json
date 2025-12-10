@@ -12,7 +12,7 @@
     "hero_section_BRfpTm": {
       "type": "hero-section",
       "custom_css": [
-        ".hero-section{margin-top:-35px !important;}"
+        ".hero-section {margin-top: -35px !important;}"
       ],
       "name": "Hero Section",
       "settings": {
@@ -37,8 +37,8 @@
         "hero_height_mobile": 70,
         "background_position": "center",
         "background_size": "cover",
-        "title_color": "#FFFFFF",
-        "subtitle_color": "#FFFFFF",
+        "title_color": "#ffffff",
+        "subtitle_color": "#ffffff",
         "title_position_top": 20,
         "text_alignment": "center",
         "button_position_bottom": 15,
@@ -60,7 +60,7 @@
         "show_quantity_selector": true,
         "enable_dynamic_checkout": false,
         "section_height_desktop": 600,
-        "section_height_mobile": 400,
+        "section_height_mobile": 650,
         "padding_top_desktop": 200,
         "padding_bottom_desktop": 150,
         "padding_horizontal_desktop": 20,
