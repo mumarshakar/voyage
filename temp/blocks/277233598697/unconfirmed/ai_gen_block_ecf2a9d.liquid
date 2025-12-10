@@ -1,6 +1,33 @@
+{% doc %}
+  @prompt
+    Custom Liquid
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-custom-liquid-{{ ai_gen_id }} {
+    width: 100%;
+  }
+{% endstyle %}
+
+<div class="ai-custom-liquid-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {{ block.settings.custom_liquid }}
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Custom liquid",
+  "settings": [
+    {
+      "type": "liquid",
+      "id": "custom_liquid",
+      "label": "Custom Liquid code"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom liquid"
+    }
+  ]
+}
 {% endschema %}
