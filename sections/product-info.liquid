@@ -131,6 +131,7 @@
                 <!-- Container for Sesami hidden fields - Sesami will populate this automatically -->
                 <div id="sesami-form-fields" style="display: none;"></div>
                 
+                <!-- Sesami component - directly in form for better accessibility -->
                 <div class="card mb-3" style="background-color: #f8f9fa;">
                   <div class="card-body">
                     <div class="d-flex justify-content-center">
@@ -142,6 +143,7 @@
                           skip-cart
                           button-label="Book Now"
                           button-style="%7B%22width%22%3A%22300px%22%2C%22height%22%3A%2250px%22%2C%22font_size%22%3A18%2C%22color%22%3A%22%23FFF%22%2C%22color_background%22%3A%22%23333333%22%2C%22border_width%22%3A1%2C%22border_color%22%3A%22%23333333%22%2C%22border_radius%22%3A12%2C%22alignment%22%3A%22flex-end%22%7D"
+                          data-product-form="product-form"
                       ></sesami-experience>
                     </div>
                   </div>
@@ -597,6 +599,141 @@
       buttonObserver.observe(document.body, {
         childList: true,
         subtree: true
+      });
+      
+      // Intercept Sesami's cart add attempt and manually handle it if form data not found
+      // This is a fallback when Sesami's auto-add-to-cart fails
+      const handleSesamiCartAdd = function(bookingData) {
+        const form = document.getElementById('product-form');
+        if (!form) {
+          console.error('Form not found for manual cart add');
+          return;
+        }
+        
+        const variantInput = form.querySelector('input[name="id"]');
+        const quantityInput = form.querySelector('input[name="quantity"]');
+        const sesamiWrapper = form.querySelector('.sesami-hidden-fields-wrapper');
+        
+        if (!variantInput || !quantityInput) {
+          console.error('Missing variant or quantity input');
+          return;
+        }
+        
+        const variantId = variantInput.value;
+        const quantity = quantityInput.value || '1';
+        
+        // Get booking properties from Sesami hidden fields
+        const properties = {};
+        if (sesamiWrapper) {
+          sesamiWrapper.querySelectorAll('input[type="hidden"]').forEach(function(field) {
+            if (field.name && field.name.startsWith('properties[') && field.value) {
+              // Extract property name from properties[Date] format
+              const propMatch = field.name.match(/properties\[(.+)\]/);
+              if (propMatch && propMatch[1]) {
+                properties[propMatch[1]] = field.value;
+              }
+            }
+          });
+        }
+        
+        // Also check for properties directly in form
+        form.querySelectorAll('input[name^="properties["]').forEach(function(field) {
+          if (field.value) {
+            const propMatch = field.name.match(/properties\[(.+)\]/);
+            if (propMatch && propMatch[1]) {
+              properties[propMatch[1]] = field.value;
+            }
+          }
+        });
+        
+        // If bookingData is provided, use it
+        if (bookingData && typeof bookingData === 'object') {
+          Object.assign(properties, bookingData);
+        }
+        
+        console.log('Manual cart add with:', { variantId, quantity, properties });
+        
+        // Add to cart using Shopify Cart API
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: variantId,
+            quantity: parseInt(quantity),
+            properties: properties
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('✓ Item added to cart:', data);
+          // Redirect to checkout (skip-cart behavior)
+          window.location.href = '/checkout';
+        })
+        .catch(error => {
+          console.error('❌ Error adding to cart:', error);
+          alert('Error adding booking to cart. Please try again.');
+        });
+      };
+      
+      // Override console.error to catch Sesami's "form data not found" error
+      const originalConsoleError = console.error;
+      console.error = function(...args) {
+        originalConsoleError.apply(console, args);
+        const errorMessage = args.join(' ');
+        if (errorMessage.includes('form data not found') || errorMessage.includes('Couldn\'t add to cart')) {
+          console.log('🔧 Sesami form data error detected, attempting manual cart add...');
+          // Wait a bit for Sesami to set properties
+          setTimeout(function() {
+            handleSesamiCartAdd();
+          }, 1000);
+        }
+      };
+      
+      // Monitor for Sesami button confirmation (when booking is selected)
+      const sesamiButtonObserver = new MutationObserver(function(mutations) {
+        const sesamiButton = document.querySelector('.sesami-calendar');
+        if (sesamiButton && sesamiButton.disabled) {
+          const buttonText = sesamiButton.textContent.trim();
+          if (buttonText.includes('pm') || buttonText.includes('am')) {
+            console.log('Sesami booking confirmed, waiting for cart add...');
+            // Wait for Sesami to attempt cart add, then check if it succeeded
+            setTimeout(function() {
+              fetch('/cart.js')
+                .then(response => response.json())
+                .then(cart => {
+                  const hasThisProduct = cart.items.some(item => 
+                    item.product_id === {{ product.id }} || 
+                    item.variant_id === parseInt(document.querySelector('input[name="id"]').value)
+                  );
+                  if (!hasThisProduct) {
+                    console.log('Product not in cart, Sesami auto-add failed, using manual add...');
+                    handleSesamiCartAdd();
+                  } else {
+                    console.log('✓ Product in cart, Sesami auto-add succeeded');
+                    // Check if redirect should happen
+                    if (window.location.pathname !== '/checkout') {
+                      setTimeout(function() {
+                        window.location.href = '/checkout';
+                      }, 500);
+                    }
+                  }
+                })
+                .catch(() => {
+                  // If cart check fails, try manual add
+                  handleSesamiCartAdd();
+                });
+            }, 2000);
+          }
+        }
+      });
+      
+      sesamiButtonObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['disabled']
       });
       
     } else {
