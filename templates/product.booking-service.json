@@ -73,6 +73,22 @@
         "margin_bottom_mobile": 0
       }
     },
+    "17653614626021cda3": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_ecf2a9d_73F7XY": {
+          "type": "ai_gen_block_ecf2a9d",
+          "settings": {
+            "custom_liquid": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_ecf2a9d_73F7XY"
+      ],
+      "settings": {}
+    },
     "176363517991952302": {
       "type": "apps",
       "blocks": {
@@ -99,12 +115,14 @@
       "block_order": [
         "sesami_booking_app_app_block_FN6T9d"
       ],
+      "disabled": true,
       "settings": {}
     }
   },
   "order": [
     "hero_section_BRfpTm",
     "product_main",
+    "17653614626021cda3",
     "176363517991952302"
   ]
 }
