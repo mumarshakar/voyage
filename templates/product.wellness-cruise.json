@@ -53,6 +53,7 @@
     },
     "product_main": {
       "type": "product-main",
+      "disabled": true,
       "settings": {
         "show_thumbnails": true,
         "show_vendor": true,
