@@ -9,15 +9,8 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <!-- Product Description (Top) -->
-        {% if product.description != blank %}
-          <div class="product-description-content mb-5">
-            {{ product.description }}
-          </div>
-        {% endif %}
-
-        <!-- Product Title, Price, and Buttons (Below Description) -->
-        <div class="product-info-content">
+        <!-- Product Title, Price, and Buttons (Top) -->
+        <div class="product-info-content mb-5">
         {% if show_vendor and product.vendor != blank %}
           <div class="product-vendor mb-2" style="font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.1em;">
             {{ product.vendor }}
@@ -134,6 +127,13 @@
           </form>
         {% endif %}
         </div>
+
+        <!-- Product Description (Below Title, Price, and Buttons) -->
+        {% if product.description != blank %}
+          <div class="product-description-content">
+            {{ product.description }}
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>
