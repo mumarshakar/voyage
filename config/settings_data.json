@@ -143,6 +143,7 @@
             "settings": {
               "platform": "tiktok",
               "social_url": "https://tiktok.com",
+              "custom_icon_image": "shopify://shop_images/tiktok.png",
               "custom_icon_url": ""
             }
           },
@@ -151,6 +152,7 @@
             "settings": {
               "platform": "whatsapp",
               "social_url": "https://chat.whatsapp.com/LDceNECtoaJ3MIQvoQTUmP",
+              "custom_icon_image": "shopify://shop_images/whatsap.png",
               "custom_icon_url": ""
             }
           },
