@@ -124,7 +124,21 @@
                 {% endif %}
 
                 <!-- Sesami Booking Experience Card -->
-                
+                <div class="card mb-3" style="background-color: #f8f9fa;">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                      <sesami-experience
+                          shop-id="77838188777"
+                          service-id="9136208904425"
+                          experience="v2"
+                          auto-add-to-cart
+                          skip-cart
+                          button-label="Book Now"
+                          button-style="%7B%22width%22%3A%22300px%22%2C%22height%22%3A%2250px%22%2C%22font_size%22%3A18%2C%22color%22%3A%22%23FFF%22%2C%22color_background%22%3A%22%23333333%22%2C%22border_width%22%3A1%2C%22border_color%22%3A%22%23333333%22%2C%22border_radius%22%3A12%2C%22alignment%22%3A%22flex-end%22%7D"
+                      ></sesami-experience>
+                    </div>
+                  </div>
+                </div>
               </form>
             {% endif %}
           </div>
@@ -311,20 +325,40 @@
   }
   
   // Handle add to cart form submission
+  // NOTE: Sesami booking experience handles its own form submission and checkout flow
+  // We only intercept form submissions if they're from the Add to Cart button (which is removed)
   const productForm = document.getElementById('product-form');
   if (productForm) {
     productForm.addEventListener('submit', function(e) {
+      const submitButton = e.submitter;
+      const addToCartBtn = document.getElementById('add-to-cart-btn');
+      
+      // Check if submission is from Sesami component
+      // Sesami creates its own buttons/forms, so we need to detect and allow them
+      const sesamiComponent = productForm.querySelector('sesami-experience');
+      const isFromSesami = sesamiComponent && (
+        !submitButton || 
+        submitButton.closest('sesami-experience') ||
+        submitButton.hasAttribute('data-sesami') ||
+        (submitButton && submitButton !== addToCartBtn)
+      );
+      
+      // If Add to Cart button doesn't exist or submission is from Sesami, allow default behavior
+      if (!addToCartBtn || isFromSesami) {
+        // Allow Sesami to handle its own submission and checkout flow
+        // Sesami will use auto-add-to-cart and skip-cart attributes
+        return true; // Don't prevent default
+      }
+      
+      // Only prevent default for standard Add to Cart button (if it exists)
       e.preventDefault();
       
       const formData = new FormData(productForm);
-      const addToCartBtn = document.getElementById('add-to-cart-btn');
-      const originalText = addToCartBtn ? addToCartBtn.textContent : 'Add to Cart';
+      const originalText = addToCartBtn.textContent || 'Add to Cart';
       
       // Disable button and show loading state
-      if (addToCartBtn) {
-        addToCartBtn.disabled = true;
-        addToCartBtn.textContent = 'Adding...';
-      }
+      addToCartBtn.disabled = true;
+      addToCartBtn.textContent = 'Adding...';
       
       fetch('{{ routes.cart_add_url }}', {
         method: 'POST',
@@ -338,10 +372,8 @@
       .catch((error) => {
         console.error('Error adding to cart:', error);
         // Re-enable button on error
-        if (addToCartBtn) {
-          addToCartBtn.disabled = false;
-          addToCartBtn.textContent = originalText;
-        }
+        addToCartBtn.disabled = false;
+        addToCartBtn.textContent = originalText;
         alert('There was an error adding the product to your cart. Please try again.');
       });
     });
