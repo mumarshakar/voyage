@@ -117,12 +117,23 @@
       ],
       "disabled": true,
       "settings": {}
+    },
+    "product_info_PQxDb6": {
+      "type": "product-info",
+      "name": "Product Info",
+      "settings": {
+        "show_vendor": false,
+        "show_sku": false,
+        "show_quantity_selector": true,
+        "enable_dynamic_checkout": false
+      }
     }
   },
   "order": [
     "hero_section_BRfpTm",
     "product_main",
-    "17653614626021cda3",
-    "176363517991952302"
+    "176363517991952302",
+    "product_info_PQxDb6",
+    "17653614626021cda3"
   ]
 }
