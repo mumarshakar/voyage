@@ -53,7 +53,7 @@
                 <i class="bi bi-exclamation-triangle me-2"></i>This product is currently out of stock.
               </div>
             {% else %}
-              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form">
+              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form" data-product-id="{{ product.id }}">
                 <!-- Variants Card -->
                 {% if product.variants.size > 1 %}
                   <div class="card mb-3" style="background-color: #f8f9fa;">
@@ -119,10 +119,11 @@
                     </div>
                   </div>
                 {% else %}
-                  <input type="hidden" name="quantity" value="1">
+                  <input type="hidden" name="quantity" value="1" id="quantity">
                 {% endif %}
 
                 <!-- Sesami Booking Experience Card (INSIDE FORM for auto-add-to-cart) -->
+                <!-- Sesami will inject hidden fields here for booking properties (Date, Time, Timezone, etc.) -->
                 <div class="card mb-3" style="background-color: #f8f9fa;">
                   <div class="card-body">
                     <div class="d-flex justify-content-center">
@@ -335,30 +336,63 @@
       // Don't add any submit handler - let Sesami handle everything
       console.log('Sesami component detected - allowing native form handling');
       
-      // Monitor Sesami button state to debug checkout redirect
+      // Monitor Sesami button state and form properties to debug booking properties
       const observer = new MutationObserver(function(mutations) {
         const sesamiButton = document.querySelector('.sesami-calendar');
         if (sesamiButton) {
           const isDisabled = sesamiButton.disabled;
           const buttonText = sesamiButton.textContent.trim();
           
-          if (isDisabled && buttonText.includes('pm') || buttonText.includes('am')) {
-            console.log('Sesami booking confirmed:', buttonText);
+          if (isDisabled && (buttonText.includes('pm') || buttonText.includes('am'))) {
+            console.log('=== Sesami Booking Confirmed ===');
+            console.log('Selected time:', buttonText);
             console.log('Variant ID:', document.getElementById('selected-variant-id')?.value);
             console.log('Quantity:', document.getElementById('quantity')?.value || '1');
+            
+            // Check for Sesami hidden fields (booking properties)
+            const form = document.getElementById('product-form');
+            const hiddenFields = form.querySelectorAll('input[type="hidden"][name^="properties"]');
+            console.log('Booking properties in form:', hiddenFields.length);
+            hiddenFields.forEach(function(field) {
+              console.log('  -', field.name, '=', field.value);
+            });
+            
+            // Also check for Sesami's hidden fields wrapper
+            const sesamiWrapper = form.querySelector('.sesami-hidden-fields-wrapper');
+            if (sesamiWrapper) {
+              const sesamiFields = sesamiWrapper.querySelectorAll('input[type="hidden"]');
+              console.log('Sesami hidden fields found:', sesamiFields.length);
+              sesamiFields.forEach(function(field) {
+                console.log('  -', field.name, '=', field.value);
+              });
+            } else {
+              console.warn('⚠️ Sesami hidden fields wrapper not found in form!');
+              console.warn('This may cause booking properties to not be included in cart.');
+            }
+            
             console.log('Waiting for Sesami checkout redirect...');
             
             // Check if redirect happens within 3 seconds
             setTimeout(function() {
               if (window.location.pathname !== '/checkout' && window.location.pathname !== '/cart') {
                 console.warn('Sesami redirect not detected. Checking cart...');
-                // Verify if item was added to cart
+                // Verify if item was added to cart with properties
                 fetch('/cart.js')
                   .then(response => response.json())
                   .then(cart => {
                     console.log('Current cart items:', cart.items.length);
                     if (cart.items.length > 0) {
-                      console.log('Item in cart, but no redirect. Sesami skip-cart may not be working.');
+                      const lastItem = cart.items[cart.items.length - 1];
+                      console.log('Last cart item properties:', lastItem.properties);
+                      if (!lastItem.properties || Object.keys(lastItem.properties).length === 0) {
+                        console.error('❌ Cart item has NO booking properties!');
+                        console.error('This is why Sesami shows the warning.');
+                      } else {
+                        console.log('✓ Cart item has properties:', lastItem.properties);
+                      }
+                      if (window.location.pathname !== '/checkout') {
+                        console.warn('Item in cart, but no redirect. Sesami skip-cart may not be working.');
+                      }
                     } else {
                       console.error('No items in cart. Sesami auto-add-to-cart may have failed.');
                     }
