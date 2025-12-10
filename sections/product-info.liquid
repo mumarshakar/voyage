@@ -53,13 +53,14 @@
                 <i class="bi bi-exclamation-triangle me-2"></i>This product is currently out of stock.
               </div>
             {% else %}
-              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form" data-product-id="{{ product.id }}">
+              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form" data-product-id="{{ product.id }}" class="product-form">
                 <!-- Variants Card -->
                 {% if product.variants.size > 1 %}
                   <div class="card mb-3" style="background-color: #f8f9fa;">
                     <div class="card-body">
                       <h6 class="card-title mb-3 fw-semibold">Select Options</h6>
-                      <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
+                      <!-- Sesami needs this input with name="id" to find variant ID -->
+                      <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
                       {% for option in product.options_with_values %}
                         <div class="mb-3">
                           <label for="option-{{ forloop.index }}" class="form-label fw-semibold mb-2">
@@ -84,7 +85,8 @@
                     </div>
                   </div>
                 {% else %}
-                  <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
+                  <!-- Sesami needs this input with name="id" to find variant ID -->
+                  <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
                 {% endif %}
 
                 <!-- Quantity Card -->
@@ -100,6 +102,7 @@
                           style="border-color: #dee2e6;">
                           <i class="bi bi-dash"></i>
                         </button>
+                        <!-- Sesami needs this input with name="quantity" to find quantity -->
                         <input 
                           type="number" 
                           id="quantity" 
@@ -119,6 +122,7 @@
                     </div>
                   </div>
                 {% else %}
+                  <!-- Sesami needs this input with name="quantity" to find quantity -->
                   <input type="hidden" name="quantity" value="1" id="quantity">
                 {% endif %}
 
@@ -340,32 +344,84 @@
       console.log('Sesami component detected - allowing native form handling');
       
       // Ensure Sesami can properly access form data for auto-add-to-cart
-      // Sesami needs to read variant ID and quantity, and inject booking properties
+      // Sesami needs to read variant ID and quantity from the form
       const ensureSesamiFormAccess = function() {
-        const variantInput = document.getElementById('selected-variant-id');
-        const quantityInput = document.getElementById('quantity');
+        const form = document.getElementById('product-form');
+        const variantInput = form ? form.querySelector('input[name="id"]') : null;
+        const quantityInput = form ? form.querySelector('input[name="quantity"]') : null;
         
+        if (!form) {
+          console.error('❌ Product form not found! Sesami cannot access form data.');
+          return;
+        }
+        
+        if (!variantInput) {
+          console.error('❌ Variant ID input (name="id") not found in form!');
+          // Try to create it if missing
+          const hiddenId = document.createElement('input');
+          hiddenId.type = 'hidden';
+          hiddenId.name = 'id';
+          hiddenId.id = 'selected-variant-id';
+          hiddenId.value = '{{ product.selected_or_first_available_variant.id }}';
+          form.insertBefore(hiddenId, form.firstChild);
+          console.log('✓ Created missing variant ID input');
+        }
+        
+        if (!quantityInput) {
+          console.error('❌ Quantity input (name="quantity") not found in form!');
+          // Try to create it if missing
+          const hiddenQty = document.createElement('input');
+          hiddenQty.type = 'hidden';
+          hiddenQty.name = 'quantity';
+          hiddenQty.id = 'quantity';
+          hiddenQty.value = '1';
+          form.insertBefore(hiddenQty, form.firstChild);
+          console.log('✓ Created missing quantity input');
+        }
+        
+        // Verify form structure for Sesami
         if (variantInput && quantityInput) {
-          // Ensure variant ID is accessible
+          // Ensure variant ID has a value
           if (!variantInput.value) {
             variantInput.value = '{{ product.selected_or_first_available_variant.id }}';
           }
           
-          // Ensure quantity is accessible
+          // Ensure quantity has a value
           if (!quantityInput.value || quantityInput.value < 1) {
             quantityInput.value = '1';
           }
           
-          console.log('Form data ready for Sesami:', {
+          console.log('✓ Form data ready for Sesami:', {
+            formId: form.id,
+            formAction: form.action,
             variantId: variantInput.value,
-            quantity: quantityInput.value
+            quantity: quantityInput.value,
+            variantInputName: variantInput.name,
+            quantityInputName: quantityInput.name
           });
+          
+          // Verify Sesami can find the form
+          const sesamiComponent = form.querySelector('sesami-experience');
+          if (sesamiComponent) {
+            console.log('✓ Sesami component is inside the form');
+          } else {
+            console.warn('⚠️ Sesami component not found inside form');
+          }
+        } else {
+          console.error('❌ Form structure incomplete - Sesami cannot add to cart');
         }
       };
       
-      // Run immediately and after a short delay to ensure form is ready
-      ensureSesamiFormAccess();
+      // Run immediately when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ensureSesamiFormAccess);
+      } else {
+        ensureSesamiFormAccess();
+      }
+      
+      // Also run after delays to ensure form is fully ready
       setTimeout(ensureSesamiFormAccess, 500);
+      setTimeout(ensureSesamiFormAccess, 1000);
       
       // Monitor Sesami button state and form properties to debug booking properties
       const observer = new MutationObserver(function(mutations) {
