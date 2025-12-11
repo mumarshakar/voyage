@@ -218,6 +218,18 @@
   assign accent_color = section.settings.accent_color | default: '#333333'
   assign enable_collapsible = section.settings.enable_collapsible | default: false
   assign default_state = section.settings.default_state | default: 'expanded'
+  
+  if default_state == 'expanded'
+    assign is_expanded = true
+    assign toggle_icon = '−'
+    assign display_style = 'block'
+    assign aria_expanded = 'true'
+  else
+    assign is_expanded = false
+    assign toggle_icon = '+'
+    assign display_style = 'none'
+    assign aria_expanded = 'false'
+  endif
 -%}
 
 <section class="terms-conditions-section" 
@@ -263,7 +275,7 @@
           {% if enable_collapsible %}
             <button class="terms-section-toggle" 
                     type="button"
-                    aria-expanded="{{ default_state == 'expanded' }}"
+                    aria-expanded="{{ aria_expanded }}"
                     style="width: 100%;
                            text-align: left;
                            background: none;
@@ -280,10 +292,10 @@
                          align-items: center;
                          justify-content: space-between;">
                 <span>Definitions</span>
-                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ toggle_icon }}</span>
               </h2>
             </button>
-            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+            <div class="terms-section-content" style="display: {{ display_style }};">
           {% else %}
             <h2 class="terms-section-heading" 
                 style="color: {{ section_heading_color }};
@@ -317,7 +329,7 @@
           {% if enable_collapsible %}
             <button class="terms-section-toggle" 
                     type="button"
-                    aria-expanded="{{ default_state == 'expanded' }}"
+                    aria-expanded="{{ aria_expanded }}"
                     style="width: 100%;
                            text-align: left;
                            background: none;
@@ -334,10 +346,10 @@
                          align-items: center;
                          justify-content: space-between;">
                 <span>Ticket Sales Conditions</span>
-                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ toggle_icon }}</span>
               </h2>
             </button>
-            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+            <div class="terms-section-content" style="display: {{ display_style }};">
           {% else %}
             <h2 class="terms-section-heading" 
                 style="color: {{ section_heading_color }};
@@ -391,7 +403,7 @@
           {% if enable_collapsible %}
             <button class="terms-section-toggle" 
                     type="button"
-                    aria-expanded="{{ default_state == 'expanded' }}"
+                    aria-expanded="{{ aria_expanded }}"
                     style="width: 100%;
                            text-align: left;
                            background: none;
@@ -408,10 +420,10 @@
                          align-items: center;
                          justify-content: space-between;">
                 <span>Voyage Changes/Amendments to Schedules</span>
-                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ toggle_icon }}</span>
               </h2>
             </button>
-            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+            <div class="terms-section-content" style="display: {{ display_style }};">
           {% else %}
             <h2 class="terms-section-heading" 
                 style="color: {{ section_heading_color }};
@@ -441,7 +453,7 @@
           {% if enable_collapsible %}
             <button class="terms-section-toggle" 
                     type="button"
-                    aria-expanded="{{ default_state == 'expanded' }}"
+                    aria-expanded="{{ aria_expanded }}"
                     style="width: 100%;
                            text-align: left;
                            background: none;
@@ -458,10 +470,10 @@
                          align-items: center;
                          justify-content: space-between;">
                 <span>Health & Safety</span>
-                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ toggle_icon }}</span>
               </h2>
             </button>
-            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+            <div class="terms-section-content" style="display: {{ display_style }};">
           {% else %}
             <h2 class="terms-section-heading" 
                 style="color: {{ section_heading_color }};
@@ -503,7 +515,7 @@
           {% if enable_collapsible %}
             <button class="terms-section-toggle" 
                     type="button"
-                    aria-expanded="{{ default_state == 'expanded' }}"
+                    aria-expanded="{{ aria_expanded }}"
                     style="width: 100%;
                            text-align: left;
                            background: none;
@@ -520,10 +532,10 @@
                          align-items: center;
                          justify-content: space-between;">
                 <span>Fitness & Food Allergies</span>
-                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ toggle_icon }}</span>
               </h2>
             </button>
-            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+            <div class="terms-section-content" style="display: {{ display_style }};">
           {% else %}
             <h2 class="terms-section-heading" 
                 style="color: {{ section_heading_color }};
@@ -561,7 +573,7 @@
           {% if enable_collapsible %}
             <button class="terms-section-toggle" 
                     type="button"
-                    aria-expanded="{{ default_state == 'expanded' }}"
+                    aria-expanded="{{ aria_expanded }}"
                     style="width: 100%;
                            text-align: left;
                            background: none;
@@ -578,10 +590,10 @@
                          align-items: center;
                          justify-content: space-between;">
                 <span>Consent to Photography & Media & Intellectual Property</span>
-                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ toggle_icon }}</span>
               </h2>
             </button>
-            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+            <div class="terms-section-content" style="display: {{ display_style }};">
           {% else %}
             <h2 class="terms-section-heading" 
                 style="color: {{ section_heading_color }};
@@ -615,7 +627,7 @@
           {% if enable_collapsible %}
             <button class="terms-section-toggle" 
                     type="button"
-                    aria-expanded="{{ default_state == 'expanded' }}"
+                    aria-expanded="{{ aria_expanded }}"
                     style="width: 100%;
                            text-align: left;
                            background: none;
@@ -632,10 +644,10 @@
                          align-items: center;
                          justify-content: space-between;">
                 <span>Governing Law</span>
-                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ toggle_icon }}</span>
               </h2>
             </button>
-            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+            <div class="terms-section-content" style="display: {{ display_style }};">
           {% else %}
             <h2 class="terms-section-heading" 
                 style="color: {{ section_heading_color }};
@@ -665,7 +677,7 @@
           {% if enable_collapsible %}
             <button class="terms-section-toggle" 
                     type="button"
-                    aria-expanded="{{ default_state == 'expanded' }}"
+                    aria-expanded="{{ aria_expanded }}"
                     style="width: 100%;
                            text-align: left;
                            background: none;
@@ -682,10 +694,10 @@
                          align-items: center;
                          justify-content: space-between;">
                 <span>By Completing Your Booking, You Confirm</span>
-                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ toggle_icon }}</span>
               </h2>
             </button>
-            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+            <div class="terms-section-content" style="display: {{ display_style }};">
           {% else %}
             <h2 class="terms-section-heading" 
                 style="color: {{ section_heading_color }};
