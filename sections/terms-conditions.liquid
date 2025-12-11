@@ -735,12 +735,49 @@
     word-wrap: break-word;
   }
   
-  .terms-main-heading {
-    line-height: 1.2;
+  /* Override global heading styles with section-specific settings */
+  #terms-conditions-{{ section.id }} .terms-main-heading {
+    color: {{ heading_color }} !important;
+    font-size: {{ heading_font_size }}px !important;
+    line-height: 1.2 !important;
   }
   
-  .terms-section-heading {
-    line-height: 1.3;
+  #terms-conditions-{{ section.id }} .terms-section-heading {
+    color: {{ section_heading_color }} !important;
+    font-size: {{ section_heading_font_size }}px !important;
+    line-height: 1.3 !important;
+  }
+  
+  /* Override global body text styles with section-specific settings */
+  #terms-conditions-{{ section.id }} .terms-content {
+    color: {{ text_color }} !important;
+    font-size: {{ body_font_size }}px !important;
+    line-height: {{ line_height }} !important;
+  }
+  
+  #terms-conditions-{{ section.id }} .terms-subheading {
+    color: {{ text_color }} !important;
+    font-size: {{ body_font_size | plus: 2 }}px !important;
+  }
+  
+  /* Apply spacing settings */
+  #terms-conditions-{{ section.id }} .terms-section {
+    margin-bottom: {{ section_spacing }}px !important;
+  }
+  
+  #terms-conditions-{{ section.id }} .terms-list li {
+    margin-bottom: {{ list_item_spacing }}px !important;
+    text-align: left;
+  }
+  
+  /* Apply accent color to bullets and strong text */
+  #terms-conditions-{{ section.id }} .terms-list li > span:first-child {
+    color: {{ accent_color }} !important;
+  }
+  
+  #terms-conditions-{{ section.id }} .terms-list li strong {
+    color: {{ accent_color }} !important;
+    font-weight: 600;
   }
   
   .terms-section-toggle {
@@ -769,25 +806,17 @@
     }
   }
   
-  .terms-list li {
-    text-align: left;
-  }
-  
-  .terms-list li strong {
-    font-weight: 600;
-  }
-  
   /* Mobile Responsive */
   @media (max-width: 768px) {
-    .terms-main-heading {
+    #terms-conditions-{{ section.id }} .terms-main-heading {
       font-size: 28px !important;
     }
     
-    .terms-section-heading {
+    #terms-conditions-{{ section.id }} .terms-section-heading {
       font-size: 20px !important;
     }
     
-    .terms-content {
+    #terms-conditions-{{ section.id }} .terms-content {
       font-size: 15px !important;
     }
     
