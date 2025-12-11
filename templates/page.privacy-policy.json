@@ -49,42 +49,34 @@
         "margin_bottom": 0
       }
     },
-    "custom_text_jmbgNP": {
-      "type": "custom-text",
-      "name": "Custom Text",
+    "privacy_policy_section": {
+      "type": "privacy-policy",
+      "name": "Privacy Policy Content",
       "settings": {
-        "heading": "Read Our  Privacy Policy",
+        "main_heading": "",
         "subheading": "",
-        "content_type": "richtext",
-        "text_content": "<ul><li>‘‘All credit/debit cards’ details and personally identifiable information will NOT be stored, sold, shared, rented or leased to any third parties’’</li><li><a href=\"https://carentonline.com/\" target=\"_blank\">https://voyage.hypeclub.com/</a>’will not pass any debit/credit card details to <strong>third parties’’</strong></li><li><a href=\"https://carentonline.com/\" target=\"_blank\">https://voyage.hypeclub.com/</a>’takes appropriate steps to ensure data privacy and security including through various hardware and software methodologies.However <a href=\"http://www.website.com/\" target=\"_blank\">https://voyage.hypeclub.com/</a> (website) cannot guarantee the security of any information that is disclosed online’’</li><li><a href=\"http://www.website.com/\" target=\"_blank\">https://voyage.hypeclub.com/</a> is not responsible for the privacy policies of websites to which it links. If you provide any information to such third parties different rules regarding the collection and use of your personal information may apply. You should contact these entities directly if you have any questions about their use of the information that they collect.’’</li><li>“The Website Policies and Terms & Conditions may be changed or updated occasionally to meet the requirements and standards. Therefore, the Customers’ are encouraged to frequently visit these sections to be updated about the changes on the website. Modifications will be effective on the day they are posted”.<strong> </strong></li></ul>",
-        "html_content": "",
-        "link_color": "#333333",
-        "link_hover_color": "#666666",
-        "link_text_decoration": "underline",
-        "custom_css": "",
-        "text_alignment": "left",
-        "content_max_width": 800,
-        "background_color": "#ffffff",
-        "background_size": "cover",
-        "background_overlay_opacity": 0,
-        "padding_top": 120,
+        "content_max_width": 1000,
+        "padding_top": 80,
         "padding_bottom": 80,
-        "padding_horizontal": 20,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "heading_margin_bottom": 20,
-        "subheading_margin_bottom": 20,
-        "section_height_desktop": 800,
-        "section_height_mobile": 800,
-        "list_line_height": 5,
-        "list_font_size": 20,
-        "list_font_weight": 400,
-        "list_text_align": "justify"
+        "padding_horizontal": 40,
+        "heading_font_size": 36,
+        "section_heading_font_size": 24,
+        "body_font_size": 16,
+        "line_height": 1.7,
+        "section_spacing": 40,
+        "list_item_spacing": 14,
+        "background_color": "#FFFFFF",
+        "text_color": "#333333",
+        "heading_color": "#333333",
+        "section_heading_color": "#333333",
+        "accent_color": "#333333",
+        "enable_collapsible": false,
+        "default_state": "expanded"
       }
     }
   },
   "order": [
     "hero_section_mJUjfe",
-    "custom_text_jmbgNP"
+    "privacy_policy_section"
   ]
 }
