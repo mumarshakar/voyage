@@ -9,14 +9,12 @@
     {
       "type": "text",
       "id": "main_heading",
-      "label": "Main Heading",
-      "default": "HYPE CLUB - Website Terms and Conditions"
+      "label": "Main Heading"
     },
     {
       "type": "text",
       "id": "subheading",
-      "label": "Subheading",
-      "default": "Please read these terms carefully before booking"
+      "label": "Subheading"
     },
     {
       "type": "header",
@@ -199,8 +197,8 @@
 {% endschema %}
 
 {%- liquid
-  assign main_heading = section.settings.main_heading | default: 'HYPE CLUB - Website Terms and Conditions'
-  assign subheading = section.settings.subheading | default: 'Please read these terms carefully before booking'
+  assign main_heading = section.settings.main_heading
+  assign subheading = section.settings.subheading
   assign content_max_width = section.settings.content_max_width | default: 1000
   assign padding_top = section.settings.padding_top | default: 80
   assign padding_bottom = section.settings.padding_bottom | default: 80
