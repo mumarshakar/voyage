@@ -401,10 +401,20 @@
     <!-- Menu Header with Logo -->
     <div class="mobile-menu-header">
       <a class="mobile-menu-logo" href="{{ routes.root_url }}" style="color: {{ logo_color }}; font-size: {{ logo_font_size }}px;">
-        {% if logo_image != blank %}
-          <img src="{{ logo_image | image_url: width: logo_width }}" 
+        {%- liquid
+          assign logo_to_show_mobile = logo_image_before_scroll
+          if logo_to_show_mobile == blank
+            assign logo_to_show_mobile = logo_image
+          endif
+        -%}
+        
+        {% if logo_to_show_mobile != blank %}
+          <img src="{{ logo_to_show_mobile | image_url: width: logo_width }}" 
                alt="{{ logo_text }}"
-               style="max-height: {{ logo_max_height }}px; width: auto;">
+               class="mobile-menu-logo-image"
+               width="{{ logo_width }}"
+               height="{{ logo_max_height }}"
+               style="max-height: {{ logo_max_height }}px; width: auto; display: block;">
         {% elsif two_line_logo %}
           <div class="logo-two-line">
             <span class="logo-line1">{{ logo_line1 }}</span>
