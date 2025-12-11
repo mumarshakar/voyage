@@ -49,52 +49,34 @@
         "margin_bottom": 0
       }
     },
-    "custom_text_jmbgNP": {
-      "type": "custom-text",
-      "custom_css": [
-        ".customTextTerms li {font-size: 20px !important; line-height: 30px;}"
-      ],
-      "name": "Custom Text",
+    "terms_conditions_section": {
+      "type": "terms-conditions",
+      "name": "Terms & Conditions Content",
       "settings": {
-        "heading": "Read Our Terms Carefully",
-        "subheading": "",
-        "content_type": "richtext",
-        "text_content": "<ul><li></li></ul><p>{{ page.content }}</p>",
-        "html_content": "<ul class=\"customTextTerms\">\n<li>\n<b>“HYPE PERFORMANCE AND RECOVERY CLUB - L.L.C - S.P.C”</b> maintains the https://voyage.hypeclub.com/ Website (\"Site\").</li>\n<li>“United Arab of Emirates is our country of domicile” and stipulate that the governing law is the local law.</li>\n<li>“Any purchase, dispute or claim arising out of or in connection with this website shall be governed and construed in accordance with the laws of UAE”</li>\n<li>‘’Visa or MasterCard debit and credit cards in AED will be accepted for payment’’</li>\n<li>‘’The displayed price and currency at the checkout page, will be the same price and currency printed on the Transaction Receipt and the amount charged to the card will be shown in your card currency”.</li>\n<li>‘’We will not trade with or provide any services to OFAC and sanctioned countries’’</li>\n<li>‘’Customer using the website who are Minor /under the age of 18 shall not register as a User of the website and shall not transact on or use the website’’</li>\n<li>‘’Cardholder must retain a copy of transaction records and https://voyage.hypeclub.com/ policies and rules’’</li>\n<li>‘’User is responsible for maintaining the confidentiality of his account’’ </li>\n</ul>",
-        "richtext_font_size": 16,
-        "richtext_font_weight": "400",
-        "richtext_text_color": "#333333",
-        "richtext_line_height": 1.6,
-        "richtext_letter_spacing": 0,
-        "richtext_word_spacing": 0,
-        "richtext_paragraph_spacing": 16,
-        "link_color": "#333333",
-        "link_hover_color": "#666666",
-        "link_text_decoration": "underline",
-        "custom_css": "",
-        "text_alignment": "left",
-        "content_max_width": 800,
-        "background_color": "#ffffff",
-        "background_size": "cover",
-        "background_overlay_opacity": 0,
-        "padding_top": 120,
-        "padding_bottom": 120,
-        "padding_horizontal": 20,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "heading_margin_bottom": 20,
-        "subheading_margin_bottom": 20,
-        "section_height_desktop": 1500,
-        "section_height_mobile": 800,
-        "list_line_height": 5,
-        "list_font_size": 20,
-        "list_font_weight": 400,
-        "list_text_align": "justify"
+        "main_heading": "HYPE CLUB - Website Terms and Conditions",
+        "subheading": "Please read these terms carefully before booking",
+        "content_max_width": 1000,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_horizontal": 40,
+        "heading_font_size": 36,
+        "section_heading_font_size": 24,
+        "body_font_size": 16,
+        "line_height": 1.7,
+        "section_spacing": 40,
+        "list_item_spacing": 14,
+        "background_color": "#FFFFFF",
+        "text_color": "#333333",
+        "heading_color": "#333333",
+        "section_heading_color": "#333333",
+        "accent_color": "#333333",
+        "enable_collapsible": false,
+        "default_state": "expanded"
       }
     }
   },
   "order": [
     "hero_section_mJUjfe",
-    "custom_text_jmbgNP"
+    "terms_conditions_section"
   ]
 }

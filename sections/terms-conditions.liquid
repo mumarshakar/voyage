@@ -1,0 +1,826 @@
+{% schema %}
+{
+  "name": "Terms & Conditions",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "main_heading",
+      "label": "Main Heading",
+      "default": "HYPE CLUB - Website Terms and Conditions"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Please read these terms carefully before booking"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content Max Width (px)",
+      "min": 600,
+      "max": 1200,
+      "step": 50,
+      "default": 1000,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding (px)",
+      "min": 40,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding (px)",
+      "min": 40,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Horizontal Padding (px)",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Main Heading Font Size (px)",
+      "min": 24,
+      "max": 48,
+      "step": 2,
+      "default": 36,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_heading_font_size",
+      "label": "Section Heading Font Size (px)",
+      "min": 18,
+      "max": 32,
+      "step": 1,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "body_font_size",
+      "label": "Body Text Font Size (px)",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line Height",
+      "min": 1.4,
+      "max": 2.0,
+      "step": 0.1,
+      "default": 1.7,
+      "info": "Line height multiplier"
+    },
+    {
+      "type": "range",
+      "id": "section_spacing",
+      "label": "Section Spacing (px)",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "default": 40,
+      "unit": "px",
+      "info": "Space between sections"
+    },
+    {
+      "type": "range",
+      "id": "list_item_spacing",
+      "label": "List Item Spacing (px)",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "section_heading_color",
+      "label": "Section Heading Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (for emphasis)",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Collapsible Sections"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_collapsible",
+      "label": "Enable Collapsible Sections",
+      "default": false,
+      "info": "Allow users to expand/collapse sections for better navigation"
+    },
+    {
+      "type": "select",
+      "id": "default_state",
+      "label": "Default State",
+      "options": [
+        {
+          "value": "expanded",
+          "label": "All Expanded"
+        },
+        {
+          "value": "collapsed",
+          "label": "All Collapsed"
+        }
+      ],
+      "default": "expanded",
+      "info": "Initial state of collapsible sections"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Terms & Conditions"
+    }
+  ]
+}
+{% endschema %}
+
+{%- liquid
+  assign main_heading = section.settings.main_heading | default: 'HYPE CLUB - Website Terms and Conditions'
+  assign subheading = section.settings.subheading | default: 'Please read these terms carefully before booking'
+  assign content_max_width = section.settings.content_max_width | default: 1000
+  assign padding_top = section.settings.padding_top | default: 80
+  assign padding_bottom = section.settings.padding_bottom | default: 80
+  assign padding_horizontal = section.settings.padding_horizontal | default: 40
+  assign heading_font_size = section.settings.heading_font_size | default: 36
+  assign section_heading_font_size = section.settings.section_heading_font_size | default: 24
+  assign body_font_size = section.settings.body_font_size | default: 16
+  assign line_height = section.settings.line_height | default: 1.7
+  assign section_spacing = section.settings.section_spacing | default: 40
+  assign list_item_spacing = section.settings.list_item_spacing | default: 14
+  assign background_color = section.settings.background_color | default: '#FFFFFF'
+  assign text_color = section.settings.text_color | default: '#333333'
+  assign heading_color = section.settings.heading_color | default: '#333333'
+  assign section_heading_color = section.settings.section_heading_color | default: '#333333'
+  assign accent_color = section.settings.accent_color | default: '#333333'
+  assign enable_collapsible = section.settings.enable_collapsible | default: false
+  assign default_state = section.settings.default_state | default: 'expanded'
+-%}
+
+<section class="terms-conditions-section" 
+         id="terms-conditions-{{ section.id }}"
+         style="background-color: {{ background_color }};
+                padding-top: {{ padding_top }}px;
+                padding-bottom: {{ padding_bottom }}px;
+                padding-left: {{ padding_horizontal }}px;
+                padding-right: {{ padding_horizontal }}px;">
+  
+  <div class="container">
+    <div class="terms-content-wrapper" style="max-width: {{ content_max_width }}px; margin: 0 auto;">
+      
+      <!-- Main Heading -->
+      {% if main_heading != blank %}
+        <h1 class="terms-main-heading" 
+            style="color: {{ heading_color }};
+                   font-size: {{ heading_font_size }}px;
+                   font-weight: 700;
+                   margin-bottom: 20px;
+                   text-align: center;">
+          {{ main_heading }}
+        </h1>
+      {% endif %}
+      
+      <!-- Subheading -->
+      {% if subheading != blank %}
+        <p class="terms-subheading" 
+           style="color: {{ text_color }};
+                  font-size: {{ body_font_size | plus: 2 }}px;
+                  text-align: center;
+                  margin-bottom: 50px;
+                  opacity: 0.8;">
+          {{ subheading }}
+        </p>
+      {% endif %}
+      
+      <!-- Terms Content -->
+      <div class="terms-content" style="color: {{ text_color }}; font-size: {{ body_font_size }}px; line-height: {{ line_height }};">
+        
+        <!-- Definitions Section -->
+        <div class="terms-section" data-section="definitions" style="margin-bottom: {{ section_spacing }}px;">
+          {% if enable_collapsible %}
+            <button class="terms-section-toggle" 
+                    type="button"
+                    aria-expanded="{{ default_state == 'expanded' }}"
+                    style="width: 100%;
+                           text-align: left;
+                           background: none;
+                           border: none;
+                           padding: 0;
+                           cursor: pointer;
+                           margin-bottom: 15px;">
+              <h2 class="terms-section-heading" 
+                  style="color: {{ section_heading_color }};
+                         font-size: {{ section_heading_font_size }}px;
+                         font-weight: 600;
+                         margin: 0;
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;">
+                <span>Definitions</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+              </h2>
+            </button>
+            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+          {% else %}
+            <h2 class="terms-section-heading" 
+                style="color: {{ section_heading_color }};
+                       font-size: {{ section_heading_font_size }}px;
+                       font-weight: 600;
+                       margin-bottom: 20px;">
+              Definitions
+            </h2>
+            <div class="terms-section-content">
+          {% endif %}
+          
+            <ul class="terms-list" style="margin: 0; padding-left: 25px; list-style: none;">
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                <strong style="color: {{ accent_color }};">"Customer or You"</strong> means the individual accessing or using this service and booking a Voyage, or the company, or other legal entity on behalf of which such individual is accessing or using the service, as applicable (including minors with consent from their legal guardians).
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                <strong style="color: {{ accent_color }};">"Hype Club/We or Us"</strong> means HYPE PERFORMANCE AND RECOVERY CLUB - L.L.C - S.P.C ("HYPE Club") the company providing the Voyage service and the company that maintains the website https://voyage.hypeclub.com
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                <strong style="color: {{ accent_color }};">"Voyage"</strong> means the wellness cruise boat trip service or dockside boat service operated by Hype Club and which you are consenting to attend on the basis of these Terms and Conditions.
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Ticket Sales Conditions Section -->
+        <div class="terms-section" data-section="ticket-sales" style="margin-bottom: {{ section_spacing }}px;">
+          {% if enable_collapsible %}
+            <button class="terms-section-toggle" 
+                    type="button"
+                    aria-expanded="{{ default_state == 'expanded' }}"
+                    style="width: 100%;
+                           text-align: left;
+                           background: none;
+                           border: none;
+                           padding: 0;
+                           cursor: pointer;
+                           margin-bottom: 15px;">
+              <h2 class="terms-section-heading" 
+                  style="color: {{ section_heading_color }};
+                         font-size: {{ section_heading_font_size }}px;
+                         font-weight: 600;
+                         margin: 0;
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;">
+                <span>Ticket Sales Conditions</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+              </h2>
+            </button>
+            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+          {% else %}
+            <h2 class="terms-section-heading" 
+                style="color: {{ section_heading_color }};
+                       font-size: {{ section_heading_font_size }}px;
+                       font-weight: 600;
+                       margin-bottom: 20px;">
+              Ticket Sales Conditions
+            </h2>
+            <div class="terms-section-content">
+          {% endif %}
+          
+            <ul class="terms-list" style="margin: 0; padding-left: 25px; list-style: none;">
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Tickets are <strong>non-refundable</strong> once purchased.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Customers booking a Voyage through this website must be a minimum of 18 years of age.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Customers must arrive on time and there are no refunds for missed departures. You should arrive 15 minutes before the booked time.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Customers may <strong>reschedule their ticket once</strong>, to a future Voyage if requested in writing at least 2 weeks in advance of their scheduled ticket.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Tickets are <strong>transferable</strong> to another individual, only if Hype Club is notified at least 48 hours in advance.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                We accept Visa or MasterCard debit and credit cards in AED or cleared bank transfers will also be accepted for payment.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                It is your responsibility to ensure that the details you provide during your booking are correct and you will receive confirmation of the services booked. You must retain a copy of the transaction records and are responsible for maintaining the confidentiality of your account.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Customers purchasing a ticket on behalf of someone else, are responsible for informing them of these Terms & Conditions before the event.
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Voyage Changes/Amendments Section -->
+        <div class="terms-section" data-section="voyage-changes" style="margin-bottom: {{ section_spacing }}px;">
+          {% if enable_collapsible %}
+            <button class="terms-section-toggle" 
+                    type="button"
+                    aria-expanded="{{ default_state == 'expanded' }}"
+                    style="width: 100%;
+                           text-align: left;
+                           background: none;
+                           border: none;
+                           padding: 0;
+                           cursor: pointer;
+                           margin-bottom: 15px;">
+              <h2 class="terms-section-heading" 
+                  style="color: {{ section_heading_color }};
+                         font-size: {{ section_heading_font_size }}px;
+                         font-weight: 600;
+                         margin: 0;
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;">
+                <span>Voyage Changes/Amendments to Schedules</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+              </h2>
+            </button>
+            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+          {% else %}
+            <h2 class="terms-section-heading" 
+                style="color: {{ section_heading_color }};
+                       font-size: {{ section_heading_font_size }}px;
+                       font-weight: 600;
+                       margin-bottom: 20px;">
+              Voyage Changes/Amendments to Schedules
+            </h2>
+            <div class="terms-section-content">
+          {% endif %}
+          
+            <ul class="terms-list" style="margin: 0; padding-left: 25px; list-style: none;">
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                In the unlikely event that Hype Club needs to reschedule a Voyage primarily due to weather or other required adjustments, Customers will be informed promptly and may choose a full refund or reschedule for another Voyage date which is mutually acceptable.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                The itinerary, class schedule, and amenities are <strong>subject to change</strong> to maintain safety, quality, or Customer well-being. Adjustments may be made due to weather, sea conditions, or operational needs.
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Health & Safety Section -->
+        <div class="terms-section" data-section="health-safety" style="margin-bottom: {{ section_spacing }}px;">
+          {% if enable_collapsible %}
+            <button class="terms-section-toggle" 
+                    type="button"
+                    aria-expanded="{{ default_state == 'expanded' }}"
+                    style="width: 100%;
+                           text-align: left;
+                           background: none;
+                           border: none;
+                           padding: 0;
+                           cursor: pointer;
+                           margin-bottom: 15px;">
+              <h2 class="terms-section-heading" 
+                  style="color: {{ section_heading_color }};
+                         font-size: {{ section_heading_font_size }}px;
+                         font-weight: 600;
+                         margin: 0;
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;">
+                <span>Health & Safety</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+              </h2>
+            </button>
+            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+          {% else %}
+            <h2 class="terms-section-heading" 
+                style="color: {{ section_heading_color }};
+                       font-size: {{ section_heading_font_size }}px;
+                       font-weight: 600;
+                       margin-bottom: 20px;">
+              Health & Safety
+            </h2>
+            <div class="terms-section-content">
+          {% endif %}
+          
+            <ul class="terms-list" style="margin: 0; padding-left: 25px; list-style: none;">
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Customers participate <strong>at their own risk</strong>.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Customers must follow all <strong>crew instructions and safety guidelines</strong> and undertake in any case to submit to the orders of the captain and the other Voyage crew.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Hype Club reserves the right to <strong>refuse entry or remove Customers</strong> from a Voyage at their absolute discretion particularly if the Customer is affecting others or disrupting the Voyage experience.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Substances that impair judgment are <strong>not permitted</strong> during wellness activities.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Hype Club is not liable for injuries or loss of personal belongings.
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Fitness & Food Allergies Section -->
+        <div class="terms-section" data-section="fitness-allergies" style="margin-bottom: {{ section_spacing }}px;">
+          {% if enable_collapsible %}
+            <button class="terms-section-toggle" 
+                    type="button"
+                    aria-expanded="{{ default_state == 'expanded' }}"
+                    style="width: 100%;
+                           text-align: left;
+                           background: none;
+                           border: none;
+                           padding: 0;
+                           cursor: pointer;
+                           margin-bottom: 15px;">
+              <h2 class="terms-section-heading" 
+                  style="color: {{ section_heading_color }};
+                         font-size: {{ section_heading_font_size }}px;
+                         font-weight: 600;
+                         margin: 0;
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;">
+                <span>Fitness & Food Allergies</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+              </h2>
+            </button>
+            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+          {% else %}
+            <h2 class="terms-section-heading" 
+                style="color: {{ section_heading_color }};
+                       font-size: {{ section_heading_font_size }}px;
+                       font-weight: 600;
+                       margin-bottom: 20px;">
+              Fitness & Food Allergies
+            </h2>
+            <div class="terms-section-content">
+          {% endif %}
+          
+            <ul class="terms-list" style="margin: 0; padding-left: 25px; list-style: none;">
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Customers must be <strong>physically able</strong> to participate in wellness activities, including yoga, pilates, and hot and cold contrast therapy.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Those with <strong>medical conditions or injuries</strong> should consult a doctor before attending a Voyage.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Any inability to swim must be identified to the Voyage crew in advance.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                You must inform the Voyage crew of any food and beverage allergies in advance of the Voyage.
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Consent to Photography & Media Section -->
+        <div class="terms-section" data-section="photography" style="margin-bottom: {{ section_spacing }}px;">
+          {% if enable_collapsible %}
+            <button class="terms-section-toggle" 
+                    type="button"
+                    aria-expanded="{{ default_state == 'expanded' }}"
+                    style="width: 100%;
+                           text-align: left;
+                           background: none;
+                           border: none;
+                           padding: 0;
+                           cursor: pointer;
+                           margin-bottom: 15px;">
+              <h2 class="terms-section-heading" 
+                  style="color: {{ section_heading_color }};
+                         font-size: {{ section_heading_font_size }}px;
+                         font-weight: 600;
+                         margin: 0;
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;">
+                <span>Consent to Photography & Media & Intellectual Property</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+              </h2>
+            </button>
+            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+          {% else %}
+            <h2 class="terms-section-heading" 
+                style="color: {{ section_heading_color }};
+                       font-size: {{ section_heading_font_size }}px;
+                       font-weight: 600;
+                       margin-bottom: 20px;">
+              Consent to Photography & Media & Intellectual Property
+            </h2>
+            <div class="terms-section-content">
+          {% endif %}
+          
+            <ul class="terms-list" style="margin: 0; padding-left: 25px; list-style: none;">
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Customers consent to <strong>be included in photography and filming</strong> during the Voyage and consent to use of their images for Hype Club marketing purposes on all forms of media dissemination (including but not limited to social media channels).
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                If you do not want to be included in any media, you must opt out in writing in advance of the Voyage.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                HYPE Club is the owner of all intellectual property rights relating to any images used by it. You may not, under any circumstances, reproduce, modify, transmit, publish, adapt, on any medium whatsoever, by any means whatsoever, or exploit in any way, all or part of the HYPE Club website or any of its social media content without the prior written permission of HYPE Club.
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Governing Law Section -->
+        <div class="terms-section" data-section="governing-law" style="margin-bottom: {{ section_spacing }}px;">
+          {% if enable_collapsible %}
+            <button class="terms-section-toggle" 
+                    type="button"
+                    aria-expanded="{{ default_state == 'expanded' }}"
+                    style="width: 100%;
+                           text-align: left;
+                           background: none;
+                           border: none;
+                           padding: 0;
+                           cursor: pointer;
+                           margin-bottom: 15px;">
+              <h2 class="terms-section-heading" 
+                  style="color: {{ section_heading_color }};
+                         font-size: {{ section_heading_font_size }}px;
+                         font-weight: 600;
+                         margin: 0;
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;">
+                <span>Governing Law</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+              </h2>
+            </button>
+            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+          {% else %}
+            <h2 class="terms-section-heading" 
+                style="color: {{ section_heading_color }};
+                       font-size: {{ section_heading_font_size }}px;
+                       font-weight: 600;
+                       margin-bottom: 20px;">
+              Governing Law
+            </h2>
+            <div class="terms-section-content">
+          {% endif %}
+          
+            <ul class="terms-list" style="margin: 0; padding-left: 25px; list-style: none;">
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                The parties acknowledge that this agreement shall be governed by laws of the Emirate of Abu Dhabi and the Federal Laws of the UAE as interpreted in the Emirate of Abu Dhabi.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                Any purchase, dispute or claim arising out of or in connection with this website shall be governed and construed in accordance with the laws of UAE as interpreted in the Emirate of Abu Dhabi.
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Confirmation Statement Section -->
+        <div class="terms-section" data-section="confirmation" style="margin-bottom: {{ section_spacing }}px;">
+          {% if enable_collapsible %}
+            <button class="terms-section-toggle" 
+                    type="button"
+                    aria-expanded="{{ default_state == 'expanded' }}"
+                    style="width: 100%;
+                           text-align: left;
+                           background: none;
+                           border: none;
+                           padding: 0;
+                           cursor: pointer;
+                           margin-bottom: 15px;">
+              <h2 class="terms-section-heading" 
+                  style="color: {{ section_heading_color }};
+                         font-size: {{ section_heading_font_size }}px;
+                         font-weight: 600;
+                         margin: 0;
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;">
+                <span>By Completing Your Booking, You Confirm</span>
+                <span class="toggle-icon" style="font-size: 20px; transition: transform 0.3s ease;">{{ default_state == 'expanded' | ternary: '−', '+' }}</span>
+              </h2>
+            </button>
+            <div class="terms-section-content" style="display: {{ default_state == 'expanded' | ternary: 'block', 'none' }};">
+          {% else %}
+            <h2 class="terms-section-heading" 
+                style="color: {{ section_heading_color }};
+                       font-size: {{ section_heading_font_size }}px;
+                       font-weight: 600;
+                       margin-bottom: 20px;">
+              By Completing Your Booking, You Confirm
+            </h2>
+            <div class="terms-section-content">
+          {% endif %}
+          
+            <ul class="terms-list" style="margin: 0; padding-left: 25px; list-style: none;">
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                have read and agreed to these Terms & Conditions and acknowledge that you are purchasing an online booking on the Hype Club website which constitutes acceptance of these Terms and Conditions.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                understand that participation is <strong>at your own risk</strong>, and Hype Club is <strong>not liable</strong> for any injuries, resulting health conditions and/or medical emergencies which you may sustain during the Voyage.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                accept full responsibility for informing any individuals that you have purchased tickets for of these Terms and Conditions.
+              </li>
+              <li style="margin-bottom: {{ list_item_spacing }}px; padding-left: 20px; position: relative;">
+                <span style="position: absolute; left: 0; color: {{ accent_color }};">•</span>
+                understand that participation in a Voyage is <strong>voluntary and at your own risk</strong>.
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .terms-conditions-section {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+  
+  .terms-content-wrapper {
+    word-wrap: break-word;
+  }
+  
+  .terms-main-heading {
+    line-height: 1.2;
+  }
+  
+  .terms-section-heading {
+    line-height: 1.3;
+  }
+  
+  .terms-section-toggle {
+    transition: opacity 0.2s ease;
+  }
+  
+  .terms-section-toggle:hover {
+    opacity: 0.8;
+  }
+  
+  .terms-section-toggle:focus {
+    outline: 2px solid {{ accent_color }};
+    outline-offset: 4px;
+  }
+  
+  .terms-section-content {
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .terms-list li {
+    text-align: left;
+  }
+  
+  .terms-list li strong {
+    font-weight: 600;
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .terms-main-heading {
+      font-size: 28px !important;
+    }
+    
+    .terms-section-heading {
+      font-size: 20px !important;
+    }
+    
+    .terms-content {
+      font-size: 15px !important;
+    }
+    
+    .terms-conditions-section {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+  }
+</style>
+
+{% if enable_collapsible %}
+<script>
+  (function() {
+    const section = document.getElementById('terms-conditions-{{ section.id }}');
+    if (!section) return;
+    
+    const toggles = section.querySelectorAll('.terms-section-toggle');
+    
+    toggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function() {
+        const content = this.nextElementSibling;
+        const icon = this.querySelector('.toggle-icon');
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+          content.style.display = 'none';
+          icon.textContent = '+';
+          this.setAttribute('aria-expanded', 'false');
+        } else {
+          content.style.display = 'block';
+          icon.textContent = '−';
+          this.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  })();
+</script>
+{% endif %}
+
