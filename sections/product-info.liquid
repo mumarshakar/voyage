@@ -132,9 +132,9 @@
                 <div id="sesami-form-fields" style="display: none;"></div>
                 
                 <!-- Sesami component - directly in form for better accessibility -->
-                <div class="card mb-3" style="background-color: #f8f9fa;">
+                <div class="card mb-3" style="background-color: #f8f9fa;" id="sesami-booking-card">
                   <div class="card-body">
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center" id="sesami-container">
                       <sesami-experience
                           shop-id="77838188777"
                           service-id="9136208904425"
@@ -236,6 +236,37 @@
   @media (max-width: 768px) {
     .product-info-section .card-body {
       padding: 1rem;
+    }
+    
+    /* Mobile-specific styles for Sesami component */
+    #sesami-booking-card {
+      margin-bottom: 1.5rem !important;
+    }
+    
+    #sesami-container {
+      width: 100%;
+      justify-content: center;
+      padding: 10px 0;
+    }
+    
+    /* Ensure Sesami component is fully visible on mobile */
+    sesami-experience {
+      width: 100%;
+      max-width: 100%;
+      display: block;
+    }
+    
+    /* Ensure form inputs are accessible on mobile */
+    #product-form input[name="id"],
+    #product-form input[name="quantity"] {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Improve touch targets on mobile */
+    .sesami-calendar {
+      min-height: 44px; /* iOS recommended touch target size */
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
     }
   }
 </style>
@@ -414,6 +445,12 @@
         }
       };
       
+      // Detect mobile device
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                       (window.innerWidth <= 768);
+      
+      console.log('Device type:', isMobile ? 'Mobile' : 'Desktop');
+      
       // Run immediately when DOM is ready
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', ensureSesamiFormAccess);
@@ -422,8 +459,11 @@
       }
       
       // Also run after delays to ensure form is fully ready
-      setTimeout(ensureSesamiFormAccess, 500);
-      setTimeout(ensureSesamiFormAccess, 1000);
+      // Mobile devices may need longer delays
+      const delays = isMobile ? [500, 1000, 2000, 3000] : [500, 1000];
+      delays.forEach(function(delay) {
+        setTimeout(ensureSesamiFormAccess, delay);
+      });
       
       // Monitor Sesami button state and form properties to debug booking properties
       const observer = new MutationObserver(function(mutations) {
@@ -679,61 +719,119 @@
       
       // Override console.error to catch Sesami's "form data not found" error
       const originalConsoleError = console.error;
+      let errorHandled = false;
+      
       console.error = function(...args) {
         originalConsoleError.apply(console, args);
         const errorMessage = args.join(' ');
-        if (errorMessage.includes('form data not found') || errorMessage.includes('Couldn\'t add to cart')) {
-          console.log('🔧 Sesami form data error detected, attempting manual cart add...');
-          // Wait a bit for Sesami to set properties
+        if ((errorMessage.includes('form data not found') || errorMessage.includes('Couldn\'t add to cart')) && !errorHandled) {
+          errorHandled = true;
+          console.log('🔧 Sesami form data error detected on', isMobile ? 'mobile' : 'desktop');
+          console.log('🔧 Attempting manual cart add...');
+          // Mobile devices may need more time for Sesami to set properties
+          const waitTime = isMobile ? 2000 : 1000;
           setTimeout(function() {
             handleSesamiCartAdd();
-          }, 1000);
+          }, waitTime);
         }
       };
       
+      // Also listen for unhandled promise rejections (common on mobile)
+      window.addEventListener('unhandledrejection', function(event) {
+        const errorMessage = event.reason?.message || event.reason?.toString() || '';
+        if (errorMessage.includes('form data not found') || errorMessage.includes('Couldn\'t add to cart')) {
+          if (!errorHandled) {
+            errorHandled = true;
+            console.log('🔧 Sesami error via promise rejection on', isMobile ? 'mobile' : 'desktop');
+            const waitTime = isMobile ? 2000 : 1000;
+            setTimeout(function() {
+              handleSesamiCartAdd();
+            }, waitTime);
+          }
+        }
+      });
+      
       // Monitor for Sesami button confirmation (when booking is selected)
-      const sesamiButtonObserver = new MutationObserver(function(mutations) {
+      // Use more aggressive monitoring on mobile
+      const checkInterval = isMobile ? 500 : 1000;
+      let lastButtonState = null;
+      
+      const checkSesamiButton = function() {
         const sesamiButton = document.querySelector('.sesami-calendar');
-        if (sesamiButton && sesamiButton.disabled) {
-          const buttonText = sesamiButton.textContent.trim();
-          if (buttonText.includes('pm') || buttonText.includes('am')) {
-            console.log('Sesami booking confirmed, waiting for cart add...');
-            // Wait for Sesami to attempt cart add, then check if it succeeded
+        if (sesamiButton) {
+          const currentState = {
+            disabled: sesamiButton.disabled,
+            text: sesamiButton.textContent.trim()
+          };
+          
+          // Check if button state changed to confirmed booking
+          if (currentState.disabled && 
+              (currentState.text.includes('pm') || currentState.text.includes('am')) &&
+              (!lastButtonState || !lastButtonState.disabled || lastButtonState.text !== currentState.text)) {
+            
+            console.log('📱 Sesami booking confirmed on', isMobile ? 'mobile' : 'desktop');
+            console.log('Selected time:', currentState.text);
+            
+            // Mobile devices may need more time for Sesami to process
+            const waitTime = isMobile ? 3000 : 2000;
+            
             setTimeout(function() {
               fetch('/cart.js')
                 .then(response => response.json())
                 .then(cart => {
+                  const variantId = parseInt(document.querySelector('input[name="id"]')?.value);
                   const hasThisProduct = cart.items.some(item => 
                     item.product_id === {{ product.id }} || 
-                    item.variant_id === parseInt(document.querySelector('input[name="id"]').value)
+                    item.variant_id === variantId
                   );
+                  
                   if (!hasThisProduct) {
-                    console.log('Product not in cart, Sesami auto-add failed, using manual add...');
+                    console.log('❌ Product not in cart, Sesami auto-add failed');
+                    console.log('🔧 Using manual cart add fallback...');
                     handleSesamiCartAdd();
                   } else {
                     console.log('✓ Product in cart, Sesami auto-add succeeded');
                     // Check if redirect should happen
                     if (window.location.pathname !== '/checkout') {
+                      const redirectDelay = isMobile ? 1000 : 500;
                       setTimeout(function() {
+                        console.log('🔄 Redirecting to checkout...');
                         window.location.href = '/checkout';
-                      }, 500);
+                      }, redirectDelay);
                     }
                   }
                 })
-                .catch(() => {
+                .catch((error) => {
+                  console.error('Error checking cart:', error);
                   // If cart check fails, try manual add
                   handleSesamiCartAdd();
                 });
-            }, 2000);
+            }, waitTime);
           }
+          
+          lastButtonState = currentState;
         }
+      };
+      
+      // Check immediately and then periodically
+      checkSesamiButton();
+      const buttonCheckInterval = setInterval(checkSesamiButton, checkInterval);
+      
+      // Also use MutationObserver as backup
+      const sesamiButtonObserver = new MutationObserver(function(mutations) {
+        checkSesamiButton();
       });
       
       sesamiButtonObserver.observe(document.body, {
         childList: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ['disabled']
+        attributeFilter: ['disabled', 'class']
+      });
+      
+      // Clean up interval when page unloads
+      window.addEventListener('beforeunload', function() {
+        clearInterval(buttonCheckInterval);
       });
       
     } else {
