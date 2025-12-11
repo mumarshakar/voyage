@@ -55,6 +55,7 @@
     assign mobile_menu_bg_color = '#FFFFFF'
     assign mobile_menu_padding = 8
     assign mobile_menu_stroke_width = 2
+    assign mobile_menu_logo_image = blank
     assign scrolled_bg_color = '#FFFFFF'
     assign scrolled_padding_top = 12
     assign scrolled_padding_bottom = 12
@@ -178,6 +179,7 @@
     assign mobile_menu_bg_color = header_settings.mobile_menu_bg_color | default: '#FFFFFF'
     assign mobile_menu_padding = header_settings.mobile_menu_padding | default: 8
     assign mobile_menu_stroke_width = header_settings.mobile_menu_stroke_width | default: 2
+    assign mobile_menu_logo_image = header_settings.mobile_menu_logo_image
 
     assign scrolled_bg_color = settings.scrolled_bg_color | default: header_bg_color
     assign scrolled_padding_top = header_settings.scrolled_padding_top | default: 12
@@ -402,7 +404,10 @@
     <div class="mobile-menu-header">
       <a class="mobile-menu-logo" href="{{ routes.root_url }}" style="color: {{ logo_color }}; font-size: {{ logo_font_size }}px;">
         {%- liquid
-          assign logo_to_show_mobile = logo_image_before_scroll
+          assign logo_to_show_mobile = mobile_menu_logo_image
+          if logo_to_show_mobile == blank
+            assign logo_to_show_mobile = logo_image_before_scroll
+          endif
           if logo_to_show_mobile == blank
             assign logo_to_show_mobile = logo_image
           endif
