@@ -136,8 +136,8 @@
                   <div class="card-body">
                     <div class="d-flex justify-content-center" id="sesami-container">
                       <sesami-experience
-                          shop-id="77838188777"
-                          service-id="9136208904425"
+                          shop-id="{{ section.settings.sesami_shop_id | default: '77838188777' }}"
+                          service-id="{{ section.settings.sesami_service_id | default: '9136208904425' }}"
                           experience="v2"
                           auto-add-to-cart
                           skip-cart
@@ -891,6 +891,24 @@
       "label": "Enable Dynamic Checkout Buttons",
       "default": false,
       "info": "Show payment provider buttons (PayPal, Apple Pay, etc.)"
+    },
+    {
+      "type": "header",
+      "content": "Sesami Booking Settings"
+    },
+    {
+      "type": "text",
+      "id": "sesami_shop_id",
+      "label": "Sesami Shop ID",
+      "default": "77838188777",
+      "info": "Enter your Sesami shop ID"
+    },
+    {
+      "type": "text",
+      "id": "sesami_service_id",
+      "label": "Sesami Service ID",
+      "default": "9136208904425",
+      "info": "Enter the Sesami service ID for this product. You can find this in your Sesami app settings."
     }
   ],
   "presets": [
