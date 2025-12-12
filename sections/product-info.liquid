@@ -183,6 +183,141 @@
                   </div>
                 </div>
               </form>
+              
+              <!-- Customer Questionnaire Modal -->
+              <div class="modal fade" id="customer-questionnaire-modal" tabindex="-1" aria-labelledby="customer-questionnaire-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                      <h5 class="modal-title" id="customer-questionnaire-modal-label">
+                        <i class="bi bi-clipboard-check me-2"></i>Customer Information
+                      </h5>
+                      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="text-muted mb-4">Please fill out this information before booking your appointment.</p>
+                      <form id="customer-questionnaire-form" class="needs-validation" novalidate>
+                        <div class="row g-3">
+                          <!-- First Name -->
+                          <div class="col-md-6">
+                            <label for="modal_customer_first_name" class="form-label">First Name <span class="text-danger">*</span></label>
+                            <input 
+                              type="text" 
+                              class="form-control" 
+                              id="modal_customer_first_name" 
+                              name="customer_first_name" 
+                              value="{{ cart.attributes.customer_first_name }}"
+                              required
+                              placeholder="Enter your first name">
+                            <div class="invalid-feedback">
+                              Please provide your first name.
+                            </div>
+                          </div>
+
+                          <!-- Last Name -->
+                          <div class="col-md-6">
+                            <label for="modal_customer_last_name" class="form-label">Last Name <span class="text-danger">*</span></label>
+                            <input 
+                              type="text" 
+                              class="form-control" 
+                              id="modal_customer_last_name" 
+                              name="customer_last_name" 
+                              value="{{ cart.attributes.customer_last_name }}"
+                              required
+                              placeholder="Enter your last name">
+                            <div class="invalid-feedback">
+                              Please provide your last name.
+                            </div>
+                          </div>
+
+                          <!-- Allergies -->
+                          <div class="col-md-6">
+                            <label for="modal_customer_allergies" class="form-label">Any Allergies <span class="text-danger">*</span></label>
+                            <select 
+                              class="form-select" 
+                              id="modal_customer_allergies" 
+                              name="customer_allergies" 
+                              required>
+                              <option value="">Select an option</option>
+                              <option value="None" {% if cart.attributes.customer_allergies == "None" %}selected{% endif %}>None</option>
+                              <option value="Nuts" {% if cart.attributes.customer_allergies == "Nuts" %}selected{% endif %}>Nuts</option>
+                              <option value="Dairy" {% if cart.attributes.customer_allergies == "Dairy" %}selected{% endif %}>Dairy</option>
+                              <option value="Gluten" {% if cart.attributes.customer_allergies == "Gluten" %}selected{% endif %}>Gluten</option>
+                              <option value="Seafood" {% if cart.attributes.customer_allergies == "Seafood" %}selected{% endif %}>Seafood</option>
+                              <option value="Other" {% if cart.attributes.customer_allergies == "Other" %}selected{% endif %}>Other</option>
+                            </select>
+                            <div class="invalid-feedback">
+                              Please select an option.
+                            </div>
+                          </div>
+
+                          <!-- Allergy Details (shown if "Other" is selected) -->
+                          <div class="col-md-6" id="modal-allergy-details-wrapper" style="display: none;">
+                            <label for="modal_customer_allergy_details" class="form-label">Please specify allergies</label>
+                            <input 
+                              type="text" 
+                              class="form-control" 
+                              id="modal_customer_allergy_details" 
+                              name="customer_allergy_details" 
+                              value="{{ cart.attributes.customer_allergy_details }}"
+                              placeholder="Enter allergy details">
+                          </div>
+
+                          <!-- Food Availability -->
+                          <div class="col-md-6">
+                            <label for="modal_customer_food_availability" class="form-label">Food Availability <span class="text-danger">*</span></label>
+                            <select 
+                              class="form-select" 
+                              id="modal_customer_food_availability" 
+                              name="customer_food_availability" 
+                              required>
+                              <option value="">Select an option</option>
+                              <option value="Vegetarian" {% if cart.attributes.customer_food_availability == "Vegetarian" %}selected{% endif %}>Vegetarian</option>
+                              <option value="Vegan" {% if cart.attributes.customer_food_availability == "Vegan" %}selected{% endif %}>Vegan</option>
+                              <option value="Halal" {% if cart.attributes.customer_food_availability == "Halal" %}selected{% endif %}>Halal</option>
+                              <option value="Kosher" {% if cart.attributes.customer_food_availability == "Kosher" %}selected{% endif %}>Kosher</option>
+                              <option value="No Restrictions" {% if cart.attributes.customer_food_availability == "No Restrictions" %}selected{% endif %}>No Restrictions</option>
+                              <option value="Other" {% if cart.attributes.customer_food_availability == "Other" %}selected{% endif %}>Other</option>
+                            </select>
+                            <div class="invalid-feedback">
+                              Please select an option.
+                            </div>
+                          </div>
+
+                          <!-- Food Availability Details (shown if "Other" is selected) -->
+                          <div class="col-md-6" id="modal-food-details-wrapper" style="display: none;">
+                            <label for="modal_customer_food_details" class="form-label">Please specify</label>
+                            <input 
+                              type="text" 
+                              class="form-control" 
+                              id="modal_customer_food_details" 
+                              name="customer_food_details" 
+                              value="{{ cart.attributes.customer_food_details }}"
+                              placeholder="Enter food preferences">
+                          </div>
+
+                          <!-- Additional Notes -->
+                          <div class="col-12">
+                            <label for="modal_customer_additional_notes" class="form-label">Additional Notes or Special Requests</label>
+                            <textarea 
+                              class="form-control" 
+                              id="modal_customer_additional_notes" 
+                              name="customer_additional_notes" 
+                              rows="3"
+                              placeholder="Any additional information we should know?">{{ cart.attributes.customer_additional_notes }}</textarea>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-primary" id="submit-questionnaire-btn">
+                        <i class="bi bi-check-circle me-2"></i>Continue to Booking
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             {% endif %}
           </div>
         </div>
@@ -301,6 +436,67 @@
     .sesami-calendar {
       min-height: 44px; /* iOS recommended touch target size */
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  /* Questionnaire Modal Styles */
+  #customer-questionnaire-modal .modal-content {
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  }
+  
+  #customer-questionnaire-modal .modal-header {
+    border-radius: 12px 12px 0 0;
+    padding: 1.5rem;
+  }
+  
+  #customer-questionnaire-modal .modal-body {
+    padding: 2rem;
+  }
+  
+  #customer-questionnaire-modal .modal-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #dee2e6;
+  }
+  
+  #customer-questionnaire-modal .form-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  #customer-questionnaire-modal .form-control,
+  #customer-questionnaire-modal .form-select {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    padding: 0.75rem;
+  }
+  
+  #customer-questionnaire-modal .form-control:focus,
+  #customer-questionnaire-modal .form-select:focus {
+    border-color: var(--primary-orange, #FF6B35);
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+  }
+  
+  #customer-questionnaire-modal .btn-primary {
+    background-color: var(--primary-orange, #FF6B35);
+    border-color: var(--primary-orange, #FF6B35);
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+  }
+  
+  #customer-questionnaire-modal .btn-primary:hover {
+    background-color: var(--light-orange, #FF8C61);
+    border-color: var(--light-orange, #FF8C61);
+  }
+  
+  @media (max-width: 768px) {
+    #customer-questionnaire-modal .modal-dialog {
+      margin: 1rem;
+    }
+    
+    #customer-questionnaire-modal .modal-body {
+      padding: 1.5rem;
     }
   }
 </style>
@@ -493,6 +689,264 @@
       subtree: true
     });
   }
+  
+  // ============================================
+  // QUESTIONNAIRE MODAL FOR SESAMI BOOKING
+  // ============================================
+  let sesamiButtonClickPending = false;
+  let originalSesamiButton = null;
+  
+  // Function to intercept Sesami button clicks and show questionnaire modal
+  function setupQuestionnaireModal() {
+    const sesamiCard = document.getElementById('sesami-booking-card');
+    if (!sesamiCard || sesamiCard.style.display === 'none') {
+      return; // Sesami not visible, don't set up modal
+    }
+    
+    const questionnaireModal = new bootstrap.Modal(document.getElementById('customer-questionnaire-modal'), {
+      backdrop: 'static',
+      keyboard: false
+    });
+    
+    const questionnaireForm = document.getElementById('customer-questionnaire-form');
+    const submitBtn = document.getElementById('submit-questionnaire-btn');
+    const allergySelect = document.getElementById('modal_customer_allergies');
+    const foodSelect = document.getElementById('modal_customer_food_availability');
+    const allergyDetailsWrapper = document.getElementById('modal-allergy-details-wrapper');
+    const foodDetailsWrapper = document.getElementById('modal-food-details-wrapper');
+    
+    // Show/hide allergy details based on selection
+    if (allergySelect && allergyDetailsWrapper) {
+      function toggleAllergyDetails() {
+        if (allergySelect.value === 'Other') {
+          allergyDetailsWrapper.style.display = 'block';
+          const allergyDetailsInput = document.getElementById('modal_customer_allergy_details');
+          if (allergyDetailsInput) {
+            allergyDetailsInput.setAttribute('required', 'required');
+          }
+        } else {
+          allergyDetailsWrapper.style.display = 'none';
+          const allergyDetailsInput = document.getElementById('modal_customer_allergy_details');
+          if (allergyDetailsInput) {
+            allergyDetailsInput.removeAttribute('required');
+          }
+        }
+      }
+      allergySelect.addEventListener('change', toggleAllergyDetails);
+      toggleAllergyDetails(); // Check on load
+    }
+    
+    // Show/hide food details based on selection
+    if (foodSelect && foodDetailsWrapper) {
+      function toggleFoodDetails() {
+        if (foodSelect.value === 'Other') {
+          foodDetailsWrapper.style.display = 'block';
+          const foodDetailsInput = document.getElementById('modal_customer_food_details');
+          if (foodDetailsInput) {
+            foodDetailsInput.setAttribute('required', 'required');
+          }
+        } else {
+          foodDetailsWrapper.style.display = 'none';
+          const foodDetailsInput = document.getElementById('modal_customer_food_details');
+          if (foodDetailsInput) {
+            foodDetailsInput.removeAttribute('required');
+          }
+        }
+      }
+      foodSelect.addEventListener('change', toggleFoodDetails);
+      toggleFoodDetails(); // Check on load
+    }
+    
+    // Function to save questionnaire to cart attributes
+    function saveQuestionnaireToCart() {
+      if (!questionnaireForm) return Promise.resolve();
+      
+      const formData = new FormData(questionnaireForm);
+      const attributes = {};
+      
+      // Collect all form data
+      for (let [key, value] of formData.entries()) {
+        if (value.trim() !== '') {
+          attributes[key] = value.trim();
+        }
+      }
+      
+      // Update cart attributes via API
+      return fetch('{{ routes.cart_update_url }}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+          attributes: attributes
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('✓ Questionnaire saved to cart attributes');
+        return data;
+      })
+      .catch((error) => {
+        console.error('Error saving questionnaire:', error);
+        throw error;
+      });
+    }
+    
+    // Handle questionnaire form submission
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Validate form
+        if (questionnaireForm && !questionnaireForm.checkValidity()) {
+          questionnaireForm.classList.add('was-validated');
+          return false;
+        }
+        
+        // Disable submit button and show loading
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving...';
+        
+        // Save questionnaire data
+        saveQuestionnaireToCart()
+          .then(() => {
+            // Close modal
+            questionnaireModal.hide();
+            
+            // Trigger Sesami button click after a short delay
+            setTimeout(function() {
+              if (sesamiButtonClickPending && originalSesamiButton) {
+                console.log('Triggering Sesami button after questionnaire completion');
+                // Click the original Sesami button
+                originalSesamiButton.click();
+                sesamiButtonClickPending = false;
+                originalSesamiButton = null;
+              }
+            }, 500);
+          })
+          .catch((error) => {
+            console.error('Error saving questionnaire:', error);
+            alert('There was an error saving your information. Please try again.');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Continue to Booking';
+          });
+      });
+    }
+    
+    // Intercept Sesami button clicks
+    function interceptSesamiButton() {
+      // Find Sesami button (it might be in shadow DOM or dynamically created)
+      const sesamiContainer = document.getElementById('sesami-container');
+      if (!sesamiContainer) return;
+      
+      // Use MutationObserver to watch for Sesami button
+      const buttonObserver = new MutationObserver(function(mutations) {
+        // Look for Sesami button
+        const sesamiButton = sesamiContainer.querySelector('button.sesami-calendar, button[class*="sesami"], sesami-experience button');
+        
+        if (sesamiButton && !sesamiButton.hasAttribute('data-questionnaire-intercepted')) {
+          sesamiButton.setAttribute('data-questionnaire-intercepted', 'true');
+          
+          // Store original click handler
+          const originalClick = sesamiButton.onclick || function() {};
+          
+          // Intercept click
+          sesamiButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            
+            console.log('Sesami button clicked - showing questionnaire modal');
+            
+            // Store button reference for later
+            sesamiButtonClickPending = true;
+            originalSesamiButton = sesamiButton;
+            
+            // Show questionnaire modal
+            questionnaireModal.show();
+            
+            return false;
+          }, true); // Use capture phase to intercept early
+          
+          console.log('✓ Sesami button intercepted for questionnaire');
+        }
+      });
+      
+      // Observe Sesami container for button changes
+      buttonObserver.observe(sesamiContainer, {
+        childList: true,
+        subtree: true,
+        attributes: false
+      });
+      
+      // Also check immediately
+      setTimeout(function() {
+        const sesamiButton = sesamiContainer.querySelector('button.sesami-calendar, button[class*="sesami"], sesami-experience button');
+        if (sesamiButton && !sesamiButton.hasAttribute('data-questionnaire-intercepted')) {
+          sesamiButton.setAttribute('data-questionnaire-intercepted', 'true');
+          sesamiButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            sesamiButtonClickPending = true;
+            originalSesamiButton = sesamiButton;
+            questionnaireModal.show();
+            return false;
+          }, true);
+        }
+      }, 1000);
+      
+      // Also use event delegation on the container
+      sesamiContainer.addEventListener('click', function(e) {
+        const target = e.target;
+        // Check if click is on a Sesami button
+        if (target && (
+          target.classList.contains('sesami-calendar') ||
+          target.closest('button.sesami-calendar') ||
+          target.closest('sesami-experience')
+        )) {
+          // Check if this is the initial booking button (not a time slot selection)
+          const buttonText = target.textContent || target.innerText || '';
+          if (buttonText.includes('Book Now') || buttonText.includes('Book') || target.classList.contains('sesami-calendar')) {
+            e.preventDefault();
+            e.stopPropagation();
+            sesamiButtonClickPending = true;
+            originalSesamiButton = target.closest('button') || target;
+            questionnaireModal.show();
+            return false;
+          }
+        }
+      }, true);
+    }
+    
+    // Set up interception when Sesami is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(interceptSesamiButton, 1000);
+        setTimeout(interceptSesamiButton, 3000);
+      });
+    } else {
+      setTimeout(interceptSesamiButton, 1000);
+      setTimeout(interceptSesamiButton, 3000);
+    }
+    
+    // Also watch for Sesami container changes
+    const containerObserver = new MutationObserver(function() {
+      interceptSesamiButton();
+    });
+    
+    const sesamiContainer = document.getElementById('sesami-container');
+    if (sesamiContainer) {
+      containerObserver.observe(sesamiContainer, {
+        childList: true,
+        subtree: true
+      });
+    }
+  }
+  
+  // Call setup when Sesami is detected
+  setTimeout(setupQuestionnaireModal, 2000);
+  setTimeout(setupQuestionnaireModal, 4000);
   
   // Handle add to cart form submission
   // Conditional: If Sesami is installed, use Sesami handlers; otherwise use standard buttons
