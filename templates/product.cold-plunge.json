@@ -51,28 +51,6 @@
         "margin_bottom": 0
       }
     },
-    "product_main": {
-      "type": "product-main",
-      "settings": {
-        "show_thumbnails": true,
-        "show_vendor": true,
-        "show_sku": false,
-        "show_quantity_selector": true,
-        "enable_dynamic_checkout": true,
-        "section_height_desktop": 800,
-        "section_height_mobile": 800,
-        "padding_top_desktop": 200,
-        "padding_bottom_desktop": 150,
-        "padding_horizontal_desktop": 20,
-        "margin_top_desktop": 0,
-        "margin_bottom_desktop": 100,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "padding_horizontal_mobile": 20,
-        "margin_top_mobile": 0,
-        "margin_bottom_mobile": 0
-      }
-    },
     "176363517991952302": {
       "type": "apps",
       "blocks": {
@@ -109,31 +87,15 @@
         "show_vendor": false,
         "show_sku": false,
         "show_quantity_selector": true,
-        "enable_dynamic_checkout": false
+        "enable_dynamic_checkout": false,
+        "sesami_shop_id": "77838188777",
+        "sesami_service_id": "9135137751273"
       }
-    },
-    "17653614626021cda3": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_ecf2a9d_73F7XY": {
-          "type": "ai_gen_block_ecf2a9d",
-          "settings": {
-            "custom_liquid": "<div style=\"display: flex; justify-content: flex-end; margin-right: 400px;\">\n  <sesami-experience\n      shop-id=\"77838188777\"\n      service-id=\"9135137751273\"\n      experience=\"v2\"\n      auto-add-to-cart\n      skip-cart\n      button-label=\"Book Now\"\n      button-style=\"%7B%22width%22%3A%22300px%22%2C%22height%22%3A%2250px%22%2C%22font_size%22%3A18%2C%22color%22%3A%22%23FFF%22%2C%22color_background%22%3A%22%23333333%22%2C%22border_width%22%3A1%2C%22border_color%22%3A%22%23333333%22%2C%22border_radius%22%3A12%2C%22alignment%22%3A%22flex-end%22%7D\"\n  ></sesami-experience>\n</div>"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_ecf2a9d_73F7XY"
-      ],
-      "settings": {}
     }
   },
   "order": [
     "hero_section_BRfpTm",
-    "product_main",
     "176363517991952302",
-    "product_info_PQxDb6",
-    "17653614626021cda3"
+    "product_info_PQxDb6"
   ]
 }
