@@ -13,115 +13,115 @@
           <div class="card-body p-4">
             <!-- Product Header -->
             <div class="product-header mb-4">
-              {% if show_vendor and product.vendor != blank %}
-                <div class="product-vendor mb-2" style="font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.1em;">
-                  {{ product.vendor }}
-                </div>
-              {% endif %}
-              <h1 class="product-title mb-3">{{ product.title }}</h1>
-              
+        {% if show_vendor and product.vendor != blank %}
+          <div class="product-vendor mb-2" style="font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.1em;">
+            {{ product.vendor }}
+          </div>
+        {% endif %}
+        <h1 class="product-title mb-3">{{ product.title }}</h1>
+
               <div class="product-price mb-3">
-                {% if product.compare_at_price > product.price %}
+          {% if product.compare_at_price > product.price %}
                   <div class="d-flex align-items-center flex-wrap gap-2">
                     <span class="product-price-compare text-muted text-decoration-line-through" style="font-size: 18px;">
-                      {{ product.compare_at_price | money }}
-                    </span>
+              {{ product.compare_at_price | money }}
+            </span>
                     <span class="product-price-current text-danger" style="font-size: 28px; font-weight: 600;">
-                      {{ product.price | money }}
-                    </span>
+              {{ product.price | money }}
+            </span>
                     <span class="badge bg-warning text-dark" style="font-size: 14px; padding: 6px 12px;">
-                      Save {{ product.compare_at_price | minus: product.price | money }}
-                    </span>
+              Save {{ product.compare_at_price | minus: product.price | money }}
+            </span>
                   </div>
-                {% else %}
+          {% else %}
                   <span class="product-price-current" style="font-size: 32px; font-weight: 600; color: var(--primary-orange, #FF6B35);">
-                    {{ product.price | money }}
-                  </span>
-                {% endif %}
-              </div>
+              {{ product.price | money }}
+            </span>
+          {% endif %}
+        </div>
 
-              {% if show_sku and product.selected_or_first_available_variant.sku != blank %}
+        {% if show_sku and product.selected_or_first_available_variant.sku != blank %}
                 <div class="product-sku mb-3">
                   <small class="text-muted">SKU: </small><strong>{{ product.selected_or_first_available_variant.sku }}</strong>
-                </div>
-              {% endif %}
+          </div>
+        {% endif %}
             </div>
 
             <!-- Product Availability -->
-            {% if product.available == false %}
-              <div class="alert alert-danger mb-4" role="alert">
+        {% if product.available == false %}
+          <div class="alert alert-danger mb-4" role="alert">
                 <i class="bi bi-exclamation-triangle me-2"></i>This product is currently out of stock.
-              </div>
-            {% else %}
+          </div>
+        {% else %}
               <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form" data-product-id="{{ product.id }}" class="product-form">
                 <!-- Variants Card -->
-                {% if product.variants.size > 1 %}
+            {% if product.variants.size > 1 %}
                   <div class="card mb-3" style="background-color: #f8f9fa;">
                     <div class="card-body">
                       <h6 class="card-title mb-3 fw-semibold">Select Options</h6>
                       <!-- Sesami needs this input with name="id" to find variant ID -->
                       <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
-                      {% for option in product.options_with_values %}
-                        <div class="mb-3">
-                          <label for="option-{{ forloop.index }}" class="form-label fw-semibold mb-2">
+                {% for option in product.options_with_values %}
+                  <div class="mb-3">
+                    <label for="option-{{ forloop.index }}" class="form-label fw-semibold mb-2">
                             {{ option.name }}
-                          </label>
-                          <select 
-                            id="option-{{ forloop.index }}"
-                            class="form-select product-option-select"
-                            required
-                            data-option-index="{{ option.position | minus: 1 }}"
-                            onchange="updateSelectedVariant()">
-                            {% for value in option.values %}
-                              <option 
-                                value="{{ value | escape }}"
-                                {% if option.selected_value == value %}selected{% endif %}>
-                                {{ value }}
-                              </option>
-                            {% endfor %}
-                          </select>
-                        </div>
+                    </label>
+                    <select 
+                      id="option-{{ forloop.index }}"
+                      class="form-select product-option-select"
+                      required
+                      data-option-index="{{ option.position | minus: 1 }}"
+                      onchange="updateSelectedVariant()">
+                      {% for value in option.values %}
+                        <option 
+                          value="{{ value | escape }}"
+                          {% if option.selected_value == value %}selected{% endif %}>
+                          {{ value }}
+                        </option>
                       {% endfor %}
-                    </div>
+                    </select>
                   </div>
-                {% else %}
+                {% endfor %}
+                    </div>
+              </div>
+            {% else %}
                   <!-- Sesami needs this input with name="id" to find variant ID -->
                   <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
-                {% endif %}
+            {% endif %}
 
                 <!-- Quantity Card -->
-                {% if show_quantity_selector %}
+            {% if show_quantity_selector %}
                   <div class="card mb-3" style="background-color: #f8f9fa;">
                     <div class="card-body">
                       <label for="quantity" class="form-label fw-semibold mb-2">Quantity</label>
-                      <div class="input-group" style="max-width: 200px;">
-                        <button 
-                          type="button" 
-                          class="btn btn-outline-secondary"
-                          onclick="decreaseQuantity()"
+                <div class="input-group" style="max-width: 200px;">
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-secondary"
+                    onclick="decreaseQuantity()"
                           style="border-color: #dee2e6;">
                           <i class="bi bi-dash"></i>
-                        </button>
+                  </button>
                         <!-- Sesami needs this input with name="quantity" to find quantity -->
-                        <input 
-                          type="number" 
-                          id="quantity" 
-                          name="quantity" 
-                          value="1" 
-                          min="1" 
-                          class="form-control text-center"
+                  <input 
+                    type="number" 
+                    id="quantity" 
+                    name="quantity" 
+                    value="1" 
+                    min="1" 
+                    class="form-control text-center"
                           style="border-color: #dee2e6;">
-                        <button 
-                          type="button" 
-                          class="btn btn-outline-secondary"
-                          onclick="increaseQuantity()"
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-secondary"
+                    onclick="increaseQuantity()"
                           style="border-color: #dee2e6;">
                           <i class="bi bi-plus"></i>
-                        </button>
+                  </button>
                       </div>
-                    </div>
-                  </div>
-                {% else %}
+                </div>
+              </div>
+            {% else %}
                   <!-- Sesami needs this input with name="quantity" to find quantity -->
                   <input type="hidden" name="quantity" value="1" id="quantity">
                 {% endif %}
@@ -131,8 +131,8 @@
                 <!-- Container for Sesami hidden fields - Sesami will populate this automatically -->
                 <div id="sesami-form-fields" style="display: none;"></div>
                 
-                <!-- Sesami component - directly in form for better accessibility -->
-                <div class="card mb-3" style="background-color: #f8f9fa;" id="sesami-booking-card">
+                <!-- Sesami component - shown if Sesami app is installed -->
+                <div class="card mb-3" style="background-color: #f8f9fa; display: none;" id="sesami-booking-card">
                   <div class="card-body">
                     <div class="d-flex justify-content-center" id="sesami-container">
                       <sesami-experience
@@ -145,6 +145,40 @@
                           button-style="%7B%22width%22%3A%22300px%22%2C%22height%22%3A%2250px%22%2C%22font_size%22%3A18%2C%22color%22%3A%22%23FFF%22%2C%22color_background%22%3A%22%23333333%22%2C%22border_width%22%3A1%2C%22border_color%22%3A%22%23333333%22%2C%22border_radius%22%3A12%2C%22alignment%22%3A%22flex-end%22%7D"
                           data-product-form="product-form"
                       ></sesami-experience>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Standard Add to Cart and Buy Now Buttons - shown if Sesami is NOT installed -->
+                <div class="card mb-3" style="background-color: #f8f9fa; display: none;" id="product-buttons-card">
+                  <div class="card-body">
+                    <div class="d-flex flex-column gap-3">
+                      <!-- Add to Cart Button -->
+                      <button 
+                        type="submit" 
+                        name="add" 
+                        id="add-to-cart-btn"
+                        class="btn btn-primary w-100"
+                        style="height: 50px; font-size: 18px; font-weight: 600;"
+                        {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+                        <i class="bi bi-cart-plus me-2"></i>
+                        {% if product.selected_or_first_available_variant.available %}
+                          Add to Cart
+                        {% else %}
+                          Out of Stock
+                        {% endif %}
+                      </button>
+                      
+                      <!-- Buy Now Button (Direct Checkout) -->
+                      <button 
+                        type="button" 
+                        id="buy-now-btn"
+                        class="btn btn-success w-100"
+                        style="height: 50px; font-size: 18px; font-weight: 600; background-color: #28a745; border-color: #28a745;"
+                        {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+                        <i class="bi bi-bag-check me-2"></i>
+                        Buy Now
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -316,11 +350,24 @@
       // Update price display
       updatePrice(variant.priceFormatted, variant.compare_at_priceFormatted, variant.price, variant.compare_at_price);
       
-      // Update button state
-      const addToCartBtn = document.getElementById('add-to-cart-btn');
-      if (addToCartBtn) {
-        addToCartBtn.disabled = !variant.available;
-        addToCartBtn.textContent = variant.available ? 'Add to Cart' : 'Out of Stock';
+      // Update button states (only if standard buttons are visible)
+      const productButtonsCard = document.getElementById('product-buttons-card');
+      const isStandardButtonsVisible = productButtonsCard && productButtonsCard.style.display !== 'none';
+      
+      if (isStandardButtonsVisible) {
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        const buyNowBtn = document.getElementById('buy-now-btn');
+        
+        if (addToCartBtn) {
+          addToCartBtn.disabled = !variant.available;
+          addToCartBtn.innerHTML = variant.available 
+            ? '<i class="bi bi-cart-plus me-2"></i>Add to Cart' 
+            : '<i class="bi bi-x-circle me-2"></i>Out of Stock';
+        }
+        
+        if (buyNowBtn) {
+          buyNowBtn.disabled = !variant.available;
+        }
       }
     }
   }
@@ -363,16 +410,104 @@
     }
   }
   
+  // ============================================
+  // DETECT SESAMI APP AND SHOW APPROPRIATE BUTTONS
+  // ============================================
+  function detectAndShowButtons() {
+    const sesamiCard = document.getElementById('sesami-booking-card');
+    const productButtonsCard = document.getElementById('product-buttons-card');
+    
+    // Check if Sesami custom element is defined (means app is installed)
+    const isSesamiInstalled = typeof customElements !== 'undefined' && 
+                              customElements.get('sesami-experience') !== undefined;
+    
+    // Also check if Sesami element exists and has content
+    const sesamiElement = document.querySelector('sesami-experience');
+    const sesamiHasContent = sesamiElement && sesamiElement.shadowRoot !== null;
+    
+    // Check if Sesami script is loaded by looking for Sesami in window object
+    const sesamiScriptLoaded = typeof window !== 'undefined' && 
+                               (window.Sesami !== undefined || 
+                                document.querySelector('script[src*="sesami"]') !== null);
+    
+    // Final check: if custom element is defined OR script is loaded
+    const sesamiAvailable = isSesamiInstalled || sesamiScriptLoaded;
+    
+    console.log('Sesami Detection:', {
+      customElementDefined: isSesamiInstalled,
+      scriptLoaded: sesamiScriptLoaded,
+      elementExists: !!sesamiElement,
+      sesamiAvailable: sesamiAvailable
+    });
+    
+    if (sesamiAvailable && sesamiCard) {
+      // Sesami is installed - show Sesami, hide standard buttons
+      sesamiCard.style.display = 'block';
+      if (productButtonsCard) {
+        productButtonsCard.style.display = 'none';
+      }
+      console.log('✓ Sesami app detected - showing Sesami booking button');
+    } else if (productButtonsCard) {
+      // Sesami is NOT installed - show standard buttons, hide Sesami
+      productButtonsCard.style.display = 'block';
+      if (sesamiCard) {
+        sesamiCard.style.display = 'none';
+      }
+      console.log('✓ Sesami app NOT detected - showing Add to Cart and Buy Now buttons');
+    }
+    
+    // Setup form handlers after determining which buttons to show
+    if (typeof setupFormHandlers === 'function') {
+      setupFormHandlers();
+    }
+  }
+  
+  // Run detection immediately
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check immediately
+      detectAndShowButtons();
+      
+      // Check again after a delay (Sesami might load asynchronously)
+      setTimeout(detectAndShowButtons, 1000);
+      setTimeout(detectAndShowButtons, 3000);
+    });
+  } else {
+    detectAndShowButtons();
+    setTimeout(detectAndShowButtons, 1000);
+    setTimeout(detectAndShowButtons, 3000);
+  }
+  
+  // Also watch for Sesami to load dynamically
+  if (typeof MutationObserver !== 'undefined') {
+    const observer = new MutationObserver(function(mutations) {
+      // Check if Sesami element appears
+      const sesamiElement = document.querySelector('sesami-experience');
+      if (sesamiElement) {
+        detectAndShowButtons();
+      }
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+  
   // Handle add to cart form submission
-  // NOTE: Sesami booking experience handles its own form submission and checkout flow
-  // Since there's no Add to Cart button, we allow ALL form submissions to proceed naturally
-  const productForm = document.getElementById('product-form');
-  if (productForm) {
+  // Conditional: If Sesami is installed, use Sesami handlers; otherwise use standard buttons
+  // Wait for detection to complete before setting up handlers
+  function setupFormHandlers() {
+    const productForm = document.getElementById('product-form');
+    if (!productForm) return;
+    
+    const sesamiCard = document.getElementById('sesami-booking-card');
+    const productButtonsCard = document.getElementById('product-buttons-card');
+    const isSesamiVisible = sesamiCard && sesamiCard.style.display !== 'none';
     const sesamiComponent = productForm.querySelector('sesami-experience');
     
-    // If Sesami is present, completely remove form submit interception
-    // Sesami handles everything with auto-add-to-cart and skip-cart
-    if (sesamiComponent) {
+    // If Sesami is visible, set up Sesami handlers
+    if (sesamiComponent && isSesamiVisible) {
       // Don't add any submit handler - let Sesami handle everything
       console.log('Sesami component detected - allowing native form handling');
       
@@ -835,21 +970,121 @@
       });
       
     } else {
-      // No Sesami - keep standard form handling (though Add to Cart button doesn't exist)
+      // Sesami is NOT installed - use standard form handling for Add to Cart and Buy Now
+      console.log('Sesami not available - using standard Add to Cart and Buy Now buttons');
+      
+      // Handle Add to Cart button
       productForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(productForm);
         const addToCartBtn = document.getElementById('add-to-cart-btn');
-        if (!addToCartBtn) {
-          // No Add to Cart button, allow default
-          return true;
+        const originalText = addToCartBtn ? addToCartBtn.innerHTML : 'Add to Cart';
+        
+        // Disable button and show loading state
+        if (addToCartBtn) {
+          addToCartBtn.disabled = true;
+          addToCartBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Adding...';
         }
         
-        // Only intercept if explicitly from Add to Cart button
-        if (e.submitter && e.submitter === addToCartBtn) {
-          e.preventDefault();
-          // Standard add to cart logic...
-        }
+        fetch('{{ routes.cart_add_url }}', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.id) {
+            // Success - redirect to cart
+            window.location.href = '{{ routes.cart_url }}';
+          } else {
+            // Error handling
+            if (addToCartBtn) {
+              addToCartBtn.disabled = false;
+              addToCartBtn.innerHTML = originalText;
+            }
+            
+            if (data.description) {
+              alert('Error: ' + data.description);
+            } else {
+              alert('There was an error adding the product to your cart. Please try again.');
+            }
+          }
+        })
+        .catch((error) => {
+          console.error('Error adding to cart:', error);
+          if (addToCartBtn) {
+            addToCartBtn.disabled = false;
+            addToCartBtn.innerHTML = originalText;
+          }
+          alert('There was an error adding the product to your cart. Please try again.');
+        });
       });
+      
+      // Handle Buy Now button (direct checkout)
+      const buyNowBtn = document.getElementById('buy-now-btn');
+      if (buyNowBtn) {
+        buyNowBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const formData = new FormData(productForm);
+          const buyNowBtn = document.getElementById('buy-now-btn');
+          const originalText = buyNowBtn ? buyNowBtn.innerHTML : 'Buy Now';
+          
+          // Disable button and show loading state
+          if (buyNowBtn) {
+            buyNowBtn.disabled = true;
+            buyNowBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+          }
+          
+          fetch('{{ routes.cart_add_url }}', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.id) {
+              // Success - redirect directly to checkout
+              window.location.href = '{{ routes.cart_url }}?view=checkout';
+            } else {
+              // Error handling
+              if (buyNowBtn) {
+                buyNowBtn.disabled = false;
+                buyNowBtn.innerHTML = originalText;
+              }
+              
+              if (data.description) {
+                alert('Error: ' + data.description);
+              } else {
+                alert('There was an error processing your order. Please try again.');
+              }
+            }
+          })
+          .catch((error) => {
+            console.error('Error with Buy Now:', error);
+            if (buyNowBtn) {
+              buyNowBtn.disabled = false;
+              buyNowBtn.innerHTML = originalText;
+            }
+            alert('There was an error processing your order. Please try again.');
+          });
+        });
+      }
     }
+  }
+  
+  // Call setupFormHandlers after detection runs
+  // Run after delays to ensure detection has completed
+  setTimeout(setupFormHandlers, 500);
+  setTimeout(setupFormHandlers, 1500);
+  setTimeout(setupFormHandlers, 3500);
+  
+  // Also call when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(setupFormHandlers, 1000);
+    });
+  } else {
+    setTimeout(setupFormHandlers, 1000);
   }
   
   // Initialize on page load
