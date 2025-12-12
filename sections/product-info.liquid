@@ -774,20 +774,39 @@
       }
     });
     
-    // Update cart attributes via API
-    return fetch('{{ routes.cart_update_url }}', {
+    // Update cart attributes via Shopify Cart API
+    // Use /cart/update.js endpoint for JSON response
+    return fetch('/cart/update.js', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+        'Accept': 'application/json'
       },
       body: JSON.stringify({
         attributes: attributes
       })
     })
-    .then(response => response.json())
+    .then(response => {
+      // Check if response is OK
+      if (!response.ok) {
+        // Try to get error message from response
+        return response.text().then(text => {
+          console.error('Cart update failed:', response.status, text);
+          throw new Error(`Cart update failed: ${response.status}`);
+        });
+      }
+      // Check content type to ensure it's JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        return response.text().then(text => {
+          console.error('Response is not JSON:', text.substring(0, 200));
+          throw new Error('Server returned non-JSON response');
+        });
+      }
+      return response.json();
+    })
     .then(data => {
-      console.log('✓ Questionnaire saved to cart attributes');
+      console.log('✓ Questionnaire saved to cart attributes:', data);
       return data;
     })
     .catch((error) => {
