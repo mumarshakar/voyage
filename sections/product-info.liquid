@@ -795,19 +795,25 @@
           throw new Error(`Cart update failed: ${response.status}`);
         });
       }
-      // Check content type to ensure it's JSON
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        return response.text().then(text => {
-          console.error('Response is not JSON:', text.substring(0, 200));
-          throw new Error('Server returned non-JSON response');
-        });
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('✓ Questionnaire saved to cart attributes:', data);
-      return data;
+      
+      // Try to parse as JSON first (more reliable than checking Content-Type)
+      return response.text().then(text => {
+        try {
+          const data = JSON.parse(text);
+          console.log('✓ Questionnaire saved to cart attributes:', data);
+          return data;
+        } catch (parseError) {
+          // If parsing fails, check if it looks like HTML
+          if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+            console.error('Server returned HTML instead of JSON:', text.substring(0, 200));
+            throw new Error('Server returned HTML instead of JSON');
+          } else {
+            // Might be valid JSON but with wrong Content-Type
+            console.error('Failed to parse response as JSON:', text.substring(0, 200));
+            throw new Error('Invalid JSON response');
+          }
+        }
+      });
     })
     .catch((error) => {
       console.error('Error saving questionnaire:', error);
