@@ -730,13 +730,24 @@
   // QUESTIONNAIRE MODAL FOR SESAMI BOOKING
   // ============================================
   
-  // Function to setup questionnaire modal
+  // Global variables to prevent multiple initializations
+  let questionnaireModalInstance = null;
+  let questionnaireModalInitialized = false;
+  let customBookNowBtnHandler = null;
+  let submitBtnHandler = null;
+  
+  // Function to setup questionnaire modal (only once)
   function setupQuestionnaireModal() {
+    // Prevent multiple initializations
+    if (questionnaireModalInitialized) {
+      return;
+    }
+    
     const bookNowButtonCard = document.getElementById('book-now-button-card');
     const customBookNowBtn = document.getElementById('custom-book-now-btn');
     
     if (!customBookNowBtn) {
-      return; // Custom button not found
+      return; // Custom button not found, try again later
     }
     
     const questionnaireModalElement = document.getElementById('customer-questionnaire-modal');
@@ -744,10 +755,20 @@
       return; // Modal not found
     }
     
-    const questionnaireModal = new bootstrap.Modal(questionnaireModalElement, {
-      backdrop: 'static',
-      keyboard: false
-    });
+    // Check if Bootstrap Modal is already initialized on this element
+    const existingModal = bootstrap.Modal.getInstance(questionnaireModalElement);
+    if (existingModal) {
+      questionnaireModalInstance = existingModal;
+    } else {
+      // Create new modal instance only once
+      questionnaireModalInstance = new bootstrap.Modal(questionnaireModalElement, {
+        backdrop: 'static',
+        keyboard: false
+      });
+    }
+    
+    // Mark as initialized
+    questionnaireModalInitialized = true;
     
     const questionnaireForm = document.getElementById('customer-questionnaire-form');
     const submitBtn = document.getElementById('submit-questionnaire-btn');
@@ -758,7 +779,12 @@
     
     // Show/hide allergy details based on selection
     if (allergySelect && allergyDetailsWrapper) {
-      function toggleAllergyDetails() {
+      // Remove old listener if exists
+      if (allergySelect.dataset.listenerAttached === 'true') {
+        allergySelect.removeEventListener('change', window.toggleAllergyDetailsHandler);
+      }
+      
+      window.toggleAllergyDetailsHandler = function() {
         if (allergySelect.value === 'Other') {
           allergyDetailsWrapper.style.display = 'block';
           const allergyDetailsInput = document.getElementById('modal_customer_allergy_details');
@@ -772,14 +798,21 @@
             allergyDetailsInput.removeAttribute('required');
           }
         }
-      }
-      allergySelect.addEventListener('change', toggleAllergyDetails);
-      toggleAllergyDetails(); // Check on load
+      };
+      
+      allergySelect.addEventListener('change', window.toggleAllergyDetailsHandler);
+      allergySelect.dataset.listenerAttached = 'true';
+      window.toggleAllergyDetailsHandler(); // Check on load
     }
     
     // Show/hide food details based on selection
     if (foodSelect && foodDetailsWrapper) {
-      function toggleFoodDetails() {
+      // Remove old listener if exists
+      if (foodSelect.dataset.listenerAttached === 'true') {
+        foodSelect.removeEventListener('change', window.toggleFoodDetailsHandler);
+      }
+      
+      window.toggleFoodDetailsHandler = function() {
         if (foodSelect.value === 'Other') {
           foodDetailsWrapper.style.display = 'block';
           const foodDetailsInput = document.getElementById('modal_customer_food_details');
@@ -793,9 +826,11 @@
             foodDetailsInput.removeAttribute('required');
           }
         }
-      }
-      foodSelect.addEventListener('change', toggleFoodDetails);
-      toggleFoodDetails(); // Check on load
+      };
+      
+      foodSelect.addEventListener('change', window.toggleFoodDetailsHandler);
+      foodSelect.dataset.listenerAttached = 'true';
+      window.toggleFoodDetailsHandler(); // Check on load
     }
     
     // Function to save questionnaire to cart attributes
@@ -834,75 +869,106 @@
       });
     }
     
+    // Remove old event listeners if they exist
+    if (customBookNowBtnHandler && customBookNowBtn) {
+      customBookNowBtn.removeEventListener('click', customBookNowBtnHandler);
+    }
+    if (submitBtnHandler && submitBtn) {
+      submitBtn.removeEventListener('click', submitBtnHandler);
+    }
+    
     // Handle custom Book Now button click - show questionnaire modal
+    customBookNowBtnHandler = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('Custom Book Now button clicked - showing questionnaire modal');
+      if (questionnaireModalInstance) {
+        questionnaireModalInstance.show();
+      }
+    };
+    
     if (customBookNowBtn) {
-      customBookNowBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        console.log('Custom Book Now button clicked - showing questionnaire modal');
-        questionnaireModal.show();
-      });
+      customBookNowBtn.addEventListener('click', customBookNowBtnHandler);
     }
     
     // Handle questionnaire form submission
-    if (submitBtn) {
-      submitBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Validate form
-        if (questionnaireForm && !questionnaireForm.checkValidity()) {
-          questionnaireForm.classList.add('was-validated');
-          return false;
-        }
-        
-        // Disable submit button and show loading
+    submitBtnHandler = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Validate form
+      if (questionnaireForm && !questionnaireForm.checkValidity()) {
+        questionnaireForm.classList.add('was-validated');
+        return false;
+      }
+      
+      // Disable submit button and show loading
+      if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving...';
-        
-        // Save questionnaire data
-        saveQuestionnaireToCart()
-          .then(() => {
-            // Mark questionnaire as completed
-            sessionStorage.setItem('questionnaire_completed', 'true');
-            
-            // Close modal
-            questionnaireModal.hide();
-            
-            // Hide custom Book Now button and show Sesami component
-            if (bookNowButtonCard) {
-              bookNowButtonCard.style.display = 'none';
-            }
-            
-            const sesamiCard = document.getElementById('sesami-booking-card');
-            if (sesamiCard) {
-              sesamiCard.style.display = 'block';
-              console.log('✓ Questionnaire completed - Sesami component now visible');
-            }
-            
-            // Re-run detection to update UI
-            setTimeout(function() {
-              detectAndShowButtons();
-            }, 500);
-          })
-          .catch((error) => {
-            console.error('Error saving questionnaire:', error);
-            alert('There was an error saving your information. Please try again.');
+      }
+      
+      // Save questionnaire data
+      saveQuestionnaireToCart()
+        .then(() => {
+          // Mark questionnaire as completed
+          sessionStorage.setItem('questionnaire_completed', 'true');
+          
+          // Close modal
+          if (questionnaireModalInstance) {
+            questionnaireModalInstance.hide();
+          }
+          
+          // Hide custom Book Now button and show Sesami component
+          if (bookNowButtonCard) {
+            bookNowButtonCard.style.display = 'none';
+          }
+          
+          const sesamiCard = document.getElementById('sesami-booking-card');
+          if (sesamiCard) {
+            sesamiCard.style.display = 'block';
+            console.log('✓ Questionnaire completed - Sesami component now visible');
+          }
+          
+          // Re-run detection to update UI
+          setTimeout(function() {
+            detectAndShowButtons();
+          }, 500);
+        })
+        .catch((error) => {
+          console.error('Error saving questionnaire:', error);
+          alert('There was an error saving your information. Please try again.');
+          if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Continue to Booking';
-          });
-      });
+          }
+        });
+    };
+    
+    if (submitBtn) {
+      submitBtn.addEventListener('click', submitBtnHandler);
     }
     
   }
   
-  // Call setup when page is ready
+  // Call setup when page is ready (only once due to initialization flag)
+  function initQuestionnaireModal() {
+    if (!questionnaireModalInitialized) {
+      setupQuestionnaireModal();
+    }
+  }
+  
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(setupQuestionnaireModal, 500);
-      setTimeout(setupQuestionnaireModal, 2000);
+      // Try immediately and with delays to catch async loading
+      initQuestionnaireModal();
+      setTimeout(initQuestionnaireModal, 500);
+      setTimeout(initQuestionnaireModal, 1500);
     });
   } else {
-    setTimeout(setupQuestionnaireModal, 500);
-    setTimeout(setupQuestionnaireModal, 2000);
+    initQuestionnaireModal();
+    setTimeout(initQuestionnaireModal, 500);
+    setTimeout(initQuestionnaireModal, 1500);
   }
   
   // Handle add to cart form submission
@@ -1546,4 +1612,5 @@
   ]
 }
 {% endschema %}
+
 
