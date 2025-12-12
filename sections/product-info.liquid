@@ -644,9 +644,20 @@
         console.log('✓ Sesami app detected - showing questionnaire form');
         
         // Ensure questionnaire form is initialized when card is shown
-        setTimeout(function() {
-          setupQuestionnaireForm();
-        }, 100);
+        // Try multiple times with delays to ensure elements are ready
+        let attempts = 0;
+        const maxAttempts = 5;
+        const trySetup = function() {
+          attempts++;
+          if (setupQuestionnaireForm()) {
+            console.log('✓ Questionnaire form initialized successfully');
+          } else if (attempts < maxAttempts) {
+            setTimeout(trySetup, 200);
+          } else {
+            console.warn('⚠️ Failed to initialize questionnaire form after multiple attempts');
+          }
+        };
+        setTimeout(trySetup, 100);
       }
       
       if (productButtonsCard) {
@@ -716,125 +727,49 @@
   let questionnaireInitialized = false;
   let submitBtnHandler = null;
   
-  // Function to setup questionnaire form
-  function setupQuestionnaireForm() {
+  // Function to save questionnaire to cart attributes (defined outside so it's always available)
+  function saveQuestionnaireToCart() {
     const questionnaireForm = document.getElementById('customer-questionnaire-form');
-    const submitBtn = document.getElementById('submit-questionnaire-btn');
-    
-    if (!questionnaireForm || !submitBtn) {
-      console.log('Questionnaire form or button not found, will retry...');
-      return; // Form not found, try again later
+    if (!questionnaireForm) {
+      console.error('Questionnaire form not found for saving');
+      return Promise.reject(new Error('Form not found'));
     }
     
-    // If already initialized, just re-attach event listeners (in case they were removed)
-    if (questionnaireInitialized) {
-      console.log('Questionnaire form already initialized, re-attaching event listeners...');
-      // Remove old listener if exists
-      if (submitBtnHandler && submitBtn) {
-        submitBtn.removeEventListener('click', submitBtnHandler);
+    const formData = new FormData(questionnaireForm);
+    const attributes = {};
+    
+    // Collect all form data
+    for (let [key, value] of formData.entries()) {
+      if (value.trim() !== '') {
+        attributes[key] = value.trim();
       }
-      // Re-attach the handler
-      if (submitBtn) {
-        submitBtn.addEventListener('click', submitBtnHandler);
-        console.log('✓ Event listener re-attached');
-      }
-      return;
     }
     
-    // Mark as initialized
-    questionnaireInitialized = true;
-    console.log('✓ Initializing questionnaire form...');
-    
-    const allergySelect = document.getElementById('customer_allergies');
-    const foodSelect = document.getElementById('customer_food_availability');
-    const allergyDetailsWrapper = document.getElementById('allergy-details-wrapper');
-    const foodDetailsWrapper = document.getElementById('food-details-wrapper');
-    
-    // Show/hide allergy details based on selection
-    if (allergySelect && allergyDetailsWrapper) {
-      function toggleAllergyDetails() {
-        if (allergySelect.value === 'Other') {
-          allergyDetailsWrapper.style.display = 'block';
-          const allergyDetailsInput = document.getElementById('customer_allergy_details');
-          if (allergyDetailsInput) {
-            allergyDetailsInput.setAttribute('required', 'required');
-          }
-        } else {
-          allergyDetailsWrapper.style.display = 'none';
-          const allergyDetailsInput = document.getElementById('customer_allergy_details');
-          if (allergyDetailsInput) {
-            allergyDetailsInput.removeAttribute('required');
-          }
-        }
-      }
-      allergySelect.addEventListener('change', toggleAllergyDetails);
-      toggleAllergyDetails(); // Check on load
-    }
-    
-    // Show/hide food details based on selection
-    if (foodSelect && foodDetailsWrapper) {
-      function toggleFoodDetails() {
-        if (foodSelect.value === 'Other') {
-          foodDetailsWrapper.style.display = 'block';
-          const foodDetailsInput = document.getElementById('customer_food_details');
-          if (foodDetailsInput) {
-            foodDetailsInput.setAttribute('required', 'required');
-          }
-        } else {
-          foodDetailsWrapper.style.display = 'none';
-          const foodDetailsInput = document.getElementById('customer_food_details');
-          if (foodDetailsInput) {
-            foodDetailsInput.removeAttribute('required');
-          }
-        }
-      }
-      foodSelect.addEventListener('change', toggleFoodDetails);
-      toggleFoodDetails(); // Check on load
-    }
-    
-    // Function to save questionnaire to cart attributes
-    function saveQuestionnaireToCart() {
-      if (!questionnaireForm) return Promise.resolve();
-      
-      const formData = new FormData(questionnaireForm);
-      const attributes = {};
-      
-      // Collect all form data
-      for (let [key, value] of formData.entries()) {
-        if (value.trim() !== '') {
-          attributes[key] = value.trim();
-        }
-      }
-      
-      // Update cart attributes via API
-      return fetch('{{ routes.cart_update_url }}', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: JSON.stringify({
-          attributes: attributes
-        })
+    // Update cart attributes via API
+    return fetch('{{ routes.cart_update_url }}', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify({
+        attributes: attributes
       })
-      .then(response => response.json())
-      .then(data => {
-        console.log('✓ Questionnaire saved to cart attributes');
-        return data;
-      })
-      .catch((error) => {
-        console.error('Error saving questionnaire:', error);
-        throw error;
-      });
-    }
-    
-    // Remove old event listener if exists
-    if (submitBtnHandler && submitBtn) {
-      submitBtn.removeEventListener('click', submitBtnHandler);
-    }
-    
-    // Handle questionnaire form submission
-    submitBtnHandler = function(e) {
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('✓ Questionnaire saved to cart attributes');
+      return data;
+    })
+    .catch((error) => {
+      console.error('Error saving questionnaire:', error);
+      throw error;
+    });
+  }
+  
+  // Handle questionnaire form submission (defined outside so it's always available)
+  function createSubmitHandler() {
+    return function(e) {
       e.preventDefault();
       e.stopPropagation();
       
@@ -896,33 +831,104 @@
           }
         });
     };
+  }
+  
+  // Function to setup questionnaire form
+  function setupQuestionnaireForm() {
+    const questionnaireForm = document.getElementById('customer-questionnaire-form');
+    const submitBtn = document.getElementById('submit-questionnaire-btn');
     
-    if (submitBtn) {
-      submitBtn.addEventListener('click', submitBtnHandler);
-      console.log('✓ Event listener attached to submit button');
-    } else {
-      console.error('Submit button not found when trying to attach event listener');
+    if (!questionnaireForm || !submitBtn) {
+      // Don't log every time - only log if we haven't initialized yet
+      if (!questionnaireInitialized) {
+        console.log('Questionnaire form or button not found, will retry...');
+      }
+      return false; // Return false to indicate failure
     }
-  }
-  
-  // Call setup when page is ready
-  function initQuestionnaireForm() {
+    
+    // Setup toggle handlers for allergy and food details (only once)
     if (!questionnaireInitialized) {
-      setupQuestionnaireForm();
+      console.log('✓ Initializing questionnaire form...');
+      
+      const allergySelect = document.getElementById('customer_allergies');
+      const foodSelect = document.getElementById('customer_food_availability');
+      const allergyDetailsWrapper = document.getElementById('allergy-details-wrapper');
+      const foodDetailsWrapper = document.getElementById('food-details-wrapper');
+      
+      // Show/hide allergy details based on selection
+      if (allergySelect && allergyDetailsWrapper) {
+        function toggleAllergyDetails() {
+          if (allergySelect.value === 'Other') {
+            allergyDetailsWrapper.style.display = 'block';
+            const allergyDetailsInput = document.getElementById('customer_allergy_details');
+            if (allergyDetailsInput) {
+              allergyDetailsInput.setAttribute('required', 'required');
+            }
+          } else {
+            allergyDetailsWrapper.style.display = 'none';
+            const allergyDetailsInput = document.getElementById('customer_allergy_details');
+            if (allergyDetailsInput) {
+              allergyDetailsInput.removeAttribute('required');
+            }
+          }
+        }
+        allergySelect.addEventListener('change', toggleAllergyDetails);
+        toggleAllergyDetails(); // Check on load
+      }
+      
+      // Show/hide food details based on selection
+      if (foodSelect && foodDetailsWrapper) {
+        function toggleFoodDetails() {
+          if (foodSelect.value === 'Other') {
+            foodDetailsWrapper.style.display = 'block';
+            const foodDetailsInput = document.getElementById('customer_food_details');
+            if (foodDetailsInput) {
+              foodDetailsInput.setAttribute('required', 'required');
+            }
+          } else {
+            foodDetailsWrapper.style.display = 'none';
+            const foodDetailsInput = document.getElementById('customer_food_details');
+            if (foodDetailsInput) {
+              foodDetailsInput.removeAttribute('required');
+            }
+          }
+        }
+        foodSelect.addEventListener('change', toggleFoodDetails);
+        toggleFoodDetails(); // Check on load
+      }
+      
+      questionnaireInitialized = true;
     }
+    
+    // Always ensure event listener is attached (even if already initialized)
+    // Remove old listener if exists
+    if (submitBtnHandler && submitBtn) {
+      submitBtn.removeEventListener('click', submitBtnHandler);
+    }
+    
+    // Create and attach new handler
+    submitBtnHandler = createSubmitHandler();
+    submitBtn.addEventListener('click', submitBtnHandler);
+    console.log('✓ Event listener attached to submit button');
+    
+    return true; // Return true to indicate success
   }
   
+  // Call setup when page is ready (but don't spam if elements don't exist)
+  function initQuestionnaireForm() {
+    setupQuestionnaireForm();
+  }
+  
+  // Only try initialization a few times on page load
+  // The main initialization will happen when the questionnaire card is shown
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
-      // Try immediately and with delays to catch async loading
-      initQuestionnaireForm();
+      // Try once after DOM is ready
       setTimeout(initQuestionnaireForm, 500);
-      setTimeout(initQuestionnaireForm, 1500);
     });
   } else {
-    initQuestionnaireForm();
+    // Try once if DOM is already ready
     setTimeout(initQuestionnaireForm, 500);
-    setTimeout(initQuestionnaireForm, 1500);
   }
   
   // Handle add to cart form submission
