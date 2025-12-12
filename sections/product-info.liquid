@@ -131,7 +131,22 @@
                 <!-- Container for Sesami hidden fields - Sesami will populate this automatically -->
                 <div id="sesami-form-fields" style="display: none;"></div>
                 
-                <!-- Sesami component - shown if Sesami app is installed -->
+                <!-- Custom Book Now Button - shown initially to trigger questionnaire -->
+                <div class="card mb-3" style="background-color: #f8f9fa; display: none;" id="book-now-button-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                      <button 
+                        type="button" 
+                        id="custom-book-now-btn"
+                        class="btn btn-primary"
+                        style="width: 300px; height: 50px; font-size: 18px; font-weight: 600; background-color: #333333; border-color: #333333; border-radius: 12px;">
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Sesami component - shown AFTER questionnaire is completed -->
                 <div class="card mb-3" style="background-color: #f8f9fa; display: none;" id="sesami-booking-card">
                   <div class="card-body">
                     <div class="d-flex justify-content-center" id="sesami-container">
@@ -611,6 +626,7 @@
   // ============================================
   function detectAndShowButtons() {
     const sesamiCard = document.getElementById('sesami-booking-card');
+    const bookNowButtonCard = document.getElementById('book-now-button-card');
     const productButtonsCard = document.getElementById('product-buttons-card');
     
     // Check if Sesami custom element is defined (means app is installed)
@@ -636,18 +652,38 @@
       sesamiAvailable: sesamiAvailable
     });
     
-    if (sesamiAvailable && sesamiCard) {
-      // Sesami is installed - show Sesami, hide standard buttons
-      sesamiCard.style.display = 'block';
+    // Check if questionnaire has been completed (stored in sessionStorage or cart attributes)
+    const questionnaireCompleted = sessionStorage.getItem('questionnaire_completed') === 'true' ||
+                                   document.querySelector('[data-questionnaire-completed]');
+    
+    if (sesamiAvailable) {
+      if (questionnaireCompleted && sesamiCard) {
+        // Questionnaire completed - show Sesami component
+        sesamiCard.style.display = 'block';
+        if (bookNowButtonCard) {
+          bookNowButtonCard.style.display = 'none';
+        }
+        console.log('✓ Questionnaire completed - showing Sesami booking component');
+      } else if (bookNowButtonCard) {
+        // Questionnaire not completed - show custom Book Now button
+        bookNowButtonCard.style.display = 'block';
+        if (sesamiCard) {
+          sesamiCard.style.display = 'none';
+        }
+        console.log('✓ Sesami app detected - showing custom Book Now button (questionnaire required)');
+      }
+      
       if (productButtonsCard) {
         productButtonsCard.style.display = 'none';
       }
-      console.log('✓ Sesami app detected - showing Sesami booking button');
     } else if (productButtonsCard) {
-      // Sesami is NOT installed - show standard buttons, hide Sesami
+      // Sesami is NOT installed - show standard buttons, hide everything else
       productButtonsCard.style.display = 'block';
       if (sesamiCard) {
         sesamiCard.style.display = 'none';
+      }
+      if (bookNowButtonCard) {
+        bookNowButtonCard.style.display = 'none';
       }
       console.log('✓ Sesami app NOT detected - showing Add to Cart and Buy Now buttons');
     }
@@ -693,17 +729,22 @@
   // ============================================
   // QUESTIONNAIRE MODAL FOR SESAMI BOOKING
   // ============================================
-  let sesamiButtonClickPending = false;
-  let originalSesamiButton = null;
   
-  // Function to intercept Sesami button clicks and show questionnaire modal
+  // Function to setup questionnaire modal
   function setupQuestionnaireModal() {
-    const sesamiCard = document.getElementById('sesami-booking-card');
-    if (!sesamiCard || sesamiCard.style.display === 'none') {
-      return; // Sesami not visible, don't set up modal
+    const bookNowButtonCard = document.getElementById('book-now-button-card');
+    const customBookNowBtn = document.getElementById('custom-book-now-btn');
+    
+    if (!customBookNowBtn) {
+      return; // Custom button not found
     }
     
-    const questionnaireModal = new bootstrap.Modal(document.getElementById('customer-questionnaire-modal'), {
+    const questionnaireModalElement = document.getElementById('customer-questionnaire-modal');
+    if (!questionnaireModalElement) {
+      return; // Modal not found
+    }
+    
+    const questionnaireModal = new bootstrap.Modal(questionnaireModalElement, {
       backdrop: 'static',
       keyboard: false
     });
@@ -793,6 +834,15 @@
       });
     }
     
+    // Handle custom Book Now button click - show questionnaire modal
+    if (customBookNowBtn) {
+      customBookNowBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Custom Book Now button clicked - showing questionnaire modal');
+        questionnaireModal.show();
+      });
+    }
+    
     // Handle questionnaire form submission
     if (submitBtn) {
       submitBtn.addEventListener('click', function(e) {
@@ -811,18 +861,26 @@
         // Save questionnaire data
         saveQuestionnaireToCart()
           .then(() => {
+            // Mark questionnaire as completed
+            sessionStorage.setItem('questionnaire_completed', 'true');
+            
             // Close modal
             questionnaireModal.hide();
             
-            // Trigger Sesami button click after a short delay
+            // Hide custom Book Now button and show Sesami component
+            if (bookNowButtonCard) {
+              bookNowButtonCard.style.display = 'none';
+            }
+            
+            const sesamiCard = document.getElementById('sesami-booking-card');
+            if (sesamiCard) {
+              sesamiCard.style.display = 'block';
+              console.log('✓ Questionnaire completed - Sesami component now visible');
+            }
+            
+            // Re-run detection to update UI
             setTimeout(function() {
-              if (sesamiButtonClickPending && originalSesamiButton) {
-                console.log('Triggering Sesami button after questionnaire completion');
-                // Click the original Sesami button
-                originalSesamiButton.click();
-                sesamiButtonClickPending = false;
-                originalSesamiButton = null;
-              }
+              detectAndShowButtons();
             }, 500);
           })
           .catch((error) => {
@@ -834,119 +892,18 @@
       });
     }
     
-    // Intercept Sesami button clicks
-    function interceptSesamiButton() {
-      // Find Sesami button (it might be in shadow DOM or dynamically created)
-      const sesamiContainer = document.getElementById('sesami-container');
-      if (!sesamiContainer) return;
-      
-      // Use MutationObserver to watch for Sesami button
-      const buttonObserver = new MutationObserver(function(mutations) {
-        // Look for Sesami button
-        const sesamiButton = sesamiContainer.querySelector('button.sesami-calendar, button[class*="sesami"], sesami-experience button');
-        
-        if (sesamiButton && !sesamiButton.hasAttribute('data-questionnaire-intercepted')) {
-          sesamiButton.setAttribute('data-questionnaire-intercepted', 'true');
-          
-          // Store original click handler
-          const originalClick = sesamiButton.onclick || function() {};
-          
-          // Intercept click
-          sesamiButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            
-            console.log('Sesami button clicked - showing questionnaire modal');
-            
-            // Store button reference for later
-            sesamiButtonClickPending = true;
-            originalSesamiButton = sesamiButton;
-            
-            // Show questionnaire modal
-            questionnaireModal.show();
-            
-            return false;
-          }, true); // Use capture phase to intercept early
-          
-          console.log('✓ Sesami button intercepted for questionnaire');
-        }
-      });
-      
-      // Observe Sesami container for button changes
-      buttonObserver.observe(sesamiContainer, {
-        childList: true,
-        subtree: true,
-        attributes: false
-      });
-      
-      // Also check immediately
-      setTimeout(function() {
-        const sesamiButton = sesamiContainer.querySelector('button.sesami-calendar, button[class*="sesami"], sesami-experience button');
-        if (sesamiButton && !sesamiButton.hasAttribute('data-questionnaire-intercepted')) {
-          sesamiButton.setAttribute('data-questionnaire-intercepted', 'true');
-          sesamiButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            sesamiButtonClickPending = true;
-            originalSesamiButton = sesamiButton;
-            questionnaireModal.show();
-            return false;
-          }, true);
-        }
-      }, 1000);
-      
-      // Also use event delegation on the container
-      sesamiContainer.addEventListener('click', function(e) {
-        const target = e.target;
-        // Check if click is on a Sesami button
-        if (target && (
-          target.classList.contains('sesami-calendar') ||
-          target.closest('button.sesami-calendar') ||
-          target.closest('sesami-experience')
-        )) {
-          // Check if this is the initial booking button (not a time slot selection)
-          const buttonText = target.textContent || target.innerText || '';
-          if (buttonText.includes('Book Now') || buttonText.includes('Book') || target.classList.contains('sesami-calendar')) {
-            e.preventDefault();
-            e.stopPropagation();
-            sesamiButtonClickPending = true;
-            originalSesamiButton = target.closest('button') || target;
-            questionnaireModal.show();
-            return false;
-          }
-        }
-      }, true);
-    }
-    
-    // Set up interception when Sesami is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(interceptSesamiButton, 1000);
-        setTimeout(interceptSesamiButton, 3000);
-      });
-    } else {
-      setTimeout(interceptSesamiButton, 1000);
-      setTimeout(interceptSesamiButton, 3000);
-    }
-    
-    // Also watch for Sesami container changes
-    const containerObserver = new MutationObserver(function() {
-      interceptSesamiButton();
-    });
-    
-    const sesamiContainer = document.getElementById('sesami-container');
-    if (sesamiContainer) {
-      containerObserver.observe(sesamiContainer, {
-        childList: true,
-        subtree: true
-      });
-    }
   }
   
-  // Call setup when Sesami is detected
-  setTimeout(setupQuestionnaireModal, 2000);
-  setTimeout(setupQuestionnaireModal, 4000);
+  // Call setup when page is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(setupQuestionnaireModal, 500);
+      setTimeout(setupQuestionnaireModal, 2000);
+    });
+  } else {
+    setTimeout(setupQuestionnaireModal, 500);
+    setTimeout(setupQuestionnaireModal, 2000);
+  }
   
   // Handle add to cart form submission
   // Conditional: If Sesami is installed, use Sesami handlers; otherwise use standard buttons
