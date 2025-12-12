@@ -156,7 +156,7 @@
         "column1_bg_size": "cover",
         "column1_bg_overlay_opacity": 0,
         "column1_padding_top": 20,
-        "column1_padding_bottom": 25,
+        "column1_padding_bottom": 20,
         "column1_padding_left": 20,
         "column1_padding_right": 20,
         "column2_content_type": "image",
