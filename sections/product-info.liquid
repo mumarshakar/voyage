@@ -646,18 +646,45 @@
         // Ensure questionnaire form is initialized when card is shown
         // Try multiple times with delays to ensure elements are ready
         let attempts = 0;
-        const maxAttempts = 5;
+        const maxAttempts = 10; // Increased attempts
         const trySetup = function() {
           attempts++;
+          console.log(`Setup attempt ${attempts}/${maxAttempts}...`);
+          
+          // Verify card is actually visible now
+          const card = document.getElementById('customer-questionnaire-card');
+          if (card && window.getComputedStyle(card).display === 'none') {
+            console.log('Card is still hidden, waiting...');
+            if (attempts < maxAttempts) {
+              setTimeout(trySetup, 200);
+            }
+            return;
+          }
+          
           if (setupQuestionnaireForm()) {
             console.log('✓ Questionnaire form initialized successfully');
           } else if (attempts < maxAttempts) {
             setTimeout(trySetup, 200);
           } else {
             console.warn('⚠️ Failed to initialize questionnaire form after multiple attempts');
+            // Last resort: try to find elements using querySelector
+            const form = document.querySelector('#customer-questionnaire-form');
+            const btn = document.querySelector('#submit-questionnaire-btn');
+            console.log('Final check - Form:', !!form, 'Button:', !!btn);
+            if (form && btn) {
+              console.log('Elements found via querySelector, forcing initialization...');
+              // Force attach handler directly
+              if (!submitBtnHandler) {
+                submitBtnHandler = createSubmitHandler();
+              }
+              btn.addEventListener('click', submitBtnHandler);
+              console.log('✓ Event listener attached via fallback method');
+            }
           }
         };
-        setTimeout(trySetup, 100);
+        // Start immediately and also with a small delay
+        trySetup();
+        setTimeout(trySetup, 50);
       }
       
       if (productButtonsCard) {
@@ -835,13 +862,30 @@
   
   // Function to setup questionnaire form
   function setupQuestionnaireForm() {
+    // Debug: Check if elements exist in DOM
+    const questionnaireCard = document.getElementById('customer-questionnaire-card');
     const questionnaireForm = document.getElementById('customer-questionnaire-form');
     const submitBtn = document.getElementById('submit-questionnaire-btn');
+    
+    // Debug logging
+    if (!questionnaireInitialized) {
+      console.log('Setup attempt - Elements check:', {
+        card: !!questionnaireCard,
+        form: !!questionnaireForm,
+        button: !!submitBtn,
+        cardDisplay: questionnaireCard ? window.getComputedStyle(questionnaireCard).display : 'N/A'
+      });
+    }
     
     if (!questionnaireForm || !submitBtn) {
       // Don't log every time - only log if we haven't initialized yet
       if (!questionnaireInitialized) {
         console.log('Questionnaire form or button not found, will retry...');
+        // Try to find why - check if card exists but form doesn't
+        if (questionnaireCard && !questionnaireForm) {
+          console.warn('⚠️ Card exists but form not found - checking card content...');
+          console.log('Card HTML:', questionnaireCard.innerHTML.substring(0, 200));
+        }
       }
       return false; // Return false to indicate failure
     }
@@ -917,6 +961,32 @@
   // Call setup when page is ready (but don't spam if elements don't exist)
   function initQuestionnaireForm() {
     setupQuestionnaireForm();
+  }
+  
+  // Watch for questionnaire card to be added to DOM
+  if (typeof MutationObserver !== 'undefined') {
+    const questionnaireObserver = new MutationObserver(function(mutations) {
+      const questionnaireCard = document.getElementById('customer-questionnaire-card');
+      const questionnaireForm = document.getElementById('customer-questionnaire-form');
+      const submitBtn = document.getElementById('submit-questionnaire-btn');
+      
+      // If card exists and is visible, try to initialize
+      if (questionnaireCard && questionnaireForm && submitBtn) {
+        const isVisible = window.getComputedStyle(questionnaireCard).display !== 'none';
+        if (isVisible && !questionnaireInitialized) {
+          console.log('Questionnaire card detected in DOM and visible, initializing...');
+          setupQuestionnaireForm();
+        }
+      }
+    });
+    
+    // Start observing
+    questionnaireObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    });
   }
   
   // Only try initialization a few times on page load
