@@ -642,6 +642,11 @@
           sesamiCard.style.display = 'none';
         }
         console.log('✓ Sesami app detected - showing questionnaire form');
+        
+        // Ensure questionnaire form is initialized when card is shown
+        setTimeout(function() {
+          setupQuestionnaireForm();
+        }, 100);
       }
       
       if (productButtonsCard) {
@@ -711,26 +716,39 @@
   let questionnaireInitialized = false;
   let submitBtnHandler = null;
   
-  // Function to setup questionnaire form (only once)
+  // Function to setup questionnaire form
   function setupQuestionnaireForm() {
-    // Prevent multiple initializations
-    if (questionnaireInitialized) {
-      return;
-    }
-    
     const questionnaireForm = document.getElementById('customer-questionnaire-form');
     const submitBtn = document.getElementById('submit-questionnaire-btn');
-    const allergySelect = document.getElementById('customer_allergies');
-    const foodSelect = document.getElementById('customer_food_availability');
-    const allergyDetailsWrapper = document.getElementById('allergy-details-wrapper');
-    const foodDetailsWrapper = document.getElementById('food-details-wrapper');
     
     if (!questionnaireForm || !submitBtn) {
+      console.log('Questionnaire form or button not found, will retry...');
       return; // Form not found, try again later
+    }
+    
+    // If already initialized, just re-attach event listeners (in case they were removed)
+    if (questionnaireInitialized) {
+      console.log('Questionnaire form already initialized, re-attaching event listeners...');
+      // Remove old listener if exists
+      if (submitBtnHandler && submitBtn) {
+        submitBtn.removeEventListener('click', submitBtnHandler);
+      }
+      // Re-attach the handler
+      if (submitBtn) {
+        submitBtn.addEventListener('click', submitBtnHandler);
+        console.log('✓ Event listener re-attached');
+      }
+      return;
     }
     
     // Mark as initialized
     questionnaireInitialized = true;
+    console.log('✓ Initializing questionnaire form...');
+    
+    const allergySelect = document.getElementById('customer_allergies');
+    const foodSelect = document.getElementById('customer_food_availability');
+    const allergyDetailsWrapper = document.getElementById('allergy-details-wrapper');
+    const foodDetailsWrapper = document.getElementById('food-details-wrapper');
     
     // Show/hide allergy details based on selection
     if (allergySelect && allergyDetailsWrapper) {
@@ -820,21 +838,35 @@
       e.preventDefault();
       e.stopPropagation();
       
+      console.log('Continue to Booking button clicked');
+      
+      // Get fresh references in case DOM changed
+      const currentForm = document.getElementById('customer-questionnaire-form');
+      const currentBtn = document.getElementById('submit-questionnaire-btn');
+      
+      if (!currentForm || !currentBtn) {
+        console.error('Form or button not found');
+        return;
+      }
+      
       // Validate form
-      if (questionnaireForm && !questionnaireForm.checkValidity()) {
-        questionnaireForm.classList.add('was-validated');
+      if (!currentForm.checkValidity()) {
+        console.log('Form validation failed');
+        currentForm.classList.add('was-validated');
         return false;
       }
       
+      console.log('Form is valid, saving questionnaire...');
+      
       // Disable submit button and show loading
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving...';
-      }
+      currentBtn.disabled = true;
+      currentBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Saving...';
       
       // Save questionnaire data
       saveQuestionnaireToCart()
         .then(() => {
+          console.log('✓ Questionnaire saved successfully');
+          
           // Mark questionnaire as completed
           sessionStorage.setItem('questionnaire_completed', 'true');
           
@@ -858,15 +890,18 @@
         .catch((error) => {
           console.error('Error saving questionnaire:', error);
           alert('There was an error saving your information. Please try again.');
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Continue to Booking';
+          if (currentBtn) {
+            currentBtn.disabled = false;
+            currentBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Continue to Booking';
           }
         });
     };
     
     if (submitBtn) {
       submitBtn.addEventListener('click', submitBtnHandler);
+      console.log('✓ Event listener attached to submit button');
+    } else {
+      console.error('Submit button not found when trying to attach event listener');
     }
   }
   
