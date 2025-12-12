@@ -124,7 +124,7 @@
             {% else %}
                   <!-- Sesami needs this input with name="quantity" to find quantity -->
                   <input type="hidden" name="quantity" value="1" id="quantity">
-                {% endif %}
+            {% endif %}
 
                 <!-- Sesami Booking Experience Card (INSIDE FORM for auto-add-to-cart) -->
                 <!-- Sesami will inject hidden fields here for booking properties (Date, Time, Timezone, etc.) -->
@@ -132,17 +132,20 @@
                 <div id="sesami-form-fields" style="display: none;"></div>
                 
                 <!-- Customer Questionnaire - shown BEFORE Book Now button -->
-                <div class="card mb-3" style="background-color: #f8f9fa; display: none;" id="customer-questionnaire-card">
-                  <div class="card-body">
-                    <h5 class="card-title mb-3">
-                      <i class="bi bi-clipboard-check me-2"></i>Customer Information
+                <div class="card mb-3" style="background-color: #ffffff; border: 1px solid #e9ecef; display: none;" id="customer-questionnaire-card">
+                  <div class="card-body" style="padding: 2rem;">
+                    <!-- Title -->
+                    <h5 class="card-title mb-4" style="font-weight: 600; color: #333; font-size: 1.25rem;">
+                      {{ product.title }}
                     </h5>
-                    <p class="text-muted mb-4">Please fill out this information before booking your appointment.</p>
+                    
                     <div id="customer-questionnaire-form" class="needs-validation">
-                      <div class="row g-3">
+                      <div class="row g-4">
                         <!-- First Name -->
                         <div class="col-md-6">
-                          <label for="customer_first_name" class="form-label">First Name <span class="text-danger">*</span></label>
+                          <label for="customer_first_name" class="form-label" style="font-weight: 500; color: #333; margin-bottom: 0.5rem;">
+                            First name <span class="text-danger">*</span>
+                          </label>
                           <input 
                             type="text" 
                             class="form-control" 
@@ -150,7 +153,7 @@
                             name="customer_first_name" 
                             value="{{ cart.attributes.customer_first_name }}"
                             required
-                            placeholder="Enter your first name">
+                            style="border: 1px solid #dee2e6; border-radius: 4px; padding: 0.75rem;">
                           <div class="invalid-feedback">
                             Please provide your first name.
                           </div>
@@ -158,7 +161,9 @@
 
                         <!-- Last Name -->
                         <div class="col-md-6">
-                          <label for="customer_last_name" class="form-label">Last Name <span class="text-danger">*</span></label>
+                          <label for="customer_last_name" class="form-label" style="font-weight: 500; color: #333; margin-bottom: 0.5rem;">
+                            Last name <span class="text-danger">*</span>
+                          </label>
                           <input 
                             type="text" 
                             class="form-control" 
@@ -166,91 +171,105 @@
                             name="customer_last_name" 
                             value="{{ cart.attributes.customer_last_name }}"
                             required
-                            placeholder="Enter your last name">
+                            style="border: 1px solid #dee2e6; border-radius: 4px; padding: 0.75rem;">
                           <div class="invalid-feedback">
                             Please provide your last name.
                           </div>
                         </div>
 
-                        <!-- Allergies -->
-                        <div class="col-md-6">
-                          <label for="customer_allergies" class="form-label">Any Allergies <span class="text-danger">*</span></label>
-                          <select 
-                            class="form-select" 
-                            id="customer_allergies" 
-                            name="customer_allergies" 
-                            required>
-                            <option value="">Select an option</option>
-                            <option value="None" {% if cart.attributes.customer_allergies == "None" %}selected{% endif %}>None</option>
-                            <option value="Nuts" {% if cart.attributes.customer_allergies == "Nuts" %}selected{% endif %}>Nuts</option>
-                            <option value="Dairy" {% if cart.attributes.customer_allergies == "Dairy" %}selected{% endif %}>Dairy</option>
-                            <option value="Gluten" {% if cart.attributes.customer_allergies == "Gluten" %}selected{% endif %}>Gluten</option>
-                            <option value="Seafood" {% if cart.attributes.customer_allergies == "Seafood" %}selected{% endif %}>Seafood</option>
-                            <option value="Other" {% if cart.attributes.customer_allergies == "Other" %}selected{% endif %}>Other</option>
-                          </select>
-                          <div class="invalid-feedback">
-                            Please select an option.
-                          </div>
-                        </div>
-
-                        <!-- Allergy Details (shown if "Other" is selected) -->
-                        <div class="col-md-6" id="allergy-details-wrapper" style="display: none;">
-                          <label for="customer_allergy_details" class="form-label">Please specify allergies</label>
-                          <input 
-                            type="text" 
-                            class="form-control" 
-                            id="customer_allergy_details" 
-                            name="customer_allergy_details" 
-                            value="{{ cart.attributes.customer_allergy_details }}"
-                            placeholder="Enter allergy details">
-                        </div>
-
-                        <!-- Food Availability -->
-                        <div class="col-md-6">
-                          <label for="customer_food_availability" class="form-label">Food Availability <span class="text-danger">*</span></label>
-                          <select 
-                            class="form-select" 
-                            id="customer_food_availability" 
-                            name="customer_food_availability" 
-                            required>
-                            <option value="">Select an option</option>
-                            <option value="Vegetarian" {% if cart.attributes.customer_food_availability == "Vegetarian" %}selected{% endif %}>Vegetarian</option>
-                            <option value="Vegan" {% if cart.attributes.customer_food_availability == "Vegan" %}selected{% endif %}>Vegan</option>
-                            <option value="Halal" {% if cart.attributes.customer_food_availability == "Halal" %}selected{% endif %}>Halal</option>
-                            <option value="Kosher" {% if cart.attributes.customer_food_availability == "Kosher" %}selected{% endif %}>Kosher</option>
-                            <option value="No Restrictions" {% if cart.attributes.customer_food_availability == "No Restrictions" %}selected{% endif %}>No Restrictions</option>
-                            <option value="Other" {% if cart.attributes.customer_food_availability == "Other" %}selected{% endif %}>Other</option>
-                          </select>
-                          <div class="invalid-feedback">
-                            Please select an option.
-                          </div>
-                        </div>
-
-                        <!-- Food Availability Details (shown if "Other" is selected) -->
-                        <div class="col-md-6" id="food-details-wrapper" style="display: none;">
-                          <label for="customer_food_details" class="form-label">Please specify</label>
-                          <input 
-                            type="text" 
-                            class="form-control" 
-                            id="customer_food_details" 
-                            name="customer_food_details" 
-                            value="{{ cart.attributes.customer_food_details }}"
-                            placeholder="Enter food preferences">
-                        </div>
-
-                        <!-- Additional Notes -->
+                        <!-- Food Allergies -->
                         <div class="col-12">
-                          <label for="customer_additional_notes" class="form-label">Additional Notes or Special Requests</label>
+                          <label for="customer_food_allergies" class="form-label" style="font-weight: 500; color: #333; margin-bottom: 0.5rem;">
+                            Do you have any food allergies? <span class="text-danger">*</span>
+                          </label>
                           <textarea 
                             class="form-control" 
-                            id="customer_additional_notes" 
-                            name="customer_additional_notes" 
-                            rows="3"
-                            placeholder="Any additional information we should know?">{{ cart.attributes.customer_additional_notes }}</textarea>
+                            id="customer_food_allergies" 
+                            name="customer_food_allergies" 
+                            rows="4"
+                            required
+                            style="border: 1px solid #dee2e6; border-radius: 4px; padding: 0.75rem; resize: vertical;">{{ cart.attributes.customer_food_allergies }}</textarea>
+                          <div class="invalid-feedback">
+                            Please provide information about food allergies.
+                          </div>
+                        </div>
+
+                        <!-- Injuries -->
+                        <div class="col-12">
+                          <label for="customer_injuries" class="form-label" style="font-weight: 500; color: #333; margin-bottom: 0.5rem;">
+                            Do you have any injuries? <span class="text-danger">*</span>
+                          </label>
+                          <textarea 
+                            class="form-control" 
+                            id="customer_injuries" 
+                            name="customer_injuries" 
+                            rows="4"
+                            required
+                            style="border: 1px solid #dee2e6; border-radius: 4px; padding: 0.75rem; resize: vertical;">{{ cart.attributes.customer_injuries }}</textarea>
+                          <div class="invalid-feedback">
+                            Please provide information about any injuries.
+                          </div>
+                        </div>
+
+                        <!-- Celebrations -->
+                        <div class="col-12">
+                          <label for="customer_celebrations" class="form-label" style="font-weight: 500; color: #333; margin-bottom: 0.5rem;">
+                            Are you sharing any celebrations with us aboard? <span class="text-danger">*</span>
+                          </label>
+                          <textarea 
+                            class="form-control" 
+                            id="customer_celebrations" 
+                            name="customer_celebrations" 
+                            rows="4"
+                            required
+                            style="border: 1px solid #dee2e6; border-radius: 4px; padding: 0.75rem; resize: vertical;">{{ cart.attributes.customer_celebrations }}</textarea>
+                          <div class="invalid-feedback">
+                            Please provide information about celebrations.
+                          </div>
+                        </div>
+
+                        <!-- Additional Information -->
+                        <div class="col-12">
+                          <label for="customer_additional_info" class="form-label" style="font-weight: 500; color: #333; margin-bottom: 0.5rem;">
+                            Anything else you would like us to know? <span class="text-danger">*</span>
+                          </label>
+                          <textarea 
+                            class="form-control" 
+                            id="customer_additional_info" 
+                            name="customer_additional_info" 
+                            rows="4"
+                            required
+                            style="border: 1px solid #dee2e6; border-radius: 4px; padding: 0.75rem; resize: vertical;">{{ cart.attributes.customer_additional_info }}</textarea>
+                          <div class="invalid-feedback">
+                            Please provide additional information.
+                          </div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="col-12">
+                          <div class="form-check">
+                            <input 
+                              class="form-check-input" 
+                              type="checkbox" 
+                              id="customer_terms_agreed" 
+                              name="customer_terms_agreed"
+                              value="yes"
+                              required
+                              style="margin-top: 0.3rem;">
+                            <label class="form-check-label" for="customer_terms_agreed" style="font-weight: 500; color: #333;">
+                              Do you agree to the terms and conditions? <span class="text-danger">*</span>
+                              <a href="/pages/terms-conditions" target="_blank" style="margin-left: 0.5rem; color: #333; text-decoration: none;">
+                                <i class="bi bi-file-text" style="font-size: 0.9rem;"></i>
+                              </a>
+                            </label>
+                            <div class="invalid-feedback">
+                              You must agree to the terms and conditions to continue.
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="mt-4 d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary" id="submit-questionnaire-btn">
+                        <button type="button" class="btn btn-primary" id="submit-questionnaire-btn" style="min-width: 200px; padding: 0.75rem 2rem; font-weight: 600;">
                           <i class="bi bi-check-circle me-2"></i>Continue to Booking
                         </button>
                       </div>
@@ -281,21 +300,21 @@
                   <div class="card-body">
                     <div class="d-flex flex-column gap-3">
                       <!-- Add to Cart Button -->
-                      <button 
-                        type="submit" 
-                        name="add" 
+              <button 
+                type="submit" 
+                name="add" 
                         id="add-to-cart-btn"
                         class="btn btn-primary w-100"
                         style="height: 50px; font-size: 18px; font-weight: 600;"
                         {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
                         <i class="bi bi-cart-plus me-2"></i>
                         {% if product.selected_or_first_available_variant.available %}
-                          Add to Cart
+                Add to Cart
                         {% else %}
                           Out of Stock
                         {% endif %}
-                      </button>
-                      
+              </button>
+
                       <!-- Buy Now Button (Direct Checkout) -->
                       <button 
                         type="button" 
@@ -308,11 +327,11 @@
                       </button>
                     </div>
                   </div>
-                </div>
-              </form>
-            {% endif %}
-          </div>
-        </div>
+            </div>
+          </form>
+        {% endif %}
+      </div>
+    </div>
         <!-- Product Description Card -->
         {% if product.description != blank %}
           <div class="card shadow-sm border-0">
@@ -431,42 +450,117 @@
     }
   }
   
-  /* Questionnaire Card Styles */
+  /* Questionnaire Card Styles - Clean Minimalist Design */
+  #customer-questionnaire-card {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
   #customer-questionnaire-card .card-title {
     color: #333;
     font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
   }
   
   #customer-questionnaire-card .form-label {
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 0.5rem;
     color: #333;
+    font-size: 0.95rem;
   }
   
   #customer-questionnaire-card .form-control,
-  #customer-questionnaire-card .form-select {
-    border-radius: 8px;
+  #customer-questionnaire-card .form-select,
+  #customer-questionnaire-card textarea {
+    border-radius: 4px;
     border: 1px solid #dee2e6;
     padding: 0.75rem;
+    font-size: 0.95rem;
+    color: #333;
+    background-color: #ffffff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
   
   #customer-questionnaire-card .form-control:focus,
-  #customer-questionnaire-card .form-select:focus {
-    border-color: var(--primary-orange, #FF6B35);
-    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+  #customer-questionnaire-card .form-select:focus,
+  #customer-questionnaire-card textarea:focus {
+    border-color: #333;
+    outline: 0;
+    box-shadow: 0 0 0 0.1rem rgba(51, 51, 51, 0.1);
+  }
+  
+  #customer-questionnaire-card .form-control.is-invalid,
+  #customer-questionnaire-card textarea.is-invalid {
+    border-color: #dc3545;
+  }
+  
+  #customer-questionnaire-card .form-control.is-valid,
+  #customer-questionnaire-card textarea.is-valid {
+    border-color: #28a745;
+  }
+  
+  #customer-questionnaire-card .form-check-input {
+    margin-top: 0.3rem;
+    border: 1px solid #dee2e6;
+  }
+  
+  #customer-questionnaire-card .form-check-input:checked {
+    background-color: #333;
+    border-color: #333;
+  }
+  
+  #customer-questionnaire-card .form-check-input.is-invalid {
+    border-color: #dc3545;
+  }
+  
+  #customer-questionnaire-card .form-check-label {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.95rem;
+  }
+  
+  #customer-questionnaire-card .form-check-label a {
+    color: #333;
+    text-decoration: none;
+    margin-left: 0.5rem;
+  }
+  
+  #customer-questionnaire-card .form-check-label a:hover {
+    text-decoration: underline;
   }
   
   #customer-questionnaire-card .btn-primary {
-    background-color: var(--primary-orange, #FF6B35);
-    border-color: var(--primary-orange, #FF6B35);
+    background-color: #333;
+    border-color: #333;
     padding: 0.75rem 2rem;
     font-weight: 600;
     min-width: 200px;
+    border-radius: 4px;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
   }
   
   #customer-questionnaire-card .btn-primary:hover {
-    background-color: var(--light-orange, #FF8C61);
-    border-color: var(--light-orange, #FF8C61);
+    background-color: #1a1a1a;
+    border-color: #1a1a1a;
+  }
+  
+  #customer-questionnaire-card .text-danger {
+    color: #dc3545;
+  }
+  
+  #customer-questionnaire-card .invalid-feedback {
+    display: none;
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  #customer-questionnaire-card .was-validated .form-control:invalid ~ .invalid-feedback,
+  #customer-questionnaire-card .was-validated .form-check-input:invalid ~ .invalid-feedback,
+  #customer-questionnaire-card .was-validated textarea:invalid ~ .invalid-feedback {
+    display: block;
   }
 </style>
 
@@ -520,11 +614,11 @@
       const isStandardButtonsVisible = productButtonsCard && productButtonsCard.style.display !== 'none';
       
       if (isStandardButtonsVisible) {
-        const addToCartBtn = document.getElementById('add-to-cart-btn');
+      const addToCartBtn = document.getElementById('add-to-cart-btn');
         const buyNowBtn = document.getElementById('buy-now-btn');
         
-        if (addToCartBtn) {
-          addToCartBtn.disabled = !variant.available;
+      if (addToCartBtn) {
+        addToCartBtn.disabled = !variant.available;
           addToCartBtn.innerHTML = variant.available 
             ? '<i class="bi bi-cart-plus me-2"></i>Add to Cart' 
             : '<i class="bi bi-x-circle me-2"></i>Out of Stock';
@@ -842,18 +936,35 @@
       let isValid = true;
       const requiredFields = currentForm.querySelectorAll('[required]');
       requiredFields.forEach(function(field) {
-        if (!field.value || field.value.trim() === '') {
-          isValid = false;
-          field.classList.add('is-invalid');
+        // Handle checkboxes differently
+        if (field.type === 'checkbox') {
+          if (!field.checked) {
+            isValid = false;
+            field.classList.add('is-invalid');
+          } else {
+            field.classList.remove('is-invalid');
+            field.classList.add('is-valid');
+          }
         } else {
-          field.classList.remove('is-invalid');
-          field.classList.add('is-valid');
+          // Handle text inputs and textareas
+          if (!field.value || field.value.trim() === '') {
+            isValid = false;
+            field.classList.add('is-invalid');
+          } else {
+            field.classList.remove('is-invalid');
+            field.classList.add('is-valid');
+          }
         }
       });
       
       if (!isValid) {
         console.log('Form validation failed');
         currentForm.classList.add('was-validated');
+        // Scroll to first invalid field
+        const firstInvalid = currentForm.querySelector('.is-invalid');
+        if (firstInvalid) {
+          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
         return false;
       }
       
@@ -929,57 +1040,9 @@
       return false; // Return false to indicate failure
     }
     
-    // Setup toggle handlers for allergy and food details (only once)
+    // Initialize form (only once)
     if (!questionnaireInitialized) {
       console.log('✓ Initializing questionnaire form...');
-      
-      const allergySelect = document.getElementById('customer_allergies');
-      const foodSelect = document.getElementById('customer_food_availability');
-      const allergyDetailsWrapper = document.getElementById('allergy-details-wrapper');
-      const foodDetailsWrapper = document.getElementById('food-details-wrapper');
-      
-      // Show/hide allergy details based on selection
-      if (allergySelect && allergyDetailsWrapper) {
-        function toggleAllergyDetails() {
-          if (allergySelect.value === 'Other') {
-            allergyDetailsWrapper.style.display = 'block';
-            const allergyDetailsInput = document.getElementById('customer_allergy_details');
-            if (allergyDetailsInput) {
-              allergyDetailsInput.setAttribute('required', 'required');
-            }
-          } else {
-            allergyDetailsWrapper.style.display = 'none';
-            const allergyDetailsInput = document.getElementById('customer_allergy_details');
-            if (allergyDetailsInput) {
-              allergyDetailsInput.removeAttribute('required');
-            }
-          }
-        }
-        allergySelect.addEventListener('change', toggleAllergyDetails);
-        toggleAllergyDetails(); // Check on load
-      }
-      
-      // Show/hide food details based on selection
-      if (foodSelect && foodDetailsWrapper) {
-        function toggleFoodDetails() {
-          if (foodSelect.value === 'Other') {
-            foodDetailsWrapper.style.display = 'block';
-            const foodDetailsInput = document.getElementById('customer_food_details');
-            if (foodDetailsInput) {
-              foodDetailsInput.setAttribute('required', 'required');
-            }
-          } else {
-            foodDetailsWrapper.style.display = 'none';
-            const foodDetailsInput = document.getElementById('customer_food_details');
-            if (foodDetailsInput) {
-              foodDetailsInput.removeAttribute('required');
-            }
-          }
-        }
-        foodSelect.addEventListener('change', toggleFoodDetails);
-        toggleFoodDetails(); // Check on load
-      }
-      
       questionnaireInitialized = true;
     }
     
