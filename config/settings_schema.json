@@ -669,6 +669,80 @@
         "placeholder": "GTM-XXXXXXX"
       }
     ]
+  },
+  {
+    "name": "WhatsApp Floating Button",
+    "settings": [
+      {
+        "type": "header",
+        "content": "WhatsApp Floating Button Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "whatsapp_enabled",
+        "label": "Enable WhatsApp Floating Button",
+        "default": true,
+        "info": "Show/hide the WhatsApp floating button on all pages"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp Phone Number",
+        "info": "Enter phone number with country code (e.g., 971501234567 for UAE). Do not include +, spaces, or dashes.",
+        "placeholder": "971501234567"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_message",
+        "label": "Default Message (Optional)",
+        "info": "Pre-filled message when user clicks the button. Leave empty for no message.",
+        "placeholder": "Hello, I need help with..."
+      },
+      {
+        "type": "range",
+        "id": "whatsapp_button_size",
+        "label": "Button Size (px)",
+        "min": 50,
+        "max": 80,
+        "step": 5,
+        "default": 60,
+        "unit": "px",
+        "info": "Size of the WhatsApp button"
+      },
+      {
+        "type": "range",
+        "id": "whatsapp_icon_size",
+        "label": "Icon Size (px)",
+        "min": 24,
+        "max": 40,
+        "step": 2,
+        "default": 32,
+        "unit": "px",
+        "info": "Size of the WhatsApp icon inside the button"
+      },
+      {
+        "type": "range",
+        "id": "whatsapp_bottom_spacing",
+        "label": "Distance from Bottom (px)",
+        "min": 20,
+        "max": 100,
+        "step": 5,
+        "default": 30,
+        "unit": "px",
+        "info": "Distance of button from bottom of screen"
+      },
+      {
+        "type": "range",
+        "id": "whatsapp_right_spacing",
+        "label": "Distance from Right (px)",
+        "min": 20,
+        "max": 100,
+        "step": 5,
+        "default": 30,
+        "unit": "px",
+        "info": "Distance of button from right edge of screen"
+      }
+    ]
   }
 ]
 

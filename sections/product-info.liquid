@@ -2,132 +2,274 @@
   assign show_vendor = section.settings.show_vendor | default: false
   assign show_sku = section.settings.show_sku | default: false
   assign show_quantity_selector = section.settings.show_quantity_selector | default: true
-  assign enable_dynamic_checkout = section.settings.enable_dynamic_checkout | default: false
 -%}
 
 <div class="product-info-section" style="padding: 40px 0;">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-6 offset-lg-6">
-        {% if show_vendor and product.vendor != blank %}
-          <div class="product-vendor mb-2" style="font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.1em;">
-            {{ product.vendor }}
-          </div>
-        {% endif %}
-
-        <h1 class="product-title mb-3">{{ product.title }}</h1>
-
-        <div class="product-price mb-4">
-          {% if product.compare_at_price > product.price %}
-            <span class="product-price-compare text-muted text-decoration-line-through me-2" style="font-size: 18px;">
-              {{ product.compare_at_price | money }}
-            </span>
-            <span class="product-price-current text-danger" style="font-size: 24px; font-weight: 600;">
-              {{ product.price | money }}
-            </span>
-            <span class="product-price-save ms-2" style="color: var(--primary-orange, #FF6B35); font-weight: 600;">
-              Save {{ product.compare_at_price | minus: product.price | money }}
-            </span>
-          {% else %}
-            <span class="product-price-current" style="font-size: 28px; font-weight: 600;">
-              {{ product.price | money }}
-            </span>
-          {% endif %}
-        </div>
-
-        {% if show_sku and product.selected_or_first_available_variant.sku != blank %}
-          <div class="product-sku mb-4" style="font-size: 14px; color: #666;">
-            SKU: <strong>{{ product.selected_or_first_available_variant.sku }}</strong>
-          </div>
-        {% endif %}
-
-        {% if product.available == false %}
-          <div class="alert alert-danger mb-4" role="alert">
-            This product is currently out of stock.
-          </div>
-        {% else %}
-          <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form">
-            {% if product.variants.size > 1 %}
-              <div class="product-variants mb-4">
-                <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
-                {% for option in product.options_with_values %}
-                  <div class="mb-3">
-                    <label for="option-{{ forloop.index }}" class="form-label fw-semibold mb-2">
-                      {{ option.name }}:
-                    </label>
-                    <select 
-                      id="option-{{ forloop.index }}"
-                      class="form-select product-option-select"
-                      required
-                      data-option-index="{{ option.position | minus: 1 }}"
-                      onchange="updateSelectedVariant()">
-                      {% for value in option.values %}
-                        <option 
-                          value="{{ value | escape }}"
-                          {% if option.selected_value == value %}selected{% endif %}>
-                          {{ value }}
-                        </option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                {% endfor %}
-              </div>
-            {% else %}
-              <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}">
-            {% endif %}
-
-            {% if show_quantity_selector %}
-              <div class="product-quantity mb-4">
-                <label for="quantity" class="form-label fw-semibold mb-2">Quantity:</label>
-                <div class="input-group" style="max-width: 200px;">
-                  <button 
-                    type="button" 
-                    class="btn btn-outline-secondary"
-                    onclick="decreaseQuantity()"
-                    style="border-color: var(--cream, #FFF8E7);">
-                    -
-                  </button>
-                  <input 
-                    type="number" 
-                    id="quantity" 
-                    name="quantity" 
-                    value="1" 
-                    min="1" 
-                    class="form-control text-center"
-                    style="border-color: var(--cream, #FFF8E7);">
-                  <button 
-                    type="button" 
-                    class="btn btn-outline-secondary"
-                    onclick="increaseQuantity()"
-                    style="border-color: var(--cream, #FFF8E7);">
-                    +
-                  </button>
+    <div class="row g-4">
+      <!-- Product Info Card -->
+      <div class="col-12">
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-body p-4">
+            <!-- Product Header -->
+            <div class="product-header mb-4">
+              {% if show_vendor and product.vendor != blank %}
+                <div class="product-vendor mb-2" style="font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.1em;">
+                  {{ product.vendor }}
                 </div>
+              {% endif %}
+              <h1 class="product-title mb-3">{{ product.title }}</h1>
+              
+              <div class="product-price mb-3">
+                {% if product.compare_at_price > product.price %}
+                  <div class="d-flex align-items-center flex-wrap gap-2">
+                    <span class="product-price-compare text-muted text-decoration-line-through" style="font-size: 18px;">
+                      {{ product.compare_at_price | money }}
+                    </span>
+                    <span class="product-price-current text-danger" style="font-size: 28px; font-weight: 600;">
+                      {{ product.price | money }}
+                    </span>
+                    <span class="badge bg-warning text-dark" style="font-size: 14px; padding: 6px 12px;">
+                      Save {{ product.compare_at_price | minus: product.price | money }}
+                    </span>
+                  </div>
+                {% else %}
+                  <span class="product-price-current" style="font-size: 32px; font-weight: 600; color: var(--primary-orange, #FF6B35);">
+                    {{ product.price | money }}
+                  </span>
+                {% endif %}
               </div>
-            {% else %}
-              <input type="hidden" name="quantity" value="1">
-            {% endif %}
 
-            <div class="product-actions">
-              <button 
-                type="submit" 
-                name="add" 
-                class="btn btn-primary btn-lg w-100 mb-3"
-                style="background-color: var(--primary-orange, #FF6B35); border-color: var(--primary-orange, #FF6B35); padding: 14px 32px; font-size: 18px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;"
-                id="add-to-cart-btn">
-                Add to Cart
-              </button>
-
-              {% if enable_dynamic_checkout %}
-                {{ form | payment_button }}
+              {% if show_sku and product.selected_or_first_available_variant.sku != blank %}
+                <div class="product-sku mb-3">
+                  <small class="text-muted">SKU: </small><strong>{{ product.selected_or_first_available_variant.sku }}</strong>
+                </div>
               {% endif %}
             </div>
-          </form>
+
+            <!-- Product Availability -->
+            {% if product.available == false %}
+              <div class="alert alert-danger mb-4" role="alert">
+                <i class="bi bi-exclamation-triangle me-2"></i>This product is currently out of stock.
+              </div>
+            {% else %}
+              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form" data-product-id="{{ product.id }}" class="product-form">
+                <!-- Variants Card -->
+                {% if product.variants.size > 1 %}
+                  <div class="card mb-3" style="background-color: #f8f9fa;">
+                    <div class="card-body">
+                      <h6 class="card-title mb-3 fw-semibold">Select Options</h6>
+                      <!-- Sesami needs this input with name="id" to find variant ID -->
+                      <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+                      {% for option in product.options_with_values %}
+                        <div class="mb-3">
+                          <label for="option-{{ forloop.index }}" class="form-label fw-semibold mb-2">
+                            {{ option.name }}
+                          </label>
+                          <select 
+                            id="option-{{ forloop.index }}"
+                            class="form-select product-option-select"
+                            required
+                            data-option-index="{{ option.position | minus: 1 }}"
+                            onchange="updateSelectedVariant()">
+                            {% for value in option.values %}
+                              <option 
+                                value="{{ value | escape }}"
+                                {% if option.selected_value == value %}selected{% endif %}>
+                                {{ value }}
+                              </option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% else %}
+                  <!-- Sesami needs this input with name="id" to find variant ID -->
+                  <input type="hidden" name="id" id="selected-variant-id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+                {% endif %}
+
+                <!-- Quantity Card -->
+                {% if show_quantity_selector %}
+                  <div class="card mb-3" style="background-color: #f8f9fa;">
+                    <div class="card-body">
+                      <label for="quantity" class="form-label fw-semibold mb-2">Quantity</label>
+                      <div class="input-group" style="max-width: 200px;">
+                        <button 
+                          type="button" 
+                          class="btn btn-outline-secondary"
+                          onclick="decreaseQuantity()"
+                          style="border-color: #dee2e6;">
+                          <i class="bi bi-dash"></i>
+                        </button>
+                        <!-- Sesami needs this input with name="quantity" to find quantity -->
+                        <input 
+                          type="number" 
+                          id="quantity" 
+                          name="quantity" 
+                          value="1" 
+                          min="1" 
+                          class="form-control text-center"
+                          style="border-color: #dee2e6;">
+                        <button 
+                          type="button" 
+                          class="btn btn-outline-secondary"
+                          onclick="increaseQuantity()"
+                          style="border-color: #dee2e6;">
+                          <i class="bi bi-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                {% else %}
+                  <!-- Sesami needs this input with name="quantity" to find quantity -->
+                  <input type="hidden" name="quantity" value="1" id="quantity">
+                {% endif %}
+
+                <!-- Sesami Booking Experience Card (INSIDE FORM for auto-add-to-cart) -->
+                <!-- Sesami will inject hidden fields here for booking properties (Date, Time, Timezone, etc.) -->
+                <!-- Container for Sesami hidden fields - Sesami will populate this automatically -->
+                <div id="sesami-form-fields" style="display: none;"></div>
+                
+                <!-- Sesami component - directly in form for better accessibility -->
+                <div class="card mb-3" style="background-color: #f8f9fa;" id="sesami-booking-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-center" id="sesami-container">
+                      <sesami-experience
+                          shop-id="77838188777"
+                          service-id="9136208904425"
+                          experience="v2"
+                          auto-add-to-cart
+                          skip-cart
+                          button-label="Book Now"
+                          button-style="%7B%22width%22%3A%22300px%22%2C%22height%22%3A%2250px%22%2C%22font_size%22%3A18%2C%22color%22%3A%22%23FFF%22%2C%22color_background%22%3A%22%23333333%22%2C%22border_width%22%3A1%2C%22border_color%22%3A%22%23333333%22%2C%22border_radius%22%3A12%2C%22alignment%22%3A%22flex-end%22%7D"
+                          data-product-form="product-form"
+                      ></sesami-experience>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+        <!-- Product Description Card -->
+        {% if product.description != blank %}
+          <div class="card shadow-sm border-0">
+            <div class="card-header bg-transparent border-0 pb-0">
+              <h5 class="card-title mb-0 fw-semibold">Description</h5>
+            </div>
+            <div class="card-body">
+              <div class="product-description-content">
+                {{ product.description }}
+              </div>
+            </div>
+          </div>
         {% endif %}
       </div>
     </div>
   </div>
 </div>
+
+<style>
+  .product-description-content {
+    line-height: 1.8;
+    color: #333;
+  }
+  
+  .product-description-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+  
+  .product-description-content p {
+    margin-bottom: 1.5rem;
+  }
+  
+  .product-description-content h1,
+  .product-description-content h2,
+  .product-description-content h3,
+  .product-description-content h4,
+  .product-description-content h5,
+  .product-description-content h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .product-description-content ul,
+  .product-description-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+  }
+  
+  .product-description-content li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .product-info-section .card {
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .product-info-section .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .product-info-section .card-header {
+    padding: 1.25rem 1.25rem 0.5rem;
+  }
+  
+  .product-info-section .card-body {
+    padding: 1.5rem;
+  }
+  
+  .product-info-section .card[style*="background-color: #f8f9fa"] {
+    border: 1px solid #e9ecef;
+  }
+  
+  .product-info-section .card.border-primary {
+    border-width: 2px !important;
+  }
+  
+  @media (max-width: 768px) {
+    .product-info-section .card-body {
+      padding: 1rem;
+    }
+    
+    /* Mobile-specific styles for Sesami component */
+    #sesami-booking-card {
+      margin-bottom: 1.5rem !important;
+    }
+    
+    #sesami-container {
+      width: 100%;
+      justify-content: center;
+      padding: 10px 0;
+    }
+    
+    /* Ensure Sesami component is fully visible on mobile */
+    sesami-experience {
+      width: 100%;
+      max-width: 100%;
+      display: block;
+    }
+    
+    /* Ensure form inputs are accessible on mobile */
+    #product-form input[name="id"],
+    #product-form input[name="quantity"] {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Improve touch targets on mobile */
+    .sesami-calendar {
+      min-height: 44px; /* iOS recommended touch target size */
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+</style>
 
 <script>
   const productVariants = [
@@ -218,6 +360,495 @@
     const quantityInput = document.getElementById('quantity');
     if (quantityInput && parseInt(quantityInput.value) > 1) {
       quantityInput.value = parseInt(quantityInput.value) - 1;
+    }
+  }
+  
+  // Handle add to cart form submission
+  // NOTE: Sesami booking experience handles its own form submission and checkout flow
+  // Since there's no Add to Cart button, we allow ALL form submissions to proceed naturally
+  const productForm = document.getElementById('product-form');
+  if (productForm) {
+    const sesamiComponent = productForm.querySelector('sesami-experience');
+    
+    // If Sesami is present, completely remove form submit interception
+    // Sesami handles everything with auto-add-to-cart and skip-cart
+    if (sesamiComponent) {
+      // Don't add any submit handler - let Sesami handle everything
+      console.log('Sesami component detected - allowing native form handling');
+      
+      // Ensure Sesami can properly access form data for auto-add-to-cart
+      // Sesami needs to read variant ID and quantity from the form
+      const ensureSesamiFormAccess = function() {
+        const form = document.getElementById('product-form');
+        const variantInput = form ? form.querySelector('input[name="id"]') : null;
+        const quantityInput = form ? form.querySelector('input[name="quantity"]') : null;
+        
+        if (!form) {
+          console.error('❌ Product form not found! Sesami cannot access form data.');
+          return;
+        }
+        
+        if (!variantInput) {
+          console.error('❌ Variant ID input (name="id") not found in form!');
+          // Try to create it if missing
+          const hiddenId = document.createElement('input');
+          hiddenId.type = 'hidden';
+          hiddenId.name = 'id';
+          hiddenId.id = 'selected-variant-id';
+          hiddenId.value = '{{ product.selected_or_first_available_variant.id }}';
+          form.insertBefore(hiddenId, form.firstChild);
+          console.log('✓ Created missing variant ID input');
+        }
+        
+        if (!quantityInput) {
+          console.error('❌ Quantity input (name="quantity") not found in form!');
+          // Try to create it if missing
+          const hiddenQty = document.createElement('input');
+          hiddenQty.type = 'hidden';
+          hiddenQty.name = 'quantity';
+          hiddenQty.id = 'quantity';
+          hiddenQty.value = '1';
+          form.insertBefore(hiddenQty, form.firstChild);
+          console.log('✓ Created missing quantity input');
+        }
+        
+        // Verify form structure for Sesami
+        if (variantInput && quantityInput) {
+          // Ensure variant ID has a value
+          if (!variantInput.value) {
+            variantInput.value = '{{ product.selected_or_first_available_variant.id }}';
+          }
+          
+          // Ensure quantity has a value
+          if (!quantityInput.value || quantityInput.value < 1) {
+            quantityInput.value = '1';
+          }
+          
+          console.log('✓ Form data ready for Sesami:', {
+            formId: form.id,
+            formAction: form.action,
+            variantId: variantInput.value,
+            quantity: quantityInput.value,
+            variantInputName: variantInput.name,
+            quantityInputName: quantityInput.name
+          });
+          
+          // Verify Sesami can find the form
+          const sesamiComponent = form.querySelector('sesami-experience');
+          if (sesamiComponent) {
+            console.log('✓ Sesami component is inside the form');
+          } else {
+            console.warn('⚠️ Sesami component not found inside form');
+          }
+        } else {
+          console.error('❌ Form structure incomplete - Sesami cannot add to cart');
+        }
+      };
+      
+      // Detect mobile device
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                       (window.innerWidth <= 768);
+      
+      console.log('Device type:', isMobile ? 'Mobile' : 'Desktop');
+      
+      // Run immediately when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ensureSesamiFormAccess);
+      } else {
+        ensureSesamiFormAccess();
+      }
+      
+      // Also run after delays to ensure form is fully ready
+      // Mobile devices may need longer delays
+      const delays = isMobile ? [500, 1000, 2000, 3000] : [500, 1000];
+      delays.forEach(function(delay) {
+        setTimeout(ensureSesamiFormAccess, delay);
+      });
+      
+      // Monitor Sesami button state and form properties to debug booking properties
+      const observer = new MutationObserver(function(mutations) {
+        const sesamiButton = document.querySelector('.sesami-calendar');
+        if (sesamiButton) {
+          const isDisabled = sesamiButton.disabled;
+          const buttonText = sesamiButton.textContent.trim();
+          
+          if (isDisabled && (buttonText.includes('pm') || buttonText.includes('am'))) {
+            console.log('=== Sesami Booking Confirmed ===');
+            console.log('Selected time:', buttonText);
+            console.log('Variant ID:', document.getElementById('selected-variant-id')?.value);
+            console.log('Quantity:', document.getElementById('quantity')?.value || '1');
+            
+            // Check for Sesami hidden fields (booking properties)
+            const form = document.getElementById('product-form');
+            const hiddenFields = form.querySelectorAll('input[type="hidden"][name^="properties"]');
+            console.log('Booking properties in form:', hiddenFields.length);
+            hiddenFields.forEach(function(field) {
+              console.log('  -', field.name, '=', field.value);
+            });
+            
+            // Also check for Sesami's hidden fields wrapper (Sesami injects fields here)
+            const sesamiWrapper = form.querySelector('.sesami-hidden-fields-wrapper');
+            if (sesamiWrapper) {
+              const sesamiFields = sesamiWrapper.querySelectorAll('input[type="hidden"]');
+              console.log('Sesami hidden fields found:', sesamiFields.length);
+              sesamiFields.forEach(function(field) {
+                console.log('  -', field.name, '=', field.value);
+              });
+              
+              // Verify critical properties exist
+              const hasDate = Array.from(sesamiFields).some(f => f.name.includes('Date') && f.value);
+              const hasTime = Array.from(sesamiFields).some(f => f.name.includes('Time') && f.value);
+              
+              if (!hasDate || !hasTime) {
+                console.error('❌ Missing critical booking properties!');
+                console.error('Date property:', hasDate ? '✓' : '✗');
+                console.error('Time property:', hasTime ? '✓' : '✗');
+                console.error('This will cause the "No time slot selected" warning.');
+              } else {
+                console.log('✓ All critical booking properties present');
+              }
+            } else {
+              console.warn('⚠️ Sesami hidden fields wrapper not found in form!');
+              console.warn('Sesami may not have injected booking properties yet.');
+              console.warn('Waiting for Sesami to inject fields...');
+              
+              // Wait a bit and check again
+              setTimeout(function() {
+                const wrapper = form.querySelector('.sesami-hidden-fields-wrapper');
+                if (wrapper) {
+                  console.log('✓ Sesami wrapper found after delay');
+                } else {
+                  console.error('❌ Sesami wrapper still not found - properties may not be included');
+                }
+              }, 1000);
+            }
+            
+            console.log('Waiting for Sesami checkout redirect...');
+            
+            // Check if redirect happens within 3 seconds
+            setTimeout(function() {
+              if (window.location.pathname !== '/checkout' && window.location.pathname !== '/cart') {
+                console.warn('Sesami redirect not detected. Checking cart...');
+                // Verify if item was added to cart with properties
+                fetch('/cart.js')
+                  .then(response => response.json())
+                  .then(cart => {
+                    console.log('Current cart items:', cart.items.length);
+                    if (cart.items.length > 0) {
+                      const lastItem = cart.items[cart.items.length - 1];
+                      console.log('Last cart item properties:', lastItem.properties);
+                      
+                      if (!lastItem.properties || Object.keys(lastItem.properties).length === 0) {
+                        console.error('❌ Cart item has NO booking properties!');
+                        console.error('This is why Sesami shows the warning.');
+                        console.error('Sesami auto-add-to-cart may not be reading properties from form.');
+                        
+                        // Try to get properties from form and update cart item
+                        const form = document.getElementById('product-form');
+                        const sesamiWrapper = form.querySelector('.sesami-hidden-fields-wrapper');
+                        if (sesamiWrapper) {
+                          const properties = {};
+                          sesamiWrapper.querySelectorAll('input[type="hidden"]').forEach(function(field) {
+                            if (field.name && field.value) {
+                              // Convert properties[Date] to Date
+                              const propName = field.name.replace('properties[', '').replace(']', '');
+                              properties[propName] = field.value;
+                            }
+                          });
+                          
+                          if (Object.keys(properties).length > 0) {
+                            console.log('Found properties in form, attempting to update cart item...');
+                            // Update cart item with properties
+                            fetch('/cart/update.js', {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify({
+                                updates: {
+                                  [lastItem.key]: {
+                                    properties: properties
+                                  }
+                                }
+                              })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                              console.log('Cart item updated with properties:', data);
+                              // Redirect to checkout after update
+                              if (window.location.pathname !== '/checkout') {
+                                window.location.href = '/checkout';
+                              }
+                            })
+                            .catch(err => {
+                              console.error('Error updating cart item:', err);
+                            });
+                          }
+                        }
+                      } else {
+                        console.log('✓ Cart item has properties:', lastItem.properties);
+                        // Properties exist, redirect should happen
+                        if (window.location.pathname !== '/checkout') {
+                          console.warn('Item in cart with properties, but no redirect. Sesami skip-cart may not be working.');
+                          // Manually redirect if skip-cart isn't working
+                          setTimeout(function() {
+                            if (window.location.pathname !== '/checkout') {
+                              console.log('Manually redirecting to checkout...');
+                              window.location.href = '/checkout';
+                            }
+                          }, 2000);
+                        }
+                      }
+                    } else {
+                      console.error('No items in cart. Sesami auto-add-to-cart may have failed.');
+                    }
+                  })
+                  .catch(err => console.error('Error checking cart:', err));
+              }
+            }, 3000);
+          }
+        }
+      });
+      
+      // Observe Sesami component for changes
+      observer.observe(sesamiComponent, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['disabled', 'class']
+      });
+      
+      // Also observe the document for Sesami buttons (they might be in shadow DOM)
+      const buttonObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          mutation.addedNodes.forEach(function(node) {
+            if (node.nodeType === 1) { // Element node
+              if (node.classList && node.classList.contains('sesami-calendar')) {
+                console.log('Sesami button detected');
+              }
+              // Check children
+              const sesamiButtons = node.querySelectorAll && node.querySelectorAll('.sesami-calendar');
+              if (sesamiButtons && sesamiButtons.length > 0) {
+                console.log('Sesami buttons found:', sesamiButtons.length);
+              }
+            }
+          });
+        });
+      });
+      
+      buttonObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+      
+      // Intercept Sesami's cart add attempt and manually handle it if form data not found
+      // This is a fallback when Sesami's auto-add-to-cart fails
+      const handleSesamiCartAdd = function(bookingData) {
+        const form = document.getElementById('product-form');
+        if (!form) {
+          console.error('Form not found for manual cart add');
+          return;
+        }
+        
+        const variantInput = form.querySelector('input[name="id"]');
+        const quantityInput = form.querySelector('input[name="quantity"]');
+        const sesamiWrapper = form.querySelector('.sesami-hidden-fields-wrapper');
+        
+        if (!variantInput || !quantityInput) {
+          console.error('Missing variant or quantity input');
+          return;
+        }
+        
+        const variantId = variantInput.value;
+        const quantity = quantityInput.value || '1';
+        
+        // Get booking properties from Sesami hidden fields
+        const properties = {};
+        if (sesamiWrapper) {
+          sesamiWrapper.querySelectorAll('input[type="hidden"]').forEach(function(field) {
+            if (field.name && field.name.startsWith('properties[') && field.value) {
+              // Extract property name from properties[Date] format
+              const propMatch = field.name.match(/properties\[(.+)\]/);
+              if (propMatch && propMatch[1]) {
+                properties[propMatch[1]] = field.value;
+              }
+            }
+          });
+        }
+        
+        // Also check for properties directly in form
+        form.querySelectorAll('input[name^="properties["]').forEach(function(field) {
+          if (field.value) {
+            const propMatch = field.name.match(/properties\[(.+)\]/);
+            if (propMatch && propMatch[1]) {
+              properties[propMatch[1]] = field.value;
+            }
+          }
+        });
+        
+        // If bookingData is provided, use it
+        if (bookingData && typeof bookingData === 'object') {
+          Object.assign(properties, bookingData);
+        }
+        
+        console.log('Manual cart add with:', { variantId, quantity, properties });
+        
+        // Add to cart using Shopify Cart API
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: variantId,
+            quantity: parseInt(quantity),
+            properties: properties
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('✓ Item added to cart:', data);
+          // Redirect to checkout (skip-cart behavior)
+          window.location.href = '/checkout';
+        })
+        .catch(error => {
+          console.error('❌ Error adding to cart:', error);
+          alert('Error adding booking to cart. Please try again.');
+        });
+      };
+      
+      // Override console.error to catch Sesami's "form data not found" error
+      const originalConsoleError = console.error;
+      let errorHandled = false;
+      
+      console.error = function(...args) {
+        originalConsoleError.apply(console, args);
+        const errorMessage = args.join(' ');
+        if ((errorMessage.includes('form data not found') || errorMessage.includes('Couldn\'t add to cart')) && !errorHandled) {
+          errorHandled = true;
+          console.log('🔧 Sesami form data error detected on', isMobile ? 'mobile' : 'desktop');
+          console.log('🔧 Attempting manual cart add...');
+          // Mobile devices may need more time for Sesami to set properties
+          const waitTime = isMobile ? 2000 : 1000;
+          setTimeout(function() {
+            handleSesamiCartAdd();
+          }, waitTime);
+        }
+      };
+      
+      // Also listen for unhandled promise rejections (common on mobile)
+      window.addEventListener('unhandledrejection', function(event) {
+        const errorMessage = event.reason?.message || event.reason?.toString() || '';
+        if (errorMessage.includes('form data not found') || errorMessage.includes('Couldn\'t add to cart')) {
+          if (!errorHandled) {
+            errorHandled = true;
+            console.log('🔧 Sesami error via promise rejection on', isMobile ? 'mobile' : 'desktop');
+            const waitTime = isMobile ? 2000 : 1000;
+            setTimeout(function() {
+              handleSesamiCartAdd();
+            }, waitTime);
+          }
+        }
+      });
+      
+      // Monitor for Sesami button confirmation (when booking is selected)
+      // Use more aggressive monitoring on mobile
+      const checkInterval = isMobile ? 500 : 1000;
+      let lastButtonState = null;
+      
+      const checkSesamiButton = function() {
+        const sesamiButton = document.querySelector('.sesami-calendar');
+        if (sesamiButton) {
+          const currentState = {
+            disabled: sesamiButton.disabled,
+            text: sesamiButton.textContent.trim()
+          };
+          
+          // Check if button state changed to confirmed booking
+          if (currentState.disabled && 
+              (currentState.text.includes('pm') || currentState.text.includes('am')) &&
+              (!lastButtonState || !lastButtonState.disabled || lastButtonState.text !== currentState.text)) {
+            
+            console.log('📱 Sesami booking confirmed on', isMobile ? 'mobile' : 'desktop');
+            console.log('Selected time:', currentState.text);
+            
+            // Mobile devices may need more time for Sesami to process
+            const waitTime = isMobile ? 3000 : 2000;
+            
+            setTimeout(function() {
+              fetch('/cart.js')
+                .then(response => response.json())
+                .then(cart => {
+                  const variantId = parseInt(document.querySelector('input[name="id"]')?.value);
+                  const hasThisProduct = cart.items.some(item => 
+                    item.product_id === {{ product.id }} || 
+                    item.variant_id === variantId
+                  );
+                  
+                  if (!hasThisProduct) {
+                    console.log('❌ Product not in cart, Sesami auto-add failed');
+                    console.log('🔧 Using manual cart add fallback...');
+                    handleSesamiCartAdd();
+                  } else {
+                    console.log('✓ Product in cart, Sesami auto-add succeeded');
+                    // Check if redirect should happen
+                    if (window.location.pathname !== '/checkout') {
+                      const redirectDelay = isMobile ? 1000 : 500;
+                      setTimeout(function() {
+                        console.log('🔄 Redirecting to checkout...');
+                        window.location.href = '/checkout';
+                      }, redirectDelay);
+                    }
+                  }
+                })
+                .catch((error) => {
+                  console.error('Error checking cart:', error);
+                  // If cart check fails, try manual add
+                  handleSesamiCartAdd();
+                });
+            }, waitTime);
+          }
+          
+          lastButtonState = currentState;
+        }
+      };
+      
+      // Check immediately and then periodically
+      checkSesamiButton();
+      const buttonCheckInterval = setInterval(checkSesamiButton, checkInterval);
+      
+      // Also use MutationObserver as backup
+      const sesamiButtonObserver = new MutationObserver(function(mutations) {
+        checkSesamiButton();
+      });
+      
+      sesamiButtonObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['disabled', 'class']
+      });
+      
+      // Clean up interval when page unloads
+      window.addEventListener('beforeunload', function() {
+        clearInterval(buttonCheckInterval);
+      });
+      
+    } else {
+      // No Sesami - keep standard form handling (though Add to Cart button doesn't exist)
+      productForm.addEventListener('submit', function(e) {
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        if (!addToCartBtn) {
+          // No Add to Cart button, allow default
+          return true;
+        }
+        
+        // Only intercept if explicitly from Add to Cart button
+        if (e.submitter && e.submitter === addToCartBtn) {
+          e.preventDefault();
+          // Standard add to cart logic...
+        }
+      });
     }
   }
   

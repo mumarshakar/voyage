@@ -15,7 +15,7 @@ Shopify.formatMoney = function(cents, format) {
     formatString = "${{amount}}";
   }
 
-  function default and remove the cents.
+  // Format number with delimiters (thousands separator, decimal point)
   function formatWithDelimiters(number, precision, thousands, decimal) {
     precision = precision === undefined ? 2 : precision;
     thousands = thousands === undefined ? ',' : thousands;

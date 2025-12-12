@@ -51,6 +51,97 @@
     },
     {
       "type": "header",
+      "content": "Rich Text Styling"
+    },
+    {
+      "type": "range",
+      "id": "richtext_font_size",
+      "label": "Rich Text Font Size (px)",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "default": 16,
+      "unit": "px",
+      "info": "Font size for rich text content"
+    },
+    {
+      "type": "select",
+      "id": "richtext_font_weight",
+      "label": "Rich Text Font Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "richtext_text_color",
+      "label": "Rich Text Color",
+      "default": "#333333",
+      "info": "Text color for rich text content"
+    },
+    {
+      "type": "range",
+      "id": "richtext_line_height",
+      "label": "Rich Text Line Height",
+      "min": 1.0,
+      "max": 2.5,
+      "step": 0.1,
+      "default": 1.6,
+      "info": "Line height multiplier for rich text"
+    },
+    {
+      "type": "range",
+      "id": "richtext_letter_spacing",
+      "label": "Rich Text Letter Spacing (px)",
+      "min": -2,
+      "max": 5,
+      "step": 0.1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "richtext_word_spacing",
+      "label": "Rich Text Word Spacing (px)",
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "richtext_paragraph_spacing",
+      "label": "Paragraph Spacing (px)",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 16,
+      "unit": "px",
+      "info": "Margin bottom between paragraphs"
+    },
+    {
+      "type": "header",
       "content": "Link Styling"
     },
     {
@@ -378,6 +469,13 @@
   assign list_font_size = section.settings.list_font_size | default: 18
   assign list_font_weight = section.settings.list_font_weight | default: 400
   assign list_text_align = section.settings.list_text_align | default: 'justify'
+  assign richtext_font_size = section.settings.richtext_font_size | default: 16
+  assign richtext_font_weight = section.settings.richtext_font_weight | default: '400'
+  assign richtext_text_color = section.settings.richtext_text_color | default: '#333333'
+  assign richtext_line_height = section.settings.richtext_line_height | default: 1.6
+  assign richtext_letter_spacing = section.settings.richtext_letter_spacing | default: 0
+  assign richtext_word_spacing = section.settings.richtext_word_spacing | default: 0
+  assign richtext_paragraph_spacing = section.settings.richtext_paragraph_spacing | default: 16
   
   if background_overlay_opacity > 0
     assign overlay_opacity_decimal = background_overlay_opacity | divided_by: 100.0
@@ -427,7 +525,7 @@
           {{ html_content }}
         </div>
       {% elsif content_type == 'richtext' and text_content != blank %}
-        <div class="custom-text-body custom-text-richtext" style="margin: 0;">
+        <div class="custom-text-body custom-text-richtext" style="margin: 0; font-size: {{ richtext_font_size }}px; font-weight: {{ richtext_font_weight }}; color: {{ richtext_text_color }}; line-height: {{ richtext_line_height }}; letter-spacing: {{ richtext_letter_spacing }}px; word-spacing: {{ richtext_word_spacing }}px;">
           {{ text_content }}
         </div>
       {% endif %}
@@ -468,10 +566,31 @@
   }
   
   .custom-text-body p {
-    margin-bottom: 1rem;
+    margin-bottom: {{ richtext_paragraph_spacing }}px;
   }
   
   .custom-text-body p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .custom-text-richtext {
+    font-size: {{ richtext_font_size }}px !important;
+    font-weight: {{ richtext_font_weight }} !important;
+    color: {{ richtext_text_color }} !important;
+    line-height: {{ richtext_line_height }} !important;
+    letter-spacing: {{ richtext_letter_spacing }}px !important;
+    word-spacing: {{ richtext_word_spacing }}px !important;
+  }
+  
+  .custom-text-richtext * {
+    color: inherit;
+  }
+  
+  .custom-text-richtext p {
+    margin-bottom: {{ richtext_paragraph_spacing }}px;
+  }
+  
+  .custom-text-richtext p:last-child {
     margin-bottom: 0;
   }
   

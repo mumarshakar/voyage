@@ -33,6 +33,7 @@
     "button_hover_border_color": "#000000",
     "button_hover_border_style": "solid",
     "button_hover_border_width": 1,
+    "gtm_container_id": "GTM-N4WZZ5BZ",
     "sections": {
       "header": {
         "type": "header",
@@ -41,6 +42,8 @@
           "logo_line1": "Voyage BY",
           "logo_line2": "HYPE CLUB",
           "two_line_logo": false,
+          "logo_image_before_scroll": "shopify://shop_images/logog_white.png",
+          "logo_image_after_scroll": "shopify://shop_images/HYPE_LOGO_533581f3-40d7-4d3d-824a-c88b954f8ecc.png",
           "logo_width": 300,
           "logo_max_height": 100,
           "logo_font_size": 30,
@@ -135,56 +138,63 @@
       "footer": {
         "type": "footer",
         "blocks": {
-          "social_media_9hm9cC": {
-            "type": "social_media",
-            "settings": {
-              "platform": "facebook",
-              "social_url": "shopify://policies/privacy-policy"
-            }
-          },
-          "social_media_BWnBij": {
+          "social_media_nReDCV": {
             "type": "social_media",
             "settings": {
               "platform": "tiktok",
-              "social_url": "shopify://policies/privacy-policy"
+              "social_url": "https://tiktok.com",
+              "custom_icon_image": "shopify://shop_images/2.png",
+              "custom_icon_url": ""
             }
           },
-          "link_aPfRwU": {
-            "type": "link",
+          "social_media_CFHY8i": {
+            "type": "social_media",
             "settings": {
-              "link_text": "Privacy Policy",
-              "link_url": "shopify://policies/privacy-policy"
+              "platform": "whatsapp",
+              "social_url": "https://chat.whatsapp.com/LDceNECtoaJ3MIQvoQTUmP",
+              "custom_icon_image": "shopify://shop_images/1.png",
+              "custom_icon_url": ""
             }
           },
-          "link_WjphbE": {
+          "link_6CbD76": {
             "type": "link",
             "settings": {
               "link_text": "Terms & Conditions",
-              "link_url": "shopify://pages/data-sharing-opt-out"
+              "link_url": "shopify://pages/terms-conditions"
+            }
+          },
+          "link_MCEdKC": {
+            "type": "link",
+            "settings": {
+              "link_text": "Privacy Policy",
+              "link_url": "shopify://pages/privacy-policy"
             }
           },
           "social_media_6j8Lhr": {
             "type": "social_media",
             "settings": {
               "platform": "instagram",
-              "social_url": "https://www.instagram.com/thehypeclubofficial/?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr#"
+              "social_url": "https://www.instagram.com/thehypeclubofficial/?igsh=MTZsamp5eDN2MmVtdg%3D%3D&utm_source=qr#",
+              "custom_icon_image": "shopify://shop_images/3.png",
+              "custom_icon_url": ""
             }
           }
         },
         "block_order": [
-          "social_media_9hm9cC",
-          "social_media_BWnBij",
-          "link_aPfRwU",
-          "link_WjphbE",
+          "social_media_nReDCV",
+          "social_media_CFHY8i",
+          "link_6CbD76",
+          "link_MCEdKC",
           "social_media_6j8Lhr"
         ],
+        "custom_css": [],
         "settings": {
           "columns_desktop": 3,
           "columns_tablet": 2,
           "columns_mobile": 1,
           "footer_bg_color": "#f2f2f2",
           "footer_text_color": "#333333",
-          "footer_vertical_padding": 110,
+          "footer_vertical_padding": 120,
           "footer_horizontal_padding": 20,
           "footer_section_spacing": 30,
           "footer_heading_margin_bottom": 20,
@@ -205,7 +215,7 @@
           "newsletter_button_color": "#ffd700",
           "newsletter_button_text_color": "#ffffff",
           "newsletter_placeholder": "Your e-mail address",
-          "newsletter_input_bg_color": "#ffffff",
+          "newsletter_input_bg_color": "#f2f2f2",
           "newsletter_input_text_color": "#333333",
           "newsletter_input_placeholder_color": "#999999",
           "newsletter_input_border_radius": 4,
@@ -219,32 +229,36 @@
           "useful_links_heading": "Useful links",
           "useful_links_heading_font_size": 25,
           "useful_links_heading_font_weight": "600",
-          "footer_link_color": "#000000",
-          "footer_link_hover_color": "#333333",
+          "footer_link_color": "#333333",
+          "footer_link_hover_color": "#000000",
           "footer_link_font_size": 16,
           "footer_link_font_weight": "400",
           "footer_link_spacing": 12,
-          "footer_links_column_gap": 40,
+          "footer_links_column_gap": 50,
           "footer_font_family": "sans-serif",
           "social_icon_hover_opacity": 0.9,
           "social_icon_hover_lift": 2,
           "newsletter_button_hover_opacity": 0.9,
-          "footer_link_hover_opacity": 0.8,
-          "copyright_text": "© 2025 {{ shop.name }}. All rights reserved.",
-          "copyright_font_size": 18,
-          "copyright_text_color": "#666666",
-          "copyright_padding_top": 30,
-          "show_payment_icons": true,
-          "payment_icon_size": 48,
-          "payment_icon_gap": 10
+          "footer_link_hover_opacity": 0.8
         }
       }
     },
-    "content_for_index": []
+    "content_for_index": [],
+    "blocks": {
+      "6455419830187867978": {
+        "type": "shopify://apps/sesami-booking-app/blocks/app-embed/dc3b1344-0a53-477e-93d0-4b8a473ab587",
+        "disabled": false,
+        "settings": {
+          "enable_cart_verification": true
+        }
+      }
+    }
   },
   "platform_customizations": {
     "custom_css": [
-      "#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {display: flex; justify-content: center; position: relative !important; left: 250px !important;}"
+      "/* Base (mobile-first): centered, no left offset */#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {display: flex; justify-content: center; position: relative; left: 0; /* Reset for small screens */}",
+      " /* Tablet and above (≥768px) */@media (min-width: 768px) {#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {left: 120px; /* Adjust as needed */ }}",
+      " /* Desktop and above (≥1024px) */@media (min-width: 1024px) {#shopify-block-AMklodTJ6c0g4RTVad__sesami_booking_app_app_block_FN6T9d {left: 250px; /* Original left offset */ }}"
     ]
   }
 }
