@@ -131,7 +131,7 @@
         "swap_columns": true,
         "stack_on_mobile": true,
         "column_gap_horizontal": 20,
-        "column_gap_vertical": 5,
+        "column_gap_vertical": 20,
         "vertical_alignment": "center",
         "column1_content_type": "text",
         "column1_image_alt": "PILATES",
