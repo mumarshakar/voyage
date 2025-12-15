@@ -64,7 +64,7 @@
         "show_arrows": true,
         "show_dots": true,
         "transition_effect": "fade",
-        "slider_height_desktop": 90,
+        "slider_height_desktop": 95,
         "slider_height_mobile": 100,
         "content_alignment": "center",
         "content_max_width": 900,
