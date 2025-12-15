@@ -391,9 +391,9 @@
         "column1_video_muted": false,
         "column1_video_loop": false,
         "column1_video_controls": true,
-        "column1_heading": "SAUNA",
+        "column1_heading": "Contrast Therapy",
         "column1_subheading": "",
-        "column1_text": "<p>Deep heat therapy to relax muscles and improve circulation<br/>Supports detoxification and recovery<br/>Calms the nervous system and reduces stress<br/>Enhances breathwork and post-session relaxation<br/>Traditional, clean, minimal setting aligned with Voyage’s calm atmosphere</p>",
+        "column1_text": "<p>Deep heat therapy to relax muscles and improve circulation<br/>Supports detoxification and recovery<br/>Calms the nervous system and reduces stress<br/>Enhances breathwork and post-session relaxation<br/>Traditional, clean, minimal setting aligned with Voyage’s calm atmosphere</p><p>Reset your system with controlled cold exposure<br/>Boosts circulation, immunity and mental clarity<br/>Trains resilience and improves recovery<br/>Provides an immediate “wake-up” effect<br/>Optional guidance for first-timers</p>",
         "column1_button_text": "BOOK NOW",
         "column1_button_link": "shopify://products/contrast-therapy",
         "column1_text_alignment": "left",
@@ -442,6 +442,7 @@
     },
     "two_columns_Ejt7fX": {
       "type": "two-columns",
+      "disabled": true,
       "name": "Yoga & Movement Services",
       "settings": {
         "swap_columns": true,
