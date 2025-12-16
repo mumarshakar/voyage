@@ -256,6 +256,8 @@
                   {%- comment -%} Use custom icon image {%- endcomment -%}
                   <img src="{{ icon_image_src }}" 
                        alt="{{ platform | capitalize }} icon" 
+                       width="{{ social_icon_size }}"
+                       height="{{ social_icon_size }}"
                        class="social-icon-custom"
                        style="width: {{ social_icon_size }}px; height: {{ social_icon_size }}px; object-fit: contain; display: block; border-radius: {{ social_icon_border_radius }}px;">
                 {%- else -%}
@@ -348,17 +350,17 @@
             <div class="payment-icons-wrapper" style="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: {{ payment_icon_gap }}px;">
               <!-- Visa Icon -->
               <span class="payment-icon-wrapper" style="display: inline-block;">
-                <img src="https://cdn.shopify.com/s/files/1/0778/3818/8777/files/HYPE_Payment_Icon_8349ee45-9427-468a-8c84-03a3c6716b9b.jpg?v=1765181685" alt="Visa" class="payment-icon" style="height: {{ payment_icon_size }}px; width: auto; display: block;">
+                <img src="https://cdn.shopify.com/s/files/1/0778/3818/8777/files/HYPE_Payment_Icon_8349ee45-9427-468a-8c84-03a3c6716b9b.jpg?v=1765181685" alt="Visa" width="48" height="{{ payment_icon_size }}" class="payment-icon" style="height: {{ payment_icon_size }}px; width: 48px; display: block;">
               </span>
               
               <!-- Mastercard Icon -->
               <span class="payment-icon-wrapper" style="display: inline-block;">
-                <img src="https://cdn.shopify.com/s/files/1/0778/3818/8777/files/HYPE_Payment_Icon_2.jpg?v=1765181684" alt="Mastercard" class="payment-icon" style="height: {{ payment_icon_size }}px; width: auto; display: block;">
+                <img src="https://cdn.shopify.com/s/files/1/0778/3818/8777/files/HYPE_Payment_Icon_2.jpg?v=1765181684" alt="Mastercard" width="48" height="{{ payment_icon_size }}" class="payment-icon" style="height: {{ payment_icon_size }}px; width: 48px; display: block;">
               </span>
               
               <!-- American Express Icon -->
               <span class="payment-icon-wrapper" style="display: inline-block;">
-                <img src="https://cdn.shopify.com/s/files/1/0778/3818/8777/files/HYPE_Payment_Icon_3.jpg?v=1765181685" alt="American Express" class="payment-icon" style="height: {{ payment_icon_size }}px; width: auto; display: block;">
+                <img src="https://cdn.shopify.com/s/files/1/0778/3818/8777/files/HYPE_Payment_Icon_3.jpg?v=1765181685" alt="American Express" width="48" height="{{ payment_icon_size }}" class="payment-icon" style="height: {{ payment_icon_size }}px; width: 48px; display: block;">
               </span>
             </div>
           {% endif %}
