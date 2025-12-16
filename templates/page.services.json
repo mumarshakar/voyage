@@ -235,6 +235,7 @@
     },
     "two_columns_service_1": {
       "type": "two-columns",
+      "custom_css": [],
       "name": "Yoga & Movement Services",
       "settings": {
         "swap_columns": false,
