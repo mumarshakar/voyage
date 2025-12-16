@@ -454,6 +454,7 @@
     },
     "two_columns_Hx4ht3": {
       "type": "two-columns",
+      "disabled": true,
       "name": "Yoga & Movement Services",
       "settings": {
         "swap_columns": false,
@@ -519,6 +520,45 @@
         "section_padding_bottom": 80,
         "section_padding_horizontal": 20,
         "section_min_height": 400
+      }
+    },
+    "service_showcase_byQEb7": {
+      "type": "service-showcase",
+      "name": "Service Showcase",
+      "settings": {
+        "section_width_type": "container",
+        "swap_columns": false,
+        "column_gap": 40,
+        "column_gap_mobile": 30,
+        "reverse_columns_mobile": false,
+        "vertical_alignment": "center",
+        "image": "shopify://shop_images/Voyage_Hype_Sauna.heic",
+        "image_alt": "",
+        "image_link": "",
+        "image_fit": "cover",
+        "image_height": 500,
+        "image_column_bg_color": "",
+        "heading": "CONTRAST THERAPY",
+        "subheading": "",
+        "text_content": "{{ page.content }}{{ page.content }}",
+        "buy_now_button_text": "Buy Now",
+        "buy_now_button_link": "",
+        "text_alignment": "left",
+        "text_padding": 40,
+        "text_column_bg_color": "",
+        "heading_size": 36,
+        "subheading_size": 20,
+        "text_size": 16,
+        "heading_color": "#333333",
+        "text_color": "#333333",
+        "section_bg_color": "#FFFFFF",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "text_padding_mobile_top": 30,
+        "text_padding_mobile_bottom": 30,
+        "text_padding_mobile_left": 20,
+        "text_padding_mobile_right": 20
       }
     },
     "two_columns_Ejt7fX": {
@@ -712,6 +752,7 @@
     "two_columns_GMXwaj",
     "service_showcase_3kpXWQ",
     "two_columns_Hx4ht3",
+    "service_showcase_byQEb7",
     "two_columns_Ejt7fX",
     "two_columns_e7btXG",
     "custom_text_DcwPVR"
