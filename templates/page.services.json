@@ -233,8 +233,48 @@
         "list_text_align": "justify"
       }
     },
+    "service_showcase_agDm6B": {
+      "type": "service-showcase",
+      "name": "Service Showcase",
+      "settings": {
+        "section_width_type": "container",
+        "swap_columns": false,
+        "column_gap": 40,
+        "column_gap_mobile": 30,
+        "reverse_columns_mobile": false,
+        "vertical_alignment": "center",
+        "image": "shopify://shop_images/Matcha_Pilates.png",
+        "image_alt": "",
+        "image_link": "",
+        "image_fit": "cover",
+        "image_height": 500,
+        "image_column_bg_color": "",
+        "heading": "MATCHA & PILATES",
+        "subheading": "",
+        "text_content": "<p>Experience a low-impact, strength-building flow designed to open your body and restore balance. Each session focuses on core strength, stability, posture, and functional mobility, making it accessible for all levels — inclusive, calm, and intentionally paced. Guided by expert instructors who prioritise proper form, every movement leaves you feeling grounded, aligned, and energised, ready to carry that sense of wellbeing into your day.<br/></p>",
+        "buy_now_button_text": "Buy Now",
+        "buy_now_button_link": "shopify://products/meditation-mindfulness-session",
+        "text_alignment": "left",
+        "text_padding": 40,
+        "text_column_bg_color": "",
+        "heading_size": 36,
+        "subheading_size": 20,
+        "text_size": 16,
+        "heading_color": "#333333",
+        "text_color": "#333333",
+        "section_bg_color": "#FFFFFF",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "text_padding_mobile_top": 30,
+        "text_padding_mobile_bottom": 30,
+        "text_padding_mobile_left": 20,
+        "text_padding_mobile_right": 20
+      }
+    },
     "two_columns_service_1": {
       "type": "two-columns",
+      "disabled": true,
       "custom_css": [],
       "name": "Yoga & Movement Services",
       "settings": {
@@ -620,45 +660,6 @@
         "list_font_weight": 400,
         "list_text_align": "justify"
       }
-    },
-    "service_showcase_agDm6B": {
-      "type": "service-showcase",
-      "name": "Service Showcase",
-      "settings": {
-        "section_width_type": "container",
-        "swap_columns": false,
-        "column_gap": 40,
-        "column_gap_mobile": 30,
-        "reverse_columns_mobile": false,
-        "vertical_alignment": "center",
-        "image": "shopify://shop_images/Matcha_Pilates.png",
-        "image_alt": "",
-        "image_link": "",
-        "image_fit": "cover",
-        "image_height": 500,
-        "image_column_bg_color": "",
-        "heading": "MATCHA & PILATES",
-        "subheading": "",
-        "text_content": "<p>Experience a low-impact, strength-building flow designed to open your body and restore balance. Each session focuses on core strength, stability, posture, and functional mobility, making it accessible for all levels — inclusive, calm, and intentionally paced. Guided by expert instructors who prioritise proper form, every movement leaves you feeling grounded, aligned, and energised, ready to carry that sense of wellbeing into your day.<br/></p>",
-        "buy_now_button_text": "Buy Now",
-        "buy_now_button_link": "shopify://products/meditation-mindfulness-session",
-        "text_alignment": "left",
-        "text_padding": 40,
-        "text_column_bg_color": "",
-        "heading_size": 36,
-        "subheading_size": 20,
-        "text_size": 16,
-        "heading_color": "#333333",
-        "text_color": "#333333",
-        "section_bg_color": "#FFFFFF",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "padding_horizontal": 20,
-        "text_padding_mobile_top": 30,
-        "text_padding_mobile_bottom": 30,
-        "text_padding_mobile_left": 20,
-        "text_padding_mobile_right": 20
-      }
     }
   },
   "order": [
@@ -666,12 +667,12 @@
     "hero_section",
     "two_columns_QjVB8h",
     "custom_text_services_intro",
+    "service_showcase_agDm6B",
     "two_columns_service_1",
     "two_columns_GMXwaj",
     "two_columns_Hx4ht3",
     "two_columns_Ejt7fX",
     "two_columns_e7btXG",
-    "custom_text_DcwPVR",
-    "service_showcase_agDm6B"
+    "custom_text_DcwPVR"
   ]
 }
