@@ -545,7 +545,7 @@
         "buy_now_button_link": "shopify://products/contrast-therapy",
         "text_alignment": "left",
         "text_padding": 40,
-        "text_column_bg_color": "",
+        "text_column_bg_color": "#f8f7f5",
         "heading_size": 36,
         "subheading_size": 20,
         "text_size": 16,
