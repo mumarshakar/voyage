@@ -283,6 +283,74 @@
         "text_padding_mobile_left": 20,
         "text_padding_mobile_right": 20
       }
+    },
+    "full_width_slider_JrNEfA": {
+      "type": "full-width-slider",
+      "blocks": {
+        "slide_6TWxgR": {
+          "type": "slide",
+          "settings": {
+            "title": "Slide Title",
+            "subtitle": "Slide subtitle text",
+            "button_text": "Learn More",
+            "button_link": "",
+            "title_color": "#FFFFFF",
+            "subtitle_color": "#FFFFFF"
+          }
+        },
+        "slide_AV9Ucf": {
+          "type": "slide",
+          "settings": {
+            "title": "Slide Title",
+            "subtitle": "Slide subtitle text",
+            "button_text": "Learn More",
+            "button_link": "",
+            "title_color": "#FFFFFF",
+            "subtitle_color": "#FFFFFF"
+          }
+        },
+        "slide_DNTpKQ": {
+          "type": "slide",
+          "settings": {
+            "title": "Slide Title",
+            "subtitle": "Slide subtitle text",
+            "button_text": "Learn More",
+            "button_link": "",
+            "title_color": "#FFFFFF",
+            "subtitle_color": "#FFFFFF"
+          }
+        }
+      },
+      "block_order": [
+        "slide_6TWxgR",
+        "slide_AV9Ucf",
+        "slide_DNTpKQ"
+      ],
+      "name": "Full Width Slider",
+      "settings": {
+        "autoplay": false,
+        "autoplay_speed": 10,
+        "show_arrows": true,
+        "show_dots": true,
+        "transition_effect": "fade",
+        "slider_height_desktop": 80,
+        "slider_height_mobile": 70,
+        "content_alignment": "center",
+        "content_max_width": 800,
+        "overlay_color": "#000000",
+        "overlay_opacity": 40,
+        "button_bg_color": "#FF6B35",
+        "button_text_color": "#FFFFFF",
+        "button_padding_vertical": 14,
+        "button_padding_horizontal": 30,
+        "button_border_radius": 2,
+        "arrow_size": 50,
+        "arrow_color": "#FFFFFF",
+        "arrow_opacity": 80,
+        "dot_size": 12,
+        "dot_color": "#FFFFFF",
+        "dot_active_color": "#FF6B35"
+      }
     }
   },
   "order": [
@@ -292,6 +360,7 @@
     "service_showcase_6jVxcD",
     "service_showcase_UHyVBz",
     "service_showcase_3pkX9a",
-    "service_showcase_xhwYgD"
+    "service_showcase_xhwYgD",
+    "full_width_slider_JrNEfA"
   ]
 }
