@@ -65,6 +65,7 @@
     },
     "blocks_6CfPTP": {
       "type": "_blocks",
+      "disabled": true,
       "name": "Custom liquid",
       "settings": {}
     }
