@@ -62,17 +62,10 @@
         "sesami_shop_id": "77838188777",
         "sesami_service_id": "9122551726313"
       }
-    },
-    "blocks_6CfPTP": {
-      "type": "_blocks",
-      "disabled": true,
-      "name": "Custom liquid",
-      "settings": {}
     }
   },
   "order": [
     "hero_section_XNTJHK",
-    "product_info_x6LNAf",
-    "blocks_6CfPTP"
+    "product_info_x6LNAf"
   ]
 }
