@@ -381,7 +381,7 @@
       ],
       "name": "Full Width Slider",
       "settings": {
-        "autoplay": true,
+        "autoplay": false,
         "autoplay_speed": 5,
         "show_arrows": true,
         "show_dots": true,
