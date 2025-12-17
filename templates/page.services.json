@@ -299,7 +299,7 @@
         "text_size": 16,
         "heading_color": "#333333",
         "text_color": "#333333",
-        "section_bg_color": "#FFFFFF",
+        "section_bg_color": "#ffffff",
         "padding_top": 80,
         "padding_bottom": 80,
         "padding_horizontal": 20,
@@ -347,6 +347,45 @@
         "text_padding_mobile_left": 20,
         "text_padding_mobile_right": 20
       }
+    },
+    "service_showcase_tUtBcQ": {
+      "type": "service-showcase",
+      "name": "Service Showcase",
+      "settings": {
+        "section_width_type": "container",
+        "swap_columns": true,
+        "column_gap": 40,
+        "column_gap_mobile": 30,
+        "reverse_columns_mobile": false,
+        "vertical_alignment": "center",
+        "image": "shopify://shop_images/YogaServices.jpg",
+        "image_alt": "",
+        "image_link": "",
+        "image_fit": "cover",
+        "image_height": 500,
+        "image_column_bg_color": "",
+        "heading": "YOGA",
+        "subheading": "",
+        "text_content": "<p>jfhg</p>",
+        "buy_now_button_text": "Buy Now",
+        "buy_now_button_link": "shopify://products/yoga",
+        "text_alignment": "left",
+        "text_padding": 40,
+        "text_column_bg_color": "",
+        "heading_size": 36,
+        "subheading_size": 20,
+        "text_size": 16,
+        "heading_color": "#333333",
+        "text_color": "#333333",
+        "section_bg_color": "#FFFFFF",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "text_padding_mobile_top": 30,
+        "text_padding_mobile_bottom": 30,
+        "text_padding_mobile_left": 20,
+        "text_padding_mobile_right": 20
+      }
     }
   },
   "order": [
@@ -356,6 +395,7 @@
     "service_showcase_agDm6B",
     "service_showcase_3kpXWQ",
     "service_showcase_byQEb7",
-    "service_showcase_nYpGBK"
+    "service_showcase_nYpGBK",
+    "service_showcase_tUtBcQ"
   ]
 }
