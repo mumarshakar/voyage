@@ -143,7 +143,7 @@
         "image_link": "",
         "image_fit": "cover",
         "image_height": 500,
-        "image_column_bg_color": "",
+        "image_column_bg_color": "rgba(0,0,0,0)",
         "heading": "SPORTS MASSAGE",
         "subheading": "",
         "text_content": "<p>Targeted recovery designed to release tension and improve mobility, this experience supports muscle repair, flexibility, and long-term movement quality. Ideal for athletes, active individuals, or anyone carrying physical stress, each session is delivered by licensed professionals and seamlessly complements all Voyage movement offerings—helping you feel restored, balanced, and more connected to your body.</p>",
