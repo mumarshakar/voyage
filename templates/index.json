@@ -54,7 +54,7 @@
       "type": "service-showcase",
       "name": "Service Showcase",
       "settings": {
-        "section_width_type": "container",
+        "section_width_type": "full_width",
         "swap_columns": false,
         "column_gap": 40,
         "column_gap_mobile": 30,
