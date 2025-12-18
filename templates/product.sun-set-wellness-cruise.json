@@ -25,7 +25,7 @@
         "background_type": "image",
         "image_source_type": "upload",
         "background_image": "shopify://shop_images/sunset.png",
-        "background_image_mobile": "{{ product.featured_image }}",
+        "background_image_mobile": "shopify://shop_images/sunset.png",
         "background_image_desktop_url": "",
         "background_image_mobile_url": "",
         "video_source_type": "upload",
