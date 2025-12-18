@@ -95,36 +95,12 @@
     "17653614626021cda3": {
       "type": "_blocks",
       "settings": {}
-    },
-    "product_main_RLAM4B": {
-      "type": "product-main",
-      "name": "Product Main",
-      "settings": {
-        "show_thumbnails": true,
-        "show_vendor": false,
-        "show_sku": false,
-        "show_quantity_selector": true,
-        "enable_dynamic_checkout": false,
-        "section_height_desktop": 600,
-        "section_height_mobile": 400,
-        "padding_top_desktop": 60,
-        "padding_bottom_desktop": 60,
-        "padding_horizontal_desktop": 20,
-        "margin_top_desktop": 0,
-        "margin_bottom_desktop": 0,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "padding_horizontal_mobile": 20,
-        "margin_top_mobile": 0,
-        "margin_bottom_mobile": 0
-      }
     }
   },
   "order": [
     "hero_section_BRfpTm",
     "176363517991952302",
     "product_info_PQxDb6",
-    "17653614626021cda3",
-    "product_main_RLAM4B"
+    "17653614626021cda3"
   ]
 }
