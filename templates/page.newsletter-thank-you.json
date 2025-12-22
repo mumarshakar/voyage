@@ -1,0 +1,71 @@
+{
+  "sections": {
+    "hero_section_thank_you": {
+      "type": "hero-section",
+      "name": "Hero Section",
+      "settings": {
+        "title": "Thank You!",
+        "subtitle": "You've successfully signed up for our newsletter.",
+        "button_text": "",
+        "button_link": "",
+        "button_2_text": "",
+        "button_2_link": "",
+        "background_type": "color",
+        "image_source_type": "upload",
+        "background_image": "",
+        "background_image_desktop_url": "",
+        "background_image_mobile_url": "",
+        "video_source_type": "upload",
+        "background_video_desktop_url": "",
+        "background_video_mobile_url": "",
+        "video_autoplay": false,
+        "video_muted": false,
+        "hero_height": 50,
+        "hero_height_mobile": 40,
+        "background_position": "center",
+        "background_size": "cover",
+        "title_color": "#8B6F47",
+        "subtitle_color": "#333333",
+        "title_position_top": 20,
+        "text_alignment": "center",
+        "button_position_bottom": 15,
+        "overlay_color": "#333333",
+        "overlay_opacity": 0,
+        "padding_top": 100,
+        "padding_bottom": 50,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "custom_text_thank_you": {
+      "type": "custom-text",
+      "name": "Thank You Message",
+      "settings": {
+        "heading": "Thank You for Signing Up!",
+        "subheading": "",
+        "content_type": "richtext",
+        "text_content": "<p>We're excited to have you join our community! You'll receive exclusive offers and discount coupons delivered straight to your email address.</p><p>Keep an eye on your inbox for special deals and wellness tips.</p>",
+        "html_content": "",
+        "text_alignment": "center",
+        "content_max_width": 800,
+        "background_color": "#ffffff",
+        "background_image": "",
+        "background_size": "cover",
+        "background_overlay_opacity": 0,
+        "padding_top": 40,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "heading_margin_bottom": 20,
+        "subheading_margin_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "hero_section_thank_you",
+    "custom_text_thank_you"
+  ]
+}
+

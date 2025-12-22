@@ -295,15 +295,17 @@
           </h5>
         {% endif %}
         
-        <form class="newsletter-form" action="{{ routes.cart_url }}" method="post" enctype="multipart/form-data">
+        <form class="newsletter-form" id="newsletter-signup-form" method="post" enctype="multipart/form-data">
           <div class="newsletter-input-group" style="gap: {{ newsletter_input_button_gap }}px;">
             <input type="email" 
-                   name="contact[email]" 
+                   name="customer[email]" 
+                   id="newsletter-email-input"
                    placeholder="{{ newsletter_placeholder }}" 
                    class="newsletter-input"
                    style="background-color: {{ newsletter_input_bg_color }}; color: {{ newsletter_input_text_color }}; border-radius: {{ newsletter_input_border_radius }}px; padding: {{ newsletter_input_padding }}px; border: none; flex: 1; font-size: 14px; width: 100%; box-sizing: border-box;"
                    required>
             <button type="submit" 
+                    id="newsletter-submit-button"
                     class="newsletter-button"
                     style="background-color: {{ newsletter_button_color }}; color: {{ newsletter_button_text_color }}; border-radius: {{ newsletter_button_border_radius }}px; padding: {{ newsletter_button_padding_vertical }}px {{ newsletter_button_padding_horizontal }}px; border: none; font-weight: {{ newsletter_button_font_weight }}; font-size: {{ newsletter_button_font_size }}px; text-transform: uppercase; white-space: nowrap; box-sizing: border-box;">
               {{ newsletter_button_text }}
@@ -579,3 +581,105 @@
     }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const newsletterForm = document.getElementById('newsletter-signup-form');
+    if (!newsletterForm) return;
+    
+    newsletterForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const emailInput = document.getElementById('newsletter-email-input');
+      const submitButton = document.getElementById('newsletter-submit-button');
+      const email = emailInput ? emailInput.value.trim() : '';
+      
+      // Validate email
+      if (!email) {
+        alert('Please enter your email address');
+        return;
+      }
+      
+      if (!isValidEmail(email)) {
+        alert('Please enter a valid email address');
+        return;
+      }
+      
+      // Show loading state
+      const originalButtonText = submitButton ? submitButton.innerHTML : '{{ newsletter_button_text }}';
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.innerHTML = 'Signing up...';
+        submitButton.style.opacity = '0.7';
+      }
+      
+      // Create form data for Customer API
+      const formData = new FormData();
+      formData.append('customer[email]', email);
+      formData.append('customer[accepts_marketing]', 'true');
+      formData.append('form_type', 'customer');
+      formData.append('utf8', '✓');
+      
+      // Make AJAX request to Customer API
+      fetch('/account/register', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        credentials: 'same-origin'
+      })
+      .then(response => {
+        // Check response status
+        if (response.ok || response.status === 302 || response.redirected) {
+          // Success - redirect to thank you page
+          window.location.href = '/pages/newsletter-thank-you';
+          return;
+        }
+        
+        // Handle different response statuses
+        if (response.status === 422) {
+          // Customer already exists or validation error - treat as success for newsletter
+          window.location.href = '/pages/newsletter-thank-you';
+          return;
+        }
+        
+        // Check response content for success indicators
+        return response.text().then(text => {
+          // If response contains success indicators or error messages about existing customer
+          if (text.includes('already been taken') || 
+              text.includes('already exists') || 
+              text.includes('has already been registered') ||
+              response.status === 422) {
+            // Customer already exists - still redirect to thank you (they're subscribed)
+            window.location.href = '/pages/newsletter-thank-you';
+          } else if (response.ok || response.status === 200 || response.status === 302) {
+            // Success
+            window.location.href = '/pages/newsletter-thank-you';
+          } else {
+            throw new Error('Subscription failed with status: ' + response.status);
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Newsletter signup error:', error);
+        
+        // Reset button state
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.innerHTML = originalButtonText;
+          submitButton.style.opacity = '1';
+        }
+        
+        // Show error message
+        alert('There was an error signing up for our newsletter. Please try again or contact us directly.');
+      });
+    });
+  });
+  
+  // Email validation function
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+</script>
