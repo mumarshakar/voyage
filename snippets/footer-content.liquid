@@ -614,55 +614,91 @@
       }
       
       // Create form data for Customer API
-      const formData = new FormData();
-      formData.append('customer[email]', email);
-      formData.append('customer[accepts_marketing]', 'true');
-      formData.append('form_type', 'customer');
-      formData.append('utf8', '✓');
+      // Using customer creation with accepts_marketing for newsletter subscription
+      const customerData = new FormData();
+      customerData.append('customer[email]', email);
+      customerData.append('customer[password]', generateRandomPassword());
+      customerData.append('customer[accepts_marketing]', 'true');
+      customerData.append('form_type', 'customer');
+      customerData.append('utf8', '✓');
+      
+      // Get CSRF token if available (Shopify may require this)
+      const csrfToken = document.querySelector('meta[name="csrf-token"]');
+      if (csrfToken) {
+        customerData.append('authenticity_token', csrfToken.getAttribute('content'));
+      }
+      
+      // Also try to get token from form if available
+      const existingForm = document.querySelector('form[action*="/account/register"]');
+      if (existingForm) {
+        const formToken = existingForm.querySelector('input[name="authenticity_token"]');
+        if (formToken && !csrfToken) {
+          customerData.append('authenticity_token', formToken.value);
+        }
+      }
       
       // Make AJAX request to Customer API
       fetch('/account/register', {
         method: 'POST',
-        body: formData,
+        body: customerData,
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
         },
-        credentials: 'same-origin'
+        credentials: 'same-origin',
+        redirect: 'manual' // Don't follow redirects automatically
       })
       .then(response => {
-        // Check response status
-        if (response.ok || response.status === 302 || response.redirected) {
-          // Success - redirect to thank you page
+        const status = response.status;
+        console.log('Newsletter signup response status:', status);
+        
+        // Success cases: 200, 201, 302 (redirect)
+        if (response.ok || status === 302 || status === 201) {
+          console.log('Newsletter signup successful');
           window.location.href = '/pages/newsletter-thank-you';
           return;
         }
         
-        // Handle different response statuses
-        if (response.status === 422) {
-          // Customer already exists or validation error - treat as success for newsletter
+        // 422 = validation error (usually customer already exists)
+        // For newsletter, this is still success - they're already in the system
+        if (status === 422) {
+          console.log('Customer already exists - treating as success');
           window.location.href = '/pages/newsletter-thank-you';
           return;
         }
         
-        // Check response content for success indicators
+        // For other statuses, check response content
         return response.text().then(text => {
-          // If response contains success indicators or error messages about existing customer
+          console.log('Newsletter signup response text (first 500 chars):', text.substring(0, 500));
+          
+          // Check for success indicators
           if (text.includes('already been taken') || 
               text.includes('already exists') || 
               text.includes('has already been registered') ||
-              response.status === 422) {
-            // Customer already exists - still redirect to thank you (they're subscribed)
+              text.includes('Thank you') ||
+              status === 422) {
+            // Customer already exists - still success
+            console.log('Customer exists - redirecting to thank you page');
             window.location.href = '/pages/newsletter-thank-you';
-          } else if (response.ok || response.status === 200 || response.status === 302) {
+          } else if (response.ok || status === 200 || status === 201 || status === 302) {
             // Success
             window.location.href = '/pages/newsletter-thank-you';
           } else {
-            throw new Error('Subscription failed with status: ' + response.status);
+            // Log detailed error
+            console.error('Newsletter signup failed:', {
+              status: status,
+              statusText: response.statusText,
+              responsePreview: text.substring(0, 500)
+            });
+            throw new Error('Subscription failed with status: ' + status);
           }
         });
       })
       .catch(error => {
         console.error('Newsletter signup error:', error);
+        console.error('Error details:', {
+          message: error.message,
+          stack: error.stack
+        });
         
         // Reset button state
         if (submitButton) {
@@ -671,7 +707,7 @@
           submitButton.style.opacity = '1';
         }
         
-        // Show error message
+        // Show user-friendly error message
         alert('There was an error signing up for our newsletter. Please try again or contact us directly.');
       });
     });
@@ -681,5 +717,17 @@
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  }
+  
+  // Generate a random password for newsletter-only customers
+  // They won't need to log in, this is just for account creation
+  function generateRandomPassword() {
+    const length = 16;
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      password += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    return password;
   }
 </script>
