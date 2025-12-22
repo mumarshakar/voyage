@@ -147,33 +147,3 @@
   </form>
 {% endif %}
 </div>
-
-{% schema %}
-{
-  "name": "Product Details",
-  "settings": [
-    {
-      "type": "checkbox",
-      "id": "show_vendor",
-      "label": "Show Vendor",
-      "default": false,
-      "info": "Display the product vendor name"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_sku",
-      "label": "Show SKU",
-      "default": false,
-      "info": "Display the product SKU"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_quantity_selector",
-      "label": "Show Quantity Selector",
-      "default": true,
-      "info": "Allow customers to select quantity before adding to cart"
-    }
-  ]
-}
-{% endschema %}
-
