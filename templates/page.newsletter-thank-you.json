@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "newsletter_thank_you": {
+      "type": "newsletter-thank-you",
+      "name": "Newsletter Thank You",
+      "settings": {
+        "heading": "Thank You for Subscribing!",
+        "message": "<p>We're thrilled to have you join our community! You've been successfully subscribed to our newsletter.</p><p>Stay tuned for exclusive offers, special discounts, and the latest updates delivered straight to your inbox. We'll be sending you exciting deals and promotions soon.</p><p>Check your email inbox for a confirmation message. If you don't see it, please check your spam folder.</p>",
+        "button_text": "Continue Shopping",
+        "button_link": "/"
+      }
+    }
+  },
+  "order": [
+    "newsletter_thank_you"
+  ]
+}
+

@@ -395,37 +395,13 @@
         buyNowBtn.disabled = true;
         buyNowBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
         
-        fetch('/cart/add.js', {
+        fetch('{{ routes.cart_add_url }}', {
           method: 'POST',
           body: formData
         })
-        .then(response => {
-          // Check if response is OK
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          
-          // Check content type
-          const contentType = response.headers.get('content-type');
-          if (!contentType || !contentType.includes('application/json')) {
-            return response.text().then(text => {
-              // If it's HTML, it's an error page
-              if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
-                throw new Error('Server returned HTML instead of JSON');
-              }
-              // Try to parse as JSON anyway
-              try {
-                return JSON.parse(text);
-              } catch (e) {
-                throw new Error('Response is not valid JSON');
-              }
-            });
-          }
-          
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-          if (data && (data.id || data.items)) {
+          if (data.id) {
             // Success - redirect directly to checkout
             window.location.href = '{{ routes.cart_url }}?view=checkout';
           } else {
@@ -433,10 +409,8 @@
             buyNowBtn.disabled = false;
             buyNowBtn.innerHTML = originalText;
             
-            if (data && data.description) {
+            if (data.description) {
               alert('Error: ' + data.description);
-            } else if (data && data.message) {
-              alert('Error: ' + data.message);
             } else {
               alert('There was an error processing your order. Please try again.');
             }

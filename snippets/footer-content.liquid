@@ -295,21 +295,44 @@
           </h5>
         {% endif %}
         
-        <form class="newsletter-form" action="{{ routes.cart_url }}" method="post" enctype="multipart/form-data">
+        {% form 'customer', class: 'newsletter-form', id: 'newsletter-signup-form' %}
           <div class="newsletter-input-group" style="gap: {{ newsletter_input_button_gap }}px;">
             <input type="email" 
                    name="contact[email]" 
+                   id="newsletter-email"
                    placeholder="{{ newsletter_placeholder }}" 
                    class="newsletter-input"
                    style="background-color: {{ newsletter_input_bg_color }}; color: {{ newsletter_input_text_color }}; border-radius: {{ newsletter_input_border_radius }}px; padding: {{ newsletter_input_padding }}px; border: none; flex: 1; font-size: 14px; width: 100%; box-sizing: border-box;"
-                   required>
+                   required
+                   value="{% if form.email %}{{ form.email }}{% endif %}">
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input type="hidden" name="contact[accepts_marketing]" value="true">
             <button type="submit" 
                     class="newsletter-button"
                     style="background-color: {{ newsletter_button_color }}; color: {{ newsletter_button_text_color }}; border-radius: {{ newsletter_button_border_radius }}px; padding: {{ newsletter_button_padding_vertical }}px {{ newsletter_button_padding_horizontal }}px; border: none; font-weight: {{ newsletter_button_font_weight }}; font-size: {{ newsletter_button_font_size }}px; text-transform: uppercase; white-space: nowrap; box-sizing: border-box;">
               {{ newsletter_button_text }}
             </button>
           </div>
-        </form>
+          
+          {% if form.posted_successfully? %}
+            <div class="newsletter-success-message" style="margin-top: 10px; color: #28a745; font-size: 14px; padding: 8px; background-color: #d4edda; border-radius: 4px;">
+              Thank you for subscribing! Redirecting...
+            </div>
+            <script>
+              setTimeout(function() {
+                window.location.href = '/pages/newsletter-thank-you';
+              }, 1500);
+            </script>
+          {% endif %}
+          
+          {% if form.errors %}
+            <div class="newsletter-error-message" style="margin-top: 10px; color: #dc3545; font-size: 14px; padding: 8px; background-color: #f8d7da; border-radius: 4px;">
+              {% for field in form.errors %}
+                <p style="margin: 0;">{{ form.errors[field] }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endform %}
       </div>
 
       <!-- Useful Links Section -->

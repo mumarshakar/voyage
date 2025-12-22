@@ -1,0 +1,79 @@
+<div class="newsletter-thank-you-section" style="padding: 80px 20px; text-align: center; max-width: 700px; margin: 0 auto; min-height: 60vh; display: flex; flex-direction: column; justify-content: center;">
+  <div class="thank-you-icon" style="font-size: 80px; color: #FFD700; margin-bottom: 30px; line-height: 1;">
+    ✓
+  </div>
+  
+  <h1 style="font-size: 42px; margin-bottom: 25px; color: #333; font-weight: 600; line-height: 1.2;">
+    {{ section.settings.heading | default: "Thank You for Subscribing!" }}
+  </h1>
+  
+  <div class="thank-you-message" style="font-size: 18px; color: #666; line-height: 1.8; margin-bottom: 50px;">
+    {{ section.settings.message }}
+  </div>
+  
+  {% if section.settings.button_text != blank %}
+    <a href="{{ section.settings.button_link | default: '/' }}" 
+       class="newsletter-thank-you-button"
+       style="display: inline-block; background-color: #FFD700; color: #FFFFFF; padding: 14px 32px; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 16px; text-transform: uppercase; transition: opacity 0.3s ease; letter-spacing: 0.5px;">
+      {{ section.settings.button_text }}
+    </a>
+  {% endif %}
+</div>
+
+<style>
+  .newsletter-thank-you-button:hover {
+    opacity: 0.9;
+  }
+  
+  @media (max-width: 768px) {
+    .newsletter-thank-you-section h1 {
+      font-size: 32px !important;
+    }
+    
+    .newsletter-thank-you-section .thank-you-message {
+      font-size: 16px !important;
+    }
+    
+    .newsletter-thank-you-section .thank-you-icon {
+      font-size: 60px !important;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Newsletter Thank You",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Thank You for Subscribing!"
+    },
+    {
+      "type": "richtext",
+      "id": "message",
+      "label": "Message",
+      "default": "<p>We're thrilled to have you join our community! You've been successfully subscribed to our newsletter.</p><p>Stay tuned for exclusive offers, special discounts, and the latest updates delivered straight to your inbox. We'll be sending you exciting deals and promotions soon.</p><p>Check your email inbox for a confirmation message. If you don't see it, please check your spam folder.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Continue Shopping"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Thank You"
+    }
+  ]
+}
+{% endschema %}
+
