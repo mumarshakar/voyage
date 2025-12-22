@@ -1,13 +1,20 @@
 {
   "sections": {
     "newsletter_thank_you": {
-      "type": "newsletter-thank-you",
+      "type": "custom-text",
       "name": "Newsletter Thank You",
       "settings": {
         "heading": "Thank You for Subscribing!",
-        "message": "<p>We're thrilled to have you join our community! You've been successfully subscribed to our newsletter.</p><p>Stay tuned for exclusive offers, special discounts, and the latest updates delivered straight to your inbox. We'll be sending you exciting deals and promotions soon.</p><p>Check your email inbox for a confirmation message. If you don't see it, please check your spam folder.</p>",
-        "button_text": "Continue Shopping",
-        "button_link": "/"
+        "subheading": "",
+        "content_type": "html",
+        "text_content": "",
+        "html_content": "<div style=\"padding: 80px 20px; text-align: center; max-width: 700px; margin: 0 auto; min-height: 60vh; display: flex; flex-direction: column; justify-content: center;\"><div style=\"font-size: 80px; color: #FFD700; margin-bottom: 30px; line-height: 1;\">✓</div><h1 style=\"font-size: 42px; margin-bottom: 25px; color: #333; font-weight: 600; line-height: 1.2;\">Thank You for Subscribing!</h1><div style=\"font-size: 18px; color: #666; line-height: 1.8; margin-bottom: 50px;\"><p>We're thrilled to have you join our community! You've been successfully subscribed to our newsletter.</p><p>Stay tuned for exclusive offers, special discounts, and the latest updates delivered straight to your inbox. We'll be sending you exciting deals and promotions soon.</p><p>Check your email inbox for a confirmation message. If you don't see it, please check your spam folder.</p></div><a href=\"/\" style=\"display: inline-block; background-color: #FFD700; color: #FFFFFF; padding: 14px 32px; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 16px; text-transform: uppercase; transition: opacity 0.3s ease; letter-spacing: 0.5px;\">Continue Shopping</a></div>",
+        "text_alignment": "center",
+        "content_max_width": 700,
+        "background_color": "#ffffff",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_horizontal": 20
       }
     }
   },
