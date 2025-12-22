@@ -1,0 +1,70 @@
+{%- liquid
+  assign media_gallery = media_gallery | default: ''
+  assign product_details = product_details | default: ''
+  assign additional_blocks = additional_blocks | default: ''
+  assign desktop_media_position = settings.desktop_media_position | default: 'left'
+  assign swap_columns_mobile = settings.swap_columns_mobile | default: false
+  assign padding_top_desktop = settings.padding_top_desktop | default: 60
+  assign padding_bottom_desktop = settings.padding_bottom_desktop | default: 60
+  assign padding_horizontal_desktop = settings.padding_horizontal_desktop | default: 20
+  assign margin_top_desktop = settings.margin_top_desktop | default: 0
+  assign margin_bottom_desktop = settings.margin_bottom_desktop | default: 0
+  assign padding_top_mobile = settings.padding_top_mobile | default: 40
+  assign padding_bottom_mobile = settings.padding_bottom_mobile | default: 40
+  assign padding_horizontal_mobile = settings.padding_horizontal_mobile | default: 20
+  assign margin_top_mobile = settings.margin_top_mobile | default: 0
+  assign margin_bottom_mobile = settings.margin_bottom_mobile | default: 0
+  assign section_height_desktop = settings.section_height_desktop | default: 600
+  assign section_height_mobile = settings.section_height_mobile | default: 400
+-%}
+
+<div class="product-main-section" style="padding-top: {{ padding_top_desktop }}px; padding-bottom: {{ padding_bottom_desktop }}px; padding-left: {{ padding_horizontal_desktop }}px; padding-right: {{ padding_horizontal_desktop }}px; margin-top: {{ margin_top_desktop }}px; margin-bottom: {{ margin_bottom_desktop }}px;">
+  <div class="container">
+    <div class="row g-5 align-items-start {% if swap_columns_mobile %}flex-column-reverse flex-lg-row{% endif %}">
+      <!-- Product Images Column -->
+      <div class="col-lg-6 {% if desktop_media_position == 'right' %}order-lg-2{% endif %}">
+        {{ media_gallery }}
+      </div>
+
+      <!-- Product Info Column -->
+      <div class="col-lg-6 {% if desktop_media_position == 'right' %}order-lg-1{% endif %}">
+        {{ product_details }}
+      </div>
+    </div>
+    
+    <!-- Additional Blocks (App Embeds, etc.) -->
+    {% if additional_blocks != blank %}
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="product-additional-blocks">
+            {{ additional_blocks }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  @media (max-width: 991px) {
+    .product-main-section {
+      padding-top: {{ padding_top_mobile }}px !important;
+      padding-bottom: {{ padding_bottom_mobile }}px !important;
+      padding-left: {{ padding_horizontal_mobile }}px !important;
+      padding-right: {{ padding_horizontal_mobile }}px !important;
+      margin-top: {{ margin_top_mobile }}px !important;
+      margin-bottom: {{ margin_bottom_mobile }}px !important;
+      min-height: {{ section_height_mobile }}px !important;
+      height: {{ section_height_mobile }}px !important;
+    }
+  }
+  
+  /* Desktop: Section Height and Spacing */
+  @media (min-width: 992px) {
+    .product-main-section {
+      min-height: {{ section_height_desktop }}px !important;
+      height: {{ section_height_desktop }}px !important;
+    }
+  }
+</style>
+
