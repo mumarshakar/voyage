@@ -26,11 +26,11 @@
   
   for block in section.blocks
     case block.type
-      when '_product-media-gallery'
+      when 'product-media-gallery'
         capture media_gallery_content
           render block
         endcapture
-      when '_product-details'
+      when 'product-details'
         capture product_details_content
           render block
         endcapture
@@ -284,11 +284,11 @@
       "type": "@app"
     },
     {
-      "type": "_product-media-gallery",
+      "type": "product-media-gallery",
       "name": "Product Media Gallery"
     },
     {
-      "type": "_product-details",
+      "type": "product-details",
       "name": "Product Details"
     }
   ],
@@ -461,10 +461,10 @@
       "name": "Product Main",
       "blocks": [
         {
-          "type": "_product-media-gallery"
+          "type": "product-media-gallery"
         },
         {
-          "type": "_product-details"
+          "type": "product-details"
         }
       ]
     }
