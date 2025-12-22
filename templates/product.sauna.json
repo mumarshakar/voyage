@@ -138,7 +138,7 @@
         "desktop_media_position": "left",
         "swap_columns_mobile": false,
         "section_height_desktop": 800,
-        "section_height_mobile": 400,
+        "section_height_mobile": 1000,
         "padding_top_desktop": 60,
         "padding_bottom_desktop": 60,
         "padding_horizontal_desktop": 20,
