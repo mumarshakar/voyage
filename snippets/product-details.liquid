@@ -37,7 +37,7 @@
   </div>
 {% endif %}
 
-{%- comment -%} Render additional blocks before the form (text, richtext, app embeds, etc.) {%- endcomment -%}
+{%- comment -%} Render app embeds and other blocks before the form {%- endcomment -%}
 {%- liquid
   assign product_details_block_id = block.id
   assign found_product_details = false
