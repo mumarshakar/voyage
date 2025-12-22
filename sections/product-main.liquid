@@ -241,18 +241,42 @@
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
         },
-        credentials: 'same-origin'
+        credentials: 'same-origin',
+        redirect: 'follow'
       })
       .then(response => {
         // Check content type
-        const contentType = response.headers.get('content-type');
+        const contentType = response.headers.get('content-type') || '';
+        const url = response.url || '';
         
-        // If response is HTML, it's likely an error page or redirect
-        if (contentType && contentType.includes('text/html')) {
+        // If response URL contains 'cart', it's likely a successful redirect
+        if (url.includes('/cart') || url.includes('cart')) {
+          return { success: true, redirected: true, url: url };
+        }
+        
+        // If response is HTML, check if it's the cart page (success) or error page
+        if (contentType.includes('text/html')) {
           return response.text().then(html => {
-            // Try to extract error message from HTML if possible
+            // Extract title to check
+            const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+            const title = titleMatch ? titleMatch[1].toLowerCase() : '';
+            
+            // Check if it's the cart page (success case)
+            const cartIndicators = ['cart', 'shopping cart', 'your cart', 'your shopping cart'];
+            const isCartPage = cartIndicators.some(indicator => 
+              title.includes(indicator) || 
+              html.toLowerCase().includes(indicator)
+            );
+            
+            if (isCartPage) {
+              // This is a successful redirect to cart page
+              return { success: true, redirected: true, html: true };
+            }
+            
+            // Try to extract error message from HTML if it's an error page
             const errorMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i) || 
-                              html.match(/error[^>]*>([^<]+)/i);
+                              html.match(/error[^>]*>([^<]+)/i) ||
+                              html.match(/alert[^>]*>([^<]+)/i);
             const errorMsg = errorMatch ? errorMatch[1] : 'Server returned an error page';
             throw new Error(errorMsg);
           });
@@ -276,7 +300,7 @@
             return JSON.parse(text);
           } catch (e) {
             // If not JSON, check if it's a redirect or success
-            if (text.includes('cart') || response.redirected) {
+            if (text.includes('cart') || text.includes('Shopping Cart') || response.redirected) {
               // Likely a redirect to cart page - treat as success
               return { success: true, redirected: true };
             }
@@ -357,18 +381,42 @@
           headers: {
             'X-Requested-With': 'XMLHttpRequest'
           },
-          credentials: 'same-origin'
+          credentials: 'same-origin',
+          redirect: 'follow'
         })
         .then(response => {
           // Check content type
-          const contentType = response.headers.get('content-type');
+          const contentType = response.headers.get('content-type') || '';
+          const url = response.url || '';
           
-          // If response is HTML, it's likely an error page or redirect
-          if (contentType && contentType.includes('text/html')) {
+          // If response URL contains 'cart', it's likely a successful redirect
+          if (url.includes('/cart') || url.includes('cart')) {
+            return { success: true, redirected: true, url: url };
+          }
+          
+          // If response is HTML, check if it's the cart page (success) or error page
+          if (contentType.includes('text/html')) {
             return response.text().then(html => {
-              // Try to extract error message from HTML if possible
+              // Extract title to check
+              const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+              const title = titleMatch ? titleMatch[1].toLowerCase() : '';
+              
+              // Check if it's the cart page (success case)
+              const cartIndicators = ['cart', 'shopping cart', 'your cart', 'your shopping cart'];
+              const isCartPage = cartIndicators.some(indicator => 
+                title.includes(indicator) || 
+                html.toLowerCase().includes(indicator)
+              );
+              
+              if (isCartPage) {
+                // This is a successful redirect to cart page
+                return { success: true, redirected: true, html: true };
+              }
+              
+              // Try to extract error message from HTML if it's an error page
               const errorMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i) || 
-                                html.match(/error[^>]*>([^<]+)/i);
+                                html.match(/error[^>]*>([^<]+)/i) ||
+                                html.match(/alert[^>]*>([^<]+)/i);
               const errorMsg = errorMatch ? errorMatch[1] : 'Server returned an error page';
               throw new Error(errorMsg);
             });
@@ -392,7 +440,7 @@
               return JSON.parse(text);
             } catch (e) {
               // If not JSON, check if it's a redirect or success
-              if (text.includes('cart') || response.redirected) {
+              if (text.includes('cart') || text.includes('Shopping Cart') || response.redirected) {
                 // Likely a redirect to cart page - treat as success
                 return { success: true, redirected: true };
               }
