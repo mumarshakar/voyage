@@ -1,0 +1,86 @@
+{%- liquid
+  assign show_thumbnails = block.settings.show_thumbnails | default: true
+-%}
+
+<div {{ block.shopify_attributes }}>
+{% if product.featured_image %}
+  <div class="product-image-main mb-3">
+    <img 
+      id="product-main-image"
+      src="{{ product.featured_image | image_url: width: 1200 }}"
+      alt="{{ product.featured_image.alt | escape }}"
+      width="{{ product.featured_image.width }}"
+      height="{{ product.featured_image.height }}"
+      class="img-fluid w-100"
+      style="border-radius: 8px; object-fit: cover; max-height: 800px; cursor: pointer;"
+      loading="eager"
+      onclick="zoomProductImage(this)">
+  </div>
+{% endif %}
+
+{% if show_thumbnails and product.images.size > 1 %}
+  <div class="product-thumbnails d-flex gap-3 overflow-x-auto pb-2">
+    {% for image in product.images %}
+      <button 
+        type="button"
+        class="product-thumbnail-btn border-0 bg-transparent p-0"
+        data-image-src="{{ image | image_url: width: 1200 }}"
+        style="flex-shrink: 0; cursor: pointer; opacity: {% if forloop.first %}1{% else %}0.6{% endif %}; transition: opacity 0.3s;"
+        onclick="changeProductImage(this)">
+        <img 
+          src="{{ image | image_url: width: 200 }}"
+          alt="{{ image.alt | escape }}"
+          width="80"
+          height="80"
+          class="img-fluid"
+          style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 2px solid {% if forloop.first %}var(--primary-orange, #FF6B35){% else %}transparent{% endif %};"
+          loading="lazy">
+      </button>
+    {% endfor %}
+  </div>
+{% endif %}
+</div>
+
+<style>
+  .product-thumbnails {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-orange, #FF6B35) transparent;
+  }
+  
+  .product-thumbnails::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .product-thumbnails::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .product-thumbnails::-webkit-scrollbar-thumb {
+    background-color: var(--primary-orange, #FF6B35);
+    border-radius: 3px;
+  }
+  
+  .product-thumbnail-btn:hover {
+    opacity: 1 !important;
+  }
+  
+  #product-main-image {
+    transition: transform 0.3s ease;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product Media Gallery",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show Thumbnails",
+      "default": true,
+      "info": "Display thumbnail images below the main product image"
+    }
+  ]
+}
+{% endschema %}
+

@@ -13,28 +13,6 @@
   assign margin_bottom_mobile = settings.margin_bottom_mobile | default: 0
   assign section_height_desktop = settings.section_height_desktop | default: 600
   assign section_height_mobile = settings.section_height_mobile | default: 400
-  
-  assign media_gallery_content = ''
-  assign product_details_content = ''
-  assign additional_blocks_content = ''
-  
-  for block in section.blocks
-    case block.type
-      when 'product-media-gallery'
-        capture media_gallery_content
-          render block
-        endcapture
-      when 'product-details'
-        capture product_details_content
-          render block
-        endcapture
-      when '@app'
-        capture app_block_content
-          render block
-        endcapture
-        assign additional_blocks_content = additional_blocks_content | append: app_block_content
-    endcase
-  endfor
 -%}
 
 <div class="product-main-section" style="padding-top: {{ padding_top_desktop }}px; padding-bottom: {{ padding_bottom_desktop }}px; padding-left: {{ padding_horizontal_desktop }}px; padding-right: {{ padding_horizontal_desktop }}px; margin-top: {{ margin_top_desktop }}px; margin-bottom: {{ margin_bottom_desktop }}px;">
@@ -42,25 +20,35 @@
     <div class="row g-5 align-items-start {% if swap_columns_mobile %}flex-column-reverse flex-lg-row{% endif %}">
       <!-- Product Images Column -->
       <div class="col-lg-6 {% if desktop_media_position == 'right' %}order-lg-2{% endif %}">
-        {{ media_gallery_content }}
+        {% for block in section.blocks %}
+          {% if block.type == 'product-media-gallery' %}
+            {% render 'product-media-gallery', block: block %}
+          {% endif %}
+        {% endfor %}
       </div>
 
       <!-- Product Info Column -->
       <div class="col-lg-6 {% if desktop_media_position == 'right' %}order-lg-1{% endif %}">
-        {{ product_details_content }}
+        {% for block in section.blocks %}
+          {% if block.type == 'product-details' %}
+            {% render 'product-details', block: block %}
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
     
     <!-- Additional Blocks (App Embeds, etc.) -->
-    {% if additional_blocks_content != blank %}
-      <div class="row mt-5">
-        <div class="col-12">
-          <div class="product-additional-blocks">
-            {{ additional_blocks_content }}
+    {% for block in section.blocks %}
+      {% if block.type == '@app' %}
+        <div class="row mt-5">
+          <div class="col-12">
+            <div class="product-additional-blocks">
+              {% render block %}
+            </div>
           </div>
         </div>
-      </div>
-    {% endif %}
+      {% endif %}
+    {% endfor %}
   </div>
 </div>
 
