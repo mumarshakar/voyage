@@ -82,6 +82,7 @@
     },
     "product_info_PQxDb6": {
       "type": "product-info",
+      "disabled": true,
       "name": "Product Info",
       "settings": {
         "show_vendor": false,
@@ -95,12 +96,67 @@
     "17653614626021cda3": {
       "type": "_blocks",
       "settings": {}
+    },
+    "product_main_KdDQVJ": {
+      "type": "product-main",
+      "blocks": {
+        "sesami_booking_app_app_block_gdFkHk": {
+          "type": "shopify://apps/sesami-booking-app/blocks/app-block/dc3b1344-0a53-477e-93d0-4b8a473ab587",
+          "settings": {
+            "auto_add_to_cart": true,
+            "skip_cart": true,
+            "button_label": "Select time",
+            "alignment": "center",
+            "color": "",
+            "color_background": "#FFF",
+            "font_size": 16,
+            "border_width": 1,
+            "border_radius": 4,
+            "border_color": "#000",
+            "width": "300px",
+            "height": "45px",
+            "cta_background_color": "#333",
+            "cta_text_color": "#fff"
+          }
+        },
+        "product_details_qEzYgk": {
+          "type": "product-details",
+          "settings": {}
+        },
+        "product_media_gallery_w9xNFQ": {
+          "type": "product-media-gallery",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "sesami_booking_app_app_block_gdFkHk",
+        "product_details_qEzYgk",
+        "product_media_gallery_w9xNFQ"
+      ],
+      "name": "Product Main",
+      "settings": {
+        "desktop_media_position": "left",
+        "swap_columns_mobile": false,
+        "section_height_desktop": 800,
+        "section_height_mobile": 400,
+        "padding_top_desktop": 60,
+        "padding_bottom_desktop": 60,
+        "padding_horizontal_desktop": 20,
+        "margin_top_desktop": 0,
+        "margin_bottom_desktop": 0,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_horizontal_mobile": 20,
+        "margin_top_mobile": 0,
+        "margin_bottom_mobile": 0
+      }
     }
   },
   "order": [
     "hero_section_BRfpTm",
     "176363517991952302",
     "product_info_PQxDb6",
-    "17653614626021cda3"
+    "17653614626021cda3",
+    "product_main_KdDQVJ"
   ]
 }
