@@ -31,7 +31,7 @@
       <div class="col-lg-6 {% if desktop_media_position == 'right' %}order-lg-1{% endif %}">
         {% for block in section.blocks %}
           {% if block.type == 'product-details' %}
-            {% render 'product-details', block: block %}
+            {% render 'product-details', block: block, section: section %}
           {% endif %}
         {% endfor %}
       </div>
