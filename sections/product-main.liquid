@@ -19,34 +19,8 @@
   {{ product | structured_data }}
 </script>
 
-{%- liquid
-  assign media_gallery_content = ''
-  assign product_details_content = ''
-  assign additional_blocks_content = ''
-  
-  for block in section.blocks
-    case block.type
-      when 'product-media-gallery'
-        capture media_gallery_content
-          render block
-        endcapture
-      when 'product-details'
-        capture product_details_content
-          render block
-        endcapture
-      when '@app'
-        capture app_block_content
-          render block
-        endcapture
-        assign additional_blocks_content = additional_blocks_content | append: app_block_content
-    endcase
-  endfor
--%}
-
 {% render 'product-main-content',
-  media_gallery: media_gallery_content,
-  product_details: product_details_content,
-  additional_blocks: additional_blocks_content,
+  section: section,
   settings: section.settings
 %}
 
