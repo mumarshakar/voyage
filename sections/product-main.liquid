@@ -240,24 +240,53 @@
         body: formData,
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
-        }
+        },
+        credentials: 'same-origin'
       })
       .then(response => {
+        // Check content type
+        const contentType = response.headers.get('content-type');
+        
+        // If response is HTML, it's likely an error page or redirect
+        if (contentType && contentType.includes('text/html')) {
+          return response.text().then(html => {
+            // Try to extract error message from HTML if possible
+            const errorMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i) || 
+                              html.match(/error[^>]*>([^<]+)/i);
+            const errorMsg = errorMatch ? errorMatch[1] : 'Server returned an error page';
+            throw new Error(errorMsg);
+          });
+        }
+        
         // Check if response is ok
         if (!response.ok) {
           return response.text().then(text => {
             try {
               return JSON.parse(text);
             } catch {
-              throw new Error(text || 'Network error');
+              // If not JSON, it might be HTML or plain text
+              throw new Error(text.substring(0, 200) || 'Network error');
             }
           });
         }
-        return response.json();
+        
+        // Try to parse as JSON
+        return response.text().then(text => {
+          try {
+            return JSON.parse(text);
+          } catch (e) {
+            // If not JSON, check if it's a redirect or success
+            if (text.includes('cart') || response.redirected) {
+              // Likely a redirect to cart page - treat as success
+              return { success: true, redirected: true };
+            }
+            throw new Error('Invalid response format');
+          }
+        });
       })
       .then(data => {
         // Shopify cart API can return different response formats
-        if (data.id || data.items || data.status === 200 || (data.status && data.status < 400)) {
+        if (data.success || data.id || data.items || data.status === 200 || (data.status && data.status < 400)) {
           // Success - redirect to cart
           window.location.href = '{{ routes.cart_url }}';
         } else {
@@ -327,24 +356,53 @@
           body: formData,
           headers: {
             'X-Requested-With': 'XMLHttpRequest'
-          }
+          },
+          credentials: 'same-origin'
         })
         .then(response => {
+          // Check content type
+          const contentType = response.headers.get('content-type');
+          
+          // If response is HTML, it's likely an error page or redirect
+          if (contentType && contentType.includes('text/html')) {
+            return response.text().then(html => {
+              // Try to extract error message from HTML if possible
+              const errorMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i) || 
+                                html.match(/error[^>]*>([^<]+)/i);
+              const errorMsg = errorMatch ? errorMatch[1] : 'Server returned an error page';
+              throw new Error(errorMsg);
+            });
+          }
+          
           // Check if response is ok
           if (!response.ok) {
             return response.text().then(text => {
               try {
                 return JSON.parse(text);
               } catch {
-                throw new Error(text || 'Network error');
+                // If not JSON, it might be HTML or plain text
+                throw new Error(text.substring(0, 200) || 'Network error');
               }
             });
           }
-          return response.json();
+          
+          // Try to parse as JSON
+          return response.text().then(text => {
+            try {
+              return JSON.parse(text);
+            } catch (e) {
+              // If not JSON, check if it's a redirect or success
+              if (text.includes('cart') || response.redirected) {
+                // Likely a redirect to cart page - treat as success
+                return { success: true, redirected: true };
+              }
+              throw new Error('Invalid response format');
+            }
+          });
         })
         .then(data => {
           // Shopify cart API can return different response formats
-          if (data.id || data.items || data.status === 200 || (data.status && data.status < 400)) {
+          if (data.success || data.id || data.items || data.status === 200 || (data.status && data.status < 400)) {
             // Success - redirect directly to checkout
             window.location.href = '{{ routes.cart_url }}?view=checkout';
           } else {
