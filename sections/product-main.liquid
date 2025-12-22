@@ -214,13 +214,50 @@
         addToCartBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Adding...';
       }
       
+      // Ensure variant ID is set correctly before submission
+      const variantIdInput = document.getElementById('selected-variant-id');
+      if (!variantIdInput || !variantIdInput.value) {
+        console.error('Variant ID is missing');
+        if (addToCartBtn) {
+          addToCartBtn.disabled = false;
+          addToCartBtn.innerHTML = originalText;
+        }
+        alert('Please select a product variant.');
+        return;
+      }
+      
+      // Ensure the form data has the correct variant ID
+      formData.set('id', variantIdInput.value);
+      
+      // Log form data for debugging (remove in production)
+      console.log('Adding to cart:', {
+        variantId: variantIdInput.value,
+        quantity: formData.get('quantity') || 1
+      });
+      
       fetch('{{ routes.cart_add_url }}', {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
       })
-      .then(response => response.json())
+      .then(response => {
+        // Check if response is ok
+        if (!response.ok) {
+          return response.text().then(text => {
+            try {
+              return JSON.parse(text);
+            } catch {
+              throw new Error(text || 'Network error');
+            }
+          });
+        }
+        return response.json();
+      })
       .then(data => {
-        if (data.id) {
+        // Shopify cart API can return different response formats
+        if (data.id || data.items || data.status === 200 || (data.status && data.status < 400)) {
           // Success - redirect to cart
           window.location.href = '{{ routes.cart_url }}';
         } else {
@@ -230,11 +267,20 @@
             addToCartBtn.innerHTML = originalText;
           }
           
+          let errorMessage = 'There was an error adding the product to your cart. Please try again.';
+          
           if (data.description) {
-            alert('Error: ' + data.description);
-          } else {
-            alert('There was an error adding the product to your cart. Please try again.');
+            errorMessage = 'Error: ' + data.description;
+          } else if (data.message) {
+            errorMessage = 'Error: ' + data.message;
+          } else if (data.error) {
+            errorMessage = 'Error: ' + data.error;
+          } else if (typeof data === 'string') {
+            errorMessage = 'Error: ' + data;
           }
+          
+          console.error('Add to cart error:', data);
+          alert(errorMessage);
         }
       })
       .catch((error) => {
@@ -243,7 +289,12 @@
           addToCartBtn.disabled = false;
           addToCartBtn.innerHTML = originalText;
         }
-        alert('There was an error adding the product to your cart. Please try again.');
+        
+        let errorMessage = 'There was an error adding the product to your cart. Please try again.';
+        if (error.message) {
+          errorMessage = 'Error: ' + error.message;
+        }
+        alert(errorMessage);
       });
     });
     
@@ -256,17 +307,44 @@
         const formData = new FormData(productForm);
         const originalText = buyNowBtn.innerHTML;
         
+        // Ensure variant ID is set correctly before submission
+        const variantIdInput = document.getElementById('selected-variant-id');
+        if (!variantIdInput || !variantIdInput.value) {
+          console.error('Variant ID is missing');
+          alert('Please select a product variant.');
+          return;
+        }
+        
+        // Ensure the form data has the correct variant ID
+        formData.set('id', variantIdInput.value);
+        
         // Disable button and show loading state
         buyNowBtn.disabled = true;
         buyNowBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
         
         fetch('{{ routes.cart_add_url }}', {
           method: 'POST',
-          body: formData
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
         })
-        .then(response => response.json())
+        .then(response => {
+          // Check if response is ok
+          if (!response.ok) {
+            return response.text().then(text => {
+              try {
+                return JSON.parse(text);
+              } catch {
+                throw new Error(text || 'Network error');
+              }
+            });
+          }
+          return response.json();
+        })
         .then(data => {
-          if (data.id) {
+          // Shopify cart API can return different response formats
+          if (data.id || data.items || data.status === 200 || (data.status && data.status < 400)) {
             // Success - redirect directly to checkout
             window.location.href = '{{ routes.cart_url }}?view=checkout';
           } else {
@@ -274,18 +352,32 @@
             buyNowBtn.disabled = false;
             buyNowBtn.innerHTML = originalText;
             
+            let errorMessage = 'There was an error processing your order. Please try again.';
+            
             if (data.description) {
-              alert('Error: ' + data.description);
-            } else {
-              alert('There was an error processing your order. Please try again.');
+              errorMessage = 'Error: ' + data.description;
+            } else if (data.message) {
+              errorMessage = 'Error: ' + data.message;
+            } else if (data.error) {
+              errorMessage = 'Error: ' + data.error;
+            } else if (typeof data === 'string') {
+              errorMessage = 'Error: ' + data;
             }
+            
+            console.error('Buy Now error:', data);
+            alert(errorMessage);
           }
         })
         .catch((error) => {
           console.error('Error with Buy Now:', error);
           buyNowBtn.disabled = false;
           buyNowBtn.innerHTML = originalText;
-          alert('There was an error processing your order. Please try again.');
+          
+          let errorMessage = 'There was an error processing your order. Please try again.';
+          if (error.message) {
+            errorMessage = 'Error: ' + error.message;
+          }
+          alert(errorMessage);
         });
       });
     }
