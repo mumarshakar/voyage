@@ -107,6 +107,25 @@
       if (buyNowBtn) {
         buyNowBtn.disabled = !variant.available;
       }
+      
+      // Update app embed containers with variant information (for Sesami and other apps)
+      const appEmbeds = document.querySelectorAll('.product-details-app-embed');
+      appEmbeds.forEach(embed => {
+        embed.setAttribute('data-variant-id', variant.id);
+        embed.setAttribute('data-variant-available', variant.available);
+        embed.setAttribute('data-variant-price', variant.price);
+      });
+      
+      // Dispatch custom event for apps to listen to
+      const variantChangeEvent = new CustomEvent('productVariantChange', {
+        detail: {
+          variantId: variant.id,
+          variant: variant,
+          available: variant.available,
+          price: variant.price
+        }
+      });
+      document.dispatchEvent(variantChangeEvent);
     }
   }
   
@@ -137,6 +156,7 @@
     const quantityInput = document.getElementById('quantity');
     if (quantityInput) {
       quantityInput.value = parseInt(quantityInput.value) + 1;
+      updateQuantityForApps(quantityInput.value);
     }
   }
   
@@ -144,8 +164,38 @@
     const quantityInput = document.getElementById('quantity');
     if (quantityInput && parseInt(quantityInput.value) > 1) {
       quantityInput.value = parseInt(quantityInput.value) - 1;
+      updateQuantityForApps(quantityInput.value);
     }
   }
+  
+  function updateQuantityForApps(quantity) {
+    // Update app embed containers with quantity information (for Sesami and other apps)
+    const appEmbeds = document.querySelectorAll('.product-details-app-embed');
+    appEmbeds.forEach(embed => {
+      embed.setAttribute('data-quantity', quantity);
+    });
+    
+    // Dispatch custom event for apps to listen to
+    const quantityChangeEvent = new CustomEvent('productQuantityChange', {
+      detail: {
+        quantity: parseInt(quantity)
+      }
+    });
+    document.dispatchEvent(quantityChangeEvent);
+  }
+  
+  // Listen for quantity input changes
+  document.addEventListener('DOMContentLoaded', function() {
+    const quantityInput = document.getElementById('quantity');
+    if (quantityInput) {
+      quantityInput.addEventListener('change', function() {
+        updateQuantityForApps(this.value);
+      });
+      quantityInput.addEventListener('input', function() {
+        updateQuantityForApps(this.value);
+      });
+    }
+  });
   
   // Handle add to cart form submission
   const productForm = document.getElementById('product-form');
@@ -246,6 +296,21 @@
     {% if product.variants.size > 1 %}
       updateSelectedVariant();
     {% endif %}
+    
+    // Initialize app embed data attributes with current variant and quantity
+    const variantIdInput = document.getElementById('selected-variant-id');
+    const quantityInput = document.getElementById('quantity');
+    const appEmbeds = document.querySelectorAll('.product-details-app-embed');
+    
+    if (variantIdInput && appEmbeds.length > 0) {
+      const currentVariantId = variantIdInput.value;
+      const currentQuantity = quantityInput ? quantityInput.value : 1;
+      
+      appEmbeds.forEach(embed => {
+        embed.setAttribute('data-variant-id', currentVariantId);
+        embed.setAttribute('data-quantity', currentQuantity);
+      });
+    }
   });
   
 </script>

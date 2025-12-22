@@ -37,7 +37,7 @@
   </div>
 {% endif %}
 
-{%- comment -%} Render additional blocks before the form (text, richtext, etc.) {%- endcomment -%}
+{%- comment -%} Render additional blocks before the form (text, richtext, app embeds, etc.) {%- endcomment -%}
 {%- liquid
   assign product_details_block_id = block.id
   assign found_product_details = false
@@ -46,7 +46,7 @@
   {%- comment -%} Find blocks that come after product-details block {%- endcomment -%}
   {% if section_block.id == product_details_block_id %}
     {% assign found_product_details = true %}
-  {% elsif found_product_details and section_block.type != 'product-details' and section_block.type != 'product-media-gallery' and section_block.type != '@app' %}
+  {% elsif found_product_details and section_block.type != 'product-details' and section_block.type != 'product-media-gallery' %}
     <div class="product-details-block mb-4" {{ section_block.shopify_attributes }}>
       {% case section_block.type %}
         {% when 'text' %}
@@ -64,6 +64,11 @@
         {% when 'liquid' %}
           <div class="product-details-liquid">
             {{ section_block.settings.liquid }}
+          </div>
+        {% when '@app' %}
+          {%- comment -%} App embeds (like Sesami) - render with product context {%- endcomment -%}
+          <div class="product-details-app-embed" data-product-id="{{ product.id }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+            {% render section_block %}
           </div>
         {% else %}
           {% render section_block %}
