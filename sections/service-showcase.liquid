@@ -653,9 +653,14 @@
     margin-top: 0;
   }
   
+  /* Bold text - must override global theme styles */
   .service-showcase-content strong,
-  .service-showcase-content b {
-    font-weight: 600 !important;
+  .service-showcase-content b,
+  html body .service-showcase-content strong,
+  html body .service-showcase-content b,
+  html body .service-showcase-section .service-showcase-content strong,
+  html body .service-showcase-section .service-showcase-content b {
+    font-weight: 700 !important;
     font-weight: bold !important;
   }
   
