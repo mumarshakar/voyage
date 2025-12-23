@@ -529,6 +529,52 @@
       "name": "Product Details"
     },
     {
+      "type": "product-description",
+      "name": "Product Description",
+      "settings": [
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "justify",
+              "label": "Justify"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "max_width",
+          "label": "Max content width (px)",
+          "min": 400,
+          "max": 1200,
+          "step": 50,
+          "default": 800,
+          "unit": "px"
+        },
+        {
+          "type": "text",
+          "id": "custom_css_class",
+          "label": "Custom CSS class",
+          "info": "Optional additional CSS class for custom styling"
+        }
+      ]
+    },
+    {
       "type": "text",
       "name": "Text",
       "settings": [
@@ -750,6 +796,9 @@
         },
         {
           "type": "product-details"
+        },
+        {
+          "type": "product-description"
         }
       ]
     }

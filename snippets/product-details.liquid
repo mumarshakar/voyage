@@ -57,6 +57,20 @@
           <div class="product-details-richtext">
             {{ section_block.settings.richtext }}
           </div>
+        {% when 'product-description' %}
+          {% if product.description != blank %}
+            {%- liquid
+              assign desc_alignment = section_block.settings.text_alignment | default: 'left'
+              assign desc_max_width = section_block.settings.max_width | default: 0
+              assign desc_custom_class = section_block.settings.custom_css_class | default: ''
+            -%}
+            <div class="product-description-block{% if desc_custom_class != blank %} {{ desc_custom_class }}{% endif %}"
+                 style="text-align: {{ desc_alignment }};{% if desc_max_width and desc_max_width > 0 %} max-width: {{ desc_max_width }}px; margin-left: auto; margin-right: auto;{% endif %}">
+              <div class="product-description-content">
+                {{ product.description }}
+              </div>
+            </div>
+          {% endif %}
         {% when 'html' %}
           <div class="product-details-html">
             {{ section_block.settings.html }}
