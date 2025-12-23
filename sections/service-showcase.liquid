@@ -492,6 +492,10 @@
               <div class="service-showcase-content"
                    style="color: {{ text_color }};
                           margin-bottom: {% if buy_now_button_text != blank and buy_now_button_link != blank %}1.5rem{% else %}0{% endif %};">
+                {%- comment -%}
+                  Output product description directly without variable assignment
+                  to preserve HTML formatting from Shopify admin
+                {%- endcomment -%}
                 {{ selected_product.description }}
               </div>
             {% else %}
@@ -621,12 +625,9 @@
   
   .service-showcase-content ul,
   .service-showcase-content ol {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-  }
-  
-  .service-showcase-content li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem !important;
+    margin-top: 1rem !important;
+    padding-left: 1.5rem !important;
   }
   
   /* Preserve HTML formatting from product descriptions */
@@ -654,12 +655,29 @@
   
   .service-showcase-content strong,
   .service-showcase-content b {
-    font-weight: 600;
+    font-weight: 600 !important;
+    font-weight: bold !important;
   }
   
   .service-showcase-content em,
   .service-showcase-content i {
-    font-style: italic;
+    font-style: italic !important;
+  }
+  
+  /* Ensure lists are properly displayed */
+  .service-showcase-content ul {
+    list-style-type: disc !important;
+    display: block !important;
+  }
+  
+  .service-showcase-content ol {
+    list-style-type: decimal !important;
+    display: block !important;
+  }
+  
+  .service-showcase-content li {
+    display: list-item !important;
+    list-style-position: outside !important;
   }
   
   .service-showcase-content img {
