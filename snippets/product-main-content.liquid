@@ -30,8 +30,64 @@
       <!-- Product Info Column -->
       <div class="col-lg-6 {% if desktop_media_position == 'right' %}order-lg-1{% endif %}">
         {% for block in section.blocks %}
-          {% if block.type == 'product-details' %}
+          {% if block.type == 'product-media-gallery' %}
+            {%- comment -%} Skip - already rendered in left column {%- endcomment -%}
+          {% elsif block.type == 'product-details' %}
             {% render 'product-details', block: block, section: section %}
+          {% elsif block.type == 'product-description' %}
+            {% if product.description != blank %}
+              {%- liquid
+                assign desc_alignment = block.settings.text_alignment | default: 'left'
+                assign desc_max_width = block.settings.max_width | default: 0
+                assign desc_custom_class = block.settings.custom_css_class | default: ''
+              -%}
+              <div class="product-description-block mb-4{% if desc_custom_class != blank %} {{ desc_custom_class }}{% endif %}" 
+                   {{ block.shopify_attributes }}
+                   style="text-align: {{ desc_alignment }};{% if desc_max_width and desc_max_width > 0 %} max-width: {{ desc_max_width }}px; margin-left: auto; margin-right: auto;{% endif %}">
+                <div class="product-description-content">
+                  {{ product.description }}
+                </div>
+              </div>
+            {% endif %}
+          {% elsif block.type == 'text' or block.type == 'richtext' or block.type == 'html' or block.type == 'liquid' or block.type == '@app' %}
+            {%- comment -%} These blocks are handled inside product-details.liquid after the form {%- endcomment -%}
+            {%- comment -%} But we need to check if product-details block exists first {%- endcomment -%}
+            {%- liquid
+              assign has_product_details = false
+              for section_block in section.blocks
+                if section_block.type == 'product-details'
+                  assign has_product_details = true
+                  break
+                endif
+              endfor
+            -%}
+            {% unless has_product_details %}
+              {%- comment -%} If no product-details block, render these blocks directly {%- endcomment -%}
+              <div class="product-details-block mb-4" {{ block.shopify_attributes }}>
+                {% case block.type %}
+                  {% when 'text' %}
+                    <div class="product-details-text">
+                      {{ block.settings.text }}
+                    </div>
+                  {% when 'richtext' %}
+                    <div class="product-details-richtext">
+                      {{ block.settings.richtext }}
+                    </div>
+                  {% when 'html' %}
+                    <div class="product-details-html">
+                      {{ block.settings.html }}
+                    </div>
+                  {% when 'liquid' %}
+                    <div class="product-details-liquid">
+                      {{ block.settings.liquid }}
+                    </div>
+                  {% when '@app' %}
+                    <div class="product-details-app-embed" data-product-id="{{ product.id }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+                      {% render block %}
+                    </div>
+                {% endcase %}
+              </div>
+            {% endunless %}
           {% endif %}
         {% endfor %}
       </div>
