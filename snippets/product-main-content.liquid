@@ -37,13 +37,14 @@
           {% elsif block.type == 'product-description' %}
             {% if product.description != blank %}
               {%- liquid
+                assign desc_background_color = block.settings.background_color | default: ''
                 assign desc_alignment = block.settings.text_alignment | default: 'left'
                 assign desc_max_width = block.settings.max_width | default: 0
                 assign desc_custom_class = block.settings.custom_css_class | default: ''
               -%}
               <div class="product-description-block mb-4{% if desc_custom_class != blank %} {{ desc_custom_class }}{% endif %}" 
                    {{ block.shopify_attributes }}
-                   style="text-align: {{ desc_alignment }};{% if desc_max_width and desc_max_width > 0 %} max-width: {{ desc_max_width }}px; margin-left: auto; margin-right: auto;{% endif %}">
+                   style="{% if desc_background_color != blank %}background-color: {{ desc_background_color }};{% endif %} text-align: {{ desc_alignment }};{% if desc_max_width and desc_max_width > 0 %} max-width: {{ desc_max_width }}px; margin-left: auto; margin-right: auto;{% endif %} padding: 20px;">
                 <div class="product-description-content">
                   {{ product.description }}
                 </div>
