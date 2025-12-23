@@ -373,15 +373,10 @@
   assign buy_now_button_text = section.settings.buy_now_button_text | default: 'Buy Now'
   assign buy_now_button_link = section.settings.buy_now_button_link
   
-  # Determine the content to display
+  # Determine content source type (used for conditional rendering)
+  assign is_product_source = false
   if content_source == 'product' and selected_product != blank
-    # Get product description with HTML formatting preserved
-    assign display_content = selected_product.description
-    if display_content == blank
-      assign display_content = '<p>Product description not available.</p>'
-    endif
-  else
-    assign display_content = text_content
+    assign is_product_source = true
   endif
   assign text_alignment = section.settings.text_alignment | default: 'left'
   assign text_padding = section.settings.text_padding | default: 40
@@ -494,11 +489,25 @@
             </h3>
           {% endif %}
           
-          {% if display_content != blank %}
+          {% if is_product_source %}
+            {% if selected_product.description != blank %}
+              <div class="service-showcase-content"
+                   style="color: {{ text_color }};
+                          margin-bottom: {% if buy_now_button_text != blank and buy_now_button_link != blank %}1.5rem{% else %}0{% endif %};">
+                {{ selected_product.description }}
+              </div>
+            {% else %}
+              <div class="service-showcase-content"
+                   style="color: {{ text_color }};
+                          margin-bottom: {% if buy_now_button_text != blank and buy_now_button_link != blank %}1.5rem{% else %}0{% endif %};">
+                <p>Product description not available.</p>
+              </div>
+            {% endif %}
+          {% elsif text_content != blank %}
             <div class="service-showcase-content"
                  style="color: {{ text_color }};
                         margin-bottom: {% if buy_now_button_text != blank and buy_now_button_link != blank %}1.5rem{% else %}0{% endif %};">
-              {{ display_content | raw }}
+              {{ text_content }}
             </div>
           {% endif %}
           
