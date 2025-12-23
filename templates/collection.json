@@ -66,7 +66,7 @@
         "title_color": "#333333",
         "price_font_size": 18,
         "price_font_weight": "700",
-        "price_color": "#69e0dc",
+        "price_color": "#333333",
         "vendor_font_size": 16,
         "vendor_font_weight": "500",
         "vendor_color": "#333333"
