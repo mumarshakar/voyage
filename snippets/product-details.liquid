@@ -46,7 +46,7 @@
   {%- comment -%} Find blocks that come after product-details block {%- endcomment -%}
   {% if section_block.id == product_details_block_id %}
     {% assign found_product_details = true %}
-  {% elsif found_product_details and section_block.type != 'product-details' and section_block.type != 'product-media-gallery' and section_block.type != 'product-description' %}
+  {% elsif found_product_details and section_block.type != 'product-details' and section_block.type != 'product-media-gallery' %}
     <div class="product-details-block mb-4" {{ section_block.shopify_attributes }}>
       {% case section_block.type %}
         {% when 'text' %}
@@ -57,8 +57,6 @@
           <div class="product-details-richtext">
             {{ section_block.settings.richtext }}
           </div>
-        {% when 'product-description' %}
-          {%- comment -%} Product description blocks are now rendered directly in product-main-content.liquid to respect block order {%- endcomment -%}
         {% when 'html' %}
           <div class="product-details-html">
             {{ section_block.settings.html }}
