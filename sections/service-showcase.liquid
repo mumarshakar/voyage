@@ -244,15 +244,13 @@
       "type": "color",
       "id": "heading_color_override",
       "label": "Heading Color Override (Optional)",
-      "info": "Leave empty to use theme default heading color. Set a color here to override for this section only.",
-      "default": ""
+      "info": "Leave empty to use theme default heading color. Set a color here to override for this section only."
     },
     {
       "type": "color",
       "id": "text_color_override",
       "label": "Text Color Override (Optional)",
-      "info": "Leave empty to use theme default body text color. Set a color here to override for this section only.",
-      "default": ""
+      "info": "Leave empty to use theme default body text color. Set a color here to override for this section only."
     },
     {
       "type": "header",
@@ -490,7 +488,7 @@
           {% endif %}
           
           {% if is_product_source %}
-            {% if selected_product.description != blank %}
+            {% if selected_product != blank and selected_product.description != blank %}
               <div class="service-showcase-content"
                    style="color: {{ text_color }};
                           margin-bottom: {% if buy_now_button_text != blank and buy_now_button_link != blank %}1.5rem{% else %}0{% endif %};">
