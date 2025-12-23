@@ -498,7 +498,7 @@
             <div class="service-showcase-content"
                  style="color: {{ text_color }};
                         margin-bottom: {% if buy_now_button_text != blank and buy_now_button_link != blank %}1.5rem{% else %}0{% endif %};">
-              {{ display_content }}
+              {{ display_content | raw }}
             </div>
           {% endif %}
           
