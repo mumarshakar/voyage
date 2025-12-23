@@ -53,6 +53,7 @@
     },
     "product_info_iKP6Nj": {
       "type": "product-info",
+      "disabled": true,
       "name": "Product Info",
       "settings": {
         "show_vendor": true,
@@ -66,11 +67,64 @@
     "176556152364a2bb4f": {
       "type": "apps",
       "settings": {}
+    },
+    "product_main_QBRkcm": {
+      "type": "product-main",
+      "blocks": {
+        "product_media_gallery_LKBbFp": {
+          "type": "product-media-gallery",
+          "settings": {}
+        },
+        "product_details_aKHcFX": {
+          "type": "product-details",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_media_gallery_LKBbFp",
+        "product_details_aKHcFX"
+      ],
+      "name": "Product Main",
+      "settings": {
+        "desktop_media_position": "left",
+        "swap_columns_mobile": false,
+        "section_height_desktop": 750,
+        "section_height_mobile": 1000,
+        "padding_top_desktop": 60,
+        "padding_bottom_desktop": 60,
+        "padding_horizontal_desktop": 20,
+        "margin_top_desktop": 0,
+        "margin_bottom_desktop": 0,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_horizontal_mobile": 20,
+        "margin_top_mobile": 0,
+        "margin_bottom_mobile": 0
+      }
+    },
+    "product_description_EXVJ7P": {
+      "type": "product-description",
+      "name": "Product Description",
+      "settings": {
+        "show_tabs": true,
+        "show_description": true,
+        "show_additional_info": true,
+        "section_bg_color": "#FFFFFF",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "tab_active_color": "#FFFFFF",
+        "tab_inactive_color": "#666",
+        "tab_border_color": "#f2f2f2",
+        "text_color": "#333",
+        "content_padding": 30
+      }
     }
   },
   "order": [
     "hero_section_BRfpTm",
     "product_info_iKP6Nj",
-    "176556152364a2bb4f"
+    "176556152364a2bb4f",
+    "product_main_QBRkcm",
+    "product_description_EXVJ7P"
   ]
 }
