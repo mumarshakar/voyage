@@ -2,14 +2,25 @@
   assign show_tabs = section.settings.show_tabs | default: true
   assign show_description = section.settings.show_description | default: true
   assign show_additional_info = section.settings.show_additional_info | default: true
+  
+  assign section_bg_color = section.settings.section_bg_color | default: '#FFF8E7'
+  assign padding_top = section.settings.padding_top | default: 60
+  assign padding_bottom = section.settings.padding_bottom | default: 60
+  
+  assign tab_active_color = section.settings.tab_active_color | default: '#FF6B35'
+  assign tab_inactive_color = section.settings.tab_inactive_color | default: '#666'
+  assign tab_border_color = section.settings.tab_border_color | default: '#FF6B35'
+  
+  assign text_color = section.settings.text_color | default: '#333'
+  assign content_padding = section.settings.content_padding | default: 30
 -%}
 
-<div class="product-description-section" style="padding: 60px 0; background-color: var(--cream, #FFF8E7);">
+<div class="product-description-section" style="padding-top: {{ padding_top }}px; padding-bottom: {{ padding_bottom }}px; background-color: {{ section_bg_color }};">
   <div class="container">
     <div class="row">
       <div class="col-lg-10 offset-lg-1">
         {% if show_tabs %}
-          <ul class="nav nav-tabs mb-4" id="product-tabs" role="tablist" style="border-bottom: 2px solid var(--primary-orange, #FF6B35);">
+          <ul class="nav nav-tabs mb-4" id="product-tabs-{{ section.id }}" role="tablist" style="border-bottom: 2px solid {{ tab_border_color }};">
             {% if show_description %}
               <li class="nav-item" role="presentation">
                 <button 
@@ -19,10 +30,12 @@
                   data-bs-target="#description" 
                   type="button" 
                   role="tab"
-                  style="color: #666; border: none; border-bottom: 3px solid transparent; padding: 12px 24px; font-weight: 600;"
-                  onmouseover="this.style.color='var(--primary-orange, #FF6B35)'"
-                  onmouseout="if(!this.classList.contains('active')) this.style.color='#666'"
-                  onclick="this.style.color='var(--primary-orange, #FF6B35)'">
+                  style="color: {{ tab_inactive_color }}; border: none; border-bottom: 3px solid transparent; padding: 12px 24px; font-weight: 600;"
+                  data-active-color="{{ tab_active_color }}"
+                  data-inactive-color="{{ tab_inactive_color }}"
+                  onmouseover="this.style.color='{{ tab_active_color }}'"
+                  onmouseout="if(!this.classList.contains('active')) this.style.color='{{ tab_inactive_color }}'"
+                  onclick="this.style.color='{{ tab_active_color }}'">
                   Description
                 </button>
               </li>
@@ -36,10 +49,12 @@
                   data-bs-target="#additional-info" 
                   type="button" 
                   role="tab"
-                  style="color: #666; border: none; border-bottom: 3px solid transparent; padding: 12px 24px; font-weight: 600;"
-                  onmouseover="this.style.color='var(--primary-orange, #FF6B35)'"
-                  onmouseout="if(!this.classList.contains('active')) this.style.color='#666'"
-                  onclick="this.style.color='var(--primary-orange, #FF6B35)'">
+                  style="color: {{ tab_inactive_color }}; border: none; border-bottom: 3px solid transparent; padding: 12px 24px; font-weight: 600;"
+                  data-active-color="{{ tab_active_color }}"
+                  data-inactive-color="{{ tab_inactive_color }}"
+                  onmouseover="this.style.color='{{ tab_active_color }}'"
+                  onmouseout="if(!this.classList.contains('active')) this.style.color='{{ tab_inactive_color }}'"
+                  onclick="this.style.color='{{ tab_active_color }}'">
                   Additional Information
                 </button>
               </li>
@@ -52,8 +67,8 @@
                 class="tab-pane fade show active" 
                 id="description" 
                 role="tabpanel"
-                style="padding: 30px 0;">
-                <div class="product-description-content">
+                style="padding: {{ content_padding }}px 0;">
+                <div class="product-description-content" style="color: {{ text_color }};">
                   {{ product.description }}
                 </div>
               </div>
@@ -64,7 +79,7 @@
                 class="tab-pane fade" 
                 id="additional-info" 
                 role="tabpanel"
-                style="padding: 30px 0;">
+                style="padding: {{ content_padding }}px 0;">
                 <div class="product-additional-info">
                   <table class="table table-borderless">
                     {% if product.vendor != blank %}
@@ -98,7 +113,7 @@
           </div>
         {% else %}
           {% if show_description %}
-            <div class="product-description-content" style="padding: 30px 0;">
+            <div class="product-description-content" style="padding: {{ content_padding }}px 0; color: {{ text_color }};">
               {{ product.description }}
             </div>
           {% endif %}
@@ -109,15 +124,14 @@
 </div>
 
 <style>
-  .nav-tabs .nav-link.active {
-    color: var(--primary-orange, #FF6B35) !important;
-    border-bottom-color: var(--primary-orange, #FF6B35) !important;
+  #product-tabs-{{ section.id }} .nav-link.active {
+    color: {{ tab_active_color }} !important;
+    border-bottom-color: {{ tab_active_color }} !important;
     background-color: transparent;
   }
   
   .product-description-content {
     line-height: 1.8;
-    color: #333;
   }
   
   .product-description-content img {
@@ -157,6 +171,10 @@
   "name": "Product Description",
   "settings": [
     {
+      "type": "header",
+      "content": "Display Options"
+    },
+    {
       "type": "checkbox",
       "id": "show_tabs",
       "label": "Show Tabs",
@@ -176,6 +194,84 @@
       "label": "Show Additional Information",
       "default": true,
       "info": "Display vendor, type, SKU, and other product details"
+    },
+    {
+      "type": "header",
+      "content": "Section Styling"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#FFF8E7",
+      "info": "Background color for the entire section"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding (px)",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Tab Styling"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_color",
+      "label": "Active Tab Color",
+      "default": "#FF6B35",
+      "info": "Color for the active/selected tab"
+    },
+    {
+      "type": "color",
+      "id": "tab_inactive_color",
+      "label": "Inactive Tab Color",
+      "default": "#666",
+      "info": "Color for inactive tabs"
+    },
+    {
+      "type": "color",
+      "id": "tab_border_color",
+      "label": "Tab Border Color",
+      "default": "#FF6B35",
+      "info": "Color for the tab border line"
+    },
+    {
+      "type": "header",
+      "content": "Content Styling"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333",
+      "info": "Color for the description text"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Content Padding (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 30,
+      "unit": "px",
+      "info": "Padding inside tab content areas"
     }
   ],
   "presets": [
