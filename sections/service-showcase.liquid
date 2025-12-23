@@ -153,11 +153,34 @@
       "info": "Optional subheading text"
     },
     {
+      "type": "select",
+      "id": "content_source",
+      "label": "Content Source",
+      "options": [
+        {
+          "value": "manual",
+          "label": "Manual Text"
+        },
+        {
+          "value": "product",
+          "label": "Product Description"
+        }
+      ],
+      "default": "manual",
+      "info": "Choose to write text manually or use a product's description"
+    },
+    {
+      "type": "product",
+      "id": "selected_product",
+      "label": "Select Product",
+      "info": "Product whose description will be displayed (only used when Content Source is 'Product Description')"
+    },
+    {
       "type": "richtext",
       "id": "text_content",
       "label": "Text Content",
       "default": "<p>Add your service description here. You can format text, add links, and create lists using the rich text editor.</p>",
-      "info": "Supports rich text formatting, links, lists, and more"
+      "info": "Supports rich text formatting, links, lists, and more (only used when Content Source is 'Manual Text')"
     },
     {
       "type": "text",
@@ -368,9 +391,21 @@
   
   assign heading = section.settings.heading
   assign subheading = section.settings.subheading
+  assign content_source = section.settings.content_source | default: 'manual'
+  assign selected_product = section.settings.selected_product
   assign text_content = section.settings.text_content
   assign buy_now_button_text = section.settings.buy_now_button_text | default: 'Buy Now'
   assign buy_now_button_link = section.settings.buy_now_button_link
+  
+  # Determine the content to display
+  if content_source == 'product' and selected_product != blank
+    assign display_content = selected_product.description
+    if display_content == blank
+      assign display_content = '<p>Product description not available.</p>'
+    endif
+  else
+    assign display_content = text_content
+  endif
   assign text_alignment = section.settings.text_alignment | default: 'left'
   assign text_padding = section.settings.text_padding | default: 40
   assign text_column_bg_color = section.settings.text_column_bg_color
@@ -490,13 +525,13 @@
             </h3>
           {% endif %}
           
-          {% if text_content != blank %}
+          {% if display_content != blank %}
             <div class="service-showcase-content"
                  style="font-size: {{ text_size }}px;
                         color: {{ text_color }};
                         line-height: 1.6;
                         margin-bottom: {% if buy_now_button_text != blank and buy_now_button_link != blank %}1.5rem{% else %}0{% endif %};">
-              {{ text_content }}
+              {{ display_content }}
             </div>
           {% endif %}
           
