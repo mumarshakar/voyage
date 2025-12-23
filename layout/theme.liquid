@@ -107,6 +107,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       --dropdown-link-color: {{ dropdown_link_color }};
       --dropdown-hover-bg-color: {{ dropdown_hover_bg_color }};
       --dropdown-hover-color: {{ dropdown_hover_color }};
+      
+      /* Typography CSS Variables */
+      --heading-color: {{ heading_color }};
+      --heading-font-size: {{ heading_font_size }}px;
+      --heading-font-weight: {{ heading_font_weight }};
+      --heading-line-height: {{ heading_line_height }};
+      --heading-letter-spacing: {{ heading_letter_spacing }}px;
+      --subheading-color: {{ subheading_color }};
+      --subheading-font-size: {{ subheading_font_size }}px;
+      --subheading-font-weight: {{ subheading_font_weight }};
+      --subheading-line-height: {{ subheading_line_height }};
+      --subheading-letter-spacing: {{ subheading_letter_spacing }}px;
+      --body-text-color: {{ body_text_color }};
+      --body-font-size: {{ body_font_size }}px;
+      --body-font-weight: {{ body_font_weight }};
+      --body-line-height: {{ body_line_height }};
+      --body-letter-spacing: {{ body_letter_spacing }}px;
+      --body-word-spacing: {{ body_word_spacing }}px;
     }
     
     {%- liquid
@@ -214,6 +232,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     html body .page-title,
     html body .section-title,
     html body .custom-text-heading,
+    html body .service-showcase-heading,
+    html body .service-showcase-section .service-showcase-heading,
+    html body .service-showcase-section h2,
+    html body .carousel-two-column-heading,
+    html body .carousel-two-column-section .carousel-two-column-heading,
+    html body .about-mission-heading,
+    html body .about-values-heading,
+    html body .meet-team-heading,
+    html body .contact-form-heading,
+    html body .product-title,
+    html body .product-main-section .product-title,
     html body main h1,
     html body main h2,
     html body main h3,
@@ -256,6 +285,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     html body .hero-subtitle,
     html body .hero-glow-subtitle,
     html body .page-subtitle,
+    html body .service-showcase-subheading,
+    html body .service-showcase-section .service-showcase-subheading,
+    html body .service-showcase-section h3,
+    html body .carousel-two-column-subheading,
+    html body .carousel-two-column-section .carousel-two-column-subheading,
+    html body .product-subtitle,
     html body main .custom-text-subheading,
     html body main .two-column-subheading,
     html body main .hero-subtitle,
@@ -293,6 +328,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     html body .two-column-body *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6),
     html body,
     html body .custom-text-body,
+    html body .service-showcase-content,
+    html body .service-showcase-section .service-showcase-content,
+    html body .service-showcase-content p,
+    html body .service-showcase-content p:first-child,
+    html body .service-showcase-content p:last-child,
+    html body .service-showcase-content *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6),
+    html body .carousel-two-column-body,
+    html body .carousel-two-column-section .carousel-two-column-body,
+    html body .product-description-content,
+    html body .product-description-content p,
+    html body .product-details-block,
+    html body .product-details-block p,
+    html body .about-mission-content,
+    html body .about-values-content,
+    html body .meet-team-content,
+    html body .contact-form-content,
     html body p,
     html body main p,
     html body .container p,

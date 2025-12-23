@@ -237,46 +237,22 @@
       "content": "Typography Settings"
     },
     {
-      "type": "range",
-      "id": "heading_size",
-      "label": "Heading Font Size (px)",
-      "min": 24,
-      "max": 72,
-      "step": 2,
-      "default": 36,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "subheading_size",
-      "label": "Subheading Font Size (px)",
-      "min": 16,
-      "max": 32,
-      "step": 1,
-      "default": 20,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "text_size",
-      "label": "Text Content Font Size (px)",
-      "min": 14,
-      "max": 24,
-      "step": 1,
-      "default": 16,
-      "unit": "px"
+      "type": "paragraph",
+      "content": "Typography is controlled by Theme Settings. Go to Theme Settings > Typography to customize fonts, sizes, and colors globally."
     },
     {
       "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
-      "default": "#333333"
+      "id": "heading_color_override",
+      "label": "Heading Color Override (Optional)",
+      "info": "Leave empty to use theme default heading color. Set a color here to override for this section only.",
+      "default": ""
     },
     {
       "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#333333"
+      "id": "text_color_override",
+      "label": "Text Color Override (Optional)",
+      "info": "Leave empty to use theme default body text color. Set a color here to override for this section only.",
+      "default": ""
     },
     {
       "type": "header",
@@ -411,11 +387,9 @@
   assign text_padding = section.settings.text_padding | default: 40
   assign text_column_bg_color = section.settings.text_column_bg_color
   
-  assign heading_size = section.settings.heading_size | default: 36
-  assign subheading_size = section.settings.subheading_size | default: 20
-  assign text_size = section.settings.text_size | default: 16
-  assign heading_color = section.settings.heading_color | default: '#333333'
-  assign text_color = section.settings.text_color | default: '#333333'
+  # Typography now comes from theme settings (removed section-level typography settings)
+  assign heading_color = section.settings.heading_color_override | default: settings.heading_color | default: '#333333'
+  assign text_color = section.settings.text_color_override | default: settings.body_text_color | default: '#333333'
   
   assign section_bg_color = section.settings.section_bg_color | default: '#FFFFFF'
   assign padding_top = section.settings.padding_top | default: 80
@@ -503,24 +477,18 @@
                     {% if text_column_bg_color != blank %}background-color: {{ text_column_bg_color }};{% endif %}">
           {% if heading != blank %}
             <h2 class="service-showcase-heading"
-                style="font-size: {{ heading_size }}px;
-                       color: {{ heading_color }};
+                style="color: {{ heading_color }};
                        margin-top: 0;
-                       margin-bottom: 1rem;
-                       font-weight: 600;
-                       line-height: 1.2;">
+                       margin-bottom: 1rem;">
               {{ heading }}
             </h2>
           {% endif %}
           
           {% if subheading != blank %}
             <h3 class="service-showcase-subheading"
-                style="font-size: {{ subheading_size }}px;
-                       color: {{ heading_color }};
+                style="color: {{ heading_color }};
                        margin-top: 0;
                        margin-bottom: 1rem;
-                       font-weight: 500;
-                       line-height: 1.3;
                        opacity: 0.8;">
               {{ subheading }}
             </h3>
@@ -528,9 +496,7 @@
           
           {% if display_content != blank %}
             <div class="service-showcase-content"
-                 style="font-size: {{ text_size }}px;
-                        color: {{ text_color }};
-                        line-height: 1.6;
+                 style="color: {{ text_color }};
                         margin-bottom: {% if buy_now_button_text != blank and buy_now_button_link != blank %}1.5rem{% else %}0{% endif %};">
               {{ display_content }}
             </div>
@@ -644,12 +610,6 @@
   
   .service-showcase-content p {
     margin-bottom: 1rem;
-  }
-  
-  .service-showcase-content p:last-child {
-    margin-bottom: 0;
-    line-height: 2.5rem !important;
-    font-size: 16px !important;
   }
   
   .service-showcase-content ul,
@@ -820,11 +780,11 @@
     }
     
     #service-showcase-{{ section.id }} .service-showcase-heading {
-      font-size: {{ heading_size | times: 0.8 | round }}px !important;
+      font-size: calc(var(--heading-font-size) * 0.8) !important;
     }
     
     #service-showcase-{{ section.id }} .service-showcase-subheading {
-      font-size: {{ subheading_size | times: 0.9 | round }}px !important;
+      font-size: calc(var(--subheading-font-size) * 0.9) !important;
     }
   }
   

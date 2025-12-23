@@ -525,7 +525,7 @@
           {{ html_content }}
         </div>
       {% elsif content_type == 'richtext' and text_content != blank %}
-        <div class="custom-text-body custom-text-richtext" style="margin: 0; font-size: {{ richtext_font_size }}px; font-weight: {{ richtext_font_weight }}; color: {{ richtext_text_color }}; line-height: {{ richtext_line_height }}; letter-spacing: {{ richtext_letter_spacing }}px; word-spacing: {{ richtext_word_spacing }}px;">
+        <div class="custom-text-body custom-text-richtext" style="margin: 0; letter-spacing: {{ richtext_letter_spacing }}px; word-spacing: {{ richtext_word_spacing }}px;">
           {{ text_content }}
         </div>
       {% endif %}
@@ -574,10 +574,7 @@
   }
   
   .custom-text-richtext {
-    font-size: {{ richtext_font_size }}px !important;
-    font-weight: {{ richtext_font_weight }} !important;
-    color: {{ richtext_text_color }} !important;
-    line-height: {{ richtext_line_height }} !important;
+    /* Typography (font-size, font-weight, color, line-height) now comes from theme settings via global CSS */
     letter-spacing: {{ richtext_letter_spacing }}px !important;
     word-spacing: {{ richtext_word_spacing }}px !important;
   }
