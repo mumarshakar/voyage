@@ -108,7 +108,15 @@
       "settings": {
         "show_tabs": true,
         "show_description": true,
-        "show_additional_info": true
+        "show_additional_info": true,
+        "section_bg_color": "#f2f2f2",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "tab_active_color": "#f2f2f2",
+        "tab_inactive_color": "#666666",
+        "tab_border_color": "#666666",
+        "text_color": "#333333",
+        "content_padding": 30
       }
     }
   },
