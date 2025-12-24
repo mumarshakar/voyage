@@ -19,18 +19,34 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-10 offset-lg-1">
-        {% if show_tabs %}
+        {%- liquid
+          assign has_content_to_show = false
+          if show_description or show_additional_info
+            assign has_content_to_show = true
+          endif
+        -%}
+        
+        {% if show_tabs and has_content_to_show %}
+          {%- liquid
+            assign first_tab_active = true
+            if show_description
+              assign active_tab = 'description'
+            elsif show_additional_info
+              assign active_tab = 'additional-info'
+            endif
+          -%}
+          
           <ul class="nav nav-tabs mb-4" id="product-tabs-{{ section.id }}" role="tablist" style="border-bottom: 2px solid {{ tab_border_color }};">
             {% if show_description %}
               <li class="nav-item" role="presentation">
                 <button 
-                  class="nav-link active" 
+                  class="nav-link {% if active_tab == 'description' %}active{% endif %}" 
                   id="description-tab" 
                   data-bs-toggle="tab" 
                   data-bs-target="#description" 
                   type="button" 
                   role="tab"
-                  style="color: {{ tab_inactive_color }}; border: none; border-bottom: 3px solid transparent; padding: 12px 24px; font-weight: 600;"
+                  style="color: {% if active_tab == 'description' %}{{ tab_active_color }}{% else %}{{ tab_inactive_color }}{% endif %}; border: none; border-bottom: 3px solid transparent; padding: 12px 24px; font-weight: 600;"
                   data-active-color="{{ tab_active_color }}"
                   data-inactive-color="{{ tab_inactive_color }}"
                   onmouseover="this.style.color='{{ tab_active_color }}'"
@@ -43,13 +59,13 @@
             {% if show_additional_info %}
               <li class="nav-item" role="presentation">
                 <button 
-                  class="nav-link" 
+                  class="nav-link {% if active_tab == 'additional-info' %}active{% endif %}" 
                   id="additional-info-tab" 
                   data-bs-toggle="tab" 
                   data-bs-target="#additional-info" 
                   type="button" 
                   role="tab"
-                  style="color: {{ tab_inactive_color }}; border: none; border-bottom: 3px solid transparent; padding: 12px 24px; font-weight: 600;"
+                  style="color: {% if active_tab == 'additional-info' %}{{ tab_active_color }}{% else %}{{ tab_inactive_color }}{% endif %}; border: none; border-bottom: 3px solid transparent; padding: 12px 24px; font-weight: 600;"
                   data-active-color="{{ tab_active_color }}"
                   data-inactive-color="{{ tab_inactive_color }}"
                   onmouseover="this.style.color='{{ tab_active_color }}'"
@@ -64,7 +80,7 @@
           <div class="tab-content" id="product-tab-content">
             {% if show_description %}
               <div 
-                class="tab-pane fade show active" 
+                class="tab-pane fade {% if active_tab == 'description' %}show active{% endif %}" 
                 id="description" 
                 role="tabpanel"
                 style="padding: {{ content_padding }}px 0;">
@@ -76,7 +92,7 @@
             
             {% if show_additional_info %}
               <div 
-                class="tab-pane fade" 
+                class="tab-pane fade {% if active_tab == 'additional-info' %}show active{% endif %}" 
                 id="additional-info" 
                 role="tabpanel"
                 style="padding: {{ content_padding }}px 0;">
@@ -111,10 +127,42 @@
               </div>
             {% endif %}
           </div>
-        {% else %}
+        {% elsif has_content_to_show %}
+          {%- comment -%} Show content without tabs {%- endcomment -%}
           {% if show_description %}
             <div class="product-description-content" style="padding: {{ content_padding }}px 0; color: {{ text_color }};">
               {{ product.description }}
+            </div>
+          {% endif %}
+          
+          {% if show_additional_info %}
+            <div class="product-additional-info" style="padding: {{ content_padding }}px 0; margin-top: {% if show_description %}30px{% else %}0{% endif %};">
+              <table class="table table-borderless">
+                {% if product.vendor != blank %}
+                  <tr>
+                    <td style="width: 200px; font-weight: 600; padding: 10px 0;">Vendor:</td>
+                    <td style="padding: 10px 0;">{{ product.vendor }}</td>
+                  </tr>
+                {% endif %}
+                {% if product.type != blank %}
+                  <tr>
+                    <td style="width: 200px; font-weight: 600; padding: 10px 0;">Type:</td>
+                    <td style="padding: 10px 0;">{{ product.type }}</td>
+                  </tr>
+                {% endif %}
+                {% if product.selected_or_first_available_variant.sku != blank %}
+                  <tr>
+                    <td style="width: 200px; font-weight: 600; padding: 10px 0;">SKU:</td>
+                    <td style="padding: 10px 0;">{{ product.selected_or_first_available_variant.sku }}</td>
+                  </tr>
+                {% endif %}
+                {% if product.selected_or_first_available_variant.barcode != blank %}
+                  <tr>
+                    <td style="width: 200px; font-weight: 600; padding: 10px 0;">Barcode:</td>
+                    <td style="padding: 10px 0;">{{ product.selected_or_first_available_variant.barcode }}</td>
+                  </tr>
+                {% endif %}
+              </table>
             </div>
           {% endif %}
         {% endif %}
