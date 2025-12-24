@@ -9,8 +9,8 @@
   assign padding_horizontal_mobile = section.settings.padding_horizontal_mobile | default: 20
   assign margin_top_mobile = section.settings.margin_top_mobile | default: 0
   assign margin_bottom_mobile = section.settings.margin_bottom_mobile | default: 0
-  assign section_height_desktop = section.settings.section_height_desktop | default: 600
-  assign section_height_mobile = section.settings.section_height_mobile | default: 400
+  assign section_height_desktop = section.settings.section_height_desktop | default: 2000
+  assign section_height_mobile = section.settings.section_height_mobile | default: 2000
   assign desktop_media_position = section.settings.desktop_media_position | default: 'left'
   assign swap_columns_mobile = section.settings.swap_columns_mobile | default: false
 -%}
@@ -701,9 +701,9 @@
       "id": "section_height_desktop",
       "label": "Section Height - Desktop (px)",
       "min": 200,
-      "max": 1500,
+      "max": 3000,
       "step": 50,
-      "default": 600,
+      "default": 2000,
       "unit": "px",
       "info": "Height of section on desktop screens (992px and above)"
     },
@@ -712,9 +712,9 @@
       "id": "section_height_mobile",
       "label": "Section Height - Mobile (px)",
       "min": 200,
-      "max": 1000,
+      "max": 3000,
       "step": 50,
-      "default": 400,
+      "default": 2000,
       "unit": "px",
       "info": "Height of section on mobile screens (below 992px)"
     },

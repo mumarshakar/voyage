@@ -11,8 +11,8 @@
   assign padding_horizontal_mobile = settings.padding_horizontal_mobile | default: 20
   assign margin_top_mobile = settings.margin_top_mobile | default: 0
   assign margin_bottom_mobile = settings.margin_bottom_mobile | default: 0
-  assign section_height_desktop = settings.section_height_desktop | default: 600
-  assign section_height_mobile = settings.section_height_mobile | default: 400
+  assign section_height_desktop = settings.section_height_desktop | default: 2000
+  assign section_height_mobile = settings.section_height_mobile | default: 2000
 -%}
 
 <div class="product-main-section" style="padding-top: {{ padding_top_desktop }}px; padding-bottom: {{ padding_bottom_desktop }}px; padding-left: {{ padding_horizontal_desktop }}px; padding-right: {{ padding_horizontal_desktop }}px; margin-top: {{ margin_top_desktop }}px; margin-bottom: {{ margin_bottom_desktop }}px;">
@@ -90,7 +90,6 @@
       margin-top: {{ margin_top_mobile }}px !important;
       margin-bottom: {{ margin_bottom_mobile }}px !important;
       min-height: {{ section_height_mobile }}px !important;
-      height: {{ section_height_mobile }}px !important;
     }
   }
   
@@ -98,7 +97,6 @@
   @media (min-width: 992px) {
     .product-main-section {
       min-height: {{ section_height_desktop }}px !important;
-      height: {{ section_height_desktop }}px !important;
     }
   }
 </style>
