@@ -50,70 +50,6 @@
         "margin_bottom": 0
       }
     },
-    "booking_calendar_tNwzTR": {
-      "type": "booking-calendar",
-      "blocks": {
-        "event_gx4LN6": {
-          "type": "event",
-          "settings": {
-            "event_image": "shopify://shop_images/Meat_the_team.jpg",
-            "event_title": "Yoga Class",
-            "event_link": ""
-          }
-        },
-        "event_LHBhLx": {
-          "type": "event",
-          "settings": {
-            "event_image": "shopify://shop_images/DSC05749_copy_2.jpg",
-            "event_title": "Pilates Session",
-            "event_link": ""
-          }
-        },
-        "event_GjdhYP": {
-          "type": "event",
-          "settings": {
-            "event_image": "shopify://shop_images/voyage.png",
-            "event_title": "Pilates Class",
-            "event_link": ""
-          }
-        },
-        "event_6KbCiY": {
-          "type": "event",
-          "settings": {
-            "event_title": "Yoga Class",
-            "event_link": ""
-          }
-        },
-        "event_JPCamm": {
-          "type": "event",
-          "settings": {
-            "event_title": "Pilates Class",
-            "event_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "event_gx4LN6",
-        "event_LHBhLx",
-        "event_GjdhYP",
-        "event_6KbCiY",
-        "event_JPCamm"
-      ],
-      "name": "Booking Calendar",
-      "settings": {
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_horizontal": 20,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "background_color": "#F8F7F5",
-        "heading_color": "#8B6F47",
-        "heading_font_family": "Playfair Display, serif",
-        "weekday_color": "#8B6F47",
-        "weekday_font_family": "Playfair Display, serif",
-        "day_number_color": "#333333"
-      }
-    },
     "custom_text_JNzLJm": {
       "type": "custom-text",
       "name": "Custom Text",
@@ -138,7 +74,6 @@
   },
   "order": [
     "hero_section_mJUjfe",
-    "booking_calendar_tNwzTR",
     "custom_text_JNzLJm"
   ]
 }
