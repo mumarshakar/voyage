@@ -51,21 +51,61 @@
         "margin_bottom": 0
       }
     },
-    "product_info_x6LNAf": {
-      "type": "product-info",
-      "name": "Product Info",
+    "product_main_4CKccT": {
+      "type": "product-main",
+      "blocks": {
+        "product_media_gallery_BYGaHq": {
+          "type": "product-media-gallery",
+          "settings": {}
+        },
+        "product_details_gab4DQ": {
+          "type": "product-details",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_media_gallery_BYGaHq",
+        "product_details_gab4DQ"
+      ],
+      "name": "Product Main",
       "settings": {
-        "show_vendor": false,
-        "show_sku": false,
-        "show_quantity_selector": true,
-        "enable_dynamic_checkout": false,
-        "sesami_shop_id": "77838188777",
-        "sesami_service_id": "9154404417769"
+        "desktop_media_position": "left",
+        "swap_columns_mobile": false,
+        "section_height_desktop": 1400,
+        "section_height_mobile": 2000,
+        "padding_top_desktop": 60,
+        "padding_bottom_desktop": 60,
+        "padding_horizontal_desktop": 20,
+        "margin_top_desktop": 0,
+        "margin_bottom_desktop": 0,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_horizontal_mobile": 20,
+        "margin_top_mobile": 0,
+        "margin_bottom_mobile": 0
+      }
+    },
+    "product_description_yKiCfn": {
+      "type": "product-description",
+      "name": "Product Description",
+      "settings": {
+        "show_tabs": true,
+        "show_description": true,
+        "show_additional_info": true,
+        "section_bg_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "tab_active_color": "#ffffff",
+        "tab_inactive_color": "#666",
+        "tab_border_color": "#f2f2f2",
+        "text_color": "#333",
+        "content_padding": 30
       }
     }
   },
   "order": [
     "hero_section_XNTJHK",
-    "product_info_x6LNAf"
+    "product_main_4CKccT",
+    "product_description_yKiCfn"
   ]
 }
