@@ -83,6 +83,104 @@
   </div>
 {% else %}
   <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" id="product-form" data-product-id="{{ product.id }}" class="product-form">
+    <!-- Questionnaire Card - After price, before quantity -->
+    <div class="card mb-3" style="background-color: #f8f9fa;" id="product-questionnaire-card">
+      <div class="card-body">
+        <h6 class="card-title mb-3 fw-semibold">Additional Information</h6>
+        <p class="text-muted small mb-3">
+          <i class="bi bi-exclamation-circle me-1"></i>
+          Please fill out the following information (all fields are required)
+        </p>
+        
+        <div class="product-questionnaire-form" id="product-questionnaire-form">
+          <!-- Food Allergies Field -->
+          <div class="mb-3">
+            <label for="questionnaire-food-allergies" class="form-label fw-semibold">
+              Do you have any food allergies? <span class="text-danger">*</span>
+            </label>
+            <textarea 
+              class="form-control questionnaire-field" 
+              id="questionnaire-food-allergies" 
+              name="properties[Food Allergies]"
+              rows="3" 
+              required
+              placeholder="Please list any food allergies or dietary restrictions..."
+            ></textarea>
+            <div class="invalid-feedback">This field is required.</div>
+          </div>
+
+          <!-- Injuries Field -->
+          <div class="mb-3">
+            <label for="questionnaire-injuries" class="form-label fw-semibold">
+              Do you have any injuries? <span class="text-danger">*</span>
+            </label>
+            <textarea 
+              class="form-control questionnaire-field" 
+              id="questionnaire-injuries" 
+              name="properties[Injuries]"
+              rows="3" 
+              required
+              placeholder="Please list any injuries or physical limitations..."
+            ></textarea>
+            <div class="invalid-feedback">This field is required.</div>
+          </div>
+
+          <!-- Celebrations Field -->
+          <div class="mb-3">
+            <label for="questionnaire-celebrations" class="form-label fw-semibold">
+              Are you sharing any celebrations with us aboard? <span class="text-danger">*</span>
+            </label>
+            <textarea 
+              class="form-control questionnaire-field" 
+              id="questionnaire-celebrations" 
+              name="properties[Celebrations]"
+              rows="3" 
+              required
+              placeholder="Birthday, anniversary, or other special occasion..."
+            ></textarea>
+            <div class="invalid-feedback">This field is required.</div>
+          </div>
+
+          <!-- Anything Else Field -->
+          <div class="mb-3">
+            <label for="questionnaire-anything-else" class="form-label fw-semibold">
+              Anything else you would like us to know? <span class="text-danger">*</span>
+            </label>
+            <textarea 
+              class="form-control questionnaire-field" 
+              id="questionnaire-anything-else" 
+              name="properties[Anything Else]"
+              rows="3" 
+              required
+              placeholder="Any additional information or special requests..."
+            ></textarea>
+            <div class="invalid-feedback">This field is required.</div>
+          </div>
+
+          <!-- Terms & Conditions Checkbox -->
+          <div class="mb-3">
+            <div class="form-check">
+              <input 
+                class="form-check-input questionnaire-field" 
+                type="checkbox" 
+                id="questionnaire-terms" 
+                name="properties[Terms Accepted]"
+                value="Yes"
+                required
+              >
+              <label class="form-check-label" for="questionnaire-terms">
+                Do you agree to the terms and conditions? <span class="text-danger">*</span>
+                <a href="/pages/terms-conditions" target="_blank" class="ms-1" style="text-decoration: none;" title="View Terms and Conditions">
+                  <i class="bi bi-file-text" style="font-size: 14px; color: var(--primary-orange, #FF6B35);"></i>
+                </a>
+              </label>
+              <div class="invalid-feedback">You must agree to the terms and conditions.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Variants Card -->
     {% if product.variants.size > 1 %}
       <div class="card mb-3" style="background-color: #f8f9fa;">

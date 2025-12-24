@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Questionnaire - Visual Preview</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --primary-orange: #FF6B35;
+            --cream: #FFF8E7;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        .preview-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .preview-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .preview-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary-orange);
+        }
+        
+        /* Product Details Styling */
+        .product-vendor {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+        
+        .product-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+        }
+        
+        .product-price {
+            margin-bottom: 24px;
+        }
+        
+        .product-price-current {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* Card Styling */
+        .card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .card[style*="background-color: #f8f9fa"] {
+            background-color: #f8f9fa !important;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .card-body {
+            padding: 1.25rem;
+        }
+        
+        /* Questionnaire Styling */
+        .questionnaire-field:focus {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+        }
+        
+        .questionnaire-field.is-invalid {
+            border-color: #dc3545;
+        }
+        
+        .questionnaire-field.is-valid {
+            border-color: #28a745;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .text-danger {
+            color: #dc3545 !important;
+        }
+        
+        .text-muted {
+            font-size: 13px;
+            color: #6c757d;
+        }
+        
+        /* Quantity Selector Styling */
+        .input-group {
+            max-width: 200px;
+        }
+        
+        .btn-outline-secondary {
+            border-color: #dee2e6;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+            height: 50px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e55a2b;
+            border-color: #e55a2b;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            height: 50px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        /* Cart Display Styling */
+        .cart-item {
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .questionnaire-display {
+            background-color: #f9f9f9;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+        
+        .questionnaire-display h6 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .questionnaire-display div {
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+        
+        .questionnaire-display strong {
+            color: #333;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background-color: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .info-box h5 {
+            color: #0066cc;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .info-box p {
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <h1 class="preview-title">Product Questionnaire - Visual Preview</h1>
+        
+        <!-- Info Box -->
+        <div class="info-box">
+            <h5><i class="bi bi-info-circle me-2"></i>Preview Information</h5>
+            <p><strong>Purpose:</strong> This preview shows how the questionnaire will appear on the product page.</p>
+            <p><strong>Position:</strong> After product price, before quantity selector</p>
+            <p><strong>All fields are required</strong> - Form validation will prevent submission if incomplete.</p>
+        </div>
+        
+        <!-- PRODUCT PAGE PREVIEW -->
+        <div class="preview-section">
+            <h2 class="mb-4" style="color: var(--primary-orange); border-bottom: 2px solid var(--primary-orange); padding-bottom: 10px;">
+                <i class="bi bi-box-seam me-2"></i>Product Page Preview
+            </h2>
+            
+            <!-- Product Vendor (Optional) -->
+            <div class="product-vendor">VENDOR NAME</div>
+            
+            <!-- Product Title -->
+            <h1 class="product-title">Merry & Zen Ticket 1</h1>
+            
+            <!-- Product Price -->
+            <div class="product-price">
+                <span class="product-price-current">AED 500.00</span>
+            </div>
+            
+            <!-- QUESTIONNAIRE CARD - This is what we're adding -->
+            <div class="card mb-3" style="background-color: #f8f9fa;" id="product-questionnaire-card">
+                <div class="card-body">
+                    <h6 class="card-title mb-3 fw-semibold">Additional Information</h6>
+                    <p class="text-muted small mb-3">
+                        <i class="bi bi-exclamation-circle me-1"></i>
+                        Please fill out the following information (all fields are required)
+                    </p>
+                    
+                    <div class="product-questionnaire-form" id="product-questionnaire-form">
+                        <!-- Food Allergies Field -->
+                        <div class="mb-3">
+                            <label for="questionnaire-food-allergies" class="form-label fw-semibold">
+                                Do you have any food allergies? <span class="text-danger">*</span>
+                            </label>
+                            <textarea 
+                                class="form-control questionnaire-field" 
+                                id="questionnaire-food-allergies" 
+                                name="properties[Food Allergies]"
+                                rows="3" 
+                                required
+                                placeholder="Please list any food allergies or dietary restrictions..."
+                            ></textarea>
+                            <div class="invalid-feedback">This field is required.</div>
+                        </div>
+
+                        <!-- Injuries Field -->
+                        <div class="mb-3">
+                            <label for="questionnaire-injuries" class="form-label fw-semibold">
+                                Do you have any injuries? <span class="text-danger">*</span>
+                            </label>
+                            <textarea 
+                                class="form-control questionnaire-field" 
+                                id="questionnaire-injuries" 
+                                name="properties[Injuries]"
+                                rows="3" 
+                                required
+                                placeholder="Please list any injuries or physical limitations..."
+                            ></textarea>
+                            <div class="invalid-feedback">This field is required.</div>
+                        </div>
+
+                        <!-- Celebrations Field -->
+                        <div class="mb-3">
+                            <label for="questionnaire-celebrations" class="form-label fw-semibold">
+                                Are you sharing any celebrations with us aboard? <span class="text-danger">*</span>
+                            </label>
+                            <textarea 
+                                class="form-control questionnaire-field" 
+                                id="questionnaire-celebrations" 
+                                name="properties[Celebrations]"
+                                rows="3" 
+                                required
+                                placeholder="Birthday, anniversary, or other special occasion..."
+                            ></textarea>
+                            <div class="invalid-feedback">This field is required.</div>
+                        </div>
+
+                        <!-- Anything Else Field -->
+                        <div class="mb-3">
+                            <label for="questionnaire-anything-else" class="form-label fw-semibold">
+                                Anything else you would like us to know? <span class="text-danger">*</span>
+                            </label>
+                            <textarea 
+                                class="form-control questionnaire-field" 
+                                id="questionnaire-anything-else" 
+                                name="properties[Anything Else]"
+                                rows="3" 
+                                required
+                                placeholder="Any additional information or special requests..."
+                            ></textarea>
+                            <div class="invalid-feedback">This field is required.</div>
+                        </div>
+
+                        <!-- Terms & Conditions Checkbox -->
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input 
+                                    class="form-check-input questionnaire-field" 
+                                    type="checkbox" 
+                                    id="questionnaire-terms" 
+                                    name="properties[Terms Accepted]"
+                                    value="Yes"
+                                    required
+                                >
+                                <label class="form-check-label" for="questionnaire-terms">
+                                    Do you agree to the terms and conditions? <span class="text-danger">*</span>
+                                    <a href="#" target="_blank" class="ms-1" style="text-decoration: none;" title="View Terms and Conditions">
+                                        <i class="bi bi-file-text" style="font-size: 14px; color: var(--primary-orange);"></i>
+                                    </a>
+                                </label>
+                                <div class="invalid-feedback">You must agree to the terms and conditions.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quantity Selector Card -->
+            <div class="card mb-3" style="background-color: #f8f9fa;">
+                <div class="card-body">
+                    <label for="quantity" class="form-label fw-semibold mb-2">Quantity</label>
+                    <div class="input-group" style="max-width: 200px;">
+                        <button 
+                            type="button" 
+                            class="btn btn-outline-secondary"
+                            style="border-color: #dee2e6;">
+                            <i class="bi bi-dash"></i>
+                        </button>
+                        <input 
+                            type="number" 
+                            id="quantity" 
+                            name="quantity" 
+                            value="1" 
+                            min="1" 
+                            class="form-control text-center"
+                            style="border-color: #dee2e6;"
+                            readonly
+                        >
+                        <button 
+                            type="button" 
+                            class="btn btn-outline-secondary"
+                            style="border-color: #dee2e6;">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add to Cart and Buy Now Buttons -->
+            <div class="card mb-3" style="background-color: #f8f9fa;">
+                <div class="card-body">
+                    <div class="d-flex flex-column gap-3">
+                        <!-- Add to Cart Button -->
+                        <button 
+                            type="button" 
+                            class="btn btn-primary w-100"
+                            style="height: 50px; font-size: 18px; font-weight: 600;">
+                            <i class="bi bi-cart-plus me-2"></i>
+                            Add to Cart
+                        </button>
+
+                        <!-- Buy Now Button -->
+                        <button 
+                            type="button" 
+                            class="btn btn-success w-100"
+                            style="height: 50px; font-size: 18px; font-weight: 600;">
+                            <i class="bi bi-bag-check me-2"></i>
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CART PAGE PREVIEW -->
+        <div class="preview-section">
+            <h2 class="mb-4" style="color: var(--primary-orange); border-bottom: 2px solid var(--primary-orange); padding-bottom: 10px;">
+                <i class="bi bi-cart me-2"></i>Cart Page Preview
+            </h2>
+            
+            <div class="cart-item">
+                <div class="row align-items-center">
+                    <div class="col-md-2 col-4">
+                        <img src="https://via.placeholder.com/100x100?text=Product" class="img-fluid rounded" alt="Product" width="100" height="100">
+                    </div>
+                    <div class="col-md-4 col-8">
+                        <h5 class="mb-0">Merry & Zen Ticket 1</h5>
+                        <p class="text-muted mb-0 small">Default Title</p>
+                        <a href="#" class="text-danger small">Remove</a>
+                    </div>
+                    <div class="col-md-2 col-4 text-md-start text-end">
+                        <p class="mb-0">AED 500.00</p>
+                    </div>
+                    <div class="col-md-2 col-4">
+                        <div class="input-group input-group-sm">
+                            <button type="button" class="btn btn-outline-secondary">-</button>
+                            <input type="number" class="form-control text-center" value="1" min="0" readonly>
+                            <button type="button" class="btn btn-outline-secondary">+</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-4 text-end">
+                        <p class="mb-0">AED 500.00</p>
+                    </div>
+                </div>
+                
+                <!-- Questionnaire Properties Display -->
+                <div class="col-12 mt-3">
+                    <div class="questionnaire-display">
+                        <h6><i class="bi bi-info-circle me-1"></i>Additional Information:</h6>
+                        <div>
+                            <strong>Food Allergies:</strong>
+                            <span class="text-muted ms-1">Peanuts, Dairy</span>
+                        </div>
+                        <div>
+                            <strong>Injuries:</strong>
+                            <span class="text-muted ms-1">None</span>
+                        </div>
+                        <div>
+                            <strong>Celebrations:</strong>
+                            <span class="text-muted ms-1">Birthday celebration</span>
+                        </div>
+                        <div>
+                            <strong>Anything Else:</strong>
+                            <span class="text-muted ms-1">Window seat preferred if available</span>
+                        </div>
+                        <div>
+                            <strong>Terms Accepted:</strong>
+                            <span class="text-muted ms-1">Yes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="note" class="form-label">Add a note to your order:</label>
+                        <textarea name="note" id="note" rows="3" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="h5">Subtotal: <span>AED 500.00</span></p>
+                    <p class="text-muted small">Taxes and shipping calculated at checkout.</p>
+                    <div class="mt-3">
+                        <button type="button" class="btn btn-outline-primary me-2">Update Cart</button>
+                        <button type="button" class="btn btn-primary">Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- VALIDATION STATES PREVIEW -->
+        <div class="preview-section">
+            <h2 class="mb-4" style="color: var(--primary-orange); border-bottom: 2px solid var(--primary-orange); padding-bottom: 10px;">
+                <i class="bi bi-shield-check me-2"></i>Validation States Preview
+            </h2>
+            
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle me-2"></i>
+                <strong>Form Validation:</strong> The form will show validation states when user tries to submit without completing all fields.
+            </div>
+            
+            <!-- Invalid State Example -->
+            <div class="mb-4">
+                <h5 class="mb-3">Invalid State (Empty Field)</h5>
+                <div class="mb-3">
+                    <label for="invalid-example" class="form-label fw-semibold">
+                        Do you have any food allergies? <span class="text-danger">*</span>
+                    </label>
+                    <textarea 
+                        class="form-control questionnaire-field is-invalid" 
+                        id="invalid-example"
+                        rows="2"
+                        placeholder="This field is required"
+                    ></textarea>
+                    <div class="invalid-feedback d-block">This field is required.</div>
+                </div>
+            </div>
+            
+            <!-- Valid State Example -->
+            <div>
+                <h5 class="mb-3">Valid State (Filled Field)</h5>
+                <div class="mb-3">
+                    <label for="valid-example" class="form-label fw-semibold">
+                        Do you have any food allergies? <span class="text-danger">*</span>
+                    </label>
+                    <textarea 
+                        class="form-control questionnaire-field is-valid" 
+                        id="valid-example"
+                        rows="2"
+                    >Peanuts, Dairy</textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TECHNICAL NOTES -->
+        <div class="preview-section">
+            <h2 class="mb-4" style="color: var(--primary-orange); border-bottom: 2px solid var(--primary-orange); padding-bottom: 10px;">
+                <i class="bi bi-code-square me-2"></i>Technical Notes
+            </h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3"><i class="bi bi-check-circle text-success me-2"></i>Features</h5>
+                    <ul>
+                        <li>All fields are required (HTML5 validation)</li>
+                        <li>JavaScript validation before form submission</li>
+                        <li>Data stored as Shopify cart item properties</li>
+                        <li>Properties display on cart page automatically</li>
+                        <li>Properties included in order confirmation</li>
+                        <li>Responsive design (mobile-friendly)</li>
+                        <li>First Name/Last Name excluded (collected at checkout)</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="mb-3"><i class="bi bi-exclamation-triangle text-warning me-2"></i>Important Notes</h5>
+                    <ul>
+                        <li>Properties persist through cart updates</li>
+                        <li>If item removed and re-added, form must be filled again</li>
+                        <li>Properties are read-only on cart page</li>
+                        <li>Order page automatically includes properties (no code needed)</li>
+                        <li>Max 100 properties per cart item (we use 5)</li>
+                        <li>Property value max 5,000 characters</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Preview Validation Script -->
+    <script>
+        // Demo validation for preview purposes
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('product-questionnaire-form');
+            const fields = form.querySelectorAll('.questionnaire-field[required]');
+            
+            fields.forEach(field => {
+                field.addEventListener('blur', function() {
+                    if (this.type === 'checkbox') {
+                        if (this.checked) {
+                            this.classList.remove('is-invalid');
+                            this.classList.add('is-valid');
+                        } else {
+                            this.classList.remove('is-valid');
+                            this.classList.add('is-invalid');
+                        }
+                    } else {
+                        if (this.value.trim()) {
+                            this.classList.remove('is-invalid');
+                            this.classList.add('is-valid');
+                        } else {
+                            this.classList.remove('is-valid');
+                            this.classList.add('is-invalid');
+                        }
+                    }
+                });
+                
+                field.addEventListener('input', function() {
+                    if (this.type === 'checkbox') {
+                        if (this.checked) {
+                            this.classList.remove('is-invalid');
+                            this.classList.add('is-valid');
+                        }
+                    } else {
+                        if (this.value.trim()) {
+                            this.classList.remove('is-invalid');
+                            this.classList.add('is-valid');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
