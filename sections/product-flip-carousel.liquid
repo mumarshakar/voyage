@@ -35,9 +35,17 @@
   -%}
   
   <style>
-    /* Show section always (for now - can add mobile-only later) */
+    /* Hide on desktop and tablet by default - Show only on mobile */
     #{{ section_id }} {
-      display: block;
+      display: none;
+    }
+    
+    /* Show in Shopify admin/theme editor (for configuration) */
+    body[class*="admin"] #{{ section_id }},
+    body[class*="editor"] #{{ section_id }},
+    body[class*="theme-editor"] #{{ section_id }},
+    html[data-theme-editor] #{{ section_id }} {
+      display: block !important;
       background-color: {{ section_bg_color }};
       padding-top: {{ padding_top }}px;
       padding-bottom: {{ padding_bottom }}px;
@@ -47,16 +55,18 @@
       margin-bottom: {{ margin_bottom }}px;
     }
     
-    /* TODO: Add mobile-only visibility later */
-    /* @media (min-width: 768px) {
-      body:not([class*="admin"]) #{{ section_id }} {
-        display: none !important;
-      }
-    } */
-    
+    /* Show on mobile devices only (max-width: 767px) */
     @media (max-width: 767px) {
       #{{ section_id }} {
         display: block !important;
+        background-color: {{ section_bg_color }};
+        padding-top: {{ padding_top }}px;
+        padding-bottom: {{ padding_bottom }}px;
+        padding-left: {{ padding_horizontal }}px;
+        padding-right: {{ padding_horizontal }}px;
+        margin-top: {{ margin_top }}px;
+        margin-bottom: {{ margin_bottom }}px;
+      }
       
       #{{ section_id }} .container {
         max-width: 100%;
