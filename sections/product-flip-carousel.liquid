@@ -35,9 +35,17 @@
   -%}
   
   <style>
-    /* Hide on desktop - Show only on mobile */
+    /* Show section by default (visible in admin) */
     #{{ section_id }} {
-      display: none;
+      display: block;
+    }
+    
+    /* Hide on desktop frontend - Show only on mobile */
+    @media (min-width: 768px) {
+      /* Show in admin/editor, hide on frontend */
+      html:not([data-theme-editor]) #{{ section_id }} {
+        display: none !important;
+      }
     }
     
     @media (max-width: 767px) {
@@ -254,6 +262,12 @@
         {% endif %}
         
         <div class="product-flip-carousel-slides" id="product-flip-slides-{{ section.id }}">
+          {% if section.blocks.size == 0 %}
+            <div style="padding: 40px; text-align: center; color: #666;">
+              <p style="margin-bottom: 1rem;">No products added yet.</p>
+              <p style="font-size: 14px;">Add a "Product Slide" block and select a product to display.</p>
+            </div>
+          {% endif %}
           {% for block in section.blocks %}
             {%- liquid
               assign slide_id = 'product-flip-slide-' | append: block.id
