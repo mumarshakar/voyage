@@ -338,6 +338,8 @@
                 <div class="slide-background">
                   <img src="{{ block.settings.background_image | image_url: width: 1920 }}" 
                        alt="{{ block.settings.title | escape }}"
+                       width="{{ block.settings.background_image.width }}"
+                       height="{{ block.settings.background_image.height }}"
                        loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
                 </div>
               {%- endif -%}

@@ -59,7 +59,7 @@
   # Typography comes from theme settings via theme.liquid - no section-specific values
 -%}
 
-{% stylesheet %}
+<style>
 .flip-card {
     background: transparent;
     width: 100%;
@@ -174,7 +174,7 @@
         display: none !important;
     }
 }
-{% endstylesheet %}
+</style>
 
 <div class="container py-5"
      style="--team-card-height: {{ card_height }}px;
@@ -193,9 +193,17 @@
                     <!-- Front -->
                     <div class="flip-card-front text-center">
                         {% if block.settings.image != blank %}
-                            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.name | escape }}">
+                            <img src="{{ block.settings.image | image_url: width: 600 }}" 
+                                 alt="{{ block.settings.name | escape }}"
+                                 width="{{ block.settings.image.width }}"
+                                 height="{{ block.settings.image.height }}"
+                                 loading="lazy">
                         {% else %}
-                            <img src="https://via.placeholder.com/400x250" alt="placeholder">
+                            <img src="https://via.placeholder.com/400x250" 
+                                 alt="placeholder"
+                                 width="400"
+                                 height="250"
+                                 loading="lazy">
                         {% endif %}
 
                         <h5 class="mt-3 mb-0">

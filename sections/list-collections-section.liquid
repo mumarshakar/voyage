@@ -11,9 +11,14 @@
       {% if collection.handle == 'all' %}{% continue %}{% endif %}
       <div class="col">
         <div class="card h-100">
-          <a href="/collections/{{ collection.handle }}">
+          <a href="{{ routes.collections_url }}/{{ collection.handle }}">
             {% if collection.image %}
-              <img src="{{ collection.image | img_url: 'large' }}" alt="{{ collection.title }}" class="card-img-top">
+              <img src="{{ collection.image | image_url: width: 800 }}" 
+                   alt="{{ collection.title }}" 
+                   class="card-img-top"
+                   width="{{ collection.image.width }}"
+                   height="{{ collection.image.height }}"
+                   loading="lazy">
             {% else %}
               {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'card-img-top' }}
             {% endif %}
@@ -23,7 +28,7 @@
             <div class="card-text rte">
               {{ collection.description | truncatewords: 20 }}
             </div>
-            <a href="/collections/{{ collection.handle }}" class="btn btn-primary mt-auto">View Services</a>
+            <a href="{{ routes.collections_url }}/{{ collection.handle }}" class="btn btn-primary mt-auto">View Services</a>
           </div>
         </div>
       </div>

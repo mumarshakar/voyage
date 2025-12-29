@@ -16,6 +16,8 @@
               alt="{{ product.featured_image.alt | escape }}"
               class="img-fluid w-100"
               style="border-radius: 8px; object-fit: cover; max-height: 800px;"
+              width="{{ product.featured_image.width }}"
+              height="{{ product.featured_image.height }}"
               loading="eager">
           </div>
         {% endif %}
@@ -34,6 +36,8 @@
                   alt="{{ image.alt | escape }}"
                   class="img-fluid"
                   style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; border: 2px solid {% if forloop.first %}var(--primary-orange, #FF6B35){% else %}transparent{% endif %};"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
                   loading="lazy">
               </button>
             {% endfor %}

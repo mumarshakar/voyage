@@ -39,9 +39,12 @@
             <div class="card h-100 {% if section.settings.card_shadow %}shadow-sm{% endif %}">
               <a href="{{ product.url | within: collection }}" class="text-decoration-none text-dark d-flex flex-column h-100">
                 {% if product.featured_image %}
-                  <img src="{{ product.featured_image | img_url: 'large' }}"
+                  <img src="{{ product.featured_image | image_url: width: 800 }}"
                        class="card-img-top"
-                       alt="{{ product.featured_image.alt | escape }}">
+                       alt="{{ product.featured_image.alt | escape }}"
+                       width="{{ product.featured_image.width }}"
+                       height="{{ product.featured_image.height }}"
+                       loading="lazy">
                 {% else %}
                   {{ 'product-1' | placeholder_svg_tag: 'card-img-top' }}
                 {% endif %}
