@@ -419,7 +419,7 @@
       ],
       "name": "Product Flip Mobile",
       "settings": {
-        "section_width_type": "container",
+        "section_width_type": "full_width",
         "section_bg_color": "#ffffff",
         "padding_top": 40,
         "padding_bottom": 40,
