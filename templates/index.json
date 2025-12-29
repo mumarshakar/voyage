@@ -400,10 +400,28 @@
     "product_flip_carousel_N9ff3U": {
       "type": "product-flip-carousel",
       "blocks": {
+        "product_slide_CrQL7X": {
+          "type": "product_slide",
+          "settings": {
+            "selected_product": "wellness-cruise"
+          }
+        },
+        "product_slide_4GEY8V": {
+          "type": "product_slide",
+          "settings": {
+            "selected_product": "sun-set-wellness-cruise"
+          }
+        },
         "product_slide_AVw6LX": {
           "type": "product_slide",
           "settings": {
             "selected_product": "wellness-voyage"
+          }
+        },
+        "product_slide_DmHPBk": {
+          "type": "product_slide",
+          "settings": {
+            "selected_product": "contrast-therapy"
           }
         },
         "product_slide_9bPbf6": {
@@ -411,11 +429,35 @@
           "settings": {
             "selected_product": "compression-boots"
           }
+        },
+        "product_slide_mKcCJE": {
+          "type": "product_slide",
+          "settings": {
+            "selected_product": "meditation-mindfulness-session"
+          }
+        },
+        "product_slide_AnrFwd": {
+          "type": "product_slide",
+          "settings": {
+            "selected_product": "yoga"
+          }
+        },
+        "product_slide_WhUBdx": {
+          "type": "product_slide",
+          "settings": {
+            "selected_product": ""
+          }
         }
       },
       "block_order": [
+        "product_slide_CrQL7X",
+        "product_slide_4GEY8V",
         "product_slide_AVw6LX",
-        "product_slide_9bPbf6"
+        "product_slide_DmHPBk",
+        "product_slide_9bPbf6",
+        "product_slide_mKcCJE",
+        "product_slide_AnrFwd",
+        "product_slide_WhUBdx"
       ],
       "name": "Product Flip Mobile",
       "settings": {
