@@ -91,8 +91,13 @@
       }
       
       .product-flip-card:hover .product-flip-card-inner,
-      .product-flip-card:active .product-flip-card-inner {
+      .product-flip-card:active .product-flip-card-inner,
+      .product-flip-card.flipped .product-flip-card-inner {
         transform: rotateY(180deg);
+      }
+      
+      .product-flip-card {
+        cursor: pointer;
       }
       
       .product-flip-card-front,
@@ -286,12 +291,10 @@
                 assign product_image = selected_product.featured_image
                 assign product_title = selected_product.title
                 assign product_description = selected_product.description
-                assign product_url = selected_product.url
               else
                 assign product_image = blank
                 assign product_title = blank
                 assign product_description = blank
-                assign product_url = blank
               endif
             -%}
             
@@ -301,11 +304,7 @@
                  style="display: {% if is_active %}block{% else %}none{% endif %};"
                  {{ block.shopify_attributes }}>
               
-              {% if product_url != blank %}
-                <a href="{{ product_url }}" style="text-decoration: none; color: inherit; display: block;">
-              {% endif %}
-              
-              <div class="product-flip-card">
+              <div class="product-flip-card" data-flip-card>
                 <div class="product-flip-card-inner">
                   {% comment %} Front: Product Image {% endcomment %}
                   <div class="product-flip-card-front">
@@ -343,10 +342,6 @@
                   </div>
                 </div>
               </div>
-              
-              {% if product_url != blank %}
-                </a>
-              {% endif %}
             </div>
           {% endfor %}
         </div>
@@ -469,6 +464,30 @@
       const func = window['productFlipCarouselGoTo_' + sectionId];
       if (func) func(index);
     }
+    
+    // Handle card flip on click/touch
+    document.addEventListener('DOMContentLoaded', function() {
+      const sectionId = '{{ section_id }}';
+      const cards = document.querySelectorAll(`#${sectionId} .product-flip-card`);
+      
+      cards.forEach(card => {
+        // Handle click events
+        card.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          card.classList.toggle('flipped');
+          return false;
+        });
+        
+        // Handle touch events for mobile
+        card.addEventListener('touchend', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          card.classList.toggle('flipped');
+          return false;
+        });
+      });
+    });
   </script>
   
 {% schema %}
