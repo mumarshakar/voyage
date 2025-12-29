@@ -25,7 +25,6 @@
     assign footer_heading_margin_bottom = 20
     assign columns_desktop = 3
     assign columns_tablet = 2
-    assign columns_mobile = 1
     assign social_heading = 'Join Our Community'
     assign social_heading_alignment = 'center'
     assign social_heading_font_size = 18
@@ -61,7 +60,6 @@
     assign useful_links_heading_font_size = 18
     assign useful_links_heading_font_weight = '600'
     assign footer_link_spacing = 12
-    assign footer_links_column_gap = 40
     assign footer_font_family = 'sans-serif'
     assign footer_link_hover_opacity = 0.8
     assign current_year = 'now' | date: '%Y'
@@ -85,7 +83,6 @@
     assign footer_heading_margin_bottom = footer_settings.footer_heading_margin_bottom | default: 20
     assign columns_desktop = footer_settings.columns_desktop | default: 3
     assign columns_tablet = footer_settings.columns_tablet | default: 2
-    assign columns_mobile = footer_settings.columns_mobile | default: 1
     assign social_heading = footer_settings.social_heading | default: 'Join Our Community'
     assign social_heading_alignment = footer_settings.social_heading_alignment | default: 'center'
     assign social_heading_font_size = footer_settings.social_heading_font_size | default: 18
@@ -121,7 +118,6 @@
     assign useful_links_heading_font_size = footer_settings.useful_links_heading_font_size | default: 18
     assign useful_links_heading_font_weight = footer_settings.useful_links_heading_font_weight | default: '600'
     assign footer_link_spacing = footer_settings.footer_link_spacing | default: 12
-    assign footer_links_column_gap = footer_settings.footer_links_column_gap | default: 40
     assign footer_font_family = footer_settings.footer_font_family | default: 'sans-serif'
     assign footer_link_hover_opacity = footer_settings.footer_link_hover_opacity | default: 0.8
     if footer_settings.copyright_text != blank and footer_settings.copyright_text != ''
@@ -136,7 +132,6 @@
         Replace year placeholders (various formats)
       endcomment
       assign year_placeholder1 = '2024'
-      assign year_placeholder2 = 'now' | date: '%Y'
       if copyright_text contains year_placeholder1
         assign copyright_text = copyright_text | replace: year_placeholder1, current_year
       endif
@@ -254,12 +249,14 @@
                aria-label="Visit our {{ platform | capitalize }} profile">
                 {%- if use_custom_icon -%}
                   {%- comment -%} Use custom icon image {%- endcomment -%}
+                  {%- comment -%} theme-check-disable RemoteAsset {%- endcomment -%}
                   <img src="{{ icon_image_src }}" 
                        alt="{{ platform | capitalize }} icon" 
                        width="{{ social_icon_size }}"
                        height="{{ social_icon_size }}"
                        class="social-icon-custom"
                        style="width: {{ social_icon_size }}px; height: {{ social_icon_size }}px; object-fit: contain; display: block; border-radius: {{ social_icon_border_radius }}px;">
+                  {%- comment -%} theme-check-enable RemoteAsset {%- endcomment -%}
                 {%- else -%}
                   {%- comment -%} Use default SVG icon {%- endcomment -%}
                 {%- liquid

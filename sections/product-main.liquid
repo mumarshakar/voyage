@@ -1,18 +1,5 @@
 {%- liquid
-  assign padding_top_desktop = section.settings.padding_top_desktop | default: 60
-  assign padding_bottom_desktop = section.settings.padding_bottom_desktop | default: 60
-  assign padding_horizontal_desktop = section.settings.padding_horizontal_desktop | default: 20
-  assign margin_top_desktop = section.settings.margin_top_desktop | default: 0
-  assign margin_bottom_desktop = section.settings.margin_bottom_desktop | default: 0
-  assign padding_top_mobile = section.settings.padding_top_mobile | default: 40
-  assign padding_bottom_mobile = section.settings.padding_bottom_mobile | default: 40
-  assign padding_horizontal_mobile = section.settings.padding_horizontal_mobile | default: 20
-  assign margin_top_mobile = section.settings.margin_top_mobile | default: 0
-  assign margin_bottom_mobile = section.settings.margin_bottom_mobile | default: 0
-  assign section_height_desktop = section.settings.section_height_desktop | default: 2000
-  assign section_height_mobile = section.settings.section_height_mobile | default: 2000
-  assign desktop_media_position = section.settings.desktop_media_position | default: 'left'
-  assign swap_columns_mobile = section.settings.swap_columns_mobile | default: false
+  # Section settings are used via section.settings directly in the template
 -%}
 
 <script type="application/ld+json">

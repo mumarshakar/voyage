@@ -17,9 +17,6 @@
     assign logo_color_after_scroll = '#000000'
     assign menu = 'main-menu'
     assign menu_alignment = 'right'
-    assign menu_font_size = settings.menu_font_size | default: 16
-    assign menu_font_weight = settings.menu_font_weight | default: '500'
-    assign menu_link_spacing = settings.menu_link_spacing | default: 8
     assign menu_link_color = settings.menu_link_color | default: '#8B6F47'
     assign menu_link_hover_color = settings.menu_link_hover_color | default: '#FF6B35'
     assign desktop_menu_color_before_scroll = '#8B6F47'
@@ -54,7 +51,6 @@
     assign mobile_menu_bg_transparent = true
     assign mobile_menu_bg_color = '#FFFFFF'
     assign mobile_menu_padding = 8
-    assign mobile_menu_stroke_width = 2
     assign mobile_menu_logo_image = blank
     assign scrolled_bg_color = '#FFFFFF'
     assign scrolled_padding_top = 12
@@ -95,9 +91,6 @@
     assign logo_color_after_scroll = header_settings.logo_color_after_scroll | default: '#000000'
     assign menu = header_settings.menu | default: 'main-menu'
     assign menu_alignment = header_settings.menu_alignment | default: 'right'
-    assign menu_font_size = settings.menu_font_size | default: 16
-    assign menu_font_weight = settings.menu_font_weight | default: '500'
-    assign menu_link_spacing = settings.menu_link_spacing | default: 8
     assign menu_link_color = settings.menu_link_color | default: '#8B6F47'
     assign menu_link_hover_color = settings.menu_link_hover_color | default: '#FF6B35'
     assign desktop_menu_color_before_scroll = header_settings.desktop_menu_color_before_scroll | default: '#8B6F47'
@@ -178,7 +171,6 @@
 
     assign mobile_menu_bg_color = header_settings.mobile_menu_bg_color | default: '#FFFFFF'
     assign mobile_menu_padding = header_settings.mobile_menu_padding | default: 8
-    assign mobile_menu_stroke_width = header_settings.mobile_menu_stroke_width | default: 2
     assign mobile_menu_logo_image = header_settings.mobile_menu_logo_image
 
     assign scrolled_bg_color = settings.scrolled_bg_color | default: header_bg_color

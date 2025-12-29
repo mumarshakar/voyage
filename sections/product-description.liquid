@@ -28,7 +28,6 @@
         
         {% if show_tabs and has_content_to_show %}
           {%- liquid
-            assign first_tab_active = true
             if show_description
               assign active_tab = 'description'
             elsif show_additional_info

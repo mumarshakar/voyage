@@ -383,14 +383,11 @@
 {% endschema %}
 
 {%- liquid
-    assign hero_height_mobile = section.settings.hero_height_mobile | default: 70
     assign bg_position = section.settings.background_position | default: 'center'
     assign bg_size = section.settings.background_size | default: 'cover'
     assign title_position_top = section.settings.title_position_top | default: 20
     assign text_align = section.settings.text_alignment | default: 'center'
     assign button_position_bottom = section.settings.button_position_bottom | default: 15
-    assign button_2_text = section.settings.button_2_text | default: ''
-    assign button_2_link = section.settings.button_2_link | default: ''
     assign overlay_color = section.settings.overlay_color | default: '#000000'
     assign overlay_opacity = section.settings.overlay_opacity | default: 0
     if overlay_opacity == blank
@@ -437,11 +434,6 @@
     
     # Get heading theme settings for typography
     assign heading_color = settings.heading_color | default: '#333333'
-    assign heading_font_size = settings.heading_font_size | default: 36
-    assign heading_font_weight = settings.heading_font_weight | default: '600'
-    assign heading_font_family = settings.heading_font_family | default: 'segoe'
-    assign heading_line_height = settings.heading_line_height | default: 1.2
-    assign heading_letter_spacing = settings.heading_letter_spacing | default: 0
     
     # Use section title_color if provided, otherwise use theme heading_color
     assign section_title_color = section.settings.title_color
@@ -460,28 +452,6 @@
     endif
     
     # All typography comes from theme settings - no section-specific font sizes
-    
-    # Convert heading font family setting to CSS value
-    case heading_font_family
-      when 'playfair'
-        assign heading_font_family_value = "'Playfair Display', 'Times New Roman', serif"
-      when 'merriweather'
-        assign heading_font_family_value = "'Merriweather', Georgia, serif"
-      when 'georgia'
-        assign heading_font_family_value = "Georgia, 'Times New Roman', serif"
-      when 'times'
-        assign heading_font_family_value = "'Times New Roman', Times, serif"
-      when 'arial'
-        assign heading_font_family_value = "Arial, Helvetica, sans-serif"
-      when 'helvetica'
-        assign heading_font_family_value = "Helvetica, Arial, sans-serif"
-      when 'verdana'
-        assign heading_font_family_value = "Verdana, Geneva, sans-serif"
-      when 'courier'
-        assign heading_font_family_value = "'Courier New', Courier, monospace"
-      else
-        assign heading_font_family_value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-    endcase
     
     assign overlay_opacity_decimal = overlay_opacity | divided_by: 100.0
   -%}
