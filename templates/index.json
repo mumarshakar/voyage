@@ -79,7 +79,7 @@
         "text_column_bg_color": "#f2f2f2",
         "heading_color_override": "",
         "text_color_override": "",
-        "section_bg_color": "#FFFFFF",
+        "section_bg_color": "#ffffff",
         "padding_top": 80,
         "padding_bottom": 80,
         "padding_horizontal": 20,
@@ -114,7 +114,7 @@
         "buy_now_button_link": "",
         "text_alignment": "left",
         "text_padding": 40,
-        "text_column_bg_color": "#FFFFFF",
+        "text_column_bg_color": "#ffffff",
         "heading_color_override": "",
         "text_color_override": "",
         "section_bg_color": "#f2f2f2",
@@ -153,7 +153,7 @@
         "text_alignment": "left",
         "text_padding": 40,
         "text_column_bg_color": "#f2f2f2",
-        "heading_color_override": "#FFFFFF",
+        "heading_color_override": "#ffffff",
         "text_color_override": "",
         "section_bg_color": "#ffffff",
         "padding_top": 80,
@@ -323,6 +323,8 @@
         "slide_EGTcn4": {
           "type": "slide",
           "settings": {
+            "use_product": false,
+            "selected_product": "",
             "image": "shopify://shop_images/Dockside.heic",
             "image_alt": "",
             "image_column_bg_color": "",
@@ -334,6 +336,8 @@
             "text_alignment": "left",
             "vertical_alignment": "center",
             "heading_color": "#333333",
+            "heading_color_override": "",
+            "subheading_color_override": "",
             "text_color": "#333333",
             "text_column_bg_color": "",
             "button_bg_color": "#28a745",
@@ -343,6 +347,8 @@
         "slide_4GMnzc": {
           "type": "slide",
           "settings": {
+            "use_product": false,
+            "selected_product": "",
             "image": "shopify://shop_images/sunset_wellness_cruise_voyage_hype_culb_2.jpg",
             "image_alt": "",
             "image_column_bg_color": "",
@@ -354,6 +360,8 @@
             "text_alignment": "left",
             "vertical_alignment": "center",
             "heading_color": "#333333",
+            "heading_color_override": "",
+            "subheading_color_override": "",
             "text_color": "#333333",
             "text_column_bg_color": "",
             "button_bg_color": "#28a745",
@@ -388,6 +396,37 @@
         "show_arrows": true,
         "hide_on_mobile": false
       }
+    },
+    "product_flip_carousel_N9ff3U": {
+      "type": "product-flip-carousel",
+      "blocks": {
+        "product_slide_8MHgWq": {
+          "type": "product_slide",
+          "settings": {
+            "selected_product": "compression-boots"
+          }
+        }
+      },
+      "block_order": [
+        "product_slide_8MHgWq"
+      ],
+      "name": "Product Flip Mobile",
+      "settings": {
+        "section_width_type": "container",
+        "section_bg_color": "#ffffff",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "card_height": 400,
+        "card_border_radius": 8,
+        "card_background_color": "#ffffff",
+        "autoplay": true,
+        "autoplay_interval": 5000,
+        "show_indicators": true,
+        "show_arrows": true
+      }
     }
   },
   "order": [
@@ -399,6 +438,7 @@
     "service_showcase_UHyVBz",
     "service_showcase_3pkX9a",
     "service_showcase_xhwYgD",
-    "carousel_two_column_XKtKeM"
+    "carousel_two_column_XKtKeM",
+    "product_flip_carousel_N9ff3U"
   ]
 }
