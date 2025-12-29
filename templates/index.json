@@ -53,6 +53,7 @@
     },
     "service_showcase_jxF7rV": {
       "type": "service-showcase",
+      "disabled": true,
       "name": "Service Showcase",
       "settings": {
         "section_width_type": "full_width",
@@ -91,6 +92,7 @@
     },
     "service_showcase_pYREEr": {
       "type": "service-showcase",
+      "disabled": true,
       "name": "Service Showcase",
       "settings": {
         "section_width_type": "full_width",
@@ -129,6 +131,7 @@
     },
     "service_showcase_rBhLx8": {
       "type": "service-showcase",
+      "disabled": true,
       "name": "Service Showcase",
       "settings": {
         "section_width_type": "full_width",
@@ -167,6 +170,7 @@
     },
     "service_showcase_6jVxcD": {
       "type": "service-showcase",
+      "disabled": true,
       "name": "Service Showcase",
       "settings": {
         "section_width_type": "full_width",
@@ -205,6 +209,7 @@
     },
     "service_showcase_UHyVBz": {
       "type": "service-showcase",
+      "disabled": true,
       "name": "Service Showcase",
       "settings": {
         "section_width_type": "full_width",
@@ -243,6 +248,7 @@
     },
     "service_showcase_3pkX9a": {
       "type": "service-showcase",
+      "disabled": true,
       "name": "Service Showcase",
       "settings": {
         "section_width_type": "full_width",
@@ -281,6 +287,7 @@
     },
     "service_showcase_xhwYgD": {
       "type": "service-showcase",
+      "disabled": true,
       "name": "Service Showcase",
       "settings": {
         "section_width_type": "full_width",
