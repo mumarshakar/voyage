@@ -35,30 +35,28 @@
   -%}
   
   <style>
-    /* Show section by default (visible in admin) */
+    /* Show section always (for now - can add mobile-only later) */
     #{{ section_id }} {
       display: block;
+      background-color: {{ section_bg_color }};
+      padding-top: {{ padding_top }}px;
+      padding-bottom: {{ padding_bottom }}px;
+      padding-left: {{ padding_horizontal }}px;
+      padding-right: {{ padding_horizontal }}px;
+      margin-top: {{ margin_top }}px;
+      margin-bottom: {{ margin_bottom }}px;
     }
     
-    /* Hide on desktop frontend - Show only on mobile */
-    @media (min-width: 768px) {
-      /* Show in admin/editor, hide on frontend */
-      html:not([data-theme-editor]) #{{ section_id }} {
+    /* TODO: Add mobile-only visibility later */
+    /* @media (min-width: 768px) {
+      body:not([class*="admin"]) #{{ section_id }} {
         display: none !important;
       }
-    }
+    } */
     
     @media (max-width: 767px) {
       #{{ section_id }} {
         display: block !important;
-        background-color: {{ section_bg_color }};
-        padding-top: {{ padding_top }}px;
-        padding-bottom: {{ padding_bottom }}px;
-        padding-left: {{ padding_horizontal }}px;
-        padding-right: {{ padding_horizontal }}px;
-        margin-top: {{ margin_top }}px;
-        margin-bottom: {{ margin_bottom }}px;
-      }
       
       #{{ section_id }} .container {
         max-width: 100%;
