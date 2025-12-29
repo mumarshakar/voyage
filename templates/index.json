@@ -441,12 +441,6 @@
           "settings": {
             "selected_product": "yoga"
           }
-        },
-        "product_slide_WhUBdx": {
-          "type": "product_slide",
-          "settings": {
-            "selected_product": ""
-          }
         }
       },
       "block_order": [
@@ -456,8 +450,7 @@
         "product_slide_DmHPBk",
         "product_slide_9bPbf6",
         "product_slide_mKcCJE",
-        "product_slide_AnrFwd",
-        "product_slide_WhUBdx"
+        "product_slide_AnrFwd"
       ],
       "name": "Product Flip Mobile",
       "settings": {
