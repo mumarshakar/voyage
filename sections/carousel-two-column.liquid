@@ -341,13 +341,62 @@
             {%- liquid
               assign slide_id = 'slide-' | append: block.id
               assign is_active = forloop.first
-              assign image = block.settings.image
-              assign image_alt = block.settings.image_alt | default: block.settings.heading
-              assign heading = block.settings.heading
+              
+              # Product selection logic
+              assign selected_product = block.settings.selected_product
+              assign use_product = block.settings.use_product
+              
+              # Initialize variables with product data (if product is selected)
+              if use_product and selected_product != blank
+                assign product_image = selected_product.featured_image
+                assign product_title = selected_product.title
+                assign product_description = selected_product.description
+                assign product_url = selected_product.url
+              else
+                assign product_image = blank
+                assign product_title = blank
+                assign product_description = blank
+                assign product_url = blank
+              endif
+              
+              # Manual fields override product data (manual takes precedence)
+              if block.settings.image != blank
+                assign image = block.settings.image
+              elsif product_image != blank
+                assign image = product_image
+              else
+                assign image = blank
+              endif
+              
+              if block.settings.heading != blank
+                assign heading = block.settings.heading
+              elsif product_title != blank
+                assign heading = product_title
+              else
+                assign heading = blank
+              endif
+              
+              if block.settings.description != blank
+                assign description = block.settings.description
+              elsif product_description != blank
+                assign description = product_description
+              else
+                assign description = blank
+              endif
+              
+              # Button link: manual override or product URL
+              if block.settings.button_link != blank
+                assign button_link = block.settings.button_link
+              elsif product_url != blank
+                assign button_link = product_url
+              else
+                assign button_link = blank
+              endif
+              
+              # Other settings (unchanged)
+              assign image_alt = block.settings.image_alt | default: heading
               assign subheading = block.settings.subheading
-              assign description = block.settings.description
               assign button_text = block.settings.button_text
-              assign button_link = block.settings.button_link
               assign heading_color = block.settings.heading_color | default: '#333333'
               # Typography now comes from theme settings
               assign heading_color_override = block.settings.heading_color_override | default: ''
@@ -795,13 +844,30 @@
         "settings": [
           {
             "type": "header",
+            "content": "Product Selection"
+          },
+          {
+            "type": "checkbox",
+            "id": "use_product",
+            "label": "Use Product Data",
+            "default": false,
+            "info": "Enable to select a product and auto-populate image, title, and description. Manual fields will override product data if filled."
+          },
+          {
+            "type": "product",
+            "id": "selected_product",
+            "label": "Select Product",
+            "info": "Choose a product to display its featured image, title, and description. Leave manual fields empty to use product data, or fill them to override."
+          },
+          {
+            "type": "header",
             "content": "Image Column"
           },
           {
             "type": "image_picker",
             "id": "image",
             "label": "Image",
-            "info": "Recommended size: 1200x800px or larger"
+            "info": "Recommended size: 1200x800px or larger. If left empty and a product is selected, product featured image will be used."
           },
           {
             "type": "text",
@@ -823,7 +889,8 @@
             "type": "text",
             "id": "heading",
             "label": "Heading",
-            "default": "Slide Heading"
+            "default": "Slide Heading",
+            "info": "If left empty and a product is selected, product title will be used."
           },
           {
             "type": "text",
@@ -835,7 +902,8 @@
             "type": "richtext",
             "id": "description",
             "label": "Description",
-            "default": "<p>Add your description text here.</p>"
+            "default": "<p>Add your description text here.</p>",
+            "info": "If left empty and a product is selected, product description will be used."
           },
           {
             "type": "text",
@@ -846,7 +914,8 @@
           {
             "type": "url",
             "id": "button_link",
-            "label": "Button Link"
+            "label": "Button Link",
+            "info": "If left empty and a product is selected, product URL will be used."
           },
           {
             "type": "header",
