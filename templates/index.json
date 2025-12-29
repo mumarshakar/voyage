@@ -474,13 +474,14 @@
         "slide_JR4fYV": {
           "type": "slide",
           "settings": {
-            "use_product": false,
-            "selected_product": "",
+            "use_product": true,
+            "selected_product": "yoga",
+            "image": "{{ block.settings.selected_product.featured_image }}",
             "image_alt": "",
             "image_column_bg_color": "",
-            "heading": "Slide Heading",
+            "heading": "{{ block.settings.selected_product.title }}",
             "subheading": "",
-            "description": "<p>Add your description text here.</p>",
+            "description": "{{ block.settings.selected_product.description }}",
             "button_text": "Learn More",
             "button_link": "",
             "text_alignment": "left",
