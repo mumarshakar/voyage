@@ -1,0 +1,649 @@
+{% comment %}
+  Product Flip Carousel Mobile Section
+  Displays a carousel with product flip cards (mobile only):
+  - Front: Product featured image
+  - Back: Product title and description
+  - Flips on hover/touch
+  - Visible only on mobile devices (max-width: 767px)
+{% endcomment %}
+
+{%- liquid
+    assign section_id = 'product-flip-carousel-' | append: section.id
+    assign section_bg_color = section.settings.section_bg_color | default: '#ffffff'
+    assign padding_top = section.settings.padding_top | default: 40
+    assign padding_bottom = section.settings.padding_bottom | default: 40
+    assign padding_horizontal = section.settings.padding_horizontal | default: 20
+    assign margin_top = section.settings.margin_top | default: 0
+    assign margin_bottom = section.settings.margin_bottom | default: 0
+    assign container_class = 'container'
+    if section.settings.section_width_type == 'full_width'
+      assign container_class = 'container-fluid'
+    endif
+    assign card_height = section.settings.card_height | default: 400
+    assign card_border_radius = section.settings.card_border_radius | default: 8
+    assign card_background_color = section.settings.card_background_color | default: '#ffffff'
+    assign autoplay = section.settings.autoplay
+    assign autoplay_interval = section.settings.autoplay_interval | default: 5000
+    assign show_indicators = section.settings.show_indicators
+    assign show_arrows = section.settings.show_arrows
+    
+    # Get typography settings from theme
+    assign heading_font_size = settings.heading_font_size | default: 36
+    assign heading_line_height = settings.heading_line_height | default: 1.2
+    assign body_font_size = settings.body_font_size | default: 16
+    assign body_line_height = settings.body_line_height | default: 1.6
+  -%}
+  
+  <style>
+    /* Hide on desktop - Show only on mobile */
+    #{{ section_id }} {
+      display: none;
+    }
+    
+    @media (max-width: 767px) {
+      #{{ section_id }} {
+        display: block !important;
+        background-color: {{ section_bg_color }};
+        padding-top: {{ padding_top }}px;
+        padding-bottom: {{ padding_bottom }}px;
+        padding-left: {{ padding_horizontal }}px;
+        padding-right: {{ padding_horizontal }}px;
+        margin-top: {{ margin_top }}px;
+        margin-bottom: {{ margin_bottom }}px;
+      }
+      
+      #{{ section_id }} .container {
+        max-width: 100%;
+        width: 100%;
+      }
+      
+      /* Flip Card Styles */
+      .product-flip-card {
+        background: transparent;
+        width: 100%;
+        height: {{ card_height }}px;
+        perspective: 1000px;
+        margin: 0 auto;
+      }
+      
+      .product-flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+      }
+      
+      .product-flip-card:hover .product-flip-card-inner,
+      .product-flip-card:active .product-flip-card-inner {
+        transform: rotateY(180deg);
+      }
+      
+      .product-flip-card-front,
+      .product-flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: {{ card_border_radius }}px;
+        background: {{ card_background_color }};
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        overflow: hidden;
+      }
+      
+      .product-flip-card-front img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .product-flip-card-back {
+        transform: rotateY(180deg);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow-y: auto;
+      }
+      
+      .product-flip-title {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: {{ heading_font_size }}px;
+        line-height: {{ heading_line_height }};
+        font-weight: 600;
+        color: #333333;
+      }
+      
+      .product-flip-description {
+        color: #333333;
+        font-size: {{ body_font_size }}px;
+        line-height: {{ body_line_height }};
+        width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+      
+      .product-flip-description img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+      
+      .product-flip-description p {
+        margin-bottom: 1.5rem;
+        color: #333333;
+        font-size: {{ body_font_size }}px;
+        line-height: {{ body_line_height }};
+      }
+      
+      .product-flip-description h1,
+      .product-flip-description h2,
+      .product-flip-description h3,
+      .product-flip-description h4,
+      .product-flip-description h5,
+      .product-flip-description h6 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+      
+      .product-flip-description ul,
+      .product-flip-description ol {
+        margin-bottom: 1.5rem;
+        padding-left: 2rem;
+      }
+      
+      .product-flip-description li {
+        margin-bottom: 0.5rem;
+      }
+      
+      /* Carousel Styles */
+      .product-flip-carousel-controls {
+        position: relative;
+      }
+      
+      .product-flip-carousel-slides {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+      }
+      
+      .product-flip-carousel-slide {
+        display: none;
+        width: 100%;
+      }
+      
+      .product-flip-carousel-slide.active {
+        display: block;
+      }
+      
+      .product-flip-carousel-arrows {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10;
+      }
+      
+      .product-flip-carousel-arrows:hover {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .product-flip-carousel-arrow-prev {
+        left: 10px;
+      }
+      
+      .product-flip-carousel-arrow-next {
+        right: 10px;
+      }
+      
+      .product-flip-carousel-indicators {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 20px;
+        list-style: none;
+        padding: 0;
+      }
+      
+      .product-flip-carousel-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #ccc;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        padding: 0;
+      }
+      
+      .product-flip-carousel-indicator.active {
+        background-color: #333;
+        width: 30px;
+        border-radius: 6px;
+      }
+    }
+  </style>
+  
+  <section id="{{ section_id }}" class="product-flip-carousel-section">
+    <div class="{{ container_class }}">
+      <div class="product-flip-carousel-controls">
+        {% if show_arrows %}
+          <button class="product-flip-carousel-arrows product-flip-carousel-arrow-prev" 
+                  onclick="productFlipCarouselPrev('{{ section_id }}')"
+                  aria-label="Previous slide">
+            <i class="bi bi-chevron-left" style="font-size: 1.2rem;"></i>
+          </button>
+          <button class="product-flip-carousel-arrows product-flip-carousel-arrow-next" 
+                  onclick="productFlipCarouselNext('{{ section_id }}')"
+                  aria-label="Next slide">
+            <i class="bi bi-chevron-right" style="font-size: 1.2rem;"></i>
+          </button>
+        {% endif %}
+        
+        <div class="product-flip-carousel-slides" id="product-flip-slides-{{ section.id }}">
+          {% for block in section.blocks %}
+            {%- liquid
+              assign slide_id = 'product-flip-slide-' | append: block.id
+              assign is_active = forloop.first
+              assign selected_product = block.settings.selected_product
+              
+              if selected_product != blank
+                assign product_image = selected_product.featured_image
+                assign product_title = selected_product.title
+                assign product_description = selected_product.description
+                assign product_url = selected_product.url
+              else
+                assign product_image = blank
+                assign product_title = blank
+                assign product_description = blank
+                assign product_url = blank
+              endif
+            -%}
+            
+            <div class="product-flip-carousel-slide {% if is_active %}active{% endif %}" 
+                 id="{{ slide_id }}"
+                 data-slide-index="{{ forloop.index0 }}"
+                 style="display: {% if is_active %}block{% else %}none{% endif %};"
+                 {{ block.shopify_attributes }}>
+              
+              {% if product_url != blank %}
+                <a href="{{ product_url }}" style="text-decoration: none; color: inherit; display: block;">
+              {% endif %}
+              
+              <div class="product-flip-card">
+                <div class="product-flip-card-inner">
+                  {% comment %} Front: Product Image {% endcomment %}
+                  <div class="product-flip-card-front">
+                    {% if product_image != blank %}
+                      <img 
+                        src="{{ product_image | image_url: width: 600 }}"
+                        srcset="{{ product_image | image_url: width: 400 }} 400w,
+                                {{ product_image | image_url: width: 600 }} 600w,
+                                {{ product_image | image_url: width: 800 }} 800w"
+                        sizes="100vw"
+                        alt="{{ product_title | escape }}"
+                        width="{{ product_image.width }}"
+                        height="{{ product_image.height }}"
+                        loading="{% if is_active %}eager{% else %}lazy{% endif %}">
+                    {% else %}
+                      <div style="width: 100%; height: 100%; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999;">
+                        <p>No product image</p>
+                      </div>
+                    {% endif %}
+                  </div>
+                  
+                  {% comment %} Back: Product Title and Description {% endcomment %}
+                  <div class="product-flip-card-back">
+                    {% if product_title != blank %}
+                      <h3 class="product-flip-title">{{ product_title }}</h3>
+                    {% endif %}
+                    
+                    {% if product_description != blank %}
+                      <div class="product-flip-description">
+                        {{ product_description }}
+                      </div>
+                    {% else %}
+                      <p style="color: #999;">No description available</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              
+              {% if product_url != blank %}
+                </a>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+        
+        {% if show_indicators and section.blocks.size > 1 %}
+          <ul class="product-flip-carousel-indicators" id="product-flip-indicators-{{ section.id }}">
+            {% for block in section.blocks %}
+              <li>
+                <button class="product-flip-carousel-indicator {% if forloop.first %}active{% endif %}"
+                        onclick="productFlipCarouselGoTo('{{ section_id }}', {{ forloop.index0 }})"
+                        aria-label="Go to slide {{ forloop.index }}"
+                        data-slide-index="{{ forloop.index0 }}"></button>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    (function() {
+      const sectionId = '{{ section_id }}';
+      let currentSlide = 0;
+      const slides = document.querySelectorAll(`#product-flip-slides-{{ section.id }} .product-flip-carousel-slide`);
+      const indicators = document.querySelectorAll(`#product-flip-indicators-{{ section.id }} .product-flip-carousel-indicator`);
+      const totalSlides = slides.length;
+      let autoplayInterval = null;
+      
+      {% if autoplay %}
+        const autoplayDelay = {{ autoplay_interval }};
+      {% else %}
+        const autoplayDelay = null;
+      {% endif %}
+      
+      function showSlide(index) {
+        // Hide all slides
+        slides.forEach((slide, i) => {
+          if (i === index) {
+            slide.classList.add('active');
+            slide.style.display = 'block';
+          } else {
+            slide.classList.remove('active');
+            slide.style.display = 'none';
+          }
+        });
+        
+        // Update indicators
+        indicators.forEach((indicator, i) => {
+          if (i === index) {
+            indicator.classList.add('active');
+          } else {
+            indicator.classList.remove('active');
+          }
+        });
+        
+        currentSlide = index;
+      }
+      
+      function nextSlide() {
+        const next = (currentSlide + 1) % totalSlides;
+        showSlide(next);
+      }
+      
+      function prevSlide() {
+        const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+        showSlide(prev);
+      }
+      
+      function goToSlide(index) {
+        if (index >= 0 && index < totalSlides) {
+          showSlide(index);
+        }
+      }
+      
+      function startAutoplay() {
+        if (autoplayDelay && totalSlides > 1) {
+          stopAutoplay();
+          autoplayInterval = setInterval(nextSlide, autoplayDelay);
+        }
+      }
+      
+      function stopAutoplay() {
+        if (autoplayInterval) {
+          clearInterval(autoplayInterval);
+          autoplayInterval = null;
+        }
+      }
+      
+      // Make functions globally available
+      window['productFlipCarouselNext_' + sectionId] = nextSlide;
+      window['productFlipCarouselPrev_' + sectionId] = prevSlide;
+      window['productFlipCarouselGoTo_' + sectionId] = goToSlide;
+      
+      // Start autoplay if enabled
+      if (autoplayDelay) {
+        startAutoplay();
+        
+        // Pause on hover
+        const carouselElement = document.getElementById(sectionId);
+        if (carouselElement) {
+          carouselElement.addEventListener('mouseenter', stopAutoplay);
+          carouselElement.addEventListener('mouseleave', startAutoplay);
+        }
+      }
+    })();
+    
+    // Global functions for button clicks
+    function productFlipCarouselNext(sectionId) {
+      const func = window['productFlipCarouselNext_' + sectionId];
+      if (func) func();
+    }
+    
+    function productFlipCarouselPrev(sectionId) {
+      const func = window['productFlipCarouselPrev_' + sectionId];
+      if (func) func();
+    }
+    
+    function productFlipCarouselGoTo(sectionId, index) {
+      const func = window['productFlipCarouselGoTo_' + sectionId];
+      if (func) func(index);
+    }
+  </script>
+  
+  {% schema %}
+  {
+    "name": "Product Flip Carousel (Mobile Only)",
+    "tag": "section",
+    "class": "section-product-flip-carousel-mobile",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Layout Settings"
+      },
+      {
+        "type": "select",
+        "id": "section_width_type",
+        "label": "Section Width",
+        "options": [
+          {
+            "value": "container",
+            "label": "Container"
+          },
+          {
+            "value": "full_width",
+            "label": "Full Width"
+          }
+        ],
+        "default": "container",
+        "info": "Choose between container (max-width) or full-width layout"
+      },
+      {
+        "type": "color",
+        "id": "section_bg_color",
+        "label": "Section Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding Top (px)",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 40,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding Bottom (px)",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 40,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_horizontal",
+        "label": "Padding Horizontal (px)",
+        "min": 0,
+        "max": 50,
+        "step": 5,
+        "default": 20,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "label": "Margin Top (px)",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "label": "Margin Bottom (px)",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "default": 0,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Card Settings"
+      },
+      {
+        "type": "range",
+        "id": "card_height",
+        "label": "Card Height (px)",
+        "min": 300,
+        "max": 600,
+        "step": 10,
+        "default": 400,
+        "unit": "px",
+        "info": "Height of each flip card"
+      },
+      {
+        "type": "range",
+        "id": "card_border_radius",
+        "label": "Card Border Radius (px)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 8,
+        "unit": "px",
+        "info": "Border radius for card corners"
+      },
+      {
+        "type": "color",
+        "id": "card_background_color",
+        "label": "Card Back Side Background Color",
+        "default": "#ffffff",
+        "info": "Background color for the back side of the card (where product info is shown)"
+      },
+      {
+        "type": "header",
+        "content": "Carousel Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Enable Autoplay",
+        "default": true,
+        "info": "Automatically advance to next slide"
+      },
+      {
+        "type": "range",
+        "id": "autoplay_interval",
+        "label": "Autoplay Interval (ms)",
+        "min": 2000,
+        "max": 10000,
+        "step": 500,
+        "default": 5000,
+        "unit": "ms",
+        "info": "Time between slide transitions (only if autoplay is enabled)"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_indicators",
+        "label": "Show Slide Indicators",
+        "default": true,
+        "info": "Display dots at the bottom to indicate current slide"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_arrows",
+        "label": "Show Navigation Arrows",
+        "default": true,
+        "info": "Display previous/next arrow buttons"
+      },
+      {
+        "type": "header",
+        "content": "Typography"
+      },
+      {
+        "type": "paragraph",
+        "content": "Typography (font-size, line-height) is controlled by Theme Settings > Typography. Heading uses heading settings, description uses body text settings."
+      },
+      {
+        "type": "paragraph",
+        "content": "⚠️ This section is visible ONLY on mobile devices (screens smaller than 768px). It will be hidden on desktop."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product_slide",
+        "name": "Product Slide",
+        "settings": [
+          {
+            "type": "product",
+            "id": "selected_product",
+            "label": "Select Product",
+            "info": "Choose a product to display. Featured image will show on front, title and description on back when card is flipped."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product Flip Carousel (Mobile)",
+        "blocks": [
+          {
+            "type": "product_slide"
+          },
+          {
+            "type": "product_slide"
+          },
+          {
+            "type": "product_slide"
+          }
+        ]
+      }
+    ]
+  }
+  {% endschema %}
+
