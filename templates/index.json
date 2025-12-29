@@ -323,15 +323,15 @@
         "slide_EGTcn4": {
           "type": "slide",
           "settings": {
-            "use_product": false,
-            "selected_product": "",
-            "image": "shopify://shop_images/Dockside.heic",
+            "use_product": true,
+            "selected_product": "wellness-cruise",
+            "image": "{{ block.settings.selected_product.featured_image }}",
             "image_alt": "",
             "image_column_bg_color": "",
-            "heading": "Day Time Cruise Wellness",
+            "heading": "{{ block.settings.selected_product.title }}",
             "subheading": "",
-            "description": "<p>Day Time Cruise Wellness </p>",
-            "button_text": "Learn More",
+            "description": "{{ block.settings.selected_product.description }}",
+            "button_text": "",
             "button_link": "",
             "text_alignment": "left",
             "vertical_alignment": "center",
@@ -347,14 +347,14 @@
         "slide_4GMnzc": {
           "type": "slide",
           "settings": {
-            "use_product": false,
-            "selected_product": "",
-            "image": "shopify://shop_images/sunset_wellness_cruise_voyage_hype_culb_2.jpg",
+            "use_product": true,
+            "selected_product": "sun-set-wellness-cruise",
+            "image": "{{ block.settings.selected_product.featured_image }}",
             "image_alt": "",
             "image_column_bg_color": "",
-            "heading": "Sunset Wellness Cruise",
+            "heading": "{{ block.settings.selected_product.title }}",
             "subheading": "",
-            "description": "<p>Add your description text here.</p>",
+            "description": "{{ block.settings.selected_product.description }}",
             "button_text": "Learn More",
             "button_link": "",
             "text_alignment": "left",
@@ -373,7 +373,6 @@
         "slide_EGTcn4",
         "slide_4GMnzc"
       ],
-      "disabled": true,
       "name": "Carousel Two Column",
       "settings": {
         "section_width_type": "container",
@@ -394,7 +393,7 @@
         "autoplay_interval": 5000,
         "show_indicators": true,
         "show_arrows": true,
-        "hide_on_mobile": false
+        "hide_on_mobile": true
       }
     },
     "product_flip_carousel_N9ff3U": {
