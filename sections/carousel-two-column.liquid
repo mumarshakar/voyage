@@ -259,71 +259,67 @@
       }
     }
     
-    /* Content Styling - Typography from theme settings */
+    /* Content Styling - Typography from theme settings, preserving HTML formatting */
     .carousel-two-column-description {
-      color: #333333 !important;
-      font-size: {{ body_font_size }}px !important;
-      font-weight: 400 !important;
-      font-family: 'MerriweatherBody', 'Merriweather', Georgia, serif !important;
-      line-height: {{ body_line_height }} !important;
-      letter-spacing: 0px !important;
-      word-spacing: 0px !important;
-      word-break: normal !important;
-      overflow-wrap: break-word !important;
-      white-space: normal !important;
-      width: 100% !important;
+      color: #333333;
+      font-size: {{ body_font_size }}px;
+      line-height: {{ body_line_height }};
+      width: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    .carousel-two-column-description img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 20px 0;
     }
     
     .carousel-two-column-description p {
-      margin-bottom: 1rem;
-      color: #333333 !important;
-      font-size: {{ body_font_size }}px !important;
-      font-weight: 400 !important;
-      font-family: 'MerriweatherBody', 'Merriweather', Georgia, serif !important;
-      line-height: {{ body_line_height }} !important;
-      letter-spacing: 0px !important;
-      word-spacing: 0px !important;
-      word-break: normal !important;
-      overflow-wrap: break-word !important;
-      white-space: normal !important;
-      width: 100% !important;
+      margin-bottom: 1.5rem;
+      color: #333333;
+      font-size: {{ body_font_size }}px;
+      line-height: {{ body_line_height }};
     }
     
-    .carousel-two-column-description *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-      color: #333333 !important;
-      font-size: {{ body_font_size }}px !important;
-      font-weight: 400 !important;
-      font-family: 'MerriweatherBody', 'Merriweather', Georgia, serif !important;
-      line-height: {{ body_line_height }} !important;
-      letter-spacing: 0px !important;
-      word-spacing: 0px !important;
-      word-break: normal !important;
-      overflow-wrap: break-word !important;
-      white-space: normal !important;
+    .carousel-two-column-description h1,
+    .carousel-two-column-description h2,
+    .carousel-two-column-description h3,
+    .carousel-two-column-description h4,
+    .carousel-two-column-description h5,
+    .carousel-two-column-description h6 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
     }
     
     .carousel-two-column-description ul,
     .carousel-two-column-description ol {
-      margin-bottom: 1rem;
-      padding-left: 1.5rem;
-      color: #333333 !important;
-      font-size: {{ body_font_size }}px !important;
-      font-weight: 400 !important;
-      font-family: 'MerriweatherBody', 'Merriweather', Georgia, serif !important;
-      line-height: {{ body_line_height }} !important;
-      letter-spacing: 0px !important;
-      word-spacing: 0px !important;
+      margin-bottom: 1.5rem;
+      padding-left: 2rem;
     }
     
     .carousel-two-column-description li {
       margin-bottom: 0.5rem;
-      color: #333333 !important;
-      font-size: {{ body_font_size }}px !important;
-      font-weight: 400 !important;
-      font-family: 'MerriweatherBody', 'Merriweather', Georgia, serif !important;
-      line-height: {{ body_line_height }} !important;
-      letter-spacing: 0px !important;
-      word-spacing: 0px !important;
+    }
+    
+    .carousel-two-column-description strong,
+    .carousel-two-column-description b {
+      font-weight: 600;
+    }
+    
+    .carousel-two-column-description em,
+    .carousel-two-column-description i {
+      font-style: italic;
+    }
+    
+    .carousel-two-column-description a {
+      color: #333333;
+      text-decoration: underline;
+    }
+    
+    .carousel-two-column-description a:hover {
+      opacity: 0.8;
     }
   </style>
   
