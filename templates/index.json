@@ -400,7 +400,7 @@
     "product_flip_carousel_N9ff3U": {
       "type": "product-flip-carousel",
       "blocks": {
-        "product_slide_8MHgWq": {
+        "product_slide_9bPbf6": {
           "type": "product_slide",
           "settings": {
             "selected_product": "compression-boots"
@@ -408,7 +408,7 @@
         }
       },
       "block_order": [
-        "product_slide_8MHgWq"
+        "product_slide_9bPbf6"
       ],
       "name": "Product Flip Mobile",
       "settings": {
