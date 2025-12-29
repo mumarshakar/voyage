@@ -400,6 +400,12 @@
     "product_flip_carousel_N9ff3U": {
       "type": "product-flip-carousel",
       "blocks": {
+        "product_slide_AVw6LX": {
+          "type": "product_slide",
+          "settings": {
+            "selected_product": "wellness-voyage"
+          }
+        },
         "product_slide_9bPbf6": {
           "type": "product_slide",
           "settings": {
@@ -408,6 +414,7 @@
         }
       },
       "block_order": [
+        "product_slide_AVw6LX",
         "product_slide_9bPbf6"
       ],
       "name": "Product Flip Mobile",
