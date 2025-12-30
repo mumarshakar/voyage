@@ -155,7 +155,7 @@
   .main-collection .card-image-wrapper {
     display: block;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 9 / 16;
     overflow: hidden;
     flex-shrink: 0;
     border-top-left-radius: var(--image-border-radius) !important;
@@ -233,19 +233,19 @@
   /* Responsive Image Aspect Ratio - Adjust for different screen sizes */
   @media (max-width: 576px) {
     .main-collection .card-image-wrapper {
-      aspect-ratio: var(--card-image-aspect-ratio-mobile, 4 / 3);
+      aspect-ratio: var(--card-image-aspect-ratio-mobile, 9 / 16);
     }
   }
   
   @media (min-width: 577px) and (max-width: 768px) {
     .main-collection .card-image-wrapper {
-      aspect-ratio: var(--card-image-aspect-ratio-tablet, 16 / 10);
+      aspect-ratio: var(--card-image-aspect-ratio-tablet, 9 / 16);
     }
   }
   
   @media (min-width: 769px) {
     .main-collection .card-image-wrapper {
-      aspect-ratio: var(--card-image-aspect-ratio-desktop, 16 / 9);
+      aspect-ratio: var(--card-image-aspect-ratio-desktop, 9 / 16);
     }
   }
 </style>
