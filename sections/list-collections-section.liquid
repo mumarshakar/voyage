@@ -10,7 +10,7 @@
     {% for collection in collections %}
       {% if collection.handle == 'all' %}{% continue %}{% endif %}
       <div class="col">
-        <div class="card h-100">
+        <div class="card h-1001">
           <a href="{{ routes.collections_url }}/{{ collection.handle }}" class="card-image-wrapper">
             {% if collection.image %}
               <img src="{{ collection.image | image_url: width: 800 }}" 
