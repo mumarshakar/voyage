@@ -658,6 +658,97 @@
         "default": 4,
         "unit": "px",
         "info": "Border radius for card images"
+      },
+      {
+        "type": "header",
+        "content": "Card Image Aspect Ratio"
+      },
+      {
+        "type": "select",
+        "id": "card_image_aspect_ratio_mobile",
+        "label": "Card Image Aspect Ratio (Mobile)",
+        "options": [
+          {
+            "value": "1/1",
+            "label": "Square (1:1)"
+          },
+          {
+            "value": "4/3",
+            "label": "Standard (4:3)"
+          },
+          {
+            "value": "16/10",
+            "label": "Widescreen (16:10)"
+          },
+          {
+            "value": "16/9",
+            "label": "HD (16:9)"
+          },
+          {
+            "value": "21/9",
+            "label": "Ultrawide (21:9)"
+          }
+        ],
+        "default": "4/3",
+        "info": "Image aspect ratio for mobile devices (up to 576px)"
+      },
+      {
+        "type": "select",
+        "id": "card_image_aspect_ratio_tablet",
+        "label": "Card Image Aspect Ratio (Tablet)",
+        "options": [
+          {
+            "value": "1/1",
+            "label": "Square (1:1)"
+          },
+          {
+            "value": "4/3",
+            "label": "Standard (4:3)"
+          },
+          {
+            "value": "16/10",
+            "label": "Widescreen (16:10)"
+          },
+          {
+            "value": "16/9",
+            "label": "HD (16:9)"
+          },
+          {
+            "value": "21/9",
+            "label": "Ultrawide (21:9)"
+          }
+        ],
+        "default": "16/10",
+        "info": "Image aspect ratio for tablets (577px - 768px)"
+      },
+      {
+        "type": "select",
+        "id": "card_image_aspect_ratio_desktop",
+        "label": "Card Image Aspect Ratio (Desktop)",
+        "options": [
+          {
+            "value": "1/1",
+            "label": "Square (1:1)"
+          },
+          {
+            "value": "4/3",
+            "label": "Standard (4:3)"
+          },
+          {
+            "value": "16/10",
+            "label": "Widescreen (16:10)"
+          },
+          {
+            "value": "16/9",
+            "label": "HD (16:9)"
+          },
+          {
+            "value": "21/9",
+            "label": "Ultrawide (21:9)"
+          }
+        ],
+        "default": "16/9",
+        "info": "Image aspect ratio for desktop (769px and above)"
       }
     ]
   },

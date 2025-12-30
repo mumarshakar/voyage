@@ -91,6 +91,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       assign card_description_color = settings.card_description_color | default: '#333333'
       assign card_border_radius = settings.card_border_radius | default: 8
       assign card_image_border_radius = settings.card_image_border_radius | default: 4
+      assign card_image_aspect_ratio_mobile = settings.card_image_aspect_ratio_mobile | default: '4/3'
+      assign card_image_aspect_ratio_tablet = settings.card_image_aspect_ratio_tablet | default: '16/10'
+      assign card_image_aspect_ratio_desktop = settings.card_image_aspect_ratio_desktop | default: '16/9'
     -%}
     
     :root {
@@ -126,6 +129,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       --card-description-color: {{ card_description_color }};
       --card-border-radius: {{ card_border_radius }}px;
       --card-image-border-radius: {{ card_image_border_radius }}px;
+      --card-image-aspect-ratio-mobile: {{ card_image_aspect_ratio_mobile }};
+      --card-image-aspect-ratio-tablet: {{ card_image_aspect_ratio_tablet }};
+      --card-image-aspect-ratio-desktop: {{ card_image_aspect_ratio_desktop }};
       
       /* Typography CSS Variables */
       --heading-color: {{ heading_color }};

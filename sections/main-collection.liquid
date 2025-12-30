@@ -233,19 +233,19 @@
   /* Responsive Image Aspect Ratio - Adjust for different screen sizes */
   @media (max-width: 576px) {
     .main-collection .card-image-wrapper {
-      aspect-ratio: 4 / 3; /* Slightly taller on mobile for better visibility */
+      aspect-ratio: var(--card-image-aspect-ratio-mobile, 4 / 3);
     }
   }
   
   @media (min-width: 577px) and (max-width: 768px) {
     .main-collection .card-image-wrapper {
-      aspect-ratio: 16 / 10; /* Medium ratio for tablets */
+      aspect-ratio: var(--card-image-aspect-ratio-tablet, 16 / 10);
     }
   }
   
   @media (min-width: 769px) {
     .main-collection .card-image-wrapper {
-      aspect-ratio: 16 / 9; /* Standard widescreen for desktop */
+      aspect-ratio: var(--card-image-aspect-ratio-desktop, 16 / 9);
     }
   }
 </style>

@@ -48,11 +48,30 @@
   .list-collections-section .card-image-wrapper {
     display: block;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: var(--card-image-aspect-ratio-desktop, 16 / 9);
     overflow: hidden;
     flex-shrink: 0;
     border-top-left-radius: var(--card-image-border-radius, 4px);
     border-top-right-radius: var(--card-image-border-radius, 4px);
+  }
+  
+  /* Responsive Image Aspect Ratio */
+  @media (max-width: 576px) {
+    .list-collections-section .card-image-wrapper {
+      aspect-ratio: var(--card-image-aspect-ratio-mobile, 4 / 3);
+    }
+  }
+  
+  @media (min-width: 577px) and (max-width: 768px) {
+    .list-collections-section .card-image-wrapper {
+      aspect-ratio: var(--card-image-aspect-ratio-tablet, 16 / 10);
+    }
+  }
+  
+  @media (min-width: 769px) {
+    .list-collections-section .card-image-wrapper {
+      aspect-ratio: var(--card-image-aspect-ratio-desktop, 16 / 9);
+    }
   }
   
   .list-collections-section .card-img-top {
