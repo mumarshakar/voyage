@@ -592,6 +592,76 @@
     ]
   },
   {
+    "name": "Cards",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Card Colors"
+      },
+      {
+        "type": "color",
+        "id": "card_background_color",
+        "label": "Card Background Color",
+        "default": "#FFFFFF",
+        "info": "Background color for all product and collection cards"
+      },
+      {
+        "type": "color",
+        "id": "card_title_color",
+        "label": "Card Title Color",
+        "default": "#212529",
+        "info": "Text color for card titles"
+      },
+      {
+        "type": "color",
+        "id": "card_price_color",
+        "label": "Card Price Color",
+        "default": "#000000",
+        "info": "Text color for product prices on cards"
+      },
+      {
+        "type": "color",
+        "id": "card_vendor_color",
+        "label": "Card Vendor/Brand Color",
+        "default": "#6c757d",
+        "info": "Text color for vendor/brand names on cards"
+      },
+      {
+        "type": "color",
+        "id": "card_description_color",
+        "label": "Card Description Color",
+        "default": "#333333",
+        "info": "Text color for card descriptions"
+      },
+      {
+        "type": "header",
+        "content": "Card Border & Radius"
+      },
+      {
+        "type": "range",
+        "id": "card_border_radius",
+        "label": "Card Border Radius (px)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 8,
+        "unit": "px",
+        "info": "Border radius for all cards"
+      },
+      {
+        "type": "range",
+        "id": "card_image_border_radius",
+        "label": "Card Image Border Radius (px)",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "default": 4,
+        "unit": "px",
+        "info": "Border radius for card images"
+      }
+    ]
+  },
+  {
     "name": "Payment Settings",
     "settings": [
       {

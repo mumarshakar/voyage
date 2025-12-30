@@ -82,6 +82,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       assign button_hover_border_color = settings.button_hover_border_color | default: '#FF8C61'
       assign button_hover_border_style = settings.button_hover_border_style | default: 'solid'
       assign button_hover_border_width = settings.button_hover_border_width | default: 1
+      
+      # Get card theme settings
+      assign card_background_color = settings.card_background_color | default: '#FFFFFF'
+      assign card_title_color = settings.card_title_color | default: '#212529'
+      assign card_price_color = settings.card_price_color | default: '#000000'
+      assign card_vendor_color = settings.card_vendor_color | default: '#6c757d'
+      assign card_description_color = settings.card_description_color | default: '#333333'
+      assign card_border_radius = settings.card_border_radius | default: 8
+      assign card_image_border_radius = settings.card_image_border_radius | default: 4
     -%}
     
     :root {
@@ -108,6 +117,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       --dropdown-link-color: {{ dropdown_link_color }};
       --dropdown-hover-bg-color: {{ dropdown_hover_bg_color }};
       --dropdown-hover-color: {{ dropdown_hover_color }};
+      
+      /* Card Colors */
+      --card-bg-color: {{ card_background_color }};
+      --card-title-color: {{ card_title_color }};
+      --card-price-color: {{ card_price_color }};
+      --card-vendor-color: {{ card_vendor_color }};
+      --card-description-color: {{ card_description_color }};
+      --card-border-radius: {{ card_border_radius }}px;
+      --card-image-border-radius: {{ card_image_border_radius }}px;
       
       /* Typography CSS Variables */
       --heading-color: {{ heading_color }};

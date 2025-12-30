@@ -123,18 +123,19 @@
 
 <style>
   .main-collection {
-    --card-bg-color: {{ section.settings.card_bg_color | default: 'white' }};
-    --card-border-radius: {{ section.settings.card_border_radius | default: 8 }}px;
-    --image-border-radius: {{ section.settings.image_border_radius | default: 4 }}px;
+    /* Use theme settings with section settings as fallback */
+    --card-bg-color: {{ settings.card_background_color | default: section.settings.card_bg_color | default: 'white' }};
+    --card-border-radius: {{ settings.card_border_radius | default: section.settings.card_border_radius | default: 8 }}px;
+    --image-border-radius: {{ settings.card_image_border_radius | default: section.settings.image_border_radius | default: 4 }}px;
     --title-font-size: {{ section.settings.title_font_size | default: 18 }}px;
     --title-font-weight: {{ section.settings.title_font_weight | default: '600' }};
-    --title-color: {{ section.settings.title_color | default: '#212529' }};
+    --title-color: {{ settings.card_title_color | default: section.settings.title_color | default: '#212529' }};
     --price-font-size: {{ section.settings.price_font_size | default: 16 }}px;
     --price-font-weight: {{ section.settings.price_font_weight | default: '500' }};
-    --price-color: {{ section.settings.price_color | default: '#000000' }};
+    --price-color: {{ settings.card_price_color | default: section.settings.price_color | default: '#000000' }};
     --vendor-font-size: {{ section.settings.vendor_font_size | default: 14 }}px;
     --vendor-font-weight: {{ section.settings.vendor_font_weight | default: '400' }};
-    --vendor-color: {{ section.settings.vendor_color | default: '#6c757d' }};
+    --vendor-color: {{ settings.card_vendor_color | default: section.settings.vendor_color | default: '#6c757d' }};
   }
   
   /* Apply card styles */
