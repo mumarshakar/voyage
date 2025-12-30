@@ -48,29 +48,29 @@
   .list-collections-section .card-image-wrapper {
     display: block;
     width: 100%;
-    aspect-ratio: var(--card-image-aspect-ratio-desktop, 7 / 16);
+    aspect-ratio: var(--card-image-aspect-ratio-desktop, 3 / 4);
     overflow: hidden;
     flex-shrink: 0;
     border-top-left-radius: var(--card-image-border-radius, 4px);
     border-top-right-radius: var(--card-image-border-radius, 4px);
   }
   
-  /* Responsive Image Aspect Ratio */
+  /* Responsive Image Aspect Ratio - Professional ratios for different screen sizes */
   @media (max-width: 576px) {
     .list-collections-section .card-image-wrapper {
-      aspect-ratio: var(--card-image-aspect-ratio-mobile, 7 / 16);
+      aspect-ratio: var(--card-image-aspect-ratio-mobile, 3 / 4);
     }
   }
   
   @media (min-width: 577px) and (max-width: 768px) {
     .list-collections-section .card-image-wrapper {
-      aspect-ratio: var(--card-image-aspect-ratio-tablet, 7 / 16);
+      aspect-ratio: var(--card-image-aspect-ratio-tablet, 4 / 5);
     }
   }
   
   @media (min-width: 769px) {
     .list-collections-section .card-image-wrapper {
-      aspect-ratio: var(--card-image-aspect-ratio-desktop, 7 / 16);
+      aspect-ratio: var(--card-image-aspect-ratio-desktop, 3 / 4);
     }
   }
   

@@ -669,8 +669,12 @@
         "label": "Card Image Aspect Ratio (Mobile)",
         "options": [
           {
+            "value": "4/5",
+            "label": "Portrait Balanced (4:5)"
+          },
+          {
             "value": "7/16",
-            "label": "Portrait Wide (7:16)"
+            "label": "Portrait Tall (7:16)"
           },
           {
             "value": "9/16",
@@ -701,7 +705,7 @@
             "label": "Ultrawide (21:9)"
           }
         ],
-        "default": "7/16",
+        "default": "3/4",
         "info": "Image aspect ratio for mobile devices (up to 576px)"
       },
       {
@@ -710,8 +714,12 @@
         "label": "Card Image Aspect Ratio (Tablet)",
         "options": [
           {
+            "value": "4/5",
+            "label": "Portrait Balanced (4:5)"
+          },
+          {
             "value": "7/16",
-            "label": "Portrait Wide (7:16)"
+            "label": "Portrait Tall (7:16)"
           },
           {
             "value": "9/16",
@@ -742,7 +750,7 @@
             "label": "Ultrawide (21:9)"
           }
         ],
-        "default": "7/16",
+        "default": "4/5",
         "info": "Image aspect ratio for tablets (577px - 768px)"
       },
       {
@@ -751,8 +759,12 @@
         "label": "Card Image Aspect Ratio (Desktop)",
         "options": [
           {
+            "value": "4/5",
+            "label": "Portrait Balanced (4:5)"
+          },
+          {
             "value": "7/16",
-            "label": "Portrait Wide (7:16)"
+            "label": "Portrait Tall (7:16)"
           },
           {
             "value": "9/16",
@@ -783,7 +795,7 @@
             "label": "Ultrawide (21:9)"
           }
         ],
-        "default": "7/16",
+        "default": "3/4",
         "info": "Image aspect ratio for desktop (769px and above)"
       }
     ]

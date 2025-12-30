@@ -155,7 +155,7 @@
   .main-collection .card-image-wrapper {
     display: block;
     width: 100%;
-    aspect-ratio: 7 / 16;
+    aspect-ratio: 3 / 4;
     overflow: hidden;
     flex-shrink: 0;
     border-top-left-radius: var(--image-border-radius) !important;
@@ -230,22 +230,22 @@
     justify-content: center !important;
   }
   
-  /* Responsive Image Aspect Ratio - Adjust for different screen sizes */
+  /* Responsive Image Aspect Ratio - Professional ratios for different screen sizes */
   @media (max-width: 576px) {
     .main-collection .card-image-wrapper {
-      aspect-ratio: var(--card-image-aspect-ratio-mobile, 7 / 16);
+      aspect-ratio: var(--card-image-aspect-ratio-mobile, 3 / 4);
     }
   }
   
   @media (min-width: 577px) and (max-width: 768px) {
     .main-collection .card-image-wrapper {
-      aspect-ratio: var(--card-image-aspect-ratio-tablet, 7 / 16);
+      aspect-ratio: var(--card-image-aspect-ratio-tablet, 4 / 5);
     }
   }
   
   @media (min-width: 769px) {
     .main-collection .card-image-wrapper {
-      aspect-ratio: var(--card-image-aspect-ratio-desktop, 7 / 16);
+      aspect-ratio: var(--card-image-aspect-ratio-desktop, 3 / 4);
     }
   }
 </style>
