@@ -104,12 +104,13 @@
     },
     "product_description_h7m9jp": {
       "type": "product-description",
+      "disabled": true,
       "name": "Product Description",
       "settings": {
         "show_tabs": true,
         "show_description": true,
         "show_additional_info": true,
-        "section_bg_color": "#FFFFFF",
+        "section_bg_color": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 60,
         "tab_active_color": "#f2f2f2",
@@ -118,6 +119,18 @@
         "text_color": "#333333",
         "content_padding": 30
       }
+    },
+    "product_info_jkwt6r": {
+      "type": "product-info",
+      "name": "Product Info",
+      "settings": {
+        "show_vendor": false,
+        "show_sku": false,
+        "show_quantity_selector": true,
+        "enable_dynamic_checkout": false,
+        "sesami_shop_id": "77838188777",
+        "sesami_service_id": "9136208904425"
+      }
     }
   },
   "order": [
@@ -125,6 +138,7 @@
     "product_info_iKP6Nj",
     "176556152364a2bb4f",
     "product_main_LPzntf",
-    "product_description_h7m9jp"
+    "product_description_h7m9jp",
+    "product_info_jkwt6r"
   ]
 }
