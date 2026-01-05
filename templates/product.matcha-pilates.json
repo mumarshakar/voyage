@@ -141,10 +141,21 @@
       "type": "product-widget",
       "name": "Product Widget",
       "settings": {
-        "mindbody_widget_id": "4b423462c13",
-        "section_bg_color": "#ffffff",
+        "selected_product": "meditation-mindfulness-session",
+        "show_title": true,
+        "show_price": true,
+        "show_description": true,
+        "show_widget": true,
+        "section_width": "container",
         "padding_top": 60,
-        "padding_bottom": 60
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "background_color": "#ffffff",
+        "title_color": "#333333",
+        "price_color": "#333333",
+        "description_color": "#666666",
+        "mindbody_widget_code": "<div class=\"mindbody-widget\" data-widget-type=\"Schedules\" data-widget-id=\"4b423462c13\"></div>\n<script async=\"\" src=\"https://brandedweb.mindbodyonline.com/embed/widget.js\"></script>"
       }
     }
   },
