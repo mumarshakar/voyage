@@ -134,7 +134,13 @@
                 <!-- Sesami component - directly in form for better accessibility -->
                 <div class="card mb-3" style="background-color: #f8f9fa;" id="sesami-booking-card">
                   <div class="card-body">
-                    <div class="d-flex justify-content-center" id="sesami-container">
+
+<!-- Mindbody Schedules widget begin -->
+<div class="mindbody-widget" data-widget-type="Schedules" data-widget-id="4b423352c13"></div>
+<script async src="https://brandedweb.mindbodyonline.com/embed/widget.js"></script>
+<!-- Mindbody Schedules widget end -->
+
+                    {% comment %} <div class="d-flex justify-content-center" id="sesami-container">
                       <sesami-experience
                           shop-id="{{ section.settings.sesami_shop_id | default: '77838188777' }}"
                           service-id="{{ section.settings.sesami_service_id | default: '9136208904425' }}"
@@ -145,7 +151,7 @@
                           button-style="%7B%22width%22%3A%22300px%22%2C%22height%22%3A%2250px%22%2C%22font_size%22%3A18%2C%22color%22%3A%22%23FFF%22%2C%22color_background%22%3A%22%23333333%22%2C%22border_width%22%3A1%2C%22border_color%22%3A%22%23333333%22%2C%22border_radius%22%3A12%2C%22alignment%22%3A%22flex-end%22%7D"
                           data-product-form="product-form"
                       ></sesami-experience>
-                    </div>
+                    </div> {% endcomment %}
                   </div>
                 </div>
               </form>
