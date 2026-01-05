@@ -90,7 +90,7 @@
                 {% endif %}
 
                 <!-- Quantity Card -->
-                {% if show_quantity_selector %}
+                {% comment %} {% if show_quantity_selector %}
                   <div class="card mb-3" style="background-color: #f8f9fa;">
                     <div class="card-body">
                       <label for="quantity" class="form-label fw-semibold mb-2">Quantity</label>
@@ -124,7 +124,7 @@
                 {% else %}
                   <!-- Sesami needs this input with name="quantity" to find quantity -->
                   <input type="hidden" name="quantity" value="1" id="quantity">
-                {% endif %}
+                {% endif %} {% endcomment %}
 
                 <!-- Sesami Booking Experience Card (INSIDE FORM for auto-add-to-cart) -->
                 <!-- Sesami will inject hidden fields here for booking properties (Date, Time, Timezone, etc.) -->
