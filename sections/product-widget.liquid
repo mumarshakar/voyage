@@ -1,61 +1,81 @@
 {%- liquid
   assign section_id = 'product-widget-' | append: section.id
-  assign section_bg_color = section.settings.section_bg_color | default: '#ffffff'
+  
+  # Get product from schema
+  assign selected_product = section.settings.selected_product
+  
+  # Layout settings
+  assign section_width = section.settings.section_width | default: 'container'
   assign padding_top = section.settings.padding_top | default: 60
   assign padding_bottom = section.settings.padding_bottom | default: 60
-  assign mindbody_widget_id = section.settings.mindbody_widget_id | default: ''
+  assign padding_top_mobile = section.settings.padding_top_mobile | default: 40
+  assign padding_bottom_mobile = section.settings.padding_bottom_mobile | default: 40
+  
+  # Display settings
+  assign show_title = section.settings.show_title | default: true
+  assign show_price = section.settings.show_price | default: true
+  assign show_description = section.settings.show_description | default: true
+  assign show_widget = section.settings.show_widget | default: true
+  
+  # Styling
+  assign title_color = section.settings.title_color | default: '#333333'
+  assign price_color = section.settings.price_color | default: '#FF6B35'
+  assign description_color = section.settings.description_color | default: '#666666'
+  assign background_color = section.settings.background_color | default: '#FFFFFF'
+  
+  # Mindbody widget code
+  assign mindbody_widget_code = section.settings.mindbody_widget_code | default: ''
 -%}
 
-<div id="{{ section_id }}" class="product-widget-section" style="background-color: {{ section_bg_color }}; padding-top: {{ padding_top }}px; padding-bottom: {{ padding_bottom }}px;">
-  <div class="container">
+<div id="{{ section_id }}" class="product-widget-section" style="background-color: {{ background_color }}; padding-top: {{ padding_top }}px; padding-bottom: {{ padding_bottom }}px;">
+  <div class="{% if section_width == 'full_width' %}container-fluid{% else %}container{% endif %}">
     <div class="row">
       <div class="col-12">
-        <!-- Product Information -->
-        <div class="product-widget-info mb-4">
-          {% if product.title %}
-            <h2 class="product-widget-title mb-3">{{ product.title }}</h2>
-          {% endif %}
-          
-          {% if product.price %}
-            <div class="product-widget-price mb-3">
-              {% if product.compare_at_price > product.price %}
-                <div class="d-flex align-items-center flex-wrap gap-2">
-                  <span class="product-price-compare text-muted text-decoration-line-through" style="font-size: 18px;">
-                    {{ product.compare_at_price | money }}
+        {% if selected_product != blank %}
+          <div class="product-widget-content">
+            {% if show_title %}
+              <h2 class="product-widget-title" style="color: {{ title_color }}; margin-bottom: 20px;">
+                {{ selected_product.title }}
+              </h2>
+            {% endif %}
+            
+            {% if show_price %}
+              <div class="product-widget-price" style="margin-bottom: 20px;">
+                {% if selected_product.compare_at_price > selected_product.price %}
+                  <div class="d-flex align-items-center flex-wrap gap-2">
+                    <span class="product-price-compare text-muted text-decoration-line-through" style="font-size: 18px;">
+                      {{ selected_product.compare_at_price | money }}
+                    </span>
+                    <span class="product-price-current" style="font-size: 28px; font-weight: 600; color: {{ price_color }};">
+                      {{ selected_product.price | money }}
+                    </span>
+                    <span class="badge bg-warning text-dark" style="font-size: 14px; padding: 6px 12px;">
+                      Save {{ selected_product.compare_at_price | minus: selected_product.price | money }}
+                    </span>
+                  </div>
+                {% else %}
+                  <span class="product-price-current" style="font-size: 32px; font-weight: 600; color: {{ price_color }};">
+                    {{ selected_product.price | money }}
                   </span>
-                  <span class="product-price-current text-danger" style="font-size: 28px; font-weight: 600;">
-                    {{ product.price | money }}
-                  </span>
-                  <span class="badge bg-warning text-dark" style="font-size: 14px; padding: 6px 12px;">
-                    Save {{ product.compare_at_price | minus: product.price | money }}
-                  </span>
-                </div>
-              {% else %}
-                <span class="product-price-current" style="font-size: 32px; font-weight: 600; color: var(--primary-orange, #FF6B35);">
-                  {{ product.price | money }}
-                </span>
-              {% endif %}
-            </div>
-          {% endif %}
-          
-          {% if product.description != blank %}
-            <div class="product-widget-description">
-              {{ product.description }}
-            </div>
-          {% endif %}
-        </div>
-        
-        <!-- Mindbody Schedules Widget -->
-        {% if mindbody_widget_id != blank %}
-          <div class="mindbody-widget-container">
-            <!-- Mindbody Schedules widget begin -->
-            <div class="mindbody-widget" data-widget-type="Schedules" data-widget-id="{{ mindbody_widget_id }}"></div>
-            <script async src="https://brandedweb.mindbodyonline.com/embed/widget.js"></script>
-            <!-- Mindbody Schedules widget end -->
+                {% endif %}
+              </div>
+            {% endif %}
+            
+            {% if show_description and selected_product.description != blank %}
+              <div class="product-widget-description" style="color: {{ description_color }}; margin-bottom: 30px;">
+                {{ selected_product.description }}
+              </div>
+            {% endif %}
+            
+            {% if show_widget and mindbody_widget_code != blank %}
+              <div class="product-widget-embed" style="margin-top: 30px;">
+                {{ mindbody_widget_code }}
+              </div>
+            {% endif %}
           </div>
         {% else %}
           <div class="alert alert-warning" role="alert">
-            <i class="bi bi-exclamation-triangle me-2"></i>Please configure the Mindbody Widget ID in section settings.
+            <strong>No product selected.</strong> Please select a product in the section settings.
           </div>
         {% endif %}
       </div>
@@ -64,74 +84,71 @@
 </div>
 
 <style>
-  .product-widget-section {
-    width: 100%;
+  #{{ section_id }} {
+    padding-top: {{ padding_top }}px;
+    padding-bottom: {{ padding_bottom }}px;
   }
   
-  .product-widget-title {
+  #{{ section_id }} .product-widget-title {
     font-size: 2rem;
     font-weight: 600;
-    color: #333;
-    margin-bottom: 1rem;
+    line-height: 1.3;
   }
   
-  .product-widget-description {
-    line-height: 1.8;
-    color: #333;
-    margin-bottom: 2rem;
+  #{{ section_id }} .product-widget-description {
+    font-size: 1rem;
+    line-height: 1.6;
   }
   
-  .product-widget-description img {
+  #{{ section_id }} .product-widget-description img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    margin: 20px 0;
+    margin: 15px 0;
   }
   
-  .product-widget-description p {
-    margin-bottom: 1.5rem;
-  }
-  
-  .product-widget-description h1,
-  .product-widget-description h2,
-  .product-widget-description h3,
-  .product-widget-description h4,
-  .product-widget-description h5,
-  .product-widget-description h6 {
-    margin-top: 2rem;
+  #{{ section_id }} .product-widget-description p {
     margin-bottom: 1rem;
   }
   
-  .product-widget-description ul,
-  .product-widget-description ol {
-    margin-bottom: 1.5rem;
+  #{{ section_id }} .product-widget-description h1,
+  #{{ section_id }} .product-widget-description h2,
+  #{{ section_id }} .product-widget-description h3,
+  #{{ section_id }} .product-widget-description h4,
+  #{{ section_id }} .product-widget-description h5,
+  #{{ section_id }} .product-widget-description h6 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  #{{ section_id }} .product-widget-description ul,
+  #{{ section_id }} .product-widget-description ol {
+    margin-bottom: 1rem;
     padding-left: 2rem;
   }
   
-  .product-widget-description li {
-    margin-bottom: 0.5rem;
-  }
-  
-  .mindbody-widget-container {
-    margin-top: 2rem;
+  #{{ section_id }} .product-widget-embed {
+    width: 100%;
     min-height: 400px;
   }
   
-  .mindbody-widget {
-    width: 100%;
-  }
-  
-  @media (max-width: 768px) {
-    .product-widget-title {
+  /* Responsive */
+  @media (max-width: 767px) {
+    #{{ section_id }} {
+      padding-top: {{ padding_top_mobile }}px;
+      padding-bottom: {{ padding_bottom_mobile }}px;
+    }
+    
+    #{{ section_id }} .product-widget-title {
       font-size: 1.5rem;
     }
     
-    .product-widget-description {
-      font-size: 0.95rem;
+    #{{ section_id }} .product-widget-price .product-price-current {
+      font-size: 24px !important;
     }
     
-    .mindbody-widget-container {
-      min-height: 300px;
+    #{{ section_id }} .product-widget-description {
+      font-size: 0.95rem;
     }
   }
 </style>
@@ -139,36 +156,71 @@
 {% schema %}
 {
   "name": "Product Widget",
+  "tag": "section",
+  "class": "product-widget-section",
   "settings": [
     {
       "type": "header",
-      "content": "Product Information"
+      "content": "Product Settings"
+    },
+    {
+      "type": "product",
+      "id": "selected_product",
+      "label": "Select Product",
+      "info": "Choose a product to display its title, price, and description"
     },
     {
       "type": "header",
-      "content": "Mindbody Widget Settings"
+      "content": "Display Settings"
     },
     {
-      "type": "text",
-      "id": "mindbody_widget_id",
-      "label": "Mindbody Widget ID",
-      "default": "4b423352c13",
-      "info": "Enter your Mindbody Schedules widget ID"
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show Product Title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show Product Price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show Product Description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_widget",
+      "label": "Show Mindbody Widget",
+      "default": true
     },
     {
       "type": "header",
-      "content": "Section Styling"
+      "content": "Layout Settings"
     },
     {
-      "type": "color",
-      "id": "section_bg_color",
-      "label": "Background Color",
-      "default": "#ffffff"
+      "type": "select",
+      "id": "section_width",
+      "label": "Section Width",
+      "options": [
+        {
+          "value": "container",
+          "label": "Container"
+        },
+        {
+          "value": "full_width",
+          "label": "Full Width"
+        }
+      ],
+      "default": "container"
     },
     {
       "type": "range",
       "id": "padding_top",
-      "label": "Padding Top",
+      "label": "Padding Top (Desktop)",
       "min": 0,
       "max": 200,
       "step": 10,
@@ -178,12 +230,71 @@
     {
       "type": "range",
       "id": "padding_bottom",
-      "label": "Padding Bottom",
+      "label": "Padding Bottom (Desktop)",
       "min": 0,
       "max": 200,
       "step": 10,
       "default": 60,
       "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Color Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price Color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Mindbody Widget"
+    },
+    {
+      "type": "html",
+      "id": "mindbody_widget_code",
+      "label": "Mindbody Widget Code",
+      "info": "Paste your complete Mindbody widget code here (including HTML comments and script tags)",
+      "default": "<!-- Mindbody Schedules widget begin -->\n<div class=\"mindbody-widget\" data-widget-type=\"Schedules\" data-widget-id=\"4b423352c13\"></div>\n<script async src=\"https://brandedweb.mindbodyonline.com/embed/widget.js\"></script>\n<!-- Mindbody Schedules widget end -->"
     }
   ],
   "presets": [
