@@ -84,6 +84,7 @@
         "product_details_epM8cq",
         "product_media_gallery_JPwg7U"
       ],
+      "disabled": true,
       "name": "Product Main",
       "settings": {
         "desktop_media_position": "left",
