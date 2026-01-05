@@ -155,7 +155,7 @@
         "title_color": "#333333",
         "price_color": "#333333",
         "description_color": "#666666",
-        "mindbody_widget_code": "<div class=\"mindbody-widget\" data-widget-type=\"Schedules\" data-widget-id=\"4b423462c13\"></div>\n<script async=\"\" src=\"https://brandedweb.mindbodyonline.com/embed/widget.js\"></script>\n<script src=\"https://widgets.mindbodyonline.com/javascripts/healcode.js\" type=\"text/javascript\"></script>\n<healcode-widget data-type=\"class_lists\" data-widget-partner=\"object\" data-widget-id=\"4b932652c13\" data-widget-version=\"0\"></healcode-widget>"
+        "mindbody_widget_code": "<script src=\"https://widgets.mindbodyonline.com/javascripts/healcode.js\" type=\"text/javascript\"></script>\n<healcode-widget data-type=\"class_lists\" data-widget-partner=\"object\" data-widget-id=\"4b932652c13\" data-widget-version=\"0\"></healcode-widget>"
       }
     }
   },
