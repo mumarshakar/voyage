@@ -159,7 +159,7 @@
           </div>
         </div>
         <!-- Product Description Card -->
-        {% if product.description != blank %}
+        {% comment %} {% if product.description != blank %}
           <div class="card shadow-sm border-0">
             <div class="card-header bg-transparent border-0 pb-0">
               <h5 class="card-title mb-0 fw-semibold">Description</h5>
@@ -170,7 +170,7 @@
               </div>
             </div>
           </div>
-        {% endif %}
+        {% endif %} {% endcomment %}
       </div>
     </div>
   </div>
