@@ -55,18 +55,59 @@
       "type": "list-collections-section",
       "settings": {
         "subheading_text": "Discover our collection of",
-        "title_font_size": 22,
-        "title_line_height": 1.2,
-        "title_text_transform": "none",
+        "title_font_size": 20,
+        "title_line_height": 2,
+        "title_text_transform": "capitalize",
         "columns_mobile": 1,
         "columns_tablet": 2,
         "columns_desktop": 3,
         "alignment": "center"
       }
+    },
+    "custom_text_EUmyji": {
+      "type": "custom-text",
+      "name": "Custom Text",
+      "settings": {
+        "heading": "Our Classes List",
+        "subheading": "",
+        "content_type": "html",
+        "text_content": "<p>Add your custom text content here. You can include multiple paragraphs and format your text as needed. HTML is supported.</p>",
+        "html_content": "<script src=\"https://widgets.mindbodyonline.com/javascripts/healcode.js\" type=\"text/javascript\"></script>\n<healcode-widget data-type=\"class_lists\" data-widget-partner=\"object\" data-widget-id=\"4b932652c13\" data-widget-version=\"0\"></healcode-widget>",
+        "richtext_font_size": 16,
+        "richtext_font_weight": "400",
+        "richtext_text_color": "#333333",
+        "richtext_line_height": 1.6,
+        "richtext_letter_spacing": 0,
+        "richtext_word_spacing": 0,
+        "richtext_paragraph_spacing": 16,
+        "link_color": "#333333",
+        "link_hover_color": "#666666",
+        "link_text_decoration": "underline",
+        "custom_css": "",
+        "text_alignment": "left",
+        "content_max_width": 800,
+        "background_color": "#FFFFFF",
+        "background_size": "cover",
+        "background_overlay_opacity": 0,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_horizontal": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "heading_margin_bottom": 20,
+        "subheading_margin_bottom": 20,
+        "section_height_desktop": 400,
+        "section_height_mobile": 300,
+        "list_line_height": 3,
+        "list_font_size": 18,
+        "list_font_weight": 400,
+        "list_text_align": "justify"
+      }
     }
   },
   "order": [
     "hero_section_hTFPC9",
-    "main"
+    "main",
+    "custom_text_EUmyji"
   ]
 }
