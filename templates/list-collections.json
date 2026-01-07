@@ -86,7 +86,7 @@
         "link_text_decoration": "underline",
         "custom_css": "",
         "text_alignment": "left",
-        "content_max_width": 800,
+        "content_max_width": 1200,
         "background_color": "#FFFFFF",
         "background_size": "cover",
         "background_overlay_opacity": 0,
